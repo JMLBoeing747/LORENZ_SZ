@@ -1,2 +1,0 @@
-- Créer un historique des messages
-- Permettre d'écrire plusieurs lignes de message (intégrer un caractère spécial pour arrêter)
