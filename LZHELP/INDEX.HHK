@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Aide">
+		<param name="Name" value="Dépannage">
+		<param name="Local" value="TRBLSHOT\TSHOME.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Archives">
+		<param name="Name" value="Archives">
+		<param name="Local" value="HISTORY\ARCHIVES\ARCHIVES.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Attributs">
+		<param name="Name" value="Référence des attributs">
+		<param name="Local" value="REF\REFATTRB.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Chiffrement">
+		<param name="Name" value="Chiffrement de message">
+		<param name="Local" value="ENCRYPT.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Priv&eacute;">
+			<param name="Name" value="Écrire en privé">
+			<param name="Local" value="PRIVCMD.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="D&eacute;chiffrement">
+		<param name="Name" value="Déchiffrement de message">
+		<param name="Local" value="DECIPHER.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="D&eacute;pannage">
+		<param name="Name" value="Dépannage">
+		<param name="Local" value="TRBLSHOT\TSHOME.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="FAQ">
+			<param name="Name" value="FAQ">
+			<param name="Local" value="TRBLSHOT\FAQ.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Soutien">
+			<param name="Name" value="Soutien technique">
+			<param name="Local" value="TRBLSHOT\SUPPORT.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Fichiers">
+		<param name="Name" value="Fichiers de l'application">
+		<param name="Local" value="LZFILES.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="R&eacute;f&eacute;rence">
+			<param name="Name" value="Référence des fichiers">
+			<param name="Local" value="REF\REFFILES.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Histoire">
+		<param name="Name" value="Histoire de LORENZ">
+		<param name="Local" value="HISTORY\HISTHOME.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Actuel">
+			<param name="Name" value="LORENZ actuel">
+			<param name="Local" value="HISTORY\LZACTUAL.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Origine">
+			<param name="Name" value="Origine de LORENZ">
+			<param name="Local" value="HISTORY\LZORIGIN.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Jeu">
+		<param name="Name" value="Jeu">
+		<param name="Local" value="GAME.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="R&eacute;f&eacute;rence">
+			<param name="Name" value="Référence du jeu">
+			<param name="Local" value="REF\REFGAME.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="LID">
+		<param name="Name" value="Référence du LID">
+		<param name="Local" value="REF\REFLID.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Priv&eacute;">
+			<param name="Name" value="Écrire en privé">
+			<param name="Local" value="PRIVCMD.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pr&eacute;sentation">
+		<param name="Name" value="Présentation">
+		<param name="Local" value="PRESENT.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Priv&eacute;">
+		<param name="Name" value="Écrire en privé">
+		<param name="Local" value="PRIVCMD.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pseudonyme">
+		<param name="Name" value="Modifier le pseudo">
+		<param name="Local" value="PSEUDCMD.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="R&eacute;f&eacute;rence">
+			<param name="Name" value="Référence commande pseudo">
+			<param name="Local" value="REF\REFPSEUD.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="R&eacute;f&eacute;rence">
+		<param name="Name" value="Référence technique">
+		<param name="Local" value="REF\REFHOME.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Remerciements">
+		<param name="Name" value="Remerciements spéciaux">
+		<param name="Local" value="ACKNLGMT.HTM">
+		</OBJECT>
+</UL>
+</BODY></HTML>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1" charset="ANSI">
+<Title>RÉFÉRENCE COMMANDE DU PSEUDO - PSEUDO COMMAND REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>P : Modifier le pseudo</H1>
+<P>Référence technique sur la commande Modifier le pseudo de LORENZ</P>
+<H2>Présentation</H2>
+<P>Commande permettant d'accéder à l'interface de modification du pseudonyme utilisateur. Le message d'entrée est le suivant :<P>
+<PRE>
+<SAMP>
+	Le pseudo est le nom qui sera affiché à tous les récepteurs pouvant déchiffrer le message
+	et qui ont activé l'affichage de l'expéditeur. Si vous désirez le modifier, tapez
+	ci-dessous le nouveau pseudo à utiliser pour les chiffrements futurs. Si vous désirez le
+	réinitialiser, taper tel quel votre nom d'utilisateur système ou $DEFAULT (la casse
+	n'importe pas). Sinon, appuyer sur ENTER sans rien écrire.
+	Actuel : &ltPseudo actuel&gt
+	Nouveau >>>
+</SAMP>
+</PRE>
+<P>N.B. : &ltPseudo actuel&gt correspond à la valeur de l'UID de l'utilisateur.</P>
+<H2>Entrée</H2>
+<P>Le nouveau pseudonyme à utiliser. Ceci affectera la nouvelle valeur au paramètre PSEUDONAME, ou le laissera inchangé si l'entrée vaut "\n" (caractère de retour à la ligne 0xA).</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ENTER (Retour à la ligne)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>Nouveau pseudo enregistré !</DT>
+<DD>Succès : Signifie que la valeur entrée a été nouvellement affectée au paramètre PSEUDONAME avec succès. Le paramètre PSEUDONAME est alors immédiatement inscrit dans le fichier PARAMS.INI.</DD>
+<DT>Pseudo identique au précédent. Aucun changement à faire.</DT>
+<DD>Avertissement : Signifie que la valeur entrée correspond exactement au pseudonyme attribué avant l'opération et ne procédera donc à aucun changement ni à aucune réécriture du paramètre PSEUDONAME.</DD>
+<DT>Valeur par défaut réinitialisée</DT>
+<DD>Avertissement : Signifie que la valeur entrée correspond exactement au pseudonyme par défaut (<A HREF="REFPARAM.HTM">Voir paramètres de configuration</A>). Le paramètre PSEUDONAME ne sera pas inscrit dans le fichier PARAMS,INI.</DD>
+</DL>
+</BODY>
+</HTML>

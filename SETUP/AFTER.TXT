@@ -1,0 +1,32 @@
+MERCI DE VOTRE CONFIANCE :)
+
+Nous désirons vous remercier de nous avoir accordé votre confiance envers LORENZ par le biais de cette installation. Chaque téléchargement demeure un don précieux pour les gens qui contribuent au projet tout en conciliant travail, études et obligations professionnelles. Encore une fois, merci de votre soutien!
+
+=================================================
+The LORENZ cipher machine (Der LORENZ Schlüsselzusatz)
+=================================================
+
+Version du produit : 2.0
+
+PRÉSENTATION
+-------------------------------------------------
+La machine de Lorenz était à l’origine une machine de chiffrement développée par l’industrie allemande LORENZ pour envoyer des messages secrets entre unités militaires sans qu’un intercepteur ennemi puisse les lire.
+Contrairement à la fameuse Enigma qui accomplissait le même but, Lorenz possédait un algorithme de chiffrement puissant, soit le chiffrement de flux, qui permettait d’assurer des envois beaucoup plus sécurisés qu’Enigma. D’ailleurs, cette dernière avait apparemment déjà été décryptée avant le début de la guerre.
+Ainsi, on disait de son algorithme de chiffrement qu’il était incassable, donc impossible à décrypter. L’armée privilégiait Lorenz pour les communications secrètes d’état-major d’unités et du Haut-Commandement de la Wehrmacht, les forces armées allemandes, jusqu’à transmettre les ordres personnels du Führer aux généraux.
+Cependant, les Alliés cassent le chiffrement vers 1942, plus précisément à Bletchley Park en Angleterre, endroit désormais reconnu pour avoir été le centre de recherche de plusieurs cryptanalystes alliés durant le conflit mondial.
+Il est néanmoins resté gravé dans la mémoire de plusieurs ainsi que dans le domaine de la cryptographie. Pourtant, bien que sa puissance de chiffrement demeurait révolutionnaire pour l’époque, Lorenz ne dépassera jamais la notoriété d’Enigma, ce qui le rendra méconnu de la plupart des gens.
+
+La présente application LORENZ vous permettra de chiffrer et de déchiffrer, telle la vraie machine de Lorenz, des messages comme bon vous semble, sans qu’un individu mal intentionné puisse comprendre ce qui est communiqué.
+Bien évidemment, l’émetteur et le récepteur doivent tous deux posséder l’application.
+Les algorithmes de chiffrement utilisés dans le présent programme s’inspirent de celles de l’originale et sont le fruit de recherches et de développement considérables en vue de les améliorer et de les rendre à nouveau INCASSABLES.
+Cela dit, vous pouvez bénéficier d’une technologie facile d’usage et accessible à tous (à ceux qui sont autorisés plutôt haha!), tout en maintenant vos envois protégés.
+
+Ainsi, LORENZ, qui, par son nom, se réfère à cette ancienne puissante technologie, veut lui donner un nouveau souffle, alors qu’on l’aurait cru déchue. Aujourd’hui, nous lui octroyons une tâche adaptée aux besoins et aux défis du monde actuel, et ce, tout en gardant ses principes originels.
+
+Et voilà! Je vous souhaite de profiter de cette technologie pendant longtemps et, surtout, de bien vous amuser!
+
+Si vous avez des questions, commentaires ou suggestions, n’hésitez pas à me contacter.
+
+DER ERFINDER DER LORENZ SCHLÜSSELZUSATZ :
+JML
+LORENZ SZ © 2020-2021

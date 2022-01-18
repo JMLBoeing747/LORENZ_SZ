@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1" charset="ANSI">
+<Title>ÉCRIRE EN PRIVÉ - PRIVATE COMMAND</Title>
+<LINK REL="STYLESHEET" HREF="LZSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>Écrire en privé</H1>
+<P>Vous savez qu'il existe d'autres utilisateurs LORENZ et vous ne voulez pas qu'il puissent déchiffrer un message plus sensible.<BR>Vous l'aurez deviné, LORENZ implémente une commande attributive permettant de rendre un message privé à tous, sauf à l'utilisateur concerné.</P>
+<P>Pour ce faire :</P>
+<OL>
+<LI>Identifiez le LID de six caractères de votre correspondant privé. Demandez-le si nécessaire. <B>Prenez soin de noter la casse !</B></LI>
+<LI>Accédez au mode <B>chiffrement</B> (voir la page <A HREF="ENCRYPT.HTM">Chiffrer un message</A> au besoin)</LI>
+<LI>Écrivez /*/PRIV:&ltLID&gt/*/ ainsi que votre message à la suite de la commande.<BR><B>Remplacez &ltLID&gt</B> par le LID de l'utilisateur concerné.</LI>
+</OL>
+<DL>
+<DT>Par exemple, vous désirez passer ce message en privé à l'utilisateur dont le LID correspondant est <I>123Abc</I> :</DT>
+<DD>-> Salut à toi !</DD>
+<DT>Vous n'aurez alors qu'à ajouter <B>/*/PRIV:123Abc/*/</B> à votre message :</DT>
+<DD>-> /*/PRIV:123Abc/*/Salut à toi !</DD>
+</DL>
+<P ID="nota">NOTA : Les commandes attributives sont insensibles à la case. Ainsi, écrire <B>priv</B> ou <B>Priv</B> est tout autant acceptable que <B>PRIV</B>. De plus, les commandes attributives peuvent être insérées à <B>n'importe quel endroit dans le message</B>, que ce soit à la fin ou au milieu du message. Idéalement, je vous déconseille cette dernière option puisqu'elle peut nuire à la relecture de votre message. Après tout, vous faites ce que vous voulez !</P>
+</BODY>
+</HTML>

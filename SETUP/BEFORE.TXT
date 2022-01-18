@@ -1,0 +1,42 @@
+INFORMATION AVANT INSTALLATION
+
+VEUILLEZ LIRE LE CAS QUI VOUS CONCERNE AVANT DE POURSUIVRE TOUTE OPÉRATION
+
+*******************************************************************
+Pour ceux qui possèdent une version du LORENZ 1.x.x autre que 1.0.0
+*******************************************************************
+À la fin de l’installation, l’installateur cherchera à désinstaller cette version maintenant désuète.
+Si vous désirez la DÉSINSTALLER (recommandé afin d’éviter des conflits), VEUILLEZ ACCEPTER L’OPÉRATION LE MOMENT VENU. Sinon, refusez l’opération.
+
+
+**************************************************
+Pour ceux qui possèdent la version du LORENZ 1.0.0
+**************************************************
+Veuillez la supprimer définitivement de votre ordinateur ainsi que tous ses fichiers et dossiers associés avant d’installer la présente version. Ceci permettra d’éviter des conflits entre les versions. Afin de le retirer de votre système, supprimez le dossier «Special package», le dossier «LORENZ» ainsi que votre raccourci «LORENZ» créé.
+
+
+Si vous nécessitez de l’aide, ou avez des commentaires, n’hésitez pas à me contacter le plus tôt possible.
+
+Merci de votre collaboration
+
+DER ERFINDER DER LORENZ SCHLÜSSELZUSATZ :
+JML
+
+
+CHANGE LOG (Modifications apportées depuis la version 1.0.0)
+06-AVR-2020........................................Corrections d’erreurs d’identification
+13-AVR-2020........................................Ajout du jeu
+14-AVR-2020........................................Optimisation de l’interface du menu principal
+...................................................Correction de fautes de grammaire française et d’affichage dans le jeu
+19-AVR-2020........................................Insertion du titre LORENZ SCHLÜSSELZUZATZ sur l’interface de la console
+
+=====Version 2.0=====
+29-NOV-2020........................................Remaniement de l’accès au programme : utilisation d’un système de clé de produit et de fichiers chiffrés de sauvegarde de données afin de vérifier et de préserver l’identité de l’utilisateur
+...................................................Sauvegarde des Coins gagnés même après la fermeture du programme
+02-DEC-2020........................................Amélioration du jeu afin de le rendre plus amusant (et aussi de donner un sens au chiffre 55)
+04-DEC-2020........................................Ajout d’une fonctionnalité à l’installateur permettant la création de variables système permettant d’identifier les fichiers LZI ainsi que du chemin d’accès au répertoire de l’application
+05-DEC-2020........................................Ajout d’options spéciales lors du chiffrement et du déchiffrement ainsi que de la possibilité de créer un pseudonyme différent du nom d’utilisateur affecté par défaut
+10-DEC-2020........................................Création du UID (Unique IDentifier) permettant d’identifier tous les utilisateurs LORENZ de façon unique
+21-DEC-2020........................................Renforcement de l’algorithme de chiffrement
+23-DEC-2020........................................Création d’une icone personnalisée pour CRYPTO ainsi que pour l’exécutable d’installation
+26-DEC-2020........................................Ajustement des codes d'erreur

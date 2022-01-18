@@ -1,0 +1,18 @@
+[OPTIONS]
+Binary Index=No
+Compatibility=1.1 or later
+Compiled file=LZHELP.CHM
+Contents file=CONTENTS.HHC
+Default Window=SPECWIN
+Default topic=PRESENT.HTM
+Full-text search=Yes
+Index file=INDEX.HHK
+Language=0xc0c Français (Canada)
+Title=Manuel d'aide LORENZ
+
+[WINDOWS]
+SPECWIN=,"CONTENTS.HHC","INDEX.HHK","PRESENT.HTM","PRESENT.HTM",,,,,0x23520,300,0x304e,[900,15,1800,715],,,,,,,0
+
+
+[INFOTYPES]
+

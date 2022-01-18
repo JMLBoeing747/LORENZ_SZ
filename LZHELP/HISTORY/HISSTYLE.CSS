@@ -1,0 +1,39 @@
+body {
+    background-color: rgb(202, 206, 3);
+}
+
+h1 {
+    font-family: arial;
+    color: darkgreen;
+}
+
+h2 {
+    font-family: arial;
+}
+
+h3 {
+    font-family: arial Narrow;
+    font-size: 20;
+    color: crimson;
+}
+
+p {
+    font-family: Arial;
+    text-align: justify;
+}
+
+ul {
+    font-family: Arial;
+    text-align: justify;
+    font-weight: bold;
+    list-style-type: square;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: rgb(0, 170, 0);
+}

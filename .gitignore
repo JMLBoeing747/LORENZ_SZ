@@ -1,0 +1,23 @@
+# Fichiers d'extensions
+*.bat
+*.exe
+
+# Fichiers pour l'aide compilée
+*.chm
+
+# Fichiers/dossiers Visual Studio
+[Pp]roperties
+*.sln
+*.user
+.vs
+
+# Fichiers/dossiers VS Code
+.vscode
+*.code-workspace
+
+# Dossiers dotnet
+[Bb]in
+[Oo]bj
+
+# Fichier texte d'erreurs
+LZERRORS.TXT

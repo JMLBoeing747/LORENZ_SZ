@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1" charset="ANSI">
+<Title>RÉFÉRENCE COMMANDE DE DÉCHIFFREMENT - DECIPHERING COMMAND REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>2 : Déchiffrement</H1>
+<P>Référence technique sur le mode Déchiffrement de LORENZ</P>
+<H2>Présentation</H2>
+<P>Mode permettant le déchiffrement d'un message préalablement chiffré avec l'algorithme de chiffrement LORENZ. Le message d'entrée est le suivant :</P>
+<PRE>
+<SAMP>
+	AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !
+	Validez la dernière ligne en cliquant ENTER sans rien écrire dans cette dernière.
+	Entrez le texte à déchiffrer :
+	Pour annuler, cliquez ENTER sans rien écrire.
+</SAMP>
+</PRE>
+<H2>Entrée</H2>
+<P>Le message préalablement chiffré par l'algorithme de chiffrement LORENZ</P>
+<H2>Sortie</H2>
+<P>Le message d'entrée déchiffré. Il s'agit d'un message d'encodage ANSI (Windows-1252).<BR>
+Si SHOWSENDER est True, le message déchiffré est précédé du nom du pseudonyme de son expéditeur.</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ENTER (Retour à la ligne)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>LORENZ WARNING MSG: THIS MESSAGE IS PRIVATELY DESTINATED TO ANOTHER USER</DT>
+<DD>Alerte : Signifie que l'opération de déchiffrement a détecté l'attribut PRIVATE et a constaté que la valeur de l'attribut (soit le pseudonyme à qui s'addresse le message en privé) n'est pas identique à celui du récepteur réel.</DD>
+<DT>Ce message n'est pas valide.</DT>
+<DD>Erreur générique : Signifie que le message entré n'a pas été chiffré par l'algorithme de chiffrement LORENZ ou qu'il l'a mal été. Il s'agit d'une erreur générique et est donc affichée à la fin de toutes les erreurs spécifiques.</DD>
+<DT>ERREUR : Un ou des caractères sont erronés</DT>
+<DD>Erreur spécifique : Signifie que certains caractères ont été détectés comme intrus ou inattendus par LORENZ et qu'il s'agit d'une erreur de transcription du chiffrement.</DD>
+<DT>ATTENTION LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS DUE À UNE MODIFICATION ACCIDENTELLE OU MALINTENTIONNÉE DE VALEURS DANS LE CHIFFREMENT</DT>
+<DD>Alerte : Signifie que l'opération de déchiffrement a décelé des déformations au sein du message chiffré. Cela est soulevé lorsque LORENZ n'arrive pas à trouver une certaine transcription de la table de chiffrement générée, ou lorsque la somme de contrôle calculée est différente de celle reçue.</DD>
+<DT>ERREUR FATALE CODE 55 : Le chiffrement n'est pas authentique.</DT>
+<DD>Erreur spécifique : Signifie que la clé de chiffrement s'est avérée invalide puisque la génération de la table de chiffrement a échoué.</DD>
+</DL>
+</BODY>
+</HTML>

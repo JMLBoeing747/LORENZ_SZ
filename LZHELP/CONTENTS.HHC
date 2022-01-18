@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Pr&eacute;sentation de LORENZ">
+		<param name="Local" value="PRESENT.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Remerciements">
+			<param name="Local" value="ACKNLGMT.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Histoire de LORENZ">
+			<param name="Local" value="HISTORY\HISTHOME.HTM">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Origine de LORENZ">
+				<param name="Local" value="HISTORY\LZORIGIN.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Le LORENZ actuel">
+				<param name="Local" value="HISTORY\LZACTUAL.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Archives">
+				<param name="Local" value="HISTORY\ARCHIVES\ARCHIVES.HTM">
+				</OBJECT>
+		</UL>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Guide rapide de l'utilisateur">
+		<param name="Local" value="QUGHOME.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Chiffrer un message">
+			<param name="Local" value="ENCRYPT.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="D&eacute;chiffrer un message">
+			<param name="Local" value="DECIPHER.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Fichiers de l'application">
+			<param name="Local" value="LZFILES.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Commandes suppl&eacute;mentaires">
+			<param name="Local" value="ADDCMD.HTM">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Modifier le pseudo">
+				<param name="Local" value="PSEUDCMD.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Afficher le pseudo de l'exp&eacute;diteur">
+				<param name="Local" value="SHOWCMD.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="&Eacute;crire en priv&eacute;">
+				<param name="Local" value="PRIVCMD.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Jeu LORENZ">
+				<param name="Local" value="GAME.HTM">
+				</OBJECT>
+		</UL>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="D&eacute;pannage">
+		<param name="Local" value="TRBLSHOT\TSHOME.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="FAQ">
+			<param name="Local" value="TRBLSHOT\FAQ.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Soutien technique">
+			<param name="Local" value="TRBLSHOT\SUPPORT.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="R&eacute;f&eacute;rence technique">
+		<param name="Local" value="REF\REFHOME.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Menu principal">
+			<param name="Local" value="REF\REFMMENU.HTM">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="1 : Chiffrement">
+				<param name="Local" value="REF\REFENCRY.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="2 : D&eacute;chiffrement">
+				<param name="Local" value="REF\REFDCIPH.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="L : LID">
+				<param name="Local" value="REF\REFLID.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="J : Jeu">
+				<param name="Local" value="REF\REFGAME.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="S : Afficher / Masquer l'exp&eacute;diteur">
+				<param name="Local" value="REF\REFSHOW.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="P : Modifier le pseudo">
+				<param name="Local" value="REF\REFPSEUD.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="H : AIDE">
+				<param name="Local" value="REF\REFHELP.HTM">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Fichiers de donn&eacute;es">
+			<param name="Local" value="REF\REFFILES.HTM">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Fichiers LZI">
+				<param name="Local" value="REF\REFLZI.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Fichier PARAMS.INI">
+				<param name="Local" value="REF\REFPINI.HTM">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Param&egrave;tres de configuration">
+			<param name="Local" value="REF\REFPARAM.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Attributs">
+			<param name="Local" value="REF\REFATTRB.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Aspects techniques suppl&eacute;mentaires">
+			<param name="Local" value="REF\REFADDTA.HTM">
+			</OBJECT>
+	</UL>
+</UL>
+</BODY></HTML>

@@ -1,0 +1,78 @@
+body {
+    background-color: powderblue;
+}
+
+h1 {
+    font-family: arial;
+    color: darkgreen;
+}
+
+h2 {
+    font-family: arial;
+}
+
+h3 {
+    font-family: arial Narrow;
+    font-size: 20;
+    color: crimson;
+}
+
+p {
+    font-family: Microsoft Sans Serif;
+    text-align: justify;
+}
+
+ul {
+    font-family: Arial;
+    text-align: justify;
+    font-weight: bold;
+    list-style-type: square;
+}
+
+ol {
+    font-family: Microsoft Sans Serif;
+    text-align: justify;
+}
+
+dl {
+    font-family: Tahoma;
+    text-align: justify;
+}
+
+td {
+    font-family: Arial;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: rgb(0, 170, 0);
+}
+
+#warn_msg {
+    color: red;
+    font-weight: bold;
+}
+
+#warn_dl dt {
+    color: rgb(180, 0, 0);
+    font-weight: bold;
+}
+
+#normal_ul {
+    font-weight: normal;
+}
+
+#nota {
+    color: rgb(170, 62, 0);
+}
+
+#spec_ul {
+    font-family: Arial;
+    text-align: justify;
+    font-weight: normal;
+    list-style-type: disc;
+}

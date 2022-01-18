@@ -1,0 +1,69 @@
+body {
+    background-color: powderblue;
+}
+
+h1 {
+    font-family: arial;
+    color: darkgreen;
+}
+
+h2 {
+    font-family: arial;
+}
+
+h3 {
+    font-family: arial Narrow;
+    font-size: 20;
+    color: crimson;
+}
+
+p {
+    font-family: Microsoft Sans Serif;
+    text-align: justify;
+}
+
+ul {
+    font-family: Tahoma;
+    text-align: justify;
+    list-style-type: square;
+}
+
+ol {
+    font-family: Tahoma;
+    text-align: justify;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: rgb(0, 170, 0);
+}
+
+
+/* Style the buttons that are used to open and close the accordion panel */
+
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-weight: bold;
+    font-size: 25;
+}
+
+
+/* Style the accordion panel. Note: hidden by default */
+
+.panel {
+    padding: 10 18px;
+    background-color: rgb(219, 246, 253);
+    overflow: hidden;
+}

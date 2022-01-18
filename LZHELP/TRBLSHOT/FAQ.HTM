@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1" charset="ANSI">
+<Title>FAQ</Title>
+<LINK REL="STYLESHEET" HREF="FAQSTYLE.CSS">
+<SCRIPT LANGUAGE="JavaScript" SRC="..\SCRIPT.JS"></SCRIPT>
+</HEAD>
+<BODY>
+<H1>Foire aux questions</H1>
+<P>Bienvenue à la foire aux questions. Cette page contient diverses questions qui pourraient vous concerner, accompagnées de leurs réponses et solutions envisageables. Notez bien qu’il s’agit d’une liste non exhaustive et qu’il peut y en avoir de nouvelles au fil de futures mises à jour. Ainsi, il est possible que votre question ne s’y retrouve pas, ou que la réponse recherchée ne vous satisfasse nullement. De cela, je vous recommande de consulter la page <A HREF="SUPPORT.HTM">Soutien technique</A> pour mieux vous aider. En agissant ainsi, vous contribuerez à enrichir cette FAQ, et ainsi potentiellement d'aider de futurs utilisateurs.</P>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(ini)">Initialisation et identification</BUTTON>
+
+<DIV CLASS="panel" ID="ini" STYLE="display: none;">
+<H3>Pourquoi LORENZ me dit que je n'ai pas les droits d'accès à ce programme ?</H3>
+<P><B>R :</B> Deux scénarios sont possibles :<BR>
+<UL>
+<LI>Aucune clé de produit valide n'a été détectée.<UL>
+<LI><B>Solution :</B> Demandez à votre fournisseur LORENZ de vous générer une nouvelle clé de produit, puis insérez-le dans le répertoire principal de l'application.</LI></UL></LI>
+<LI>Un des fichiers .LZI a été corrompu.<UL>
+<LI><B>Solution :</B> Voyez dans le dossier LZPARAMS, du répertoire principal du programme, si le fichier USERLOG.LZI s'y trouve. Si oui, supprimez-le définitivement. Ensuite, redemandez à votre fournisseur LORENZ de vous générer une nouvelle clé de produit et refaites le processus d'identification.</LI></UL></LI>
+</UL></P>
+<H3>J'ai inséré la clé de produit, mais LORENZ ne le détecte pas. Pourquoi ?</H3>
+<P><B>R :</B> Trois scénarios sont possibles :<BR>
+<UL>
+<LI>La clé de produit n'est pas dans le bon dossier.<UL>
+<LI><B>Solution :</B> Vérifiez si la clé est insérée dans le dossier du répertoire principal du programme. Si la clé ne s'y trouve pas, veillez à l'insérer à cet endroit.</LI></UL></LI>
+<LI>Le nom du fichier contenant la clé de produit n'est pas PRDCTKEY.LKI<UL>
+<LI><B>Solution :</B> Si tel est le cas, simplement renommer le fichier par PRDCTKEY.LKI. Assurez-vous que les extensions de fichiers soient affichées pour vérifier si l'extension est la bonne.<BR>Pour afficher les extensions de fichiers, <A HREF="FILEEXT.GIF">cliquez ici</A> pour voir une petite animation créée pour la circonstance.</LI></UL></LI>
+<LI>Les données de la clé de produit sont corrompues.<UL>
+<LI><B>Solution :</B> Supprimez le fichier de la clé de produit (PRDCTKEY.LKI). Ensuite, redemandez à votre fournisseur LORENZ de vous générer une nouvelle clé de produit et refaites le processus d'identification.</LI></UL></LI>
+</UL></P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(cd)">Chiffrement et déchiffrement</BUTTON>
+
+<DIV CLASS="panel" ID="cd" STYLE="display: none;">
+<H3>Mon correspondant ne peut pas déchiffrer le message. Que s'est-il passé ?</H3>
+<P><B>R :</B> Il est fort probable que le chiffrement est corrompu par une modification de certaines valeurs. En effet, la modification d'une seule lettre peut rendre le message illisible, voir même indéchiffrable. Une erreur ou un avertissement est toujours levé lorsque LORENZ a décelé un problème durant l'opération de déchiffrement.</P>
+<P><B>Solutions :</B><BR>
+<OL>
+<LI>La plus rapide et la plus efficace consiste à renvoyer le message.</LI>
+<LI>Si cela ne règle pas le problème, veillez à vérifier si vous recopiez correctement le message chiffré et si votre correspondant fait de même. Pour cela, copiez le chiffrement, accédez à l'interface de déchiffrement et collez-le. Après validation, vérifiez si votre message est correctement déchiffré en sortie. Si cela ne change rien, demandez à votre correspondant de faire de même afin de vérifier si le problème n'est pas de son côté.</LI>
+<LI>Si le problème n'est toujours pas réglé, il se peut qu'il s'agisse d'un problème d'encodage dans l'environnement de transfert. Essayez de changer d'environnement (Messenger, <A HREF="http://epad.recit.org/" TITLE="http://epad.recit.org">epad.recit.org</A>, etc.).</LI>
+<LI>Si le problème persiste, il pourrait s'agir d'une erreur informatique dans le programme. De cela, contactez votre fournisseur LORENZ afin qu'il puisse vous fournir un correctif dans les plus brefs délais.</LI>
+</OL></P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(jeu)">Jeu</BUTTON>
+
+<DIV CLASS="panel" ID="jeu" STYLE="display: none;">
+<H3>Pourquoi mon solde de Coins accumulés ne s'affiche pas ou ne donne pas le bon montant ?</H3>
+<P><B>R :</B> Il est fort probable que le fichier COINSREC.LZI a été corrompu. Si vous avez déjà gagné une partie, le montant gagné sera immédiatement affiché en bas du menu principal. Si, après une nouvelle connexion, le montant ne s'affiche plus, LORENZ a détecté une erreur dans le chiffrement de ce fichier et a donc réinitialisé le montant. Malheureusement, vous ne pouvez pas écrire le montant gagné dans le chiffrement (sauf si vous connaissez l'algorithme évidemment), et n'avez donc le choix que de recommencer à zéro.</P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(psu)">Pseudonyme utilisateur</BUTTON>
+
+<DIV CLASS="panel" ID="psu" STYLE="display: none;">
+<H3>Pourquoi LORENZ n'affiche pas correctement mon pseudo que j'ai personnalisé ?</H3>
+<P><B>R :</B> Il est fort probable que le fichier PARAMS.INI a été corrompu. La lecture du fichier a alors été mal réalisée.<BR></P>
+<P><B>Solutions :</B>
+<OL>
+<LI>La plus rapide et la plus simple consiste à réaccéder au menu de modification du pseudo et à y réécrire le pseudo choisi. Fermez ensuite le programme et rouvrez-le.</LI>
+<LI>Si cela ne règle pas le problème, supprimez le fichier PARAMS.INI, situé dans le dossier LZPARAMS du répertoire principal de l'application.</LI>
+<LI>Si le problème persiste, il pourrait s'agir d'une erreur informatique dans le programme. De cela, contactez votre fournisseur LORENZ afin qu'il puisse vous fournir un correctif dans les plus brefs délais.</LI>
+</OL></P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(aut)">Autres</BUTTON>
+
+<DIV CLASS="panel" ID="aut" STYLE="display: none;">
+<H3>Comment accéder au répertoire principal de l'application ?</H3>
+<P><B>R :</B> Accédez à la commande Exécuter de Windows, et ce en appuyant simultanément Win + R, et entrez %LORENZPATH% dans la zone prévue à cet effet (la casse n'importe pas). L'explorateur de fichiers ouvrira le dossier correspondant au répertoire principal de l'application, qui se nomme "LORENZSZ".<BR>
+<A HREF="RUNLZPAT.PNG">Cliquez ici pour voir l'allure de la commande Exécuter.</A><BR>
+<A HREF="LZDIR.PNG">Cliquez ici pour voir l'allure du répertoire principal de l'application.</A></P>
+<H3>J'ai une erreur du type "Windows ne trouve pas '%LORENZPATH%'. Vérifiez que vous avez entré le nom correctement, puis réessayez." Qu'est-ce que cela signifie ?</H3>
+<P><B>R :</B> Cela signifie que la variable %LORENZPATH% (la casse n'importe pas d'ailleurs) n'a pas été initialisée dans votre système, notamment après une première installation de l'application.</P>
+<P><B>Solutions :</B>
+<OL>
+<LI>Redémarrez l'ordinateur.</LI>
+<LI>Si le problème persiste, désinstallez LORENZ, puis réinstallez-le. Ceci permettra de refaire correctement le processus d'initialisation de la variable.</LI>
+</OL></P>
+<H3>Pourquoi l'aide ne s'ouvre pas lorsque je désire y accéder ?</H3>
+<P><B>R :</B> Deux scénarios sont possibles :<BR>
+<UL>
+<LI>Le manuel d'aide LZHELP.CHM n'est pas présent dans le répertoire principal de l'application.<UL>
+<LI><B>Solution :</B> Demandez à votre fournisseur LORENZ de vous fournir un exemplaire du manuel d'aide LZHELP.CHM. Lorsque ceci sera fait, placez-le directement dans le répertoire principal de l'application LORENZSZ.</LI></LI></UL>
+<LI>Le programme d'aide HH.EXE n'est pas présent sur votre système ou est malfonctionnel.<UL>
+<LI>Ceci est un cas spécifique à Windows et vous devez vous référer au support technique de ce dernier afin qu'il puisse mieux vous orienter à ce sujet.</LI></UL></P>
+</DIV>
+</BODY>
+</HTML>

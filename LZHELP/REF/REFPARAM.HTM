@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1" charset="ANSI">
+<Title>RÉFÉRENCE PARAMÈTRES DE CONFIGURATION - CONFIGURATION PARAMETERS REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>Paramètres de configuration</H1>
+<P>Référence technique sur les paramètres de configuration de LORENZ</P>
+<H2>Présentation</H2>
+<P>Les paramètres de configuration permettent de personnaliser l'interface de l'application selon les besoins de chaque utilisateur.<BR>Ces données sont sauvegardés sous le fichier <B>PARAMS.INI</B>, situé dans le répertoire <B>%LORENZPATH%\LZPARAMS</B>.</P>
+<H2>Liste des paramètres</H2>
+<DL>
+<DT>SHOWSENDER</DT>
+<DD><B>Type :</B> Booléen<BR>
+<B>Valeur par défaut :</B> False<BR>
+<B>Interprétation :</B> Si True, permet d'afficher le pseudonyme de l'expéditeur d'un message déchiffré, dans le mode Déchiffrement. Si False, ne l'affiche pas.
+</DD>
+<DT>PSEUDONAME</DT>
+<DD><B>Type :</B> Chaine de caractère (String)<BR>
+<B>Valeur par défaut :</B> Nom d'utilisateur du compte système associé au programme, équivalent à la variable d'environnement système %USERNAME%. Dans ce cas, le paramètre n'est pas inscrit dans PARAMS.INI.<BR>
+<B>Interprétation :</B> Permet d'identifier les messages qui sont expédiés par cet utilisateur auprès des autres utilisateurs LORENZ.
+</DD>
+</DL>
+</BODY>
+</HTML>

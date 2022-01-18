@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1" charset="ANSI">
+<Title>RÉFÉRENCE COMMANDE DE CHIFFREMENT - ENCRYPTION COMMAND REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>1 : Chiffrement</H1>
+<P>Référence technique sur le mode Chiffrement de LORENZ</P>
+<H2>Présentation</H2>
+<P>Mode permettant le chiffrement d'un message d'encodage ANSI (Windows-1252). Le message d'entrée est le suivant :<P>
+<PRE>
+<SAMP>
+	Écrivez le texte à chiffrer :
+	Pour annuler, cliquez ENTER sans rien écrire.
+</SAMP>
+</PRE>
+<H2>Entrée</H2>
+<P>Le message d'encodage ANSI à chiffrer<BR>Peut contenir des commandes attributives.</P>
+<H2>Sortie</H2>
+<P>Le message d'entrée chiffré par l'algorithme de chiffrement LORENZ<BR>
+Le message chiffré est composé de la somme de contrôle, de la clé de chiffrement, de l'attribut SENDER et du message chiffré, comprenant les commandes attributives spécifiées, s'il y a lieu.</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ENTER (Retour à la ligne)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>Aucun texte détecté.</DT>
+<DD>Erreur spécifique : N'arrive que lorsque l'utilisateur entre un message contenant uniquement des espaces, le qualifiant ainsi de texte vide.</DD>
+<DT>Le caractère X n'est pas supporté. Néanmoins, il a été replacé par "?" pour compléter le message.</DT>
+<DD>Avertissement : Signifie que le caractère X n'est pas supporté par le jeu de caractères ANSI et a donc été remplacé par le point d'interrogation (? : 0x3F = 63) afin de combler le message dans le but de ne pas saccader le message de lettres absentes, et ainsi d'avertir le récepteur de la présence de lettres manquantes à cet endroit.</DD>
+</DL>
+</BODY>
+</HTML>

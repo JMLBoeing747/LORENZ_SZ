@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1" charset="ANSI">
+<Title>RÉFÉRENCE ASPECTS TECHNIQUES SUPPLÉMENTAIRES - ADDITIONAL TECHNICAL ASPECTS REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+<SCRIPT LANGUAGE="JavaScript" SRC="..\SCRIPT.JS"></SCRIPT>
+</HEAD>
+<BODY>
+<H1>Aspects techniques supplémentaires</H1>
+<P>Référence technique sur des aspects techniques supplémentaires aux précédentes références.</P>
+<H2>Présentation</H2>
+<P>Voici d'autres informations techniques non répertoriées.</P>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(lzpath)">Répertoire principal du programme LORENZSZ (%LORENZPATH%)</BUTTON>
+<DIV ID="lzpath" CLASS="panel" STYLE="display: none;">
+<P>Il s'agit du dossier qui contient l'exécutable de l'application LORENZ, le répertoire des paramètres LZPARAMS ainsi que ses extensions importantes (fichiers dll). Normalement situé au chemin d'accès <B>C:\Users\&ltNom utilisateur&gt\AppData\Local\Programs\LORENZSZ</B>, il est accessible via la variable d'environnement %LORENZPATH%.</P>
+<P>&ltNom utilisateur&gt correspond au nom utilisateur du compte associé au système d'exploitation.</P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(lzparams)">Répertoire des paramètres de l'application LZPARAMS</BUTTON>
+<DIV ID="lzparams" CLASS="panel" STYLE="display: none;">
+<P>Il s'agit du dossier contenant les fichiers de données de l'application. Consultez la page de référence <A HREF="REFFILES.HTM">Fichiers de données</A> pour accéder à la référence technique de ces fichiers.</P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(dll)">Extensions de l'application (fichiers dll)</BUTTON>
+<DIV ID="dll" CLASS="panel" STYLE="display: none;">
+<P>Ces fichiers ont été générés lors de la compilation du code source et sont nécessaires pour assurer le bon fonctionnement de l'application.<BR>Ils s'agissent de <I>Dynamic Link Libraries</I> et ils sont au nombre de 4 :<P>
+<UL>
+<LI>clrcompression.dll</LI>
+<LI>clrjit.dll</LI>
+<LI>coreclr.dll</LI>
+<LI>mscordaccore.dll</LI>
+</UL>
+</DIV>
+</BODY>
+</HTML>
