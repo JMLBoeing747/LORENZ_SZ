@@ -29,7 +29,7 @@ Voici une liste que je juge optimale, mais non exhaustive, pour pouvoir bénéfi
 - **.NET (Dotnet)** pour le compilateur du code source C# (version 5.0)
   (Vous le trouverez téléchargeable [ici](https://dotnet.microsoft.com/download))
 - **HTML Help Workshop** pour compiler le fichier d'aide du programme LZHELP
-  (Vous le trouverez téléchargeable [ici](https://www.microsoft.com/en-ca/download/details.aspx?id=21138))
+  (Vous le trouverez téléchargeable [ici](http://web.archive.org/web/20160201063255/http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe))
   **ATTENTION ! Ne fonctionne que sous Windows.**
 - **Inno Setup** pour compiler l'installateur du programme lorsque déployé aux utilisateurs
   (Vous le trouverez téléchargeable [ici](https://jrsoftware.org/isdl.php))
