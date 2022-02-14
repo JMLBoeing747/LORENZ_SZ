@@ -1,0 +1,17 @@
+Error codes
+=============================
+0x11    "LASTACSS.LZI"          Invalid cipher, utc last access datetime incoherent, or missing file
+0x12    "USERLOG.LZI"           Invalid cipher in file, or missing file
+0x2     "PRDCTKEY"              Invalid or missing product Key
+
+Parameters file
+=============================
+LASTACSS.LZI    (Last access time file)     Contains the last access time on the USERLOGI.LZI file. Use to verify that
+                                            USERLOG was not copied.
+USERLOG.LZI     (User Logging Info)         Contains the unique authorised user personnal ID, such as user and computer
+                                            name. Contains also the UID.
+PRDCTKEY        (Product key)               Contains the unique key when registering for first time in LORENZ.
+                                            This is deleted after validation.
+PARAMS.INI      (Parameters)                Contains attributes defined by user, such as PSEUDONAME and SHOWSENDER
+COINSREC.LZI    (Coins record)              Contains the number of coins reached by the user since the first won game
+                                            session. If it is corrupted, it will be deleted automatically.

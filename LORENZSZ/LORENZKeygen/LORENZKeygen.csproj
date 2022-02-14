@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Cryptography">
+      <HintPath>..\..\Cryptography\Cryptography\bin\Release\net5.0\Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="TreeRegister">
+      <HintPath>..\..\..\C#\TreeRegister\bin\Debug\net5.0\TreeRegister.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

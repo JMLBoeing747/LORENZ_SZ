@@ -6,8 +6,6 @@
 *.chm
 
 # Fichiers/dossiers Visual Studio
-[Pp]roperties
-*.sln
 *.user
 .vs
 
@@ -18,6 +16,3 @@
 # Dossiers dotnet
 [Bb]in
 [Oo]bj
-
-# Fichier texte d'erreurs
-LZERRORS.TXT
