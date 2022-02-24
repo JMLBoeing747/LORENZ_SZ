@@ -1,6 +1,6 @@
-﻿using Cryptography;
-using System;
+﻿using System;
 using System.IO;
+using Cryptography;
 
 namespace LORENZ
 {

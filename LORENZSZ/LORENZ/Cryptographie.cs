@@ -1,5 +1,5 @@
-﻿using Cryptography;
-using System;
+﻿using System;
+using Cryptography;
 
 namespace LORENZ
 {
