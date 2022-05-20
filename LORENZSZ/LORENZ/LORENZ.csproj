@@ -14,9 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Cryptography">
-      <HintPath>..\..\Cryptography\Cryptography\bin\Release\net5.0\Cryptography.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\Cryptography\Cryptography\Cryptography.csproj" />
   </ItemGroup>
 
 </Project>
