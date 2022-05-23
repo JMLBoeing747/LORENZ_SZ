@@ -49,7 +49,7 @@ namespace LORENZ
                     Console.WriteLine("S : Masquer l'expéditeur");
                 Console.WriteLine("P : Modifier le pseudo");
                 Console.WriteLine("H : AIDE");
-                Console.WriteLine("Pour quitter, cliquez sur ENTER ou ESC");
+                Console.WriteLine("Pour quitter, cliquez sur ESC");
                 if (Argent > 0.00)
                     Console.WriteLine(Environment.NewLine + "Votre solde : " + Argent + " Coins");
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
@@ -89,8 +89,15 @@ namespace LORENZ
                     AfficherAide();
                     continue;
                 }
-                else if (saisie.Key == ConsoleKey.Enter || saisie.Key == ConsoleKey.Escape)
+                else if (saisie.Key == ConsoleKey.Escape)
+                {
                     break;
+                }
+                else if (saisie.Key == ConsoleKey.Enter)
+                {
+                    Console.Clear();
+                    continue;
+                }
                 else
                 {
                     Console.Clear();
