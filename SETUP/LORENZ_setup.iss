@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "LORENZ"
-#define MyAppVersion "2.0"
+#define MyAppVersion "2.0.0"
 #define MyAppPublisher "LORENZ SZ"
 #define MyAppExeName "LORENZ.EXE"
 #define AppPublishPath "..\LORENZSZ\LORENZ\bin\Release\net5.0\publish"

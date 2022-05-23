@@ -40,3 +40,5 @@ CHANGE LOG (Modifications apportées depuis la version 1.0.0)
 21-DEC-2020........................................Renforcement de l’algorithme de chiffrement
 23-DEC-2020........................................Création d’une icone personnalisée pour CRYPTO ainsi que pour l’exécutable d’installation
 26-DEC-2020........................................Ajustement des codes d'erreur
+=====Version 3.0=====
+20-MAI-2022........................................Migration vers .NET 6.0
