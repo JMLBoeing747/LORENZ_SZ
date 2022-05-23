@@ -11,7 +11,7 @@ namespace LORENZ
         public static string SenderPseudoName { get; set; }
         public static string CmdSeperator { get => "/*/"; }
         public static bool IsGoodCheckSum { get; set; }
-        
+
         private const int MAX_CHAR_TABLE = 224;
 
         public static string GeneratorGK()
