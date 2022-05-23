@@ -197,12 +197,20 @@ namespace LORENZ
                 {
                     LigneMessage = Console.ReadLine();
                     MessageOriginal += LigneMessage + '\n';
+                    if (MessageOriginal == "\n")
+                    {
+                        break;
+                    }
                 }
-                MessageOriginal = MessageOriginal.Substring(0, MessageOriginal.Length - 2) + '\n';
+
+                if (MessageOriginal.Length > 2)
+                {
+                    MessageOriginal = MessageOriginal.Substring(0, MessageOriginal.Length - 2) + '\n';
+                }
 
                 if (IfOnlySpaces(MessageOriginal))
                 {
-                    if (MessageOriginal == "")
+                    if (MessageOriginal == "\n")
                     {
                         CancelOperation = true;
                         return;
@@ -215,7 +223,7 @@ namespace LORENZ
                 }
             }
 
-            if (MessageOriginal != "")
+            if (MessageOriginal != "\n")
             {
                 string MessageChiffre = Algorithmes.Chiffrement(MessageOriginal, StrGeneralKey, TheTableCode);
                 string VraiMessageChiffre = Algorithmes.SecondChiffrement(MessageChiffre);
