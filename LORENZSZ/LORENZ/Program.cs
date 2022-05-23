@@ -198,6 +198,7 @@ namespace LORENZ
                     LigneMessage = Console.ReadLine();
                     MessageOriginal += LigneMessage + '\n';
                 }
+                MessageOriginal = MessageOriginal.Substring(0, MessageOriginal.Length - 2) + '\n';
 
                 if (IfOnlySpaces(MessageOriginal))
                 {

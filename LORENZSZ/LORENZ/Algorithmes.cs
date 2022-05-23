@@ -42,11 +42,13 @@ namespace LORENZ
                 if (charac == '\x81')
                 {
                     // Pour insérer le caractère CR (carriage return) dans une entrée vide du CHCP 1252
+                    // Voir https://fr.wikipedia.org/wiki/Windows-1252
                     TableCode[0, charac - 32] = Convert.ToString('\x0D');
                 }
                 else if (charac == '\x9D')
                 {
                     // Pour insérer le caractère LF (Line feed) dans une entrée vide du CHCP 1252
+                    // Voir https://fr.wikipedia.org/wiki/Windows-1252
                     TableCode[0, charac - 32] = Convert.ToString('\x0A');
                 }
                 else
