@@ -5,7 +5,7 @@ namespace LORENZ
 {
     class Program
     {
-        public static string VersionNumber { get => "2.0"; }
+        public static string VersionNumber { get => "3.0.0-alpha"; }
         private static bool ShowSenderBeginState { get; set; }
         private static bool CancelOperation { get; set; }
 
@@ -185,12 +185,21 @@ namespace LORENZ
             }
             //Demande d'écriture du message
             Console.Clear();
-            Console.WriteLine("Écrivez le texte à chiffrer : ");
-            Console.WriteLine("Pour annuler, cliquez ENTER sans rien écrire.");
-            string MessageOriginal = Console.ReadLine();
-            if (MessageOriginal != "")
+            string MessageOriginal = "";
+            string LigneMessage = "";
+
+            while (true)
             {
-                while (IfOnlySpaces(MessageOriginal))
+                Console.WriteLine("Écrivez le texte à chiffrer : ");
+                Console.WriteLine("Pour annuler, cliquez ENTRÉE sans rien écrire.");
+                Console.WriteLine("Pour terminer le message, enfoncez CTRL + D et cliquez sur ENTRÉE.");
+                while (LigneMessage.Length == 0 || !LigneMessage.EndsWith('\x04'))
+                {
+                    LigneMessage = Console.ReadLine();
+                    MessageOriginal += LigneMessage + '\n';
+                }
+
+                if (IfOnlySpaces(MessageOriginal))
                 {
                     if (MessageOriginal == "")
                     {
@@ -198,9 +207,15 @@ namespace LORENZ
                         return;
                     }
                     Console.WriteLine("Aucun texte détecté.");
-                    Console.WriteLine("Écrivez le texte à chiffrer : ");
-                    MessageOriginal = Console.ReadLine();
                 }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (MessageOriginal != "")
+            {
                 string MessageChiffre = Algorithmes.Chiffrement(MessageOriginal, StrGeneralKey, TheTableCode);
                 string VraiMessageChiffre = Algorithmes.SecondChiffrement(MessageChiffre);
                 Console.ForegroundColor = ConsoleColor.White;

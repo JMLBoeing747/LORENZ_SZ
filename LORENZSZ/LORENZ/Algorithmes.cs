@@ -11,6 +11,8 @@ namespace LORENZ
         public static string SenderPseudoName { get; set; }
         public static string CmdSeperator { get => "/*/"; }
         public static bool IsGoodCheckSum { get; set; }
+        
+        private const int MAX_CHAR_TABLE = 224;
 
         public static string GeneratorGK()
         {
@@ -34,11 +36,23 @@ namespace LORENZ
         public static string[,] GenerateTableCode(string TheGK)
         {
             //Génération de la table vide avec caractères
-            string[,] TableCode = new string[2, 224];
-            for (int charac = 32; charac < 255; charac++)
+            string[,] TableCode = new string[2, MAX_CHAR_TABLE];
+            for (int charac = 32; charac < MAX_CHAR_TABLE; charac++)
             {
-                int i = charac - 32;
-                TableCode[0, i] = Convert.ToString((char)charac);
+                if (charac == '\x81')
+                {
+                    // Pour insérer le caractère CR (carriage return) dans une entrée vide du CHCP 1252
+                    TableCode[0, charac - 32] = Convert.ToString('\x0D');
+                }
+                else if (charac == '\x9D')
+                {
+                    // Pour insérer le caractère LF (Line feed) dans une entrée vide du CHCP 1252
+                    TableCode[0, charac - 32] = Convert.ToString('\x0A');
+                }
+                else
+                {
+                    TableCode[0, charac - 32] = Convert.ToString((char)charac);
+                }
             }
             //Génération des Trans
             string[] TransChar = GenerateTranscriptionTable(TheGK);
@@ -47,7 +61,7 @@ namespace LORENZ
             if (Identical)
                 TableCode = null;
             else
-                for (int i = 0; i < 224; i++)
+                for (int i = 0; i < MAX_CHAR_TABLE; i++)
                     TableCode[1, i] = TransChar[i];
             return TableCode;
         }
@@ -62,35 +76,35 @@ namespace LORENZ
 
             //Création des colonnes de TRANS
             //Colonne 1
-            string[] Colonne1 = new string[224];
+            string[] Colonne1 = new string[MAX_CHAR_TABLE];
             GeneratorOfColumns(ref Colonne1, false, 1, 0, 64, GK1);
             GeneratorOfColumns(ref Colonne1, false, Convert.ToInt32(Colonne1[63]), 64, 96, GK2);
             GeneratorOfColumns(ref Colonne1, true, Convert.ToInt32(Colonne1[95]), 96, 160, GK4);
             GeneratorOfColumns(ref Colonne1, true, Convert.ToInt32(Colonne1[159]), 160, 224, GK3);
 
             //Colonne 2
-            string[] Colonne2 = new string[224];
+            string[] Colonne2 = new string[MAX_CHAR_TABLE];
             GeneratorOfColumns(ref Colonne2, true, 2, 0, 64, GK2);
             GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[63]), 64, 96, GK1);
             GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[95]), 96, 160, GK3);
             GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[159]), 160, 224, GK4);
 
             //Colonne 3
-            string[] Colonne3 = new string[224];
+            string[] Colonne3 = new string[MAX_CHAR_TABLE];
             GeneratorOfColumns(ref Colonne3, false, 3, 0, 64, GK3);
             GeneratorOfColumns(ref Colonne3, true, Convert.ToInt32(Colonne3[63]), 64, 96, GK4);
             GeneratorOfColumns(ref Colonne3, true, Convert.ToInt32(Colonne3[95]), 96, 160, GK2);
             GeneratorOfColumns(ref Colonne3, false, Convert.ToInt32(Colonne3[159]), 160, 224, GK1);
 
             //Colonne 4
-            string[] Colonne4 = new string[224];
+            string[] Colonne4 = new string[MAX_CHAR_TABLE];
             GeneratorOfColumns(ref Colonne4, true, 4, 0, 64, GK4);
             GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[63]), 64, 96, GK3);
             GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[95]), 96, 160, GK1);
             GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[159]), 160, 224, GK2);
 
-            string[] TransChar = new string[224];
-            for (int i = 0; i < 224; i++)
+            string[] TransChar = new string[MAX_CHAR_TABLE];
+            for (int i = 0; i < MAX_CHAR_TABLE; i++)
             {
                 TransChar[i] = Colonne1[i] + Colonne2[i] + Colonne3[i] + Colonne4[i];
             }
@@ -188,14 +202,14 @@ namespace LORENZ
             for (int c = 0; c < TheMessage.Length; c++)
             {
                 string CharToEvaluate = Convert.ToString(TheMessage[c]);
-                for (int i = 0; i < 224; i++)
+                for (int i = 0; i < MAX_CHAR_TABLE; i++)
                 {
                     if (CharToEvaluate == ATableCode[0, i])
                     {
                         TheEncryptedMessage += ATableCode[1, i];
                         break;
                     }
-                    if (CharToEvaluate != ATableCode[0, i] && i == 223)
+                    if (CharToEvaluate != ATableCode[0, i] && i == MAX_CHAR_TABLE - 1)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Le caractère " + TheMessage[c] + " n'est pas supporté. Néanmoins, il a été replacé par \"?\" pour compléter le message.");
@@ -386,14 +400,14 @@ namespace LORENZ
             string DecipheredMessageComplete = null;
             for (int i = 0; i < ExtractedTransList.Count; i++)
             {
-                for (int c = 0; c < 224; c++)
+                for (int c = 0; c < MAX_CHAR_TABLE; c++)
                 {
                     if (ExtractedTransList[i] == TableCode[1, c])
                     {
                         DecipheredMessageComplete += TableCode[0, c];
                         break;
                     }
-                    if (ExtractedTransList[i] != TableCode[1, c] && c == 223)
+                    if (ExtractedTransList[i] != TableCode[1, c] && c == MAX_CHAR_TABLE - 1)
                     {
                         DecipheredMessageComplete += TableCode[0, 31];
                     }
