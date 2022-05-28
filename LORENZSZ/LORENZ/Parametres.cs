@@ -70,8 +70,8 @@ namespace LORENZ
             Console.WriteLine("Le pseudo est le nom qui sera affiché à tous les récepteurs pouvant déchiffrer le message");
             Console.WriteLine("et qui ont activé l'affichage de l'expéditeur. Par défaut, il est initialisé à votre nom");
             Console.WriteLine("d'utilisateur système mais vous pouvez le personnaliser. Pour cela, tapez ci-dessous le");
-            Console.WriteLine("nouveau pseudo à utiliser pour les chiffrements futurs. Sinon, appuyer sur ENTER sans rien");
-            Console.WriteLine("écrire et la valeur par défaut sera considérée.");
+            Console.WriteLine("nouveau pseudo à utiliser pour les chiffrements futurs. Sinon, appuyer sur ENTRÉE sans");
+            Console.WriteLine("rien écrire et la valeur par défaut sera considérée.");
             Console.Write("Nouveau >>> ");
             string newPseudo = Console.ReadLine();
             if (newPseudo == "")

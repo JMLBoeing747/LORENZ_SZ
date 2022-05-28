@@ -136,7 +136,7 @@ namespace LORENZ
             Console.WriteLine("et qui ont activé l'affichage de l'expéditeur. Si vous désirez le modifier, tapez");
             Console.WriteLine("ci-dessous le nouveau pseudo à utiliser pour les chiffrements futurs. Si vous désirez le");
             Console.WriteLine("réinitialiser, taper tel quel votre nom d'utilisateur système ou $DEFAULT (la casse");
-            Console.WriteLine("n'importe pas). Sinon, appuyer sur ENTER sans rien écrire.");
+            Console.WriteLine("n'importe pas). Sinon, appuyer sur ENTRÉE sans rien écrire.");
 
             Console.WriteLine("Actuel : " + Parametres.PseudoName);
             Console.Write("Nouveau >>> ");
@@ -258,10 +258,10 @@ namespace LORENZ
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !");
-            Console.WriteLine("Validez la dernière ligne en cliquant ENTER sans rien écrire dans cette dernière.");
+            Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Entrez le texte à déchiffrer :");
-            Console.WriteLine("Pour annuler, cliquez ENTER sans rien écrire.");
+            Console.WriteLine("Pour annuler, cliquez ENTRÉE sans rien écrire.");
             try
             {
                 while (true)
@@ -368,8 +368,8 @@ namespace LORENZ
             Console.WriteLine(Environment.NewLine + "Ce message n'est pas valide." + Environment.NewLine);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Entrez un texte valide à déchiffrer.");
-            Console.WriteLine("Validez la dernière ligne en cliquant ENTER sans rien écrire dans cette dernière.");
-            Console.WriteLine("Pour annuler, cliquez ENTER sans rien écrire :");
+            Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
+            Console.WriteLine("Pour annuler, cliquez ENTRÉE sans rien écrire :");
         }
 
         static string TestCipher(string MessageToTest)

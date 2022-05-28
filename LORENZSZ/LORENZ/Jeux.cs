@@ -30,7 +30,7 @@ namespace LORENZ
             Console.Clear();
             Console.WriteLine($"LORENZ a choisi un chiffre entre 0 et {MaxRandNum}.");
             Console.WriteLine("Essayez de le trouver !");
-            Console.WriteLine("Cliquez sur ENTER pour annuler.");
+            Console.WriteLine("Cliquez sur ENTRÉE pour annuler.");
             double WinCoins;
             int Try = 0;
             int ChoosenNum = -1;
@@ -44,7 +44,7 @@ namespace LORENZ
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ceci n'est pas un nombre, veuillez entrer un nombre entre 0 et {MaxRandNum}.");
-                    Console.WriteLine("Cliquez sur ENTER pour quitter.");
+                    Console.WriteLine("Cliquez sur ENTRÉE pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else if (ChoosenNum > MaxRandNum || ChoosenNum < 0)
@@ -52,7 +52,7 @@ namespace LORENZ
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ce nombre n'est pas compris entre 0 et {MaxRandNum}, veuillez entrer un nombre entre 0 et {MaxRandNum}.");
-                    Console.WriteLine("Cliquez sur ENTER pour quitter.");
+                    Console.WriteLine("Cliquez sur ENTRÉE pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else
@@ -107,7 +107,7 @@ namespace LORENZ
         static int LevelMenu()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Veuillez choisir un niveau :\nCliquez sur ENTER pour annuler.");
+            Console.WriteLine("Veuillez choisir un niveau :\nCliquez sur ENTRÉE pour annuler.");
             Console.WriteLine("[1] : DÉBUTANT");
             Console.WriteLine("[2] : INTERMÉDIAIRE");
             Console.WriteLine("[3] : AVANCÉ");
