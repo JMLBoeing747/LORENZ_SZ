@@ -2,13 +2,14 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "LORENZ"
-#define MyAppVersion "2.0.0"
+#define MyAppVersion "3.0.0"
+#define MyAppVersionFull MyAppVersion + "-alpha"
 #define MyAppPublisher "LORENZ SZ"
 #define MyAppExeName "LORENZ.EXE"
-#define AppPublishPath "..\LORENZSZ\LORENZ\bin\Release\net5.0\publish"
+#define AppPublishPath "..\LSZ\LORENZ\bin\Release\net6.0\publish"
 #define LZHELPPath "..\LZHELP\LZHELP.CHM"
 
-#define CRYPTOPath "..\LORENZSZ\CRYPTO\bin\Release\net5.0\publish"
+#define CRYPTOPath "..\LSZ\CRYPTO\bin\Release\net6.0\publish"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -16,7 +17,7 @@
 AppId={{172D101C-DFA8-42F2-A85B-5A39002B093E}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersionFull}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={localappdata}\Programs\LORENZSZ
 DisableDirPage=yes
@@ -35,7 +36,7 @@ CloseApplications=yes
 VersionInfoVersion={#MyAppVersion}
 PrivilegesRequired=lowest
 OutputDir=.
-OutputBaseFilename=LORENZ_v{#MyAppVersion}
+OutputBaseFilename=LORENZ_v{#MyAppVersionFull}
 Compression=lzma
 SolidCompression=yes
 SetupIconFile="LZSETUP.ICO"

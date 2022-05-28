@@ -6,7 +6,7 @@ Nous désirons vous remercier de nous avoir accordé votre confiance envers LORENZ
 The LORENZ cipher machine (Der LORENZ Schlüsselzusatz)
 =================================================
 
-Version du produit : 2.0
+Version du produit : 3.0.0
 
 PRÉSENTATION
 -------------------------------------------------
