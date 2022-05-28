@@ -37,7 +37,7 @@ namespace Cryptography
             {
                 isExcept = false;
                 byte[] randNumBuffer = new byte[1];
-                new RNGCryptoServiceProvider().GetBytes(randNumBuffer);
+                RandomNumberGenerator.Create().GetBytes(randNumBuffer);
                 result = randNumBuffer[0];
                 foreach (int except in exceptNum)
                     if (result == except)
@@ -83,7 +83,7 @@ namespace Cryptography
             {
                 isExcept = false;
                 byte[] randBytesBuffer = new byte[2];
-                new RNGCryptoServiceProvider().GetBytes(randBytesBuffer);
+                RandomNumberGenerator.Create().GetBytes(randBytesBuffer);
                 result = (randBytesBuffer[0] << 8) + randBytesBuffer[1];
                 foreach (int except in exceptNum)
                     if (result == except)
@@ -128,7 +128,7 @@ namespace Cryptography
             {
                 isExcept = false;
                 byte[] randBytesBuffer = new byte[4];
-                new RNGCryptoServiceProvider().GetBytes(randBytesBuffer);
+                RandomNumberGenerator.Create().GetBytes(randBytesBuffer);
                 result = ((long)randBytesBuffer[0] << 24) + ((long)randBytesBuffer[1] << 16) + ((long)randBytesBuffer[2] << 8) + randBytesBuffer[3];
                 foreach (long except in exceptNum)
                     if (result == except)
