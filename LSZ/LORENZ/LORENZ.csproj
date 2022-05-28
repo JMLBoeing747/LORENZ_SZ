@@ -8,8 +8,8 @@
     <Description>Application permettant de chiffrer et de déchiffrer des messages de type LORENZ uniquement. Chiffrer des messages n'aura jamais été aussi facile et accessible, tout en étant sécuritaire et fiable.</Description>
     <ApplicationIcon>LZICON.ICO</ApplicationIcon>
     <Version>2.0</Version>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <AssemblyVersion>3.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
