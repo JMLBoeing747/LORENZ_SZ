@@ -214,7 +214,7 @@ namespace LORENZ
                     if (CharToEvaluate != ATableCode[0, i] && i == MAX_CHAR_TABLE - 1)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Le caractère " + TheMessage[c] + " n'est pas supporté. Néanmoins, il a été replacé par \"?\" pour compléter le message.");
+                        Console.WriteLine("Le caractère " + TheMessage[c] + " n'est pas supporté. Néanmoins, il a été remplacé par \"?\" pour compléter le message.");
                         Console.ForegroundColor = ConsoleColor.Cyan;
                         TheEncryptedMessage += ATableCode[1, 31];
                     }
