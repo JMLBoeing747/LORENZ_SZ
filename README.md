@@ -1,6 +1,6 @@
 # INFORMATION IMPORTANTE À TOUS LES DÉVELOPPEURS AGRÉÉS ET INTÉRESSÉS AU PROJET «LORENZ»
 
-DERNIÈRE MISE À JOUR : 24 FÉVRIER 2022
+DERNIÈRE MISE À JOUR : 3 JUIN 2022
 
 ## MESSAGE DU DIRECTEUR DU PROJET ET COORDINATEUR PRINCIPAL DE L'ÉQUIPE
 
@@ -31,10 +31,10 @@ Voici une liste que je juge optimale, mais non exhaustive, pour pouvoir bénéfi
 - **HTML Help Workshop** pour compiler le fichier d'aide du programme LZHELP
   (Vous le trouverez téléchargeable [ici](http://web.archive.org/web/20160201063255/http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe))
   **ATTENTION ! Ne fonctionne que sous Windows.**
-- **Inno Setup** pour compiler l'installateur du programme lorsque déployé aux utilisateurs
+- **Inno Setup** pour compiler l'utilitaire d'installation du programme lorsque déployé aux utilisateurs
   (Vous le trouverez téléchargeable [ici](https://jrsoftware.org/isdl.php))
 
-Si vous avez d'autres suggestions d'ajout à cette liste, n'hésitez pas à m'en faire part.
+Si vous avez d'autres suggestions d'ajout ou de modification à cette liste, n'hésitez pas à m'en faire part.
 
 Voilà ! Je crois en avoir assez dit.
 Si vous éprouvez certaines difficultés durant l'installation des outils, ou tout autre questionnement sur le projet, vous pouvez m'en faire part afin que je puisse vous aider au meilleur de mes connaissances.
@@ -45,6 +45,6 @@ Bon développement !
 
 <p style="font-size:12px">
  <br />Jürgen Moreno Li (alias JML)
- <br />Directeur, LORENZ Project
+ <br />Directeur, LORENZ Team
  <br />jml514@hotmail.com
 </p>
