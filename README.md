@@ -1,6 +1,6 @@
 # INFORMATION IMPORTANTE À TOUS LES DÉVELOPPEURS AGRÉÉS ET INTÉRESSÉS AU PROJET «LORENZ»
 
-DERNIÈRE MISE À JOUR : 3 JUIN 2022
+DERNIÈRE MISE À JOUR : 4 JUIN 2022
 
 ## MESSAGE DU DIRECTEUR DU PROJET ET COORDINATEUR PRINCIPAL DE L'ÉQUIPE
 
@@ -26,7 +26,7 @@ Voici une liste que je juge optimale, mais non exhaustive, pour pouvoir bénéfi
 
 - **Éditeur de texte à coloration syntaxique ou IDE** pour écrire le code
   (Visual Studio, VS Code, Sublime Text, Notepad++, Notepad si le coeur vous en dit, etc.)
-- Si vous n'avez pas Visual Studio, **.NET (Dotnet)** pour le compilateur du code source C# (version 5.0)
+- Si vous n'avez pas Visual Studio, **.NET (Dotnet)** pour le compilateur du code source C# (version 6.0)
   (Vous le trouverez téléchargeable [ici](https://dotnet.microsoft.com/download))
 - **HTML Help Workshop** pour compiler le fichier d'aide du programme LZHELP
   (Vous le trouverez téléchargeable [ici](http://web.archive.org/web/20160201063255/http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe))
