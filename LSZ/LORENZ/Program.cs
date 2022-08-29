@@ -46,7 +46,11 @@ namespace LORENZ
                 if (!Parametres.ShowPseudoNameSender)
                     Console.WriteLine("S : Afficher l'expéditeur");
                 else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("S : Masquer l'expéditeur");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                }
                 Console.WriteLine("P : Modifier le pseudo");
                 Console.WriteLine("H : AIDE");
                 Console.WriteLine("Pour quitter, cliquez sur ESC");
@@ -96,6 +100,7 @@ namespace LORENZ
                 else if (saisie.Key == ConsoleKey.Enter)
                 {
                     Console.Clear();
+                    Display.PrintMessage("Pour quitter, cliquez sur ESC.", MessageState.Warning, resetColors: true);
                     continue;
                 }
                 else
