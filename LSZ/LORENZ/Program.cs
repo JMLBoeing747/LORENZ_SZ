@@ -99,6 +99,8 @@ namespace LORENZ
                 }
                 else if (saisie.Key == ConsoleKey.Enter)
                 {
+                    /* La gestion de la touche ENTRÉE est gardée pour permettre une meilleure transition
+                     * vers la touche ESC */
                     Console.Clear();
                     Display.PrintMessage("Pour quitter, cliquez sur ESC.", MessageState.Warning, resetColors: true);
                     continue;

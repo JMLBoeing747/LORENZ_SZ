@@ -30,7 +30,7 @@ namespace LORENZ
             Console.Clear();
             Console.WriteLine($"LORENZ a choisi un chiffre entre 0 et {MaxRandNum}.");
             Console.WriteLine("Essayez de le trouver !");
-            Console.WriteLine("Cliquez sur ENTRÉE pour annuler.");
+            Console.WriteLine("Cliquez sur ENTRÉE sans rien écrire pour quitter.");
             double WinCoins;
             int Try = 0;
             int ChoosenNum = -1;
@@ -44,7 +44,7 @@ namespace LORENZ
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ceci n'est pas un nombre, veuillez entrer un nombre entre 0 et {MaxRandNum}.");
-                    Console.WriteLine("Cliquez sur ENTRÉE pour quitter.");
+                    Console.WriteLine("Cliquez sur ENTRÉE sans rien écrire pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else if (ChoosenNum > MaxRandNum || ChoosenNum < 0)
@@ -52,7 +52,7 @@ namespace LORENZ
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ce nombre n'est pas compris entre 0 et {MaxRandNum}, veuillez entrer un nombre entre 0 et {MaxRandNum}.");
-                    Console.WriteLine("Cliquez sur ENTRÉE pour quitter.");
+                    Console.WriteLine("Cliquez sur ENTRÉE sans rien écrire pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else
@@ -107,7 +107,7 @@ namespace LORENZ
         static int LevelMenu()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Veuillez choisir un niveau :\nCliquez sur ENTRÉE pour annuler.");
+            Console.WriteLine("Veuillez choisir un niveau :\nCliquez sur ESC pour annuler.");
             Console.WriteLine("[1] : DÉBUTANT");
             Console.WriteLine("[2] : INTERMÉDIAIRE");
             Console.WriteLine("[3] : AVANCÉ");
@@ -118,16 +118,16 @@ namespace LORENZ
             Console.WriteLine("[8] : GOUVERNEUR GÉNÉRAL");
             Console.WriteLine("[9] : DOYEN DE LA 55");
             int level = (int)Console.ReadKey(true).Key;
-            //Console.Key.Enter = 13
-            //ConsoleKey.D1 = 49
-            //ConsoleKey.D9 = 57
-            //ConsoleKey.NumPad1 = 97
-            //ConsoleKey.NumPad9 = 105
+            /* ConsoleKey.Escape = 27
+             * ConsoleKey.D1 = 49
+             * ConsoleKey.D9 = 57
+             * ConsoleKey.NumPad1 = 97
+             * ConsoleKey.NumPad9 = 105 */
             if (level >= 49 && level <= 57)
                 return level - 48;
             else if (level >= 97 && level <= 105)
                 return level - 96;
-            else if (level == 13)
+            else if (level == 27)
                 return -1;
             else
                 return default;
