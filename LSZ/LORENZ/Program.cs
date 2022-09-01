@@ -219,7 +219,7 @@ namespace LORENZ
 
                 if (MessageOriginal.Length > 2)
                 {
-                    MessageOriginal = MessageOriginal.Substring(0, MessageOriginal.Length - 2) + '\n';
+                    MessageOriginal = MessageOriginal[..^2] + '\n';
                 }
 
                 if (IfOnlySpaces(MessageOriginal))
