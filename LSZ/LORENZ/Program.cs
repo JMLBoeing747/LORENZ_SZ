@@ -421,82 +421,13 @@ namespace LORENZ
                 }
                 else if (saisie.Key == ConsoleKey.S)
                 {
-                    SetSecretTable();
+                    Algorithmes.SetSecretTable();
                     Console.Clear();
                 }
                 else
                 {
                     Console.Clear();
                     Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
-                }
-            }
-        }
-
-        static void SetSecretTable()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("ATTENTION ! Modifier la disposition de la table secrète sans avoir aucune connaissance");
-            Console.WriteLine("approfondie du principe de chiffrement peut causer de sérieux problèmes auprès de vos");
-            Console.WriteLine("correspondants, notamment au moment de la transmission.");
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Il est primordial d'informer ces derniers de toute modification de la disposition des tables");
-            Console.WriteLine("de chiffrement avant de transmettre tout nouveau message.\n");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Inscrivez la nouvelle disposition sour la forme d'une chaine de 10 caractères uniques.");
-            Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.\n");
-            Console.WriteLine("Disposition actuelle de la TS : " + Algorithmes.BaseSecretCode);
-            while (true)
-            {
-                Console.Write("Nouvelle disposition : ");
-                string newSTSet = Console.ReadLine();
-                if (newSTSet != "")
-                {
-                    if (newSTSet.Length != 10)
-                    {
-                        Display.PrintMessage("La chaîne doit faire 10 caractères de long.", MessageState.Failure);
-                    }
-                    else
-                    {
-                        bool sameChars = false;
-                        for (int c = 0; c < newSTSet.Length; c++)
-                        {
-                            for (int d = c + 1; d < newSTSet.Length; d++)
-                            {
-                                if (newSTSet[c] == newSTSet[d])
-                                {
-                                    sameChars = true;
-                                    break;
-                                }
-                            }
-                            if (sameChars)
-                            {
-                                break;
-                            }
-                        }
-
-                        if (!sameChars)
-                        {
-                            Algorithmes.BaseSecretCode = newSTSet.ToUpper();
-                            Display.PrintMessage("Nouvelle disposition : " + Algorithmes.BaseSecretCode, MessageState.Success);
-                            Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
-                            Console.ReadKey(true);
-                            break;
-                        }
-                        else
-                        {
-                            Display.PrintMessage("La chaîne doit être composée de 10 caractères uniques.", MessageState.Failure);
-                        }
-                    }
-                }
-                else
-                {
-                    Display.PrintMessage("Aucune nouvelle disposition assignée !", MessageState.Warning);
-                    Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
-                    Console.ReadKey(true);
-                    break;
                 }
             }
         }

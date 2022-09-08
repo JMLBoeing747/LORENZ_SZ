@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cryptography;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,7 +12,7 @@ namespace LORENZ
         public static string SenderPseudoName { get; set; }
         public static string CmdSeperator { get => "/*/"; }
         public static bool IsGoodCheckSum { get; set; }
-        public static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
+        private static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
 
         private const int MIN_CHAR_TABLE = 32;
         private const int MAX_CHAR_TABLE = 256;
@@ -439,6 +440,83 @@ namespace LORENZ
                 SecretTC[1, i] = BaseSecretCode[i];
             }
             return SecretTC;
+        }
+
+        public static void SetSecretTable()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("ATTENTION ! Modifier la disposition de la table secrète sans avoir aucune connaissance");
+            Console.WriteLine("approfondie du principe de chiffrement peut causer de sérieux problèmes auprès de vos");
+            Console.WriteLine("correspondants, notamment au moment de la transmission.");
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Il est primordial d'informer ces derniers de toute modification sur la disposition des");
+            Console.WriteLine("tables de chiffrement avant de transmettre tout nouveau message.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Display.PrintMessage("Pour poursuivre, appuyez sur F12.\nAppuyez sur n'importe quelle autre touche pour annuler.",
+                                 MessageState.Warning);
+
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            if (keyInfo.Key != ConsoleKey.F12)
+                return;
+
+            Console.CursorTop = 5;      // Pour effacer les lignes indiquant d'appuyer sur F12.
+            Console.WriteLine("\nInscrivez la nouvelle disposition sour la forme d'une chaine de 10 caractères uniques.");
+            Console.WriteLine("Pour annuler l'opération, appuyez sur ENTRÉE sans rien écrire.\n");
+            Console.WriteLine("Disposition actuelle de la TS : " + Algorithmes.BaseSecretCode);
+            while (true)
+            {
+                Console.Write("Nouvelle disposition : ");
+                string newSTSet = Console.ReadLine();
+                if (newSTSet != "")
+                {
+                    if (newSTSet.Length != 10)
+                    {
+                        Display.PrintMessage("La chaîne doit faire 10 caractères de long.", MessageState.Failure);
+                    }
+                    else
+                    {
+                        bool sameChars = false;
+                        for (int c = 0; c < newSTSet.Length; c++)
+                        {
+                            for (int d = c + 1; d < newSTSet.Length; d++)
+                            {
+                                if (newSTSet[c] == newSTSet[d])
+                                {
+                                    sameChars = true;
+                                    break;
+                                }
+                            }
+                            if (sameChars)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (!sameChars)
+                        {
+                            Algorithmes.BaseSecretCode = newSTSet.ToUpper();
+                            Display.PrintMessage("Nouvelle disposition : " + Algorithmes.BaseSecretCode, MessageState.Success);
+                            Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
+                            Console.ReadKey(true);
+                            break;
+                        }
+                        else
+                        {
+                            Display.PrintMessage("La chaîne doit être composée de 10 caractères uniques.", MessageState.Failure);
+                        }
+                    }
+                }
+                else
+                {
+                    Display.PrintMessage("Aucune nouvelle disposition assignée !", MessageState.Warning);
+                    Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
+                    Console.ReadKey(true);
+                    break;
+                }
+            }
         }
     }
 }
