@@ -11,6 +11,7 @@ namespace LORENZ
         public static string SenderPseudoName { get; set; }
         public static string CmdSeperator { get => "/*/"; }
         public static bool IsGoodCheckSum { get; set; }
+        public static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
 
         private const int MIN_CHAR_TABLE = 32;
         private const int MAX_CHAR_TABLE = 256;
@@ -72,7 +73,7 @@ namespace LORENZ
         private static string[] GenerateTranscriptionTable(string TheGK)
         {
             //Génération des string divisant le GK en 4
-            string GK1 = TheGK.Substring(0, 8);
+            string GK1 = TheGK[..8];
             string GK2 = TheGK.Substring(8, 8);
             string GK3 = TheGK.Substring(16, 8);
             string GK4 = TheGK.Substring(24, 8);
@@ -390,7 +391,7 @@ namespace LORENZ
             string NewMessageWithoutGK = ModuloCipher(generalKey, MessageWithoutGK, false);
 
             //Extraction des trans
-            List<string> ExtractedTransList = new List<string>();
+            List<string> ExtractedTransList = new();
             for (int i = 0; i < NewMessageWithoutGK.Length / 4; i++)
             {
                 string ElementsOfOneTrans = default;
@@ -432,7 +433,7 @@ namespace LORENZ
             {
                 SecretTC[0, i] = Convert.ToChar(Convert.ToString(i));
             }
-            string BaseSecretCode = "S8H2ALDVFP";
+
             for (int i = 0; i < BaseSecretCode.Length; i++)
             {
                 SecretTC[1, i] = BaseSecretCode[i];
