@@ -113,10 +113,10 @@ namespace LORENZ
             Console.WriteLine("[3] : AVANCÉ");
             Console.WriteLine("[4] : EXPERT");
             Console.WriteLine("[5] : MAÎTRE");
-            Console.WriteLine("[6] : DIRECTEUR D'UNIVERSITÉ");
-            Console.WriteLine("[7] : PREMIER MINISTRE");
-            Console.WriteLine("[8] : GOUVERNEUR GÉNÉRAL");
-            Console.WriteLine("[9] : DOYEN DE LA 55");
+            Console.WriteLine("[6] : GRAND MAÎTRE");
+            Console.WriteLine("[7] : NITROGLYCÉRINE");
+            Console.WriteLine("[8] : TRINITROTOLUÈNE");
+            Console.WriteLine("[9] : DOYEN DE LA 55 - TÉTRAÉTYLMÉTHANE");
             int level = (int)Console.ReadKey(true).Key;
             /* ConsoleKey.Escape = 27
              * ConsoleKey.D1 = 49
