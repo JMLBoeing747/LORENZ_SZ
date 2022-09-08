@@ -54,6 +54,7 @@ namespace LORENZ
                 Console.WriteLine("P : Modifier le pseudo");
                 Console.WriteLine("H : AIDE");
                 Console.WriteLine("Pour quitter, cliquez sur ESC");
+                Console.WriteLine("Pour quitter, appuyez sur ESC");
                 if (Argent > 0.00)
                     Console.WriteLine(Environment.NewLine + "Votre solde : " + Argent + " Coins");
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
@@ -100,9 +101,9 @@ namespace LORENZ
                 else if (saisie.Key == ConsoleKey.Enter)
                 {
                     /* La gestion de la touche ENTRÉE est gardée pour permettre une meilleure transition
-                     * vers la touche ESC */
+                     * vers la touche ESC auprès des anciens utilisateurs */
                     Console.Clear();
-                    Display.PrintMessage("Pour quitter, cliquez sur ESC.", MessageState.Warning, resetColors: true);
+                    Display.PrintMessage("Pour quitter, appuyez sur ESC.", MessageState.Warning, resetColors: true);
                     continue;
                 }
                 else
@@ -205,8 +206,9 @@ namespace LORENZ
             while (true)
             {
                 Console.WriteLine("Écrivez le texte à chiffrer : ");
-                Console.WriteLine("Pour annuler, cliquez ENTRÉE sans rien écrire.");
-                Console.WriteLine("Pour terminer le message, enfoncez CTRL + D et cliquez sur ENTRÉE.");
+                Display.PrintMessage("AVIS : Vous pouvez écrire sur plusieurs lignes !", MessageState.Warning);
+                Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
+                Console.WriteLine("Pour terminer le message, enfoncez CTRL + D et appuyez sur ENTRÉE.");
                 while (LigneMessage.Length == 0 || !LigneMessage.EndsWith('\x04'))
                 {
                     LigneMessage = Console.ReadLine();
@@ -268,7 +270,7 @@ namespace LORENZ
             Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Entrez le texte à déchiffrer :");
-            Console.WriteLine("Pour annuler, cliquez ENTRÉE sans rien écrire.");
+            Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
             try
             {
                 while (true)
@@ -376,7 +378,7 @@ namespace LORENZ
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Entrez un texte valide à déchiffrer.");
             Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
-            Console.WriteLine("Pour annuler, cliquez ENTRÉE sans rien écrire :");
+            Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire :");
         }
 
         static string TestCipher(string MessageToTest)

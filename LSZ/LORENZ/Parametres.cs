@@ -123,7 +123,7 @@ namespace LORENZ
                         Display.PrintMessage("   puis, suivez les instructions qui s'afficheront.", MessageState.Info);
                         Display.PrintMessage($"3. Insérez le fichier \"{ProductKeyFile}\" fourni par votre distributeur LORENZ", MessageState.Info);
                         Display.PrintMessage("   dans le dossier du programme (c.-à-d. \"LORENZSZ\").", MessageState.Info);
-                        Display.PrintMessage("4. Cliquez sur n'importe quelle touche et nous vérifierons le reste.\n", MessageState.Info);
+                        Display.PrintMessage("4. Appuyez sur n'importe quelle touche et nous vérifierons le reste.\n", MessageState.Info);
                         Display.PrintMessage("NOTA : Si %lorenzpath% ne fonctionne pas, redémarrez votre ordinateur, puis réessayez.\n", MessageState.Warning);
                         Display.PrintMessage("Appuyez sur ESC pour quitter.", MessageState.Info);
                     }
