@@ -158,7 +158,10 @@ namespace LORENZ
                 //--Inversion du GK
                 case 1:
                     for (int c = generalKey.Length - 1; c >= 0; c--)
+                    {
                         resultKey += generalKey[c];
+                    }
+
                     break;
                 //--Division du GK en deux parties inversées
                 case 2:

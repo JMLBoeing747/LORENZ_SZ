@@ -53,7 +53,7 @@ namespace LORENZ
                 }
                 Console.WriteLine("P : Modifier le pseudo");
                 Console.WriteLine("H : AIDE");
-                Console.WriteLine("Pour quitter, cliquez sur ESC");
+                Console.WriteLine("\nO : Options\n");
                 Console.WriteLine("Pour quitter, appuyez sur ESC");
                 if (Argent > 0.00)
                     Console.WriteLine(Environment.NewLine + "Votre solde : " + Argent + " Coins");
@@ -94,6 +94,11 @@ namespace LORENZ
                     AfficherAide();
                     continue;
                 }
+                else if (saisie.Key == ConsoleKey.O)
+                {
+                    MenuOptions();
+                    continue;
+                }
                 else if (saisie.Key == ConsoleKey.Escape)
                 {
                     break;
@@ -109,9 +114,7 @@ namespace LORENZ
                 else
                 {
                     Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Ceci n'est pas une option valide.");
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Display.PrintMessage("Ceci n'est pas une option valide.", MessageState.Failure);
                     continue;
                 }
 
@@ -395,6 +398,37 @@ namespace LORENZ
                 return null;
             }
             return MessageToTest;
+        }
+
+        static void MenuOptions()
+        {
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("===== Options de chiffrement =====\n");
+                Console.WriteLine("T : Disposition de la table de transcription");
+                Console.WriteLine("S : Disposition de la table secrète");
+                Console.WriteLine("\nAppuyez sur ESC pour retourner");
+                ConsoleKeyInfo saisie = Console.ReadKey(true);
+                if (saisie.Key == ConsoleKey.Escape)
+                {
+                    Console.Clear();
+                    break;
+                }
+                else if (saisie.Key == ConsoleKey.T)
+                {
+                    Console.Clear();
+                }
+                else if (saisie.Key == ConsoleKey.S)
+                {
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.Clear();
+                    Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                }
+            }
         }
     }
 }
