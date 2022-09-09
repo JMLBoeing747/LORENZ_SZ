@@ -28,7 +28,7 @@ namespace LORENZ
             
             if (Parametres.CipherFileDirectory == null)
             {
-                InitCipherFileDirectory();
+                SetCipherFileDirectory(true);
             }
 
             if (!Directory.Exists(Parametres.CipherFileDirectory))
@@ -39,16 +39,34 @@ namespace LORENZ
             File.WriteAllText(Parametres.CipherFileDirectory + NomFichierChiffrement, msgChiffre);
         }
 
-        private static void InitCipherFileDirectory()
+        public static bool SetCipherFileDirectory(bool cancelDenied = false)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             while (true)
             {
-                Display.PrintMessage("Spécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :\n", MessageState.Warning);
+                Console.WriteLine("Spécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :");
+                if (!cancelDenied)
+                {
+                    Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour annuler.", MessageState.Warning);
+                }
+                
+                Console.WriteLine();
+                
+                if (Parametres.CipherFileDirectory != null)
+                {
+                    Console.WriteLine("Répertoire actuel : " + Parametres.CipherFileDirectory);
+                }
+
                 Console.Write(">>> ");
                 string dirPath = Console.ReadLine();
+                if (dirPath == "")
+                {
+                    return false;
+                }
+
                 try
                 {
-                    DirectoryInfo dinfo = new DirectoryInfo(dirPath);
+                    DirectoryInfo dinfo = new(dirPath);
                     if (!dinfo.ToString().EndsWith('\\'))
                     {
                         Parametres.CipherFileDirectory = dinfo.FullName + "\\";
@@ -57,7 +75,7 @@ namespace LORENZ
                     {
                         Parametres.CipherFileDirectory = dinfo.FullName;
                     }
-                    Display.PrintMessage("Répertoire spécifié : " + dinfo.FullName);
+                    Display.PrintMessage("Répertoire spécifié : " + Parametres.CipherFileDirectory);
                     Parametres.WriteGeneralParamsFile();
                     break;
                 }
@@ -80,6 +98,8 @@ namespace LORENZ
                     Display.PrintMessage("Chemin d'accès invalide.", MessageState.Failure);
                 }
             }
+
+            return true;
         }
     }
 }

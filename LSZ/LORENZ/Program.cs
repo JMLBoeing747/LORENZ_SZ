@@ -5,8 +5,7 @@ namespace LORENZ
 {
     class Program
     {
-        public static string VersionNumber { get => "3.0.0-alpha"; }
-        private static bool ShowSenderBeginState { get; set; }
+        public static string VersionNumber => "3.0.0-alpha";
         private static bool CancelOperation { get; set; }
 
         public static void Main()
@@ -27,7 +26,6 @@ namespace LORENZ
         {
             Display.PrintMessage("Initialisation des composants...", MessageState.Info);
             Parametres.LireGeneralParamsFile();
-            ShowSenderBeginState = Parametres.ShowPseudoNameSender;
             double Argent = Jeux.ReadCoinsInfoFile();
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -52,8 +50,16 @@ namespace LORENZ
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
                 Console.WriteLine("P : Modifier le pseudo");
+                if (Parametres.CipherFileDirectory != null)
+                {
+                    Console.WriteLine("R : Modifier le répertoire des chiffrements");
+                }
+                else
+                {
+                    Display.PrintMessage("R : Spécifier le répertoire des chiffrements", MessageState.Warning);
+                }
                 Console.WriteLine("H : AIDE");
-                Console.WriteLine("\nO : Options\n");
+                Console.WriteLine("\nO : Options de chiffrement\n");
                 Console.WriteLine("Pour quitter, appuyez sur ESC");
                 if (Argent > 0.00)
                     Console.WriteLine(Environment.NewLine + "Votre solde : " + Argent + " Coins");
@@ -76,6 +82,7 @@ namespace LORENZ
                 else if (saisie.Key == ConsoleKey.S)
                 {
                     Parametres.ShowPseudoNameSender = !Parametres.ShowPseudoNameSender;
+                    Parametres.WriteGeneralParamsFile();
                     Console.Clear();
                     if (Parametres.ShowPseudoNameSender)
                         Display.PrintMessage("EXPÉDITEUR AFFICHÉ", MessageState.Warning);
@@ -88,6 +95,11 @@ namespace LORENZ
                     ChangerLePseudo();
                     Console.Clear();
                     continue;
+                }
+                else if (saisie.Key == ConsoleKey.R)
+                {
+                    Console.Clear();
+                    CancelOperation = !Extensions.SetCipherFileDirectory();
                 }
                 else if (saisie.Key == ConsoleKey.H)
                 {
@@ -123,12 +135,12 @@ namespace LORENZ
                     Console.WriteLine(Environment.NewLine + "Press any key to continue...");
                     Console.ReadKey(true);
                 }
+                
                 CancelOperation = false;
                 Console.Clear();
             }
+            
             Display.PrintMessage("Fermeture en cours...", MessageState.Info);
-            if (ShowSenderBeginState != Parametres.ShowPseudoNameSender)
-                Parametres.WriteGeneralParamsFile();
         }
 
         private static void AfficherLID()
