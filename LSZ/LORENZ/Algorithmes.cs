@@ -141,13 +141,19 @@ namespace LORENZ
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
             string strConcat = default;
-            for (int str = 0; str < strBufferTb.Length; str++)
+            for (int strInt = 0; strInt < strBufferTb.Length; strInt++)
             {
-                if (strBufferTb[str].ToUpper().StartsWith("SENDER:"))
-                    RemoveArrayItem(ref strBufferTb, str);
-                if (str >= strBufferTb.Length)
+                if (strBufferTb[strInt].ToUpper().StartsWith("SENDER:"))
+                {
+                    RemoveArrayItem(ref strBufferTb, strInt);
+                    strInt--;
+                    continue;
+                }
+                if (strInt == strBufferTb.Length)
+                {
                     break;
-                strConcat += strBufferTb[str] + CmdSeperator;
+            }
+                strConcat += strBufferTb[strInt] + CmdSeperator;
             }
             return strConcat;
         }
