@@ -47,8 +47,10 @@ namespace LORENZ
                     Console.WriteLine("S : Afficher l'expéditeur");
                 else
                 {
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("S : Masquer l'expéditeur");
+                    Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
                 Console.WriteLine("P : Modifier le pseudo");
@@ -347,6 +349,9 @@ namespace LORENZ
                             Console.WriteLine(Algorithmes.SenderPseudoName + " : " + MessageDechiffreComplet);
                         else
                             Console.WriteLine(MessageDechiffreComplet);
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("=== FIN ===");
+                        Console.ResetColor();
                     }
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     return;
