@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Cryptography;
 
@@ -20,6 +21,7 @@ namespace LORENZ
         public static string PseudoName { get; set; } = Environment.UserName;
 
         public static string LID { get; set; }
+        public static string CipherFileDirectory { get; set; }
 
         public static void VerifierParametres()
         {
@@ -240,6 +242,9 @@ namespace LORENZ
                     case "PSEUDONAME":
                         PseudoName = parameter[1];
                         break;
+                    case "CIPHERFILEDIR":
+                        CipherFileDirectory = parameter[1];
+                        break;
                     default:
                         break;
                 }
@@ -248,15 +253,22 @@ namespace LORENZ
 
         public static void WriteGeneralParamsFile()
         {
-            string[] parameters;
-            if (PseudoName == Environment.UserName)
-                parameters = new string[1];
-            else
+            // Premier élément à insérer
+            List<string> parameters = new()
             {
-                parameters = new string[2];
-                parameters[1] = "PSEUDONAME=" + PseudoName;
+                "SHOWSENDER=" + ShowPseudoNameSender
+            };
+
+            if (PseudoName != Environment.UserName)
+            {
+                parameters.Add("PSEUDONAME=" + PseudoName);
             }
-            parameters[0] = "SHOWSENDER=" + ShowPseudoNameSender;
+            
+            if (CipherFileDirectory != null)
+            {
+                parameters.Add("CIPHERFILEDIR=" + CipherFileDirectory);
+            }
+            
             File.WriteAllLines(GeneralParamsFile, parameters);
         }
     }

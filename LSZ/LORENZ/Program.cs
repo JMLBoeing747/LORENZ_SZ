@@ -36,8 +36,6 @@ namespace LORENZ
             {
                 Extensions.Configuration();
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                if (CancelOperation)
-                    CancelOperation = false;
                 Console.WriteLine("Choisir une option :");
                 Console.WriteLine("1 : Chiffrement");
                 Console.WriteLine("2 : Déchiffrement");
@@ -125,6 +123,7 @@ namespace LORENZ
                     Console.WriteLine(Environment.NewLine + "Press any key to continue...");
                     Console.ReadKey(true);
                 }
+                CancelOperation = false;
                 Console.Clear();
             }
             Display.PrintMessage("Fermeture en cours...", MessageState.Info);
@@ -195,7 +194,8 @@ namespace LORENZ
         {
             Console.Clear();
             Console.WriteLine("Preparation...");
-            //Génération du GK et de la TableCode correspondante
+            
+            // Génération du GK et de la TableCode correspondante
             string StrGeneralKey = Algorithmes.GeneratorGK();
             string[,] TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
             while (TheTableCode == null)
@@ -203,7 +203,8 @@ namespace LORENZ
                 StrGeneralKey = Algorithmes.GeneratorGK();
                 TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
             }
-            //Demande d'écriture du message
+            
+            // Demande d'écriture du message
             Console.Clear();
             string MessageOriginal = "";
             string LigneMessage = "";
@@ -211,7 +212,7 @@ namespace LORENZ
             while (true)
             {
                 Console.WriteLine("Écrivez le texte à chiffrer : ");
-                Display.PrintMessage("AVIS : Vous pouvez écrire sur plusieurs lignes !", MessageState.Warning);
+                Display.PrintMessage("AVIS : Vous pouvez écrire plusieurs paragraphes !", MessageState.Warning);
                 Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
                 Console.WriteLine("Pour terminer le message, enfoncez CTRL + D et appuyez sur ENTRÉE.");
                 while (LigneMessage.Length == 0 || !LigneMessage.EndsWith('\x04'))
@@ -248,6 +249,20 @@ namespace LORENZ
             {
                 string MessageChiffre = Algorithmes.Chiffrement(MessageOriginal, StrGeneralKey, TheTableCode);
                 string VraiMessageChiffre = Algorithmes.SecondChiffrement(MessageChiffre);
+                if (VraiMessageChiffre.Length > 4094)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
+                    Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
+                        "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
+                    
+                    Extensions.EcrireChiffrementLong(VraiMessageChiffre);
+                    Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    return;
+                }
+                
+                
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Le message chiffré :");
                 Console.WriteLine(VraiMessageChiffre);
