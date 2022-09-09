@@ -7,8 +7,11 @@ namespace LORENZ
 {
     public static class Algorithmes
     {
-        public static string ToUIDPrivateMeg { get; set; } = Parametres.LID;
-        public static bool IsPrivateMessage { get; set; } = false;
+        public static bool IsPrivateMessage { get; set; }
+        public static string ThePrivateReceiverLID { get; set; } = "";
+        public static bool IsThePrivateReceiver => ThePrivateReceiverLID == Parametres.LID || !IsPrivateMessage;
+        public static string ThePrivateSenderLID { get; set; } = "";
+        public static bool IsThePrivateSender => ThePrivateSenderLID == Parametres.LID || !IsPrivateMessage;
         public static string SenderPseudoName { get; set; }
         public static string CmdSeperator { get => "/*/"; }
         public static bool IsGoodCheckSum { get; set; }
@@ -137,7 +140,7 @@ namespace LORENZ
             return false;
         }
 
-        static string CheckControlSender(string s)
+        static string CheckControlSenderPriv(string s)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
             string strConcat = default;
@@ -149,6 +152,11 @@ namespace LORENZ
                     strInt--;
                     continue;
                 }
+                else if (strBufferTb[strInt].ToUpper().StartsWith("PRIV:"))
+                {
+                    strConcat += "FROM:" + Parametres.LID + CmdSeperator;
+                }
+
                 if (strInt == strBufferTb.Length)
                 {
                     break;
@@ -210,7 +218,7 @@ namespace LORENZ
         public static string Chiffrement(string TheMessage, string generalKey, string[,] ATableCode)
         {
             //-----Partie 1 du premier chiffrement
-            TheMessage = CheckControlSender(TheMessage);
+            TheMessage = CheckControlSenderPriv(TheMessage);
             TheMessage = CmdSeperator + "SENDER:" + Parametres.PseudoName + CmdSeperator + TheMessage;
             string TheEncryptedMessage = null;
             for (int c = 0; c < TheMessage.Length; c++)
@@ -359,10 +367,15 @@ namespace LORENZ
             }
             else if (s.ToUpper().Contains("SHOW:"))
                 return true;
+            else if (s.ToUpper().Contains("FROM:"))
+            {
+                ThePrivateSenderLID = s["FROM:".Length..];
+                return true;
+            }
             else if (s.ToUpper().Contains("PRIV:"))
             {
                 IsPrivateMessage = true;
-                ToUIDPrivateMeg = s["PRIV:".Length..];
+                ThePrivateReceiverLID = s["PRIV:".Length..];
                 return true;
             }
             else if (s.ToUpper().Contains("AFDA:"))

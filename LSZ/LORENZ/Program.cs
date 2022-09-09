@@ -133,7 +133,7 @@ namespace LORENZ
         private static void AfficherLID()
         {
             Console.Clear();
-            Console.WriteLine("Le LID vous permet de vous identifier de façon unique envers tous les utilisateurs LORENZ.");
+            Console.WriteLine("Le LID permet de vous identifier de façon unique envers tous les utilisateurs LORENZ.");
             Console.WriteLine("Vous avez besoin de connaître le LID de votre correspondant si vous désirez lui envoyer un");
             Console.WriteLine("message en privé. Le LID ne peut pas être modifié car il est propre à chaque clé de produit.");
             Console.WriteLine("Voici votre LID de six caractères :\n");
@@ -319,19 +319,28 @@ namespace LORENZ
                     //Déchiffrement second
                     string MessageDechiffreComplet = Algorithmes.DechiffrementSecond(TheTableCode, StrGeneralKey, MessageDechiffre1);
                     Console.ForegroundColor = ConsoleColor.White;
-                    if (Algorithmes.ToUIDPrivateMeg != Parametres.LID)
+                    if (!Algorithmes.IsThePrivateReceiver && !Algorithmes.IsThePrivateSender)
                     {
+                        // Si le message n'est pas destiné au bon utilisateur et que ce n'est pas son auteur
                         Display.PrintMessage("LORENZ WARNING MSG: THIS MESSAGE IS PRIVATELY DESTINATED TO ANOTHER USER", MessageState.Warning);
-                        Algorithmes.ToUIDPrivateMeg = Parametres.LID;
                         Algorithmes.IsPrivateMessage = false;
                     }
                     else
                     {
                         if (!Algorithmes.IsPrivateMessage)
+                        {
                             Console.WriteLine(Environment.NewLine + "Message déchiffré :");
+                        }
                         else
                         {
+                            if (Algorithmes.IsThePrivateReceiver)
+                            {
                             Console.WriteLine(Environment.NewLine + "Message déchiffré (EN PRIVÉ):");
+                            }
+                            else
+                            {
+                                Console.WriteLine(Environment.NewLine + "Message déchiffré (PRIVÉ PAR VOUS POUR " + Algorithmes.ThePrivateReceiverLID + "):");
+                            }
                             Algorithmes.IsPrivateMessage = false;
                         }
                         if (Parametres.ShowPseudoNameSender)
