@@ -12,7 +12,7 @@ namespace LORENZ
         {
             return NomFichierChiffrement ?? "";
         }
-        
+
         public static void Configuration()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -25,7 +25,7 @@ namespace LORENZ
         public static void EcrireChiffrementLong(string msgChiffre)
         {
             NomFichierChiffrement = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
-            
+
             if (Parametres.CipherFileDirectory == null)
             {
                 SetCipherFileDirectory(true);
@@ -35,7 +35,7 @@ namespace LORENZ
             {
                 Directory.CreateDirectory(Parametres.CipherFileDirectory);
             }
-            
+
             File.WriteAllText(Parametres.CipherFileDirectory + NomFichierChiffrement, msgChiffre);
         }
 
@@ -49,9 +49,9 @@ namespace LORENZ
                 {
                     Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour annuler.", MessageState.Warning);
                 }
-                
+
                 Console.WriteLine();
-                
+
                 if (Parametres.CipherFileDirectory != null)
                 {
                     Console.WriteLine("Répertoire actuel : " + Parametres.CipherFileDirectory);

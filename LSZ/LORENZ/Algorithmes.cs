@@ -36,7 +36,10 @@ namespace LORENZ
         {
             string StrGeneralKey = null;
             for (int i = 0; i < 32; i++)
+            {
                 StrGeneralKey += Convert.ToString(MessageDecrypted1[i]);
+            }
+
             return StrGeneralKey;
         }
 
@@ -68,10 +71,17 @@ namespace LORENZ
             //Vérification des Trans identiques
             bool Identical = HaveIdenticalTransChar(TransChar);
             if (Identical)
+            {
                 TableCode = null;
+            }
             else
+            {
                 for (int i = 0; i < MAX_CHAR_TABLE - MIN_CHAR_TABLE; i++)
+                {
                     TableCode[1, i] = TransChar[i];
+                }
+            }
+
             return TableCode;
         }
 
@@ -146,9 +156,16 @@ namespace LORENZ
         private static bool HaveIdenticalTransChar(string[] ATable)
         {
             for (int c = 0; c < ATable.Length; c++)
+            {
                 for (int i = c + 1; i < ATable.Length; i++)
+                {
                     if (ATable[c] == ATable[i])
+                    {
                         return true;
+                    }
+                }
+            }
+
             return false;
         }
 
@@ -172,7 +189,7 @@ namespace LORENZ
                 if (strInt == strBufferTb.Length)
                 {
                     break;
-            }
+                }
                 strConcat += strBufferTb[strInt] + CmdSeperator;
             }
             return strConcat;
@@ -206,15 +223,25 @@ namespace LORENZ
                 for (int j = 0; j < resultKey.Length; j++)
                 {
                     if (count == messageWithoutGK.Length)
+                    {
                         break;
+                    }
+
                     int valueGK = int.Parse(resultKey[j].ToString());
                     int valueMsg = int.Parse(messageWithoutGK[count].ToString());
                     if (isCiphering)
+                    {
                         NewMessage += (valueMsg + valueGK) % 10;
+                    }
                     else
+                    {
                         NewMessage += (valueMsg - valueGK + 10) % 10;
+                    }
+
                     if (j + 1 != resultKey.Length)
+                    {
                         count++;
+                    }
                 }
             }
             messageWithoutGK = NewMessage;
@@ -266,12 +293,17 @@ namespace LORENZ
             //Le second chiffrement
             string TheSecondEncryptedMessage = null;
             for (int c = 0; c < CompleteFirstEncryptedMessage.Length; c++)
+            {
                 for (int i = 0; i < 10; i++)
+                {
                     if (CompleteFirstEncryptedMessage[c] == SecretTableCode[0, i])
                     {
                         TheSecondEncryptedMessage += SecretTableCode[1, i];
                         break;
                     }
+                }
+            }
+
             return TheSecondEncryptedMessage;
         }
 
@@ -282,7 +314,9 @@ namespace LORENZ
             {
                 MessageSum += Convert.ToInt32(MessageToSum[a]);
                 if (MessageSum > 9999)
+                {
                     MessageSum %= 10000;
+                }
             }
             string TheMSumStr = null;
             if (MessageSum >= 0 && MessageSum < 10)
@@ -320,7 +354,9 @@ namespace LORENZ
                         break;
                     }
                     if (MessageEncrypted2[c] != SecretTableCode[0, i] && i == 9)
+                    {
                         CharError++;
+                    }
                 }
                 if (CharError > 0 && c == MessageEncrypted2.Length - 1)
                 {
@@ -354,8 +390,13 @@ namespace LORENZ
             static bool containsIndex(int indexToFind, int[] array)
             {
                 foreach (int value in array)
+                {
                     if (indexToFind == value)
+                    {
                         return true;
+                    }
+                }
+
                 return false;
             }
 
@@ -364,7 +405,10 @@ namespace LORENZ
             for (int i = 0; i < bufferArray.Length; i++)
             {
                 if (containsIndex(i, indexes))
+                {
                     shift++;
+                }
+
                 bufferArray[i] = array[i + shift];
             }
             array = bufferArray;
@@ -378,7 +422,9 @@ namespace LORENZ
                 return true;
             }
             else if (s.ToUpper().Contains("SHOW:"))
+            {
                 return true;
+            }
             else if (s.ToUpper().Contains("FROM:"))
             {
                 ThePrivateSenderLID = s["FROM:".Length..];
@@ -399,7 +445,10 @@ namespace LORENZ
                 }
                 return true;
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
 
         static string CheckControlAndFinalize(string s)
@@ -409,9 +458,15 @@ namespace LORENZ
             for (int str = 0; str < strBufferTb.Length; str++)
             {
                 while (str < strBufferTb.Length && IsControlCmd(strBufferTb[str]))
+                {
                     RemoveArrayItem(ref strBufferTb, str);
+                }
+
                 if (str >= strBufferTb.Length)
+                {
                     break;
+                }
+
                 strConcat += strBufferTb[str];
             }
             return strConcat;
@@ -516,7 +571,7 @@ namespace LORENZ
                     Console.SetCursorPosition(curLeftInitial, curTopInitial);
                     continue;
                 }
-                
+
                 int digitInt = (int)digit.Key;
 
                 if (digitInt is >= 48 and <= 57)        // chiffres du pavé standard

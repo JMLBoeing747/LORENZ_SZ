@@ -40,7 +40,9 @@ namespace LORENZ
                 Console.WriteLine("L : LID");
                 Console.WriteLine("J : Jeu");
                 if (!Parametres.ShowPseudoNameSender)
+                {
                     Console.WriteLine("S : Afficher l'expéditeur");
+                }
                 else
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
@@ -62,15 +64,24 @@ namespace LORENZ
                 Console.WriteLine("\nO : Options de chiffrement\n");
                 Console.WriteLine("Pour quitter, appuyez sur ESC");
                 if (Argent > 0.00)
+                {
                     Console.WriteLine(Environment.NewLine + "Votre solde : " + Argent + " Coins");
+                }
+
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
 
                 if ((int)saisie.Key == 49 || (int)saisie.Key == 97)
+                {
                     ChiffrerLeMessage();
+                }
                 else if ((int)saisie.Key == 50 || (int)saisie.Key == 98)
+                {
                     DechiffrerLeMessage();
+                }
                 else if (saisie.Key == ConsoleKey.L)
+                {
                     AfficherLID();
+                }
                 else if (saisie.Key == ConsoleKey.J)
                 {
                     double NewArgent = Jeux.TheGame(Argent);
@@ -85,9 +96,14 @@ namespace LORENZ
                     Parametres.WriteGeneralParamsFile();
                     Console.Clear();
                     if (Parametres.ShowPseudoNameSender)
+                    {
                         Display.PrintMessage("EXPÉDITEUR AFFICHÉ", MessageState.Warning);
+                    }
                     else
+                    {
                         Display.PrintMessage("EXPÉDITEUR MASQUÉ", MessageState.Warning);
+                    }
+
                     continue;
                 }
                 else if (saisie.Key == ConsoleKey.P)
@@ -135,11 +151,11 @@ namespace LORENZ
                     Console.WriteLine(Environment.NewLine + "Press any key to continue...");
                     Console.ReadKey(true);
                 }
-                
+
                 CancelOperation = false;
                 Console.Clear();
             }
-            
+
             Display.PrintMessage("Fermeture en cours...", MessageState.Info);
         }
 
@@ -166,9 +182,13 @@ namespace LORENZ
             Console.Write("Nouveau >>> ");
             string newPseudo = Console.ReadLine();
             if (newPseudo == "")
+            {
                 return;
+            }
             else if (newPseudo == Parametres.PseudoName)
+            {
                 Display.PrintMessage("Pseudo identique au précédent. Aucun changement à faire.", MessageState.Warning);
+            }
             else if (newPseudo == Environment.UserName || newPseudo.ToUpper() == "$DEFAULT")
             {
                 Parametres.PseudoName = Environment.UserName;
@@ -190,8 +210,14 @@ namespace LORENZ
             try
             {
                 if (System.IO.File.Exists(Parametres.HelpFilePath))
+                {
                     System.Diagnostics.Process.Start("hh.exe", Parametres.HelpFilePath);
-                else throw new System.ComponentModel.Win32Exception();
+                }
+                else
+                {
+                    throw new System.ComponentModel.Win32Exception();
+                }
+
                 Console.Clear();
                 Display.PrintMessage("OUVERTURE DU FICHIER D'AIDE", MessageState.Success);
             }
@@ -206,7 +232,7 @@ namespace LORENZ
         {
             Console.Clear();
             Console.WriteLine("Preparation...");
-            
+
             // Génération du GK et de la TableCode correspondante
             string StrGeneralKey = Algorithmes.GeneratorGK();
             string[,] TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
@@ -215,7 +241,7 @@ namespace LORENZ
                 StrGeneralKey = Algorithmes.GeneratorGK();
                 TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
             }
-            
+
             // Demande d'écriture du message
             Console.Clear();
             string MessageOriginal = "";
@@ -267,29 +293,36 @@ namespace LORENZ
                     Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
                     Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
                         "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
-                    
+
                     Extensions.EcrireChiffrementLong(VraiMessageChiffre);
                     Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     return;
                 }
-                
-                
+
+
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Le message chiffré :");
                 Console.WriteLine(VraiMessageChiffre);
                 Console.ForegroundColor = ConsoleColor.Cyan;
             }
             else
+            {
                 CancelOperation = true;
+            }
         }
 
         static bool IfOnlySpaces(string Message)
         {
             int Spaces = 0;
             for (int c = 0; c < Message.Length; c++)
+            {
                 if (Message[c] == ' ')
+                {
                     Spaces++;
+                }
+            }
+
             return Spaces == Message.Length;
         }
 
@@ -364,7 +397,7 @@ namespace LORENZ
                         {
                             if (Algorithmes.IsThePrivateReceiver)
                             {
-                            Console.WriteLine(Environment.NewLine + "Message déchiffré (EN PRIVÉ):");
+                                Console.WriteLine(Environment.NewLine + "Message déchiffré (EN PRIVÉ):");
                             }
                             else
                             {
@@ -373,9 +406,14 @@ namespace LORENZ
                             Algorithmes.IsPrivateMessage = false;
                         }
                         if (Parametres.ShowPseudoNameSender)
+                        {
                             Console.WriteLine(Algorithmes.SenderPseudoName + " : " + MessageDechiffreComplet);
+                        }
                         else
+                        {
                             Console.WriteLine(MessageDechiffreComplet);
+                        }
+
                         Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.WriteLine("=== FIN ===");
                         Console.ResetColor();
@@ -387,7 +425,10 @@ namespace LORENZ
             catch (LORENZException le)
             {
                 if (le.Err == ErrorCode.E0x00)
+                {
                     throw new LORENZException(ErrorCode.E0x00, false);
+                }
+
                 CancelOperation = true;
                 return;
             }
@@ -403,15 +444,23 @@ namespace LORENZ
                 messageConcat += messagePart;
             }
             if (messageConcat == "")
+            {
                 throw new LORENZException(ErrorCode.E0xFFF, false);
+            }
+
             return messageConcat;
         }
 
         public static bool HaveSpaces(string Message)
         {
             for (int c = 0; c < Message.Length; c++)
+            {
                 if (Convert.ToString(Message[c]) == " ")
+                {
                     return true;
+                }
+            }
+
             return false;
         }
 
