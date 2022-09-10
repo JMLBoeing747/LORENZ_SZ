@@ -458,7 +458,8 @@ namespace LORENZ
                 }
                 else if (saisie.Key == ConsoleKey.T)
                 {
-                    // SetTransTable();
+                    Algorithmes.SetTransTable();
+                    Console.Clear();
                 }
                 else if (saisie.Key == ConsoleKey.S)
                 {

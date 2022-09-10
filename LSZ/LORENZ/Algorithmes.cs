@@ -15,6 +15,7 @@ namespace LORENZ
         public static string SenderPseudoName { get; set; }
         public static string CmdSeperator { get => "/*/"; }
         public static bool IsGoodCheckSum { get; set; }
+        private static string TransTableRoot { get; set; } = "1234";
         private static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
 
         private const int MIN_CHAR_TABLE = 32;
@@ -76,37 +77,48 @@ namespace LORENZ
 
         private static string[] GenerateTranscriptionTable(string TheGK)
         {
-            //Génération des string divisant le GK en 4
+            // Développement de la racine
+            bool chainBool1 = int.TryParse(TransTableRoot[0].ToString(), out int chain1);
+            bool chainBool2 = int.TryParse(TransTableRoot[0].ToString(), out int chain2);
+            bool chainBool3 = int.TryParse(TransTableRoot[0].ToString(), out int chain3);
+            bool chainBool4 = int.TryParse(TransTableRoot[0].ToString(), out int chain4);
+
+            if (!chainBool1 || !chainBool2 || !chainBool3 || !chainBool4)
+            {
+                throw new LORENZException("Parsing int failed.");
+            }
+
+            // Génération des string divisant le GK en 4
             string GK1 = TheGK[..8];
             string GK2 = TheGK.Substring(8, 8);
             string GK3 = TheGK.Substring(16, 8);
             string GK4 = TheGK.Substring(24, 8);
 
-            //Création des colonnes de TRANS
-            //Colonne 1
+            // Création des colonnes de TRANS
+            // Colonne 1
             string[] Colonne1 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne1, false, 1, 0, 64, GK1);
+            GeneratorOfColumns(ref Colonne1, false, chain1, 0, 64, GK1);
             GeneratorOfColumns(ref Colonne1, false, Convert.ToInt32(Colonne1[63]), 64, 96, GK2);
             GeneratorOfColumns(ref Colonne1, true, Convert.ToInt32(Colonne1[95]), 96, 160, GK4);
             GeneratorOfColumns(ref Colonne1, true, Convert.ToInt32(Colonne1[159]), 160, 224, GK3);
 
-            //Colonne 2
+            // Colonne 2
             string[] Colonne2 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne2, true, 2, 0, 64, GK2);
+            GeneratorOfColumns(ref Colonne2, true, chain2, 0, 64, GK2);
             GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[63]), 64, 96, GK1);
             GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[95]), 96, 160, GK3);
             GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[159]), 160, 224, GK4);
 
-            //Colonne 3
+            // Colonne 3
             string[] Colonne3 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne3, false, 3, 0, 64, GK3);
+            GeneratorOfColumns(ref Colonne3, false, chain3, 0, 64, GK3);
             GeneratorOfColumns(ref Colonne3, true, Convert.ToInt32(Colonne3[63]), 64, 96, GK4);
             GeneratorOfColumns(ref Colonne3, true, Convert.ToInt32(Colonne3[95]), 96, 160, GK2);
             GeneratorOfColumns(ref Colonne3, false, Convert.ToInt32(Colonne3[159]), 160, 224, GK1);
 
-            //Colonne 4
+            // Colonne 4
             string[] Colonne4 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne4, true, 4, 0, 64, GK4);
+            GeneratorOfColumns(ref Colonne4, true, chain4, 0, 64, GK4);
             GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[63]), 64, 96, GK3);
             GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[95]), 96, 160, GK1);
             GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[159]), 160, 224, GK2);
@@ -461,6 +473,83 @@ namespace LORENZ
             return SecretTC;
         }
 
+        public static void SetTransTable()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("ATTENTION ! Modifier la racine de la table de transcriptions sans avoir aucune");
+            Console.WriteLine("connaissance approfondie du principe de chiffrement peut causer de sérieux problèmes auprès");
+            Console.WriteLine("de vos correspondants, notamment au moment de la transmission.");
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Il est primordial d'informer ces derniers de toute modification sur la disposition des");
+            Console.WriteLine("tables de chiffrement avant de transmettre tout nouveau message.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Display.PrintMessage("Pour poursuivre, appuyez sur F10.\nAppuyez sur n'importe quelle autre touche pour annuler.",
+                                 MessageState.Warning);
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            if (keyInfo.Key != ConsoleKey.F10)
+            {
+                return;
+            }
+
+            Console.CursorTop = 5;      // Pour effacer les lignes indiquant d'appuyer sur F12.
+            Console.WriteLine("\nInscrivez la nouvelle racine composée de 4 chiffres décimaux (0-9).");
+            Console.WriteLine("Pour annuler l'opération, appuyez sur ESC.             \n");
+            Console.WriteLine("Racine actuelle de la TT : " + TransTableRoot);
+            Console.Write("Nouvelle racine : ");
+
+            string rootTemp = "";
+            while (true)
+            {
+                int curTopInitial = Console.CursorTop;
+                int curLeftInitial = Console.CursorLeft;
+
+                ConsoleKeyInfo digit = Console.ReadKey();
+                if (digit.Key == ConsoleKey.Escape)
+                {
+                    return;
+                }
+                else if (digit.Key == ConsoleKey.Enter)
+                {
+                    Console.SetCursorPosition(curLeftInitial, curTopInitial);
+                    continue;
+                }
+                
+                int digitInt = (int)digit.Key;
+
+                if (digitInt is >= 48 and <= 57)        // chiffres du pavé standard
+                {
+                    rootTemp += (digitInt - 48).ToString();
+                    Console.Write("-");
+                }
+                else if (digitInt is >= 96 and <= 105)  // chiffres du pavé numérique
+                {
+                    rootTemp += (digitInt - 96).ToString();
+                    Console.Write("-");
+                }
+                else
+                {
+                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    Console.Write(' ');
+                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                }
+
+                if (rootTemp.Length == 4)
+                {
+                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    Console.WriteLine(' ');
+                    break;
+                }
+            }
+
+            TransTableRoot = rootTemp;
+            Console.WriteLine("Nouvelle racine : " + TransTableRoot);
+            Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
+            Console.ReadKey(true);
+        }
+
         public static void SetSecretTable()
         {
             Console.Clear();
@@ -479,12 +568,14 @@ namespace LORENZ
 
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             if (keyInfo.Key != ConsoleKey.F12)
+            {
                 return;
+            }
 
             Console.CursorTop = 5;      // Pour effacer les lignes indiquant d'appuyer sur F12.
-            Console.WriteLine("\nInscrivez la nouvelle disposition sour la forme d'une chaine de 10 caractères uniques.");
+            Console.WriteLine("\nInscrivez la nouvelle disposition sous la forme d'une chaine de 10 caractères uniques.");
             Console.WriteLine("Pour annuler l'opération, appuyez sur ENTRÉE sans rien écrire.\n");
-            Console.WriteLine("Disposition actuelle de la TS : " + Algorithmes.BaseSecretCode);
+            Console.WriteLine("Disposition actuelle de la TS : " + BaseSecretCode);
             while (true)
             {
                 Console.Write("Nouvelle disposition : ");
@@ -516,8 +607,8 @@ namespace LORENZ
 
                         if (!sameChars)
                         {
-                            Algorithmes.BaseSecretCode = newSTSet.ToUpper();
-                            Display.PrintMessage("Nouvelle disposition : " + Algorithmes.BaseSecretCode, MessageState.Success);
+                            BaseSecretCode = newSTSet.ToUpper();
+                            Display.PrintMessage("Nouvelle disposition : " + BaseSecretCode, MessageState.Success);
                             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
                             Console.ReadKey(true);
                             break;
