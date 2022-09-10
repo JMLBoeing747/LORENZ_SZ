@@ -252,7 +252,7 @@ namespace LORENZ
                 Console.WriteLine("Écrivez le texte à chiffrer : ");
                 Display.PrintMessage("AVIS : Vous pouvez écrire plusieurs paragraphes !", MessageState.Warning);
                 Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
-                Console.WriteLine("Pour terminer le message, enfoncez CTRL + D et appuyez sur ENTRÉE.");
+                Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D et appuyez sur ENTRÉE.");
                 while (LigneMessage.Length == 0 || !LigneMessage.EndsWith('\x04'))
                 {
                     LigneMessage = Console.ReadLine();
