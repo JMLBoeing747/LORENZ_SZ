@@ -51,7 +51,8 @@ namespace LORENZ
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
-                Console.WriteLine("P : Modifier le pseudo");
+
+                Console.WriteLine("\nP : Modifier le pseudo");
                 if (Parametres.CipherFileDirectory != null)
                 {
                     Console.WriteLine("R : Modifier le répertoire des chiffrements");
@@ -60,8 +61,8 @@ namespace LORENZ
                 {
                     Display.PrintMessage("R : Spécifier le répertoire des chiffrements", MessageState.Warning);
                 }
-                Console.WriteLine("H : AIDE");
-                Console.WriteLine("\nO : Options de chiffrement\n");
+                Console.WriteLine("O : Options de chiffrement");
+                Console.WriteLine("\nF1 : AIDE\n");
                 Console.WriteLine("Pour quitter, appuyez sur ESC");
                 if (Argent > 0.00)
                 {
@@ -70,11 +71,11 @@ namespace LORENZ
 
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
 
-                if ((int)saisie.Key == 49 || (int)saisie.Key == 97)
+                if (saisie.Key == ConsoleKey.D1 || saisie.Key == ConsoleKey.NumPad1)
                 {
                     ChiffrerLeMessage();
                 }
-                else if ((int)saisie.Key == 50 || (int)saisie.Key == 98)
+                else if (saisie.Key == ConsoleKey.D2 || saisie.Key == ConsoleKey.NumPad2)
                 {
                     DechiffrerLeMessage();
                 }
@@ -117,14 +118,14 @@ namespace LORENZ
                     Console.Clear();
                     CancelOperation = !Extensions.SetCipherFileDirectory();
                 }
-                else if (saisie.Key == ConsoleKey.H)
-                {
-                    AfficherAide();
-                    continue;
-                }
                 else if (saisie.Key == ConsoleKey.O)
                 {
                     MenuOptions();
+                    continue;
+                }
+                else if (saisie.Key == ConsoleKey.F1)
+                {
+                    AfficherAide();
                     continue;
                 }
                 else if (saisie.Key == ConsoleKey.Escape)
@@ -252,7 +253,7 @@ namespace LORENZ
                 Console.WriteLine("Écrivez le texte à chiffrer : ");
                 Display.PrintMessage("AVIS : Vous pouvez écrire plusieurs paragraphes !", MessageState.Warning);
                 Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
-                Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D et appuyez sur ENTRÉE.");
+                Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D et sur ENTRÉE.");
                 while (LigneMessage.Length == 0 || !LigneMessage.EndsWith('\x04'))
                 {
                     LigneMessage = Console.ReadLine();
