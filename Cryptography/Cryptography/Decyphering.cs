@@ -14,7 +14,7 @@ namespace Cryptography
         /// <param name="filename">The path to the file to read</param>
         /// <param name="cypheredMessage">An unsigned 32-bits integer array containing the bytes stream</param>
         /// <exception cref="CryptographyException"></exception>
-        public static void ReadCypherIntoFile(string filename, out uint[] cypheredMessage)
+        private static void ReadCypherIntoFile(string filename, out uint[] cypheredMessage)
         {
             cypheredMessage = new uint[2];
             // Reading cypher message for userinfos...
@@ -69,7 +69,7 @@ namespace Cryptography
         /// <param name="tableInput">The array that contains the cyphered message to decypher</param>
         /// <param name="tableOutput">The array that contains the first decyphered message</param>
         /// <exception cref="CryptographyException"></exception>
-        static void CleanUnshiftMessage(uint[] tableInput, out uint[] tableOutput)
+        private static void CleanUnshiftMessage(uint[] tableInput, out uint[] tableOutput)
         {
             byte shift = (byte)(tableInput[0] >> 16);
             uint type = tableInput[1];
@@ -116,7 +116,7 @@ namespace Cryptography
         /// <param name="cypherKey">The array containing the retrived cypher key</param>
         /// <param name="tableOutput">The array containing the cyphered message without the cypher key</param>
         /// <exception cref="CryptographyException"></exception>
-        static void GetCypherKey(uint[] tableInput, out uint[] cypherKey, out uint[] tableOutput)
+        private static void GetCypherKey(uint[] tableInput, out uint[] cypherKey, out uint[] tableOutput)
         {
             cypherKey = new uint[Common.KeyNbrUInt];
             tableOutput = new uint[tableInput.Length - cypherKey.Length];

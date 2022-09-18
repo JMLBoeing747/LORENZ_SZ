@@ -119,7 +119,7 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Inserts multiples unsigned 32-bit integer arrays from an input to form a single one array.
+        /// Inserts multiple unsigned 32-bit integer arrays from an input to form a single one array.
         /// </summary>
         /// <param name="tableInput">The base unsigned 32-bit integer array</param>
         /// <param name="tablesAndIndexToInsert">The arrays to insert into the base array, defined by the <c>tableInput</c> parameter</param>
@@ -183,7 +183,7 @@ namespace Cryptography
         /// Generates the checksum for the cyphered message and includes it in.
         /// </summary>
         /// <param name="messageQBytes">The cyphered message to calculate the checksum and to insert it in</param>
-        public static void GenerateCheckSum(ref uint[] messageQBytes)
+        private static void GenerateCheckSum(ref uint[] messageQBytes)
         {
             uint checkSum = default;
             foreach (uint qb in messageQBytes)
@@ -206,7 +206,7 @@ namespace Cryptography
         /// </summary>
         /// <param name="keyQBytes">The unsigned 32-bit integer array that represent the cypher key used to cypher the message</param>
         /// <param name="messageQBytes">The cyphered message to finalize</param>
-        public static void FinalizeCypherMessage(uint[] keyQBytes, ref uint[] messageQBytes)
+        private static void FinalizeCypherMessage(uint[] keyQBytes, ref uint[] messageQBytes)
         {
             uint[] bufferMessage = new uint[keyQBytes.Length + messageQBytes.Length];
             for (int qb = 0; qb < keyQBytes.Length; qb++)
