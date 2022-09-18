@@ -50,6 +50,7 @@ namespace Cryptography
         /// <summary>
         /// The length of the unsigned 32-bits integer array corresponding to the cypher key values
         /// </summary>
+        /// <exception cref="CryptographyException"></exception>
         public static int KeyNbrUInt
         {
             get
@@ -75,10 +76,15 @@ namespace Cryptography
                 for (int j = 0; j < keyQBytes.Length; j++)
                 {
                     if (i >= messageQBytes.Length)
+                    {
                         break;
+                    }
+
                     messageQBytes[i] = messageQBytes[i] ^ keyQBytes[j];
                     if (j + 1 < keyQBytes.Length)
+                    {
                         i++;
+                    }
                 }
             }
         }
@@ -124,7 +130,9 @@ namespace Cryptography
         public static void NotOperationToKey(ref uint[] keyQBytes)
         {
             for (int qb = 0; qb < keyQBytes.Length; qb++)
+            {
                 keyQBytes[qb] = ~keyQBytes[qb];
+            }
         }
 
         /// <summary>
@@ -141,8 +149,11 @@ namespace Cryptography
                 for (int bit = 0; bit < 32; bit++)
                 {
                     if (keyQBytes[i] - Math.Pow(2, 32 - bit) >= 0)
+                    {
                         keyQBytes[i] = (uint)(keyQBytes[i] - Math.Pow(2, 32 - bit));
-                    buffer += (uint)(keyQBytes[i] >> 31 - bit << bit);
+                    }
+
+                    buffer += keyQBytes[i] >> 31 - bit << bit;
                 }
                 bufferBytes[keyQBytes.Length - 1 - i] = buffer;
             }
@@ -161,35 +172,63 @@ namespace Cryptography
             int columnLength = byteMatrix.GetLength(2);
             byte[,] bufferMatrix2D = new byte[lineLength, columnLength];
             if (frontToBack)
+            {
                 for (int d = 0; d < deepLength - 1; d++)
                 {
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             bufferMatrix2D[l, c] = byteMatrix[d + 1, l, c];
+                        }
+                    }
 
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             byteMatrix[d + 1, l, c] = byteMatrix[d, l, c];
+                        }
+                    }
 
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             byteMatrix[d, l, c] = bufferMatrix2D[l, c];
+                        }
+                    }
                 }
+            }
             else
+            {
                 for (int d = deepLength - 1; d > 0; d--)
                 {
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             bufferMatrix2D[l, c] = byteMatrix[d - 1, l, c];
+                        }
+                    }
 
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             byteMatrix[d - 1, l, c] = byteMatrix[d, l, c];
+                        }
+                    }
 
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             byteMatrix[d, l, c] = bufferMatrix2D[l, c];
+                        }
+                    }
                 }
+            }
         }
 
         /// <summary>
@@ -203,25 +242,43 @@ namespace Cryptography
             int lineLength = byteMatrix.GetLength(1);
             int columnLength = byteMatrix.GetLength(2);
             if (horizontalMirror)
+            {
                 for (int d = 0; d < deepLength; d++)
+                {
                     for (int l = 0; l < lineLength; l++)
                     {
                         byte[] line = new byte[columnLength];
                         for (int c = 0; c < columnLength; c++)
+                        {
                             line[columnLength - 1 - c] = byteMatrix[d, l, c];
+                        }
+
                         for (int c = 0; c < columnLength; c++)
+                        {
                             byteMatrix[d, l, c] = line[c];
+                        }
                     }
+                }
+            }
             else
+            {
                 for (int d = 0; d < deepLength; d++)
+                {
                     for (int c = 0; c < columnLength; c++)
                     {
                         byte[] column = new byte[lineLength];
                         for (int l = 0; l < lineLength; l++)
+                        {
                             column[lineLength - 1 - l] = byteMatrix[d, l, c];
+                        }
+
                         for (int l = 0; l < lineLength; l++)
+                        {
                             byteMatrix[d, l, c] = column[l];
+                        }
                     }
+                }
+            }
         }
 
         /// <summary>
@@ -246,6 +303,7 @@ namespace Cryptography
                         byte bufferElement = byteMatrix[dr, l, c];
                         int crownElementNbr = (lineLength - (crownOrder + 1) * 2) * 4 + 4;
                         if (antiClockwise)
+                        {
                             for (int crownElementIndex = 0; crownElementIndex < crownElementNbr - 1; crownElementIndex++)
                             {
                                 if (c + 1 < columnLength - crownOrder && l == crownOrder)
@@ -269,7 +327,9 @@ namespace Cryptography
                                     l--;
                                 }
                             }
+                        }
                         else
+                        {
                             for (int crownElementIndex = 0; crownElementIndex < crownElementNbr - 1; crownElementIndex++)
                             {
                                 if (l + 1 < lineLength - crownOrder && c == crownOrder)
@@ -293,6 +353,8 @@ namespace Cryptography
                                     c--;
                                 }
                             }
+                        }
+
                         byteMatrix[dr, l, c] = bufferElement;
                     }
                 }
@@ -310,15 +372,31 @@ namespace Cryptography
             int lineLength = byteMatrix.GetLength(1);
             int columnLength = byteMatrix.GetLength(2);
             if (frontToBack)
+            {
                 for (int d = 0; d < deepLength - 1; d++)
+                {
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             byteMatrix[d, l, c] = (byte)(byteMatrix[d, l, c] ^ byteMatrix[d + 1, l, c]);
+                        }
+                    }
+                }
+            }
             else
+            {
                 for (int d = deepLength - 1; d > 0; d--)
+                {
                     for (int l = 0; l < lineLength; l++)
+                    {
                         for (int c = 0; c < columnLength; c++)
+                        {
                             byteMatrix[d - 1, l, c] = (byte)(byteMatrix[d, l, c] ^ byteMatrix[d - 1, l, c]);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -329,7 +407,10 @@ namespace Cryptography
         {
             uint[] bufferTb = new uint[table.Length + 1];
             for (int i = 0; i < table.Length; i++)
+            {
                 bufferTb[i] = table[i];
+            }
+
             table = bufferTb;
         }
     }

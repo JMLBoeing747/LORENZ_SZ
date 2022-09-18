@@ -30,7 +30,10 @@ namespace Cryptography
         public static byte RandomGeneratedNumber(int min = 0, int max = __MAX_UBYTE_VALUE__, params int[] exceptNum)
         {
             if (min < 0 || max > __MAX_UBYTE_VALUE__ || min >= max)
+            {
                 throw new CryptographyException("Incoherent parameters for min or max.");
+            }
+
             bool isExcept = false;
             int result = min - 1;
             while (result < min || result >= max || isExcept)
@@ -40,11 +43,13 @@ namespace Cryptography
                 RandomNumberGenerator.Create().GetBytes(randNumBuffer);
                 result = randNumBuffer[0];
                 foreach (int except in exceptNum)
+                {
                     if (result == except)
                     {
                         isExcept = true;
                         break;
                     }
+                }
             }
             return (byte)result;
         }
@@ -76,7 +81,10 @@ namespace Cryptography
         public static ushort RandomGeneratedNumberDb(int min = 0, int max = __MAX_USHORT_VALUE__, params int[] exceptNum)
         {
             if (min < 0 || max > __MAX_USHORT_VALUE__ || min >= max)
+            {
                 throw new CryptographyException("Incoherent parameters for min or max.");
+            }
+
             bool isExcept = false;
             int result = min - 1;
             while (result < min || result >= max || isExcept)
@@ -86,11 +94,13 @@ namespace Cryptography
                 RandomNumberGenerator.Create().GetBytes(randBytesBuffer);
                 result = (randBytesBuffer[0] << 8) + randBytesBuffer[1];
                 foreach (int except in exceptNum)
+                {
                     if (result == except)
                     {
                         isExcept = true;
                         break;
                     }
+                }
             }
             return (ushort)result;
         }
@@ -102,6 +112,7 @@ namespace Cryptography
         /// <param name="min">The minimum integer value that this random value can have</param>
         /// <param name="max">The maximum exclusive integer value that this random value can have</param>
         /// <param name="exceptNum">A representation of an array of 64-bits integer values that should not take the random values</param>
+        /// <exception cref="CryptographyException"></exception>
         public static void RandomGeneratedNumberQb(ref uint[] tableToFill, long min = 0, long max = __MAX_UINT_VALUE__, params long[] exceptNum)
         {
             for (int qb = 0; qb < tableToFill.Length; qb++)
@@ -121,7 +132,10 @@ namespace Cryptography
         public static uint RandomGeneratedNumberQb(long min = 0, long max = __MAX_UINT_VALUE__, params long[] exceptNum)
         {
             if (min < 0 || max > __MAX_UINT_VALUE__ || min >= max)
+            {
                 throw new CryptographyException("Incoherent parameters for min or max.");
+            }
+
             bool isExcept = false;
             long result = min - 1;
             while (result < min || result >= max || isExcept)
@@ -131,11 +145,13 @@ namespace Cryptography
                 RandomNumberGenerator.Create().GetBytes(randBytesBuffer);
                 result = ((long)randBytesBuffer[0] << 24) + ((long)randBytesBuffer[1] << 16) + ((long)randBytesBuffer[2] << 8) + randBytesBuffer[3];
                 foreach (long except in exceptNum)
+                {
                     if (result == except)
                     {
                         isExcept = true;
                         break;
                     }
+                }
             }
             return (uint)result;
         }

@@ -13,6 +13,7 @@ namespace Cryptography
         /// </summary>
         /// <param name="message">The original message</param>
         /// <returns>A string containing the new scrambled message</returns>
+        /// <exception cref="CryptographyException"></exception>
         public static uint[] CreateScrambledMessage(string message)
         {
             int nbrRandQBytes = new System.Random().Next(80, 120);
@@ -21,7 +22,10 @@ namespace Cryptography
             Random.RandomGeneratedNumberQb(ref randQBytes);
 
             if (message.Length > 135)
+            {
                 throw new CryptographyException("Too long message to cypher");
+            }
+
             uint[] messageFormated = ToUIntArray("%" + message + "%");
             int randomIndexMessage = Random.RandomGeneratedNumber(0, randQBytes.Length);
 
@@ -47,13 +51,19 @@ namespace Cryptography
             uint[] dateTimeFormated = ToUIntArray("%" + DateTime.UtcNow + "%");
             uint[] UIDFormated = null;
             if (UID != null)
+            {
                 UIDFormated = ToUIntArray("%" + "UID:" + UID + "%");
+            }
 
             int nbrRandQBytes;
             if (nbrMaxUIntCypher == default)
+            {
                 nbrRandQBytes = new System.Random().Next(80, 120);
+            }
             else
+            {
                 nbrRandQBytes = nbrMaxUIntCypher - Common.MinUIntMandatoryParamsLength - usernameFormated.Length - computernameFormated.Length - dateTimeFormated.Length - UID.Length;
+            }
 
             uint[] randQBytes = new uint[nbrRandQBytes];
             Random.RandomGeneratedNumberQb(ref randQBytes);
@@ -63,7 +73,9 @@ namespace Cryptography
             int randomIndexDateTime = Random.RandomGeneratedNumber(0, randQBytes.Length, randomIndexUsername, randomIndexComputername);
             int randomIndexPID = -1;
             if (UID != null)
+            {
                 randomIndexPID = Random.RandomGeneratedNumber(0, randQBytes.Length, randomIndexUsername, randomIndexComputername, randomIndexDateTime);
+            }
 
             (int, uint[])[] strToInsert;
             if (randomIndexPID == -1)
@@ -99,7 +111,10 @@ namespace Cryptography
         {
             uint[] tableOfUInt = new uint[s.Length];
             for (int ch = 0; ch < s.Length; ch++)
+            {
                 tableOfUInt[ch] = Convert.ToUInt32(s[ch]);
+            }
+
             return tableOfUInt;
         }
 
@@ -114,8 +129,13 @@ namespace Cryptography
             uint[] tableOfIndex(int index)
             {
                 foreach ((int, uint[]) item in tablesAndIndexToInsert)
+                {
                     if (index == item.Item1)
+                    {
                         return item.Item2;
+                    }
+                }
+
                 return null;
             }
 
@@ -129,13 +149,19 @@ namespace Cryptography
                     for (int qb2 = 0; qb2 < tableFromIndex.Length; qb2++)
                     {
                         if (qb + shift + qb2 == uIntTableBuffer.Length)
+                        {
                             Common.ExtendTable(ref uIntTableBuffer);
+                        }
+
                         uIntTableBuffer[qb + shift + qb2] = tableFromIndex[qb2];
                     }
                     shift += tableFromIndex.Length;
                 }
                 if (qb + shift == uIntTableBuffer.Length)
+                {
                     Common.ExtendTable(ref uIntTableBuffer);
+                }
+
                 uIntTableBuffer[qb + shift] = tableInput[qb];
             }
             return uIntTableBuffer;
@@ -161,10 +187,16 @@ namespace Cryptography
         {
             uint checkSum = default;
             foreach (uint qb in messageQBytes)
+            {
                 checkSum += qb;
+            }
+
             uint[] bufferMessage = new uint[messageQBytes.Length + 1];
             for (int i = 0; i < messageQBytes.Length; i++)
+            {
                 bufferMessage[i] = messageQBytes[i];
+            }
+
             bufferMessage[messageQBytes.Length] = checkSum;
             messageQBytes = bufferMessage;
         }
@@ -178,9 +210,15 @@ namespace Cryptography
         {
             uint[] bufferMessage = new uint[keyQBytes.Length + messageQBytes.Length];
             for (int qb = 0; qb < keyQBytes.Length; qb++)
+            {
                 bufferMessage[qb] = keyQBytes[qb];
+            }
+
             for (int qb = keyQBytes.Length; qb < bufferMessage.Length; qb++)
+            {
                 bufferMessage[qb] = messageQBytes[qb - keyQBytes.Length];
+            }
+
             messageQBytes = bufferMessage;
 
             byte shift = Random.RandomGeneratedNumber(max: (int)(0.75 * messageQBytes.Length));
@@ -188,13 +226,13 @@ namespace Cryptography
             switch (Common.CphrMode)
             {
                 case CypherMode.x1:
-                    type = (uint)((Random.RandomGeneratedNumberQb(1) % (Random.__MAX_UINT_VALUE__ / 3)) * 3);
+                    type = (uint)(Random.RandomGeneratedNumberQb(1) % (Random.__MAX_UINT_VALUE__ / 3) * 3);
                     break;
                 case CypherMode.x2:
-                    type = (uint)((Random.RandomGeneratedNumberQb(1) % (Random.__MAX_UINT_VALUE__ / 3)) * 3 + 1);
+                    type = (uint)(Random.RandomGeneratedNumberQb(1) % (Random.__MAX_UINT_VALUE__ / 3) * 3 + 1);
                     break;
                 case CypherMode.x3:
-                    type = (uint)((Random.RandomGeneratedNumberQb(1) % (Random.__MAX_UINT_VALUE__ / 3)) * 3 + 2);
+                    type = (uint)(Random.RandomGeneratedNumberQb(1) % (Random.__MAX_UINT_VALUE__ / 3) * 3 + 2);
                     break;
                 default:
                     break;
@@ -202,13 +240,19 @@ namespace Cryptography
 
             bufferMessage = new uint[messageQBytes.Length];
             for (int qb = 0; qb < messageQBytes.Length; qb++)
+            {
                 bufferMessage[(qb - shift + messageQBytes.Length) % messageQBytes.Length] = messageQBytes[qb];
+            }
+
             messageQBytes = bufferMessage;
             bufferMessage = new uint[messageQBytes.Length + 2];
             bufferMessage[0] = (uint)((shift << 16) + Random.RandomGeneratedNumberDb(1));
             bufferMessage[1] = type;
             for (int qb = 2; qb < bufferMessage.Length; qb++)
+            {
                 bufferMessage[qb] = messageQBytes[qb - 2];
+            }
+
             messageQBytes = bufferMessage;
         }
 
@@ -221,7 +265,9 @@ namespace Cryptography
         {
             using BinaryWriter binwr = new BinaryWriter(new FileStream(filename, FileMode.Create));
             for (int i = 0; i < cypherMessage.Length; i++)
+            {
                 binwr.Write(cypherMessage[i]);
+            }
         }
     }
 }

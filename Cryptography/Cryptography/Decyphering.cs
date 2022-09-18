@@ -17,7 +17,7 @@ namespace Cryptography
         public static void ReadCypherIntoFile(string filename, out uint[] cypheredMessage)
         {
             cypheredMessage = new uint[2];
-            //Reading cypher message for userinfos...
+            // Reading cypher message for userinfos...
             try
             {
                 using FileStream fs = new FileStream(filename, FileMode.Open);
@@ -27,7 +27,10 @@ namespace Cryptography
                     for (int db = 0; db < fs.Length / 4; db++)
                     {
                         if (db == cypheredMessage.Length)
+                        {
                             Common.ExtendTable(ref cypheredMessage);
+                        }
+
                         cypheredMessage[db] = binrd.ReadUInt32();
                     }
                 }
@@ -50,6 +53,7 @@ namespace Cryptography
         /// <param name="filename">The path to the file containing the cypher message to read</param>
         /// <param name="cypherKey">The 32-bit unsigned integer array containing the retrived cypher key</param>
         /// <param name="decypheredMessage">The 32-bit unsigned integer array that contains the first decyphered message without the key in</param>
+        /// <exception cref="CryptographyException"></exception>
         public static void OpeningDecyphering(string filename, out uint[] cypherKey, out uint[] decypheredMessage)
         {
             ReadCypherIntoFile(filename, out uint[] cypheredMessage);
@@ -64,26 +68,39 @@ namespace Cryptography
         /// </summary>
         /// <param name="tableInput">The array that contains the cyphered message to decypher</param>
         /// <param name="tableOutput">The array that contains the first decyphered message</param>
+        /// <exception cref="CryptographyException"></exception>
         static void CleanUnshiftMessage(uint[] tableInput, out uint[] tableOutput)
         {
             byte shift = (byte)(tableInput[0] >> 16);
             uint type = tableInput[1];
 
             if (type % 3 == 0)
+            {
                 Common.CphrMode = CypherMode.x1;
+            }
             else if ((type - 1) % 3 == 0)
+            {
                 Common.CphrMode = CypherMode.x2;
+            }
             else if ((type - 2) % 3 == 0)
+            {
                 Common.CphrMode = CypherMode.x3;
+            }
 
             tableOutput = new uint[tableInput.Length - 2];
             try
             {
                 for (int db = 0; db < tableOutput.Length; db++)
+                {
                     tableOutput[db] = tableInput[db + 2];
+                }
+
                 uint[] messageShifted = new uint[tableOutput.Length];
                 for (int db = 0; db < tableOutput.Length; db++)
+                {
                     messageShifted[(db + shift) % tableOutput.Length] = tableOutput[db];
+                }
+
                 tableOutput = messageShifted;
             }
             catch
@@ -98,6 +115,7 @@ namespace Cryptography
         /// <param name="tableInput">The cleaned and unshifted cyphered message to get the cypher key</param>
         /// <param name="cypherKey">The array containing the retrived cypher key</param>
         /// <param name="tableOutput">The array containing the cyphered message without the cypher key</param>
+        /// <exception cref="CryptographyException"></exception>
         static void GetCypherKey(uint[] tableInput, out uint[] cypherKey, out uint[] tableOutput)
         {
             cypherKey = new uint[Common.KeyNbrUInt];
@@ -105,9 +123,14 @@ namespace Cryptography
             try
             {
                 for (int db = 0; db < cypherKey.Length; db++)
+                {
                     cypherKey[db] = tableInput[db];
+                }
+
                 for (int db = 0; db < tableOutput.Length; db++)
+                {
                     tableOutput[db] = tableInput[db + cypherKey.Length];
+                }
             }
             catch
             {
@@ -137,7 +160,9 @@ namespace Cryptography
             }
 
             if (calculatedChecksum != 0)
+            {
                 ExceptionCaught();
+            }
         }
 
         /// <summary>
@@ -145,6 +170,7 @@ namespace Cryptography
         /// </summary>
         /// <param name="cypher"></param>
         /// <returns>An array of string that contain the original informations</returns>
+        /// <exception cref="CryptographyException"></exception>
         public static string[] StripOutAndSplit(uint[] cypher)
         {
             string knownStr = default;
@@ -160,7 +186,10 @@ namespace Cryptography
                 }
             }
             if (knownStr == null)
+            {
                 ExceptionCaught();
+            }
+
             return knownStr.Split('%', StringSplitOptions.RemoveEmptyEntries);
         }
 
@@ -179,11 +208,17 @@ namespace Cryptography
             foreach (string part in partsInfo)
             {
                 if (part.Contains("USER:"))
+                {
                     username = part[5..];
+                }
                 else if (part.Contains("COMP:"))
+                {
                     computername = part[5..];
+                }
                 else if (part.Contains("UID:"))
+                {
                     UID = part[4..];
+                }
                 else
                 {
                     try
@@ -200,7 +235,7 @@ namespace Cryptography
             return (username, computername, datetime, UID);
         }
 
-        static void ExceptionCaught()
+        private static void ExceptionCaught()
         {
             throw new CryptographyException("Decyphering failed! Cypher was corrupted.");
         }
