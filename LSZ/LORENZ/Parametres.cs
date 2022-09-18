@@ -8,7 +8,7 @@ namespace LORENZ
     public static class Parametres
     {
         public static string LORENZPATH { get => Environment.CurrentDirectory; }
-        private static string ParamsDirectory { get => @"LZPARAMS"; }
+        public static string ParamsDirectory { get => @"LZPARAMS"; }
         public static string UserlogFile { get => $@"{ParamsDirectory}/USERLOG.LZI"; }
         public static string LastAccessFile { get => $@"{ParamsDirectory}/LASTACSS.LZI"; }
         public static string CoinsRecordFile { get => $@"{ParamsDirectory}/COINSREC.LZI"; }
