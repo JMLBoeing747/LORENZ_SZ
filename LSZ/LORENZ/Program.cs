@@ -51,6 +51,7 @@ namespace LORENZ
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
+                Console.WriteLine("H : Historique");
 
                 Console.WriteLine("\nP : Modifier le pseudo");
                 if (Parametres.CipherFileDirectory != null)
@@ -71,80 +72,75 @@ namespace LORENZ
 
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
 
-                if (saisie.Key == ConsoleKey.D1 || saisie.Key == ConsoleKey.NumPad1)
+                switch (saisie.Key)
                 {
-                    ChiffrerLeMessage();
+                    case ConsoleKey.D1:
+                        ChiffrerLeMessage();
+                        break;
+                    case ConsoleKey.NumPad1:
+                        ChiffrerLeMessage();
+                        break;
+                    case ConsoleKey.D2:
+                        DechiffrerLeMessage();
+                        break;
+                    case ConsoleKey.NumPad2:
+                        DechiffrerLeMessage();
+                        break;
+                    case ConsoleKey.L:
+                        AfficherLID();
+                        break;
+                    case ConsoleKey.J:
+                        double NewArgent = Jeux.TheGame(Argent);
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Clear();
+                        Argent = NewArgent;
+                        continue;
+                    case ConsoleKey.S:
+                        Parametres.ShowPseudoNameSender = !Parametres.ShowPseudoNameSender;
+                        Parametres.WriteGeneralParamsFile();
+                        Console.Clear();
+                        if (Parametres.ShowPseudoNameSender)
+                        {
+                            Display.PrintMessage("EXPÉDITEUR AFFICHÉ", MessageState.Warning);
+                        }
+                        else
+                        {
+                            Display.PrintMessage("EXPÉDITEUR MASQUÉ", MessageState.Warning);
+                        }
+                        continue;
+                    case ConsoleKey.H:
+                        break;
+                    case ConsoleKey.P:
+                        ChangerLePseudo();
+                        Console.Clear();
+                        continue;
+                    case ConsoleKey.R:
+                        Console.Clear();
+                        CancelOperation = !Extensions.SetCipherFileDirectory();
+                        break;
+                    case ConsoleKey.O:
+                        MenuOptions();
+                        continue;
+                    case ConsoleKey.F1:
+                        AfficherAide();
+                        continue;
+                    case ConsoleKey.Escape:
+                        break;
+                    case ConsoleKey.Enter:
+                        /* La gestion de la touche ENTRÉE est gardée pour permettre une meilleure transition
+                         * vers la touche ESC auprès des anciens utilisateurs */
+                        Console.Clear();
+                        Display.PrintMessage("Pour quitter, appuyez sur ESC.", MessageState.Warning, resetColors: true);
+                        continue;
+                    default:
+                        Console.Clear();
+                        Display.PrintMessage("Ceci n'est pas une option valide.", MessageState.Failure);
+                        continue;
                 }
-                else if (saisie.Key == ConsoleKey.D2 || saisie.Key == ConsoleKey.NumPad2)
-                {
-                    DechiffrerLeMessage();
-                }
-                else if (saisie.Key == ConsoleKey.L)
-                {
-                    AfficherLID();
-                }
-                else if (saisie.Key == ConsoleKey.J)
-                {
-                    double NewArgent = Jeux.TheGame(Argent);
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.Clear();
-                    Argent = NewArgent;
-                    continue;
-                }
-                else if (saisie.Key == ConsoleKey.S)
-                {
-                    Parametres.ShowPseudoNameSender = !Parametres.ShowPseudoNameSender;
-                    Parametres.WriteGeneralParamsFile();
-                    Console.Clear();
-                    if (Parametres.ShowPseudoNameSender)
-                    {
-                        Display.PrintMessage("EXPÉDITEUR AFFICHÉ", MessageState.Warning);
-                    }
-                    else
-                    {
-                        Display.PrintMessage("EXPÉDITEUR MASQUÉ", MessageState.Warning);
-                    }
 
-                    continue;
-                }
-                else if (saisie.Key == ConsoleKey.P)
-                {
-                    ChangerLePseudo();
-                    Console.Clear();
-                    continue;
-                }
-                else if (saisie.Key == ConsoleKey.R)
-                {
-                    Console.Clear();
-                    CancelOperation = !Extensions.SetCipherFileDirectory();
-                }
-                else if (saisie.Key == ConsoleKey.O)
-                {
-                    MenuOptions();
-                    continue;
-                }
-                else if (saisie.Key == ConsoleKey.F1)
-                {
-                    AfficherAide();
-                    continue;
-                }
-                else if (saisie.Key == ConsoleKey.Escape)
+                if (saisie.Key == ConsoleKey.Escape)
                 {
                     break;
-                }
-                else if (saisie.Key == ConsoleKey.Enter)
-                {
-                    /* La gestion de la touche ENTRÉE est gardée pour permettre une meilleure transition
-                     * vers la touche ESC auprès des anciens utilisateurs */
-                    Console.Clear();
-                    Display.PrintMessage("Pour quitter, appuyez sur ESC.", MessageState.Warning, resetColors: true);
-                    continue;
-                }
-                else
-                {
-                    Console.Clear();
-                    Display.PrintMessage("Ceci n'est pas une option valide.", MessageState.Failure);
-                    continue;
                 }
 
                 if (!CancelOperation)
