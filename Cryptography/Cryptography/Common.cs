@@ -150,7 +150,7 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Performs a switch between each 2D matrix into a 3D matrix
+        /// Performs a switch between each 2D matrix in the 3D matrix
         /// </summary>
         /// <param name="byteMatrix">The 3D matrix to perform transformation in</param>
         /// <param name="frontToBack">Specifies the operation direction. <para>If <c>true</c>, the XOR operation will go from front 2D matrix to back.</para><para>If <c>false</c>, it will go from back to front.</para></param>
@@ -193,7 +193,7 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Mirrors each 2D matrix into a 3D matrix.
+        /// Mirrors each 2D matrix in the 3D matrix.
         /// </summary>
         /// <param name="byteMatrix">The 3D matrix to perform transformation in</param>
         /// <param name="horizontalMirror">Specifies the mirror orientation. <para>If <c>true</c>, mirror will be performed horizontally.</para> <para>If <c>false</c>, mirror will be performed vertically.</para></param>
@@ -225,7 +225,7 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Rotates each 2D matrix into a 3D matrix of 90 degrees.
+        /// Rotates 90 degrees each 2D matrix in the 3D matrix.
         /// </summary>
         /// <param name="byteMatrix">The 3D matrix to perform transformation in</param>
         /// <param name="antiClockwise">Specifies whether rotation is anticlockwise or clockwise.</param>
@@ -300,7 +300,7 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Makes an XOR operation foreach 2D matrix into the 3D matrix.
+        /// Makes an XOR operation for each 2D matrix in the 3D matrix.
         /// </summary>
         /// <param name="byteMatrix">The 3D matrix to perform transformation in</param>
         /// <param name="frontToBack">Specifies the XOR operation direction. <para>If <c>true</c>, the XOR operation will go from front 2D matrix to back.</para><para>If <c>false</c>, it will go from back to front.</para></param>

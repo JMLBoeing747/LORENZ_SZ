@@ -50,7 +50,7 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Fill an full array of random strong cryptographic unsigned 16-bits integer values (between 0 and 65536).
+        /// Fill an full array of strong cryptographic random unsigned 16-bits integer values (between 0 and 65536).
         /// </summary>
         /// <param name="tableToFill">The reference array to fill with random values</param>
         /// <param name="min">The minimum integer value that this random value can have</param>
@@ -96,7 +96,7 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Fill an full array of random strong cryptographic unsigned 32-bits integer values (between 0 and 4294967296).
+        /// Fill an full array of strong cryptographic random unsigned 32-bits integer values (between 0 and 4294967296).
         /// </summary>
         /// <param name="tableToFill">The reference array to fill with random values</param>
         /// <param name="min">The minimum integer value that this random value can have</param>
