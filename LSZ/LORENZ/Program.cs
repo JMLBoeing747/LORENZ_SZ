@@ -6,7 +6,7 @@ namespace LORENZ
     class Program
     {
         public static string VersionNumber => "3.0.0-alpha";
-        private static bool CancelOperation { get; set; }
+        private static bool OverridePress { get; set; }
 
         public static void Main()
         {
@@ -109,6 +109,7 @@ namespace LORENZ
                         }
                         continue;
                     case ConsoleKey.H:
+                        Historique.AfficherHistorique();
                         break;
                     case ConsoleKey.P:
                         ChangerLePseudo();
@@ -116,7 +117,7 @@ namespace LORENZ
                         continue;
                     case ConsoleKey.R:
                         Console.Clear();
-                        CancelOperation = !Extensions.SetCipherFileDirectory();
+                        OverridePress = !Extensions.SetCipherFileDirectory();
                         break;
                     case ConsoleKey.O:
                         MenuOptions();
@@ -143,13 +144,13 @@ namespace LORENZ
                     break;
                 }
 
-                if (!CancelOperation)
+                if (!OverridePress)
                 {
                     Console.WriteLine(Environment.NewLine + "Press any key to continue...");
                     Console.ReadKey(true);
                 }
 
-                CancelOperation = false;
+                OverridePress = false;
                 Console.Clear();
             }
 
@@ -269,7 +270,7 @@ namespace LORENZ
                 {
                     if (MessageOriginal == "\n")
                     {
-                        CancelOperation = true;
+                        OverridePress = true;
                         return;
                     }
                     Console.WriteLine("Aucun texte détecté.");
@@ -305,7 +306,7 @@ namespace LORENZ
             }
             else
             {
-                CancelOperation = true;
+                OverridePress = true;
             }
         }
 
@@ -415,7 +416,20 @@ namespace LORENZ
                         Console.WriteLine("=== FIN ===");
                         Console.ResetColor();
                     }
+                    DateTime dateTimeDechiff = DateTime.UtcNow;
                     Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("Appuyez sur S pour sauvegarder le message déchiffré.");
+                    Console.WriteLine("Appuyez sur toute autre touche pour retourner au menu principal...");
+                    ConsoleKeyInfo saisie = Console.ReadKey(true);
+                    if (saisie.Key == ConsoleKey.S)
+                    {
+                        Historique.AjouterHistorique(MessageDechiffreComplet, dateTimeDechiff);
+                        Display.PrintMessage("Message sauvegardé !", MessageState.Success);
+                    }
+                    else
+                    {
+                        OverridePress = true;
+                    }
                     return;
                 }
             }
@@ -426,7 +440,7 @@ namespace LORENZ
                     throw new LORENZException(ErrorCode.E0x00, false);
                 }
 
-                CancelOperation = true;
+                OverridePress = true;
                 return;
             }
         }

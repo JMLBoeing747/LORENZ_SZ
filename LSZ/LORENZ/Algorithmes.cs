@@ -482,11 +482,9 @@ namespace LORENZ
             for (int i = 0; i < NewMessageWithoutGK.Length / 4; i++)
             {
                 string ElementsOfOneTrans = default;
-                //List<string> ElementsOfOneTrans = new List<string>();
                 for (int c = 0; c < 4; c++)
                 {
                     ElementsOfOneTrans += NewMessageWithoutGK[4 * i + c];
-                    //ElementsOfOneTrans.Add(Convert.ToString(MessageWithoutGK[4 * i + c]));
                 }
                 ExtractedTransList.Add(ElementsOfOneTrans);
             }
@@ -501,7 +499,7 @@ namespace LORENZ
                         DecipheredMessageComplete += TableCode[0, c];
                         break;
                     }
-                    if (ExtractedTransList[i] != TableCode[1, c] && c == MAX_CHAR_TABLE - 1)
+                    if (ExtractedTransList[i] != TableCode[1, c] && c == MAX_CHAR_TABLE - MIN_CHAR_TABLE - 1)
                     {
                         DecipheredMessageComplete += TableCode[0, 31];
                     }
