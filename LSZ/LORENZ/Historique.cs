@@ -1,6 +1,7 @@
 ﻿using Cryptography;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 
 namespace LORENZ
@@ -14,31 +15,108 @@ namespace LORENZ
         public static void AfficherHistorique()
         {
             Console.Clear();
-            if (ListeHistorique.Count == 0 && !LireFichierHistorique())
-            {
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("L'historique est vide.");
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Display.PrintMessage("\nSauvegardez des messages déchiffrés pour le remplir et revenez y jeter un coup d'oeil.",
-                                     MessageState.Warning);
-                return;
-            }
-
+            int headerSwitch = 0;
             for (int hEntry = 0; hEntry < ListeHistorique.Count; hEntry++)
             {
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.White;
+                
+                DateTime dateEntry = ListeHistorique[hEntry].Item1;
+                if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 5)
+                {
+                    if (dateEntry.Month == DateTime.Now.Month && headerSwitch < 4)
+                    {
+                        if (dateEntry.Day >= DateTime.Now.Day - 7 && headerSwitch < 3)
+                        {
+                            if (dateEntry.Day == DateTime.Now.Day - 1 && headerSwitch < 2)
+                            {
+                                Console.WriteLine("-------- Hier ---------");
+                                headerSwitch = 2;
+                            }
+                            else if (dateEntry.Day == DateTime.Now.Day && headerSwitch < 1)
+                            {
+                                Console.WriteLine("----- Aujourd'hui -----");
+                                headerSwitch = 1;
+                            }
+                            else if (dateEntry.Day < DateTime.Now.Day - 1)
+                            {
+                                Console.WriteLine("---- Cette semaine ----");
+                                headerSwitch = 3;
+                            }
+                        }
+                        else if (dateEntry.Day < DateTime.Now.Day - 7)
+                        {
+                            Console.WriteLine("----- Ce mois-ci ------");
+                            headerSwitch = 4;
+                        }
+                    }
+                    else if (dateEntry.Month < DateTime.Now.Month)
+                    {
+                        Console.WriteLine("----- Cette année -----");
+                        headerSwitch = 5;
+                    }
+                }
+                else if (dateEntry.Year < DateTime.Now.Year)
+                {
+                    Console.WriteLine("--- Il y a longtemps ---");
+                    headerSwitch = 6;
+                }
+                
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
                 string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
                 string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
 
                 int lineLenMax = Console.WindowWidth - 13 - "[x]:dd-MM-yyyy HH:mm:ss : ".Length;
                 if (excerpt.Length > lineLenMax)
                 {
-                    excerpt = excerpt.Substring(0, lineLenMax) + "...";
+                    excerpt = excerpt[..lineLenMax] + "...";
                 }
 
                 Console.WriteLine($"[{hEntry + 1}]:" + dtStr + " : " + excerpt);
             }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments, tapez le numéro d'index situé à gauche");
+            Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
+            Console.WriteLine("\nPour retourner, appuyer sur ESC.");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            string numeroStr = "";
+            while (true)
+            {
+                int curTopInitial = Console.CursorTop;
+                int curLeftInitial = Console.CursorLeft;
+
+                ConsoleKeyInfo numero = Console.ReadKey();
+                if (numero.Key == ConsoleKey.Escape)
+                {
+                    return;
+                }
+
+                if (numero.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)
+                {
+                    numeroStr += (numero.Key - 48).ToString();
+                }
+                else if (numero.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)
+                {
+                    numeroStr += (numero.Key - 96).ToString();
+                }
+                else if (numero.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.SetCursorPosition(curLeftInitial, curTopInitial);
+                    Console.Write(' ');
+                    Console.SetCursorPosition(curLeftInitial, curTopInitial);
+                }
+            }
+
+
+
         }
 
         public static bool LireFichierHistorique()

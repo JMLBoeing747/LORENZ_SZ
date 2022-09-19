@@ -109,8 +109,8 @@ namespace LORENZ
                         }
                         continue;
                     case ConsoleKey.H:
-                        Historique.AfficherHistorique();
-                        break;
+                        MenuHistorique();
+                        continue;
                     case ConsoleKey.P:
                         ChangerLePseudo();
                         Console.Clear();
@@ -505,6 +505,49 @@ namespace LORENZ
             return MessageToTest;
         }
 
+        static void MenuHistorique()
+        {
+            Console.Clear();
+            if (Historique.ListeHistorique.Count == 0 && !Historique.LireFichierHistorique())
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("L'historique est vide.");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Display.PrintMessage("\nSauvegardez des messages déchiffrés pour le remplir et revenez y jeter un coup d'oeil.",
+                                     MessageState.Warning);
+                return;
+            }
+
+            while (true)
+            {
+                Console.WriteLine("===== Historique =====\n");
+                Console.WriteLine("[H]: Consulter l'historique");
+                Console.WriteLine("[C]: Nouvelle catégorie");
+                Console.WriteLine("\nAppuyez sur ESC pour retourner");
+
+                ConsoleKeyInfo saisie = Console.ReadKey(true);
+                switch (saisie.Key)
+                {
+                    case ConsoleKey.H:
+                        Historique.AfficherHistorique();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.C:
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.Escape:
+                        Console.Clear();
+                        return;
+                    default:
+                        Console.Clear();
+                        Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                        break;
+                }
+            }
+        }
+
         static void MenuOptions()
         {
             Console.Clear();
@@ -514,26 +557,25 @@ namespace LORENZ
                 Console.WriteLine("T : Disposition de la table de transcription");
                 Console.WriteLine("S : Disposition de la table secrète");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
+
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
-                if (saisie.Key == ConsoleKey.Escape)
+                switch (saisie.Key)
                 {
-                    Console.Clear();
-                    break;
-                }
-                else if (saisie.Key == ConsoleKey.T)
-                {
-                    Algorithmes.SetTransTable();
-                    Console.Clear();
-                }
-                else if (saisie.Key == ConsoleKey.S)
-                {
-                    Algorithmes.SetSecretTable();
-                    Console.Clear();
-                }
-                else
-                {
-                    Console.Clear();
-                    Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                    case ConsoleKey.T:
+                        Algorithmes.SetTransTable();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.S:
+                        Algorithmes.SetSecretTable();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.Escape:
+                        Console.Clear();
+                        return;
+                    default:
+                        Console.Clear();
+                        Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                        break;
                 }
             }
         }
