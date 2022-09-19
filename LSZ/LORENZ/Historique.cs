@@ -22,7 +22,7 @@ namespace LORENZ
         {
             Console.Clear();
             int headerSwitch = 0;
-            for (int hEntry = 0; hEntry < ListeHistorique.Count; hEntry++)
+            for (int hEntry = ListeHistorique.Count - 1; hEntry >= 0; hEntry--)
             {
                 Console.BackgroundColor = ConsoleColor.DarkGray;
                 Console.ForegroundColor = ConsoleColor.White;
@@ -80,7 +80,9 @@ namespace LORENZ
                     excerpt = excerpt[..lineLenMax] + "...";
                 }
 
-                Console.WriteLine($"[{hEntry + 1}]:" + dtStr + " : " + excerpt);
+                int realEntry = ListeHistorique.Count - hEntry;
+                
+                Console.WriteLine($"[{realEntry}]:" + dtStr + " : " + excerpt);
             }
 
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -146,7 +148,8 @@ namespace LORENZ
 
             // Afficher entrée
             int numeroInt = int.Parse(numeroStr);
-            AfficherEntree(numeroInt - 1);
+            int realNumero = ListeHistorique.Count - numeroInt;
+            AfficherEntree(realNumero);
             Console.Clear();
         }
 
