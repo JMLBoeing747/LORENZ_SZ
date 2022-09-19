@@ -27,6 +27,7 @@ namespace LORENZ
             ConsoleColor colorForeBef = Console.ForegroundColor;
             ConsoleColor colorBackBef = Console.BackgroundColor;
             Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("=== FIN ===");
             Console.ForegroundColor = colorForeBef;
             Console.BackgroundColor = colorBackBef;
