@@ -1,9 +1,7 @@
 ﻿using Cryptography;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Runtime.Serialization;
 
 namespace LORENZ
 {
@@ -16,7 +14,7 @@ namespace LORENZ
         public static void AfficherHistorique()
         {
             Console.Clear();
-            if (!LireFichierHistorique() && ListeHistorique.Count == 0)
+            if (ListeHistorique.Count == 0 && !LireFichierHistorique())
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
@@ -28,10 +26,18 @@ namespace LORENZ
                 return;
             }
 
-            foreach ((DateTime, string) historyEntry in ListeHistorique)
+            for (int hEntry = 0; hEntry < ListeHistorique.Count; hEntry++)
             {
-                string dtStr = historyEntry.Item1.ToString("G");
-                Console.WriteLine(dtStr + " : " + historyEntry.Item2);
+                string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
+                string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
+
+                int lineLenMax = Console.WindowWidth - 13 - "[x]:dd-MM-yyyy HH:mm:ss : ".Length;
+                if (excerpt.Length > lineLenMax)
+                {
+                    excerpt = excerpt.Substring(0, lineLenMax) + "...";
+                }
+
+                Console.WriteLine($"[{hEntry + 1}]:" + dtStr + " : " + excerpt);
             }
         }
 
@@ -56,6 +62,7 @@ namespace LORENZ
                     historyStr += (char)bItem;
                 }
 
+                ListeHistorique.Clear();
                 string[] historyLines = historyStr.Split("\0\0", StringSplitOptions.RemoveEmptyEntries);
                 foreach (string itemLine in historyLines)
                 {
@@ -99,6 +106,7 @@ namespace LORENZ
 
         public static void AjouterHistorique(string nouvEntree, DateTime dateEntree)
         {
+            LireFichierHistorique();
             (DateTime, string) nouvEntreeTuple = (dateEntree, nouvEntree);
             ListeHistorique.Add(nouvEntreeTuple);
             EcrireHistorique();

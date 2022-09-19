@@ -405,7 +405,11 @@ namespace LORENZ
                         }
                         if (Parametres.ShowPseudoNameSender)
                         {
-                            Console.WriteLine(Algorithmes.SenderPseudoName + " : " + MessageDechiffreComplet);
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(Algorithmes.SenderPseudoName + " :");
+                            Console.ResetColor();
+                            Console.Write(" " + MessageDechiffreComplet);
                         }
                         else
                         {
