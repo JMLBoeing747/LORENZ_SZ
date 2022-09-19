@@ -29,10 +29,12 @@ namespace Cryptography
         /// <exception cref="CryptographyException"></exception>
         public static byte RandomGeneratedNumber(int min = 0, int max = __MAX_UBYTE_VALUE__, params int[] exceptNum)
         {
-            if (min < 0 || max > __MAX_UBYTE_VALUE__ || min >= max)
+            if (min < 0 || min >= max)
             {
                 throw new CryptographyException("Incoherent parameters for min or max.");
             }
+            
+            max = max > __MAX_UBYTE_VALUE__ ? __MAX_UBYTE_VALUE__ : max;
 
             bool isExcept = false;
             int result = min - 1;
@@ -85,6 +87,8 @@ namespace Cryptography
                 throw new CryptographyException("Incoherent parameters for min or max.");
             }
 
+            max = max > __MAX_USHORT_VALUE__ ? __MAX_USHORT_VALUE__ : max;
+
             bool isExcept = false;
             int result = min - 1;
             while (result < min || result >= max || isExcept)
@@ -135,6 +139,8 @@ namespace Cryptography
             {
                 throw new CryptographyException("Incoherent parameters for min or max.");
             }
+
+            max = max > __MAX_UINT_VALUE__ ? __MAX_UINT_VALUE__ : max;
 
             bool isExcept = false;
             long result = min - 1;
