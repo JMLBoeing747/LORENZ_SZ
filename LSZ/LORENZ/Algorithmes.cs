@@ -572,7 +572,7 @@ namespace LORENZ
 
                 if (digit.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)        // chiffres du pavé standard
                 {
-                    rootTemp += (digit.Key - 48).ToString();
+                    rootTemp += ((int)digit.Key - 48).ToString();
                     if (rootTemp.Length < 4)
                     {
                         Console.Write("-");
@@ -584,7 +584,7 @@ namespace LORENZ
                 }
                 else if (digit.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)  // chiffres du pavé numérique
                 {
-                    rootTemp += (digit.Key - 96).ToString();
+                    rootTemp += ((int)digit.Key - 96).ToString();
                     if (rootTemp.Length < 4)
                     {
                         Console.Write("-");

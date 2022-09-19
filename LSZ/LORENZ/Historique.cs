@@ -1,7 +1,6 @@
 ﻿using Cryptography;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 
 namespace LORENZ
@@ -97,11 +96,11 @@ namespace LORENZ
 
                 if (numero.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)
                 {
-                    numeroStr += (numero.Key - 48).ToString();
+                    numeroStr += ((int)numero.Key - 48).ToString();
                 }
                 else if (numero.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)
                 {
-                    numeroStr += (numero.Key - 96).ToString();
+                    numeroStr += ((int)numero.Key - 96).ToString();
                 }
                 else if (numero.Key == ConsoleKey.Enter)
                 {
