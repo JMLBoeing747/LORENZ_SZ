@@ -22,6 +22,16 @@ namespace LORENZ
             Console.BackgroundColor = ConsoleColor.Black;
         }
 
+        public static void AfficherMarqueurFin()
+        {
+            ConsoleColor colorForeBef = Console.ForegroundColor;
+            ConsoleColor colorBackBef = Console.BackgroundColor;
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("=== FIN ===");
+            Console.ForegroundColor = colorForeBef;
+            Console.BackgroundColor = colorBackBef;
+        }
+
         public static void EcrireChiffrementLong(string msgChiffre)
         {
             NomFichierChiffrement = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";

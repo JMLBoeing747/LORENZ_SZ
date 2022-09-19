@@ -416,13 +416,11 @@ namespace LORENZ
                             Console.WriteLine(MessageDechiffreComplet);
                         }
 
-                        Console.BackgroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine("=== FIN ===");
-                        Console.ResetColor();
+                        Extensions.AfficherMarqueurFin();
                     }
                     DateTime dateTimeDechiff = DateTime.UtcNow;
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("Appuyez sur S pour sauvegarder le message déchiffré.");
+                    Console.WriteLine("\nAppuyez sur S pour sauvegarder le message déchiffré.");
                     Console.WriteLine("Appuyez sur toute autre touche pour retourner au menu principal...");
                     ConsoleKeyInfo saisie = Console.ReadKey(true);
                     if (saisie.Key == ConsoleKey.S)
@@ -535,6 +533,7 @@ namespace LORENZ
                         Console.Clear();
                         break;
                     case ConsoleKey.C:
+                        // Méthode nouvelle catégorie
                         Console.Clear();
                         break;
                     case ConsoleKey.Escape:
