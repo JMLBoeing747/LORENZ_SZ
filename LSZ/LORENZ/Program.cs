@@ -334,6 +334,8 @@ namespace LORENZ
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Entrez le texte à déchiffrer :");
             Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
+
+            PrivacyState msgPrivState = PrivacyState.NotDefined;
             try
             {
                 while (true)
@@ -389,10 +391,14 @@ namespace LORENZ
                     {
                         if (!Algorithmes.IsPrivateMessage)
                         {
+                            msgPrivState = PrivacyState.Public;
                             Console.WriteLine(Environment.NewLine + "Message déchiffré :");
                         }
                         else
                         {
+                            msgPrivState = PrivacyState.Private;
+                            Algorithmes.IsPrivateMessage = false;
+
                             if (Algorithmes.IsThePrivateReceiver)
                             {
                                 Console.WriteLine(Environment.NewLine + "Message déchiffré (EN PRIVÉ):");
@@ -401,7 +407,6 @@ namespace LORENZ
                             {
                                 Console.WriteLine(Environment.NewLine + "Message déchiffré (PRIVÉ PAR VOUS POUR " + Algorithmes.ThePrivateReceiverLID + "):");
                             }
-                            Algorithmes.IsPrivateMessage = false;
                         }
                         if (Parametres.ShowPseudoNameSender)
                         {
@@ -417,21 +422,26 @@ namespace LORENZ
                         }
 
                         Extensions.AfficherMarqueurFin();
+
+                        DateTime dateTimeDechiff = DateTime.UtcNow;
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine("\nAppuyez sur S pour sauvegarder le message déchiffré.");
+                        Console.WriteLine("Appuyez sur toute autre touche pour retourner au menu principal...");
+                        ConsoleKeyInfo saisie = Console.ReadKey(true);
+                        if (saisie.Key == ConsoleKey.S)
+                        {
+                            Historique.AjouterHistorique(MessageDechiffreComplet,
+                                                         dateTimeDechiff,
+                                                         Algorithmes.SenderPseudoName,
+                                                         msgPrivState);
+                            Display.PrintMessage("Message sauvegardé !", MessageState.Success);
+                        }
+                        else
+                        {
+                            OverridePress = true;
+                        }
                     }
-                    DateTime dateTimeDechiff = DateTime.UtcNow;
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("\nAppuyez sur S pour sauvegarder le message déchiffré.");
-                    Console.WriteLine("Appuyez sur toute autre touche pour retourner au menu principal...");
-                    ConsoleKeyInfo saisie = Console.ReadKey(true);
-                    if (saisie.Key == ConsoleKey.S)
-                    {
-                        Historique.AjouterHistorique(MessageDechiffreComplet, dateTimeDechiff);
-                        Display.PrintMessage("Message sauvegardé !", MessageState.Success);
-                    }
-                    else
-                    {
-                        OverridePress = true;
-                    }
+
                     return;
                 }
             }

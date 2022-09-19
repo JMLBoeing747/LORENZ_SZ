@@ -5,10 +5,17 @@ using System.IO;
 
 namespace LORENZ
 {
+    public enum PrivacyState
+    {
+        NotDefined = 0,
+        Public = 1,
+        Private = -1
+    };
+
     public static class Historique
     {
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
-        public static List<(DateTime, string)> ListeHistorique { get; private set; } = new List<(DateTime, string)>();
+        public static List<(DateTime, string, string, PrivacyState)> ListeHistorique { get; private set; } = new List<(DateTime, string, string, PrivacyState)>();
 
 
         public static void AfficherHistorique()
@@ -137,8 +144,51 @@ namespace LORENZ
                 }
             }
 
+            // Afficher entrée
+            int numeroInt = int.Parse(numeroStr);
+            AfficherEntree(numeroInt - 1);
+            Console.Clear();
+        }
 
-
+        public static void AfficherEntree(int index)
+        {
+            if (index < ListeHistorique.Count)
+            {
+                Console.Clear();
+                string dateOfDeciphering = ListeHistorique[index].Item1.ToString("dddd dd MMMM yyyy");
+                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("HH");
+                string minSecsOfDeciphering = ListeHistorique[index].Item1.ToString("mm:ss");
+                string historicMsg = ListeHistorique[index].Item2;
+                string msgAuthor = ListeHistorique[index].Item3 == "" ? "Inconnu" : ListeHistorique[index].Item3;
+                PrivacyState privSta = ListeHistorique[index].Item4;
+                Console.WriteLine("Message historique #" + (index + 1));
+                Console.WriteLine("déchiffré le " + dateOfDeciphering + " à " + hourOfDeciphering + "h" + minSecsOfDeciphering);
+                Console.WriteLine("Auteur : " + msgAuthor);
+                Console.Write("Niveau de confidentialité : ");
+                switch (privSta)
+                {
+                    case PrivacyState.NotDefined:
+                        Console.WriteLine("Inconnu");
+                        break;
+                    case PrivacyState.Public:
+                        Console.WriteLine("Public");
+                        break;
+                    case PrivacyState.Private:
+                        Console.WriteLine("Privé");
+                        break;
+                    default:
+                        Console.WriteLine("ERROR");
+                        break;
+                }
+                Console.WriteLine("\n" + historicMsg);
+                Extensions.AfficherMarqueurFin();
+                Console.ReadKey(true);
+            }
+            else
+            {
+                Display.PrintMessage("Index invalide !", MessageState.Failure);
+                Console.ReadKey(true);
+            }
         }
 
         public static bool LireFichierHistorique()
@@ -166,12 +216,37 @@ namespace LORENZ
                 string[] historyLines = historyStr.Split("\0\0", StringSplitOptions.RemoveEmptyEntries);
                 foreach (string itemLine in historyLines)
                 {
-                    string itemEntry1 = itemLine[..itemLine.IndexOf('\0')];
-                    string itemEntry2 = itemLine[(itemLine.IndexOf('\0') + 1)..];
-                    (DateTime, string) tupleEntry = new();
+                    string[] itemEntries = itemLine.Split('\0');
+                    string itemEntry1 = "", itemEntry2 = "", itemEntry3 = "";
+                    if (itemEntries.Length >= 2)
+                    {
+                        itemEntry1 = itemEntries[0];
+                        itemEntry2 = itemEntries[1];
+                    }
+
+                    if (itemEntries.Length >= 3)
+                    {
+                        itemEntry3 = itemEntries[2];
+                    }
+
+                    PrivacyState privSta = PrivacyState.NotDefined;
+                    if (itemEntries.Length >= 4)
+                    {
+                        privSta = itemEntries[3] switch
+                        {
+                            "1" => PrivacyState.Public,
+                            "-1" => PrivacyState.Private,
+                            _ => PrivacyState.NotDefined,
+                        };
+                    }
+
+
+                    (DateTime, string, string, PrivacyState) tupleEntry = new();
                     DateTime dtEntry = DateTime.Parse(itemEntry1);
                     tupleEntry.Item1 = dtEntry;
                     tupleEntry.Item2 = itemEntry2;
+                    tupleEntry.Item3 = itemEntry3;
+                    tupleEntry.Item4 = privSta;
                     ListeHistorique.Add(tupleEntry);
                 }
             }
@@ -188,9 +263,9 @@ namespace LORENZ
         {
             Common.CphrMode = CypherMode.x1;
             string allHistoryStr = "";
-            foreach ((DateTime, string) item in ListeHistorique)
+            foreach ((DateTime, string, string, PrivacyState) item in ListeHistorique)
             {
-                allHistoryStr += item.Item1.ToString("u") + "\0" + item.Item2 + "\0\0";
+                allHistoryStr += item.Item1.ToString("u") + "\0" + item.Item2 + "\0" + item.Item3 + "\0" + (int)item.Item4 + "\0\0";
             }
 
             uint[] allHistoryUInt = Encryption.ToUIntArray(allHistoryStr);
@@ -204,10 +279,11 @@ namespace LORENZ
             Encryption.WriteCypherIntoFile(allHistoryUInt, FichierHistorique);
         }
 
-        public static void AjouterHistorique(string nouvEntree, DateTime dateEntree)
+        public static void AjouterHistorique(string nouvEntree, DateTime dateEntree, string auteur, PrivacyState pState = PrivacyState.NotDefined)
         {
             LireFichierHistorique();
-            (DateTime, string) nouvEntreeTuple = (dateEntree, nouvEntree);
+            auteur = auteur == "" ? "Inconnu" : auteur;
+            (DateTime, string, string, PrivacyState) nouvEntreeTuple = (dateEntree, nouvEntree, auteur, pState);
             ListeHistorique.Add(nouvEntreeTuple);
             EcrireHistorique();
         }
