@@ -570,17 +570,29 @@ namespace LORENZ
                     continue;
                 }
 
-                int digitInt = (int)digit.Key;
-
-                if (digitInt is >= 48 and <= 57)        // chiffres du pavé standard
+                if (digit.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)        // chiffres du pavé standard
                 {
-                    rootTemp += (digitInt - 48).ToString();
-                    Console.Write("-");
+                    rootTemp += (digit.Key - 48).ToString();
+                    if (rootTemp.Length < 4)
+                    {
+                        Console.Write("-");
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                else if (digitInt is >= 96 and <= 105)  // chiffres du pavé numérique
+                else if (digit.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)  // chiffres du pavé numérique
                 {
-                    rootTemp += (digitInt - 96).ToString();
-                    Console.Write("-");
+                    rootTemp += (digit.Key - 96).ToString();
+                    if (rootTemp.Length < 4)
+                    {
+                        Console.Write("-");
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 else
                 {
@@ -588,17 +600,10 @@ namespace LORENZ
                     Console.Write(' ');
                     Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
                 }
-
-                if (rootTemp.Length == 4)
-                {
-                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                    Console.WriteLine(' ');
-                    break;
-                }
             }
 
             TransTableRoot = rootTemp;
-            Console.WriteLine("Nouvelle racine : " + TransTableRoot);
+            Console.WriteLine("\nNouvelle racine : " + TransTableRoot);
             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
             Console.ReadKey(true);
         }
