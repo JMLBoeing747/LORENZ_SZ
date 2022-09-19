@@ -71,7 +71,7 @@ namespace LORENZ
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Cyan;
 
-                string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
+                string dtStr = ListeHistorique[hEntry].Item1.ToLocalTime().ToString("G");
                 string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
 
                 int lineLenMax = Console.WindowWidth - "[x]:dd-MM-yyyy HH:mm:ss : ".Length - 13;
@@ -81,12 +81,13 @@ namespace LORENZ
                 }
 
                 int realEntry = ListeHistorique.Count - hEntry;
-                
+
                 Console.WriteLine($"[{realEntry}]:" + dtStr + " : " + excerpt);
             }
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments, tapez le numéro d'index situé à gauche");
+            Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments," +
+                              "inscrivez le numéro d'index situé à gauche");
             Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
             Console.WriteLine("Appuyez sur Backspace pour effacer.");
             Console.WriteLine("\nPour retourner, appuyer sur ESC.");
@@ -158,9 +159,10 @@ namespace LORENZ
             if (index < ListeHistorique.Count)
             {
                 Console.Clear();
-                string dateOfDeciphering = ListeHistorique[index].Item1.ToString("dddd dd MMMM yyyy");
-                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("HH");
-                string minSecsOfDeciphering = ListeHistorique[index].Item1.ToString("mm:ss");
+                DateTime dtlocal = ListeHistorique[index].Item1.ToLocalTime();
+                string dateOfDeciphering = dtlocal.ToString("dddd dd MMMM yyyy");
+                string hourOfDeciphering = dtlocal.ToString("HH");
+                string minSecsOfDeciphering = ListeHistorique[index].Item1.ToLocalTime().ToString("mm:ss");
                 string historicMsg = ListeHistorique[index].Item2;
                 string msgAuthor = ListeHistorique[index].Item3 == "" ? "Inconnu" : ListeHistorique[index].Item3;
                 PrivacyState privSta = ListeHistorique[index].Item4;
