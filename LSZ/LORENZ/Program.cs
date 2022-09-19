@@ -397,7 +397,6 @@ namespace LORENZ
                         else
                         {
                             msgPrivState = PrivacyState.Private;
-                            Algorithmes.IsPrivateMessage = false;
 
                             if (Algorithmes.IsThePrivateReceiver)
                             {
@@ -407,7 +406,10 @@ namespace LORENZ
                             {
                                 Console.WriteLine(Environment.NewLine + "Message déchiffré (PRIVÉ PAR VOUS POUR " + Algorithmes.ThePrivateReceiverLID + "):");
                             }
+
+                            Algorithmes.IsPrivateMessage = false;
                         }
+                        
                         if (Parametres.ShowPseudoNameSender)
                         {
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
