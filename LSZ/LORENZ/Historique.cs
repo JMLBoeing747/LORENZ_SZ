@@ -19,7 +19,7 @@ namespace LORENZ
             {
                 Console.BackgroundColor = ConsoleColor.DarkGray;
                 Console.ForegroundColor = ConsoleColor.White;
-                
+
                 DateTime dateEntry = ListeHistorique[hEntry].Item1;
                 if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 5)
                 {
@@ -60,14 +60,14 @@ namespace LORENZ
                     Console.WriteLine("--- Il y a longtemps ---");
                     headerSwitch = 6;
                 }
-                
+
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Cyan;
 
                 string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
                 string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
 
-                int lineLenMax = Console.WindowWidth - 13 - "[x]:dd-MM-yyyy HH:mm:ss : ".Length;
+                int lineLenMax = Console.WindowWidth - "[x]:dd-MM-yyyy HH:mm:ss : ".Length - 13;
                 if (excerpt.Length > lineLenMax)
                 {
                     excerpt = excerpt[..lineLenMax] + "...";
@@ -79,6 +79,7 @@ namespace LORENZ
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments, tapez le numéro d'index situé à gauche");
             Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
+            Console.WriteLine("Appuyez sur Backspace pour effacer.");
             Console.WriteLine("\nPour retourner, appuyer sur ESC.");
             Console.ForegroundColor = ConsoleColor.Cyan;
 
@@ -101,6 +102,28 @@ namespace LORENZ
                 else if (numero.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)
                 {
                     numeroStr += ((int)numero.Key - 96).ToString();
+                }
+                else if (numero.Key == ConsoleKey.Delete && numeroStr.Length == 0)
+                {
+                    numeroStr += 'D';
+                    Console.Write("Delete : ");
+                }
+                else if (numero.Key == ConsoleKey.Backspace && curLeftInitial > 0)
+                {
+                    if (numeroStr != "D")
+                    {
+                        Console.SetCursorPosition(curLeftInitial - 1, curTopInitial);
+                        Console.Write(' ');
+                        Console.SetCursorPosition(curLeftInitial - 1, curTopInitial);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(curLeftInitial - 9, curTopInitial);
+                        Console.Write("        ");
+                        Console.SetCursorPosition(curLeftInitial - 9, curTopInitial);
+                    }
+
+                    numeroStr = numeroStr[..(numeroStr.Length - 1)];
                 }
                 else if (numero.Key == ConsoleKey.Enter)
                 {
