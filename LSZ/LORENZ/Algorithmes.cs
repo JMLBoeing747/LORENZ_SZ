@@ -594,11 +594,18 @@ namespace LORENZ
                         break;
                     }
                 }
+                else if (digit.Key == ConsoleKey.Backspace && rootTemp.Length > 0)
+                {
+                    Console.SetCursorPosition(curLeftInitial - 2, curTopInitial);
+                    Console.Write("  ");
+                    Console.SetCursorPosition(curLeftInitial - 2, curTopInitial);
+                    rootTemp = rootTemp[..(rootTemp.Length - 1)];
+                }
                 else
                 {
-                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    Console.SetCursorPosition(curLeftInitial, curTopInitial);
                     Console.Write(' ');
-                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    Console.SetCursorPosition(curLeftInitial, curTopInitial);
                 }
             }
 
