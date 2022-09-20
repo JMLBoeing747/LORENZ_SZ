@@ -73,7 +73,7 @@ namespace LORENZ
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
 
-                    string dtStr = ListeHistorique[hEntry].Item1.ToLocalTime().ToString("G");
+                    string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
                     string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
 
                     int lineLenMax = Console.WindowWidth - "[x]:dd-MM-yyyy HH:mm:ss : ".Length - 13;
@@ -88,7 +88,7 @@ namespace LORENZ
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments," +
+                Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments, " +
                                   "inscrivez le numéro d'index situé à gauche");
                 Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
                 Console.WriteLine("Appuyez sur Backspace pour effacer.");
@@ -157,9 +157,18 @@ namespace LORENZ
                 }
 
                 // Afficher entrée
-                int numeroInt = int.Parse(numeroStr);
-                int realNumero = ListeHistorique.Count - numeroInt;
-                AfficherEntree(realNumero);
+                if (numeroStr[0] == 'D')
+                {
+                    int numeroDel = int.Parse(numeroStr[1..]);
+                    int realNumero = ListeHistorique.Count - numeroDel;
+                    RetirerHistorique(realNumero);
+                }
+                else
+                {
+                    int numeroInt = int.Parse(numeroStr);
+                    int realNumero = ListeHistorique.Count - numeroInt;
+                    AfficherEntree(realNumero);
+                }
             }
         }
 
@@ -168,10 +177,9 @@ namespace LORENZ
             if (index < ListeHistorique.Count && index >= 0)
             {
                 Console.Clear();
-                DateTime dtlocal = ListeHistorique[index].Item1.ToLocalTime();
-                string dateOfDeciphering = dtlocal.ToString("dddd dd MMMM yyyy");
-                string hourOfDeciphering = dtlocal.ToString("HH");
-                string minSecsOfDeciphering = ListeHistorique[index].Item1.ToLocalTime().ToString("mm:ss");
+                string dateOfDeciphering = ListeHistorique[index].Item1.ToString("dddd dd MMMM yyyy");
+                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("HH");
+                string minSecsOfDeciphering = ListeHistorique[index].Item1.ToString("mm:ss");
                 string historicMsg = ListeHistorique[index].Item2;
                 string msgAuthor = ListeHistorique[index].Item3 == "" ? "Inconnu" : ListeHistorique[index].Item3;
                 PrivacyState privSta = ListeHistorique[index].Item4;
@@ -280,7 +288,7 @@ namespace LORENZ
             string allHistoryStr = "";
             foreach ((DateTime, string, string, PrivacyState) item in ListeHistorique)
             {
-                allHistoryStr += item.Item1.ToString("u") + "\0" + item.Item2 + "\0" + item.Item3 + "\0" + (int)item.Item4 + "\0\0";
+                allHistoryStr += item.Item1.ToUniversalTime().ToString("u") + "\0" + item.Item2 + "\0" + item.Item3 + "\0" + (int)item.Item4 + "\0\0";
             }
 
             uint[] allHistoryUInt = Encryption.ToUIntArray(allHistoryStr);
@@ -301,6 +309,20 @@ namespace LORENZ
             (DateTime, string, string, PrivacyState) nouvEntreeTuple = (dateEntree, nouvEntree, auteur, pState);
             ListeHistorique.Add(nouvEntreeTuple);
             EcrireHistorique();
+        }
+
+        public static void RetirerHistorique(int indexEntree)
+        {
+            if (indexEntree < ListeHistorique.Count && indexEntree >= 0)
+            {
+                ListeHistorique.RemoveAt(indexEntree);
+                EcrireHistorique();
+            }
+            else
+            {
+                Display.PrintMessage("Index invalide !", MessageState.Failure);
+                Console.ReadKey(true);
+            }
         }
     }
 }

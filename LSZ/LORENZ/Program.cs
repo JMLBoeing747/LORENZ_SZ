@@ -425,7 +425,7 @@ namespace LORENZ
 
                         Extensions.AfficherMarqueurFin();
 
-                        DateTime dateTimeDechiff = DateTime.UtcNow;
+                        DateTime dateTimeDechiff = DateTime.Now;
                         Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.WriteLine("\nAppuyez sur S pour sauvegarder le message déchiffré.");
                         Console.WriteLine("Appuyez sur toute autre touche pour retourner au menu principal...");
