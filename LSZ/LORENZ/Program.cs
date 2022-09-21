@@ -1,5 +1,6 @@
 ﻿using Cryptography;
 using System;
+using System.IO;
 
 namespace LORENZ
 {
@@ -338,13 +339,40 @@ namespace LORENZ
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Entrez le texte à déchiffrer :");
             Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
-
-            PrivacyState msgPrivState = PrivacyState.NotDefined;
             try
             {
                 while (true)
                 {
-                    string MessageADechiffrer = ConcatSegementsMessage();
+                    bool isFile = ConcatSegementsMessage(out string MessageADechiffrer);
+
+                    if (isFile)
+                    {
+                        string cipherFilePath = Parametres.CipherFileDirectory + MessageADechiffrer["FILE:".Length..];
+                        if (File.Exists(cipherFilePath))
+                        {
+                            MessageADechiffrer = File.ReadAllText(cipherFilePath);
+                        }
+                        else
+                        {
+                            cipherFilePath = MessageADechiffrer["FILE:".Length..];
+                            if (File.Exists(cipherFilePath))
+                            {
+                                MessageADechiffrer = File.ReadAllText(cipherFilePath);
+                            }
+                            else
+                            {
+                                Display.PrintMessage("Le fichier \""
+                                                 + cipherFilePath
+                                                 + "\" n'existe pas dans le répertoire de chiffrement.", MessageState.Failure);
+                                Display.PrintMessage("Le répertoire de chiffrement spécifié est : " + Parametres.CipherFileDirectory,
+                                                     MessageState.Warning);
+                                Console.WriteLine("Entrez un nouveau chemin d'accès ou un chiffrement valide,");
+                                Console.WriteLine("ou appuyez sur ENTRÉE sans rien écrire pour quitter.");
+                                continue;
+                            }
+                        }
+                    }
+
                     //Validité du chiffrement complet
                     string MessageTeste = TestCipher(MessageADechiffrer);
                     if (MessageTeste == null)
@@ -393,6 +421,8 @@ namespace LORENZ
                     }
                     else
                     {
+
+                        PrivacyState msgPrivState;
                         if (!Algorithmes.IsPrivateMessage)
                         {
                             msgPrivState = PrivacyState.Public;
@@ -463,23 +493,27 @@ namespace LORENZ
             }
         }
 
-        public static string ConcatSegementsMessage()
+        public static bool ConcatSegementsMessage(out string messageConcat)
         {
-            string messageConcat = "";
+            messageConcat = "";
             string messagePart;
             do
             {
                 messagePart = Console.ReadLine();
                 messageConcat += messagePart;
+                if (messageConcat.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
             } while (messagePart != "");
-            
+
 
             if (messageConcat == "")
             {
                 throw new LORENZException(ErrorCode.E0xFFF, false);
             }
 
-            return messageConcat;
+            return false;
         }
 
         public static bool HaveSpaces(string Message)
