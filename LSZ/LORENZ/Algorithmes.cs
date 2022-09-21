@@ -451,20 +451,27 @@ namespace LORENZ
             }
         }
 
-        static string CheckControlAndFinalize(string s)
+        private static string CheckControlAndFinalize(string s)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
             string strConcat = default;
+            bool isCmdPrev = false;
             for (int str = 0; str < strBufferTb.Length; str++)
             {
-                while (str < strBufferTb.Length && IsControlCmd(strBufferTb[str]))
+                if (IsControlCmd(strBufferTb[str]))
                 {
                     RemoveArrayItem(ref strBufferTb, str);
+                    str--;
+                    isCmdPrev = true;
+                    continue;
                 }
-
-                if (str >= strBufferTb.Length)
+                else if (!isCmdPrev)
                 {
-                    break;
+                    strConcat += CmdSeperator;
+                }
+                else
+                {
+                    isCmdPrev = false;
                 }
 
                 strConcat += strBufferTb[str];
