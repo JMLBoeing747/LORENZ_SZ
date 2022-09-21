@@ -59,7 +59,7 @@ namespace LORENZ
                 Console.WriteLine("Spécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :");
                 if (!cancelDenied)
                 {
-                    Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour annuler.", MessageState.Warning);
+                    Display.PrintMessage("Appuyez sur ENTRÉE sans rien écrire pour annuler.", MessageState.Warning);
                 }
 
                 Console.WriteLine();
