@@ -465,13 +465,15 @@ namespace LORENZ
 
         public static string ConcatSegementsMessage()
         {
-            string messagePart = Console.ReadLine();
-            string messageConcat = messagePart;
-            while (messagePart != "")
+            string messageConcat = "";
+            string messagePart;
+            do
             {
                 messagePart = Console.ReadLine();
                 messageConcat += messagePart;
-            }
+            } while (messagePart != "");
+            
+
             if (messageConcat == "")
             {
                 throw new LORENZException(ErrorCode.E0xFFF, false);
