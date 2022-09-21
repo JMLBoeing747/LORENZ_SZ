@@ -76,16 +76,21 @@ namespace LORENZ
                     string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
                     string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
 
+                    /* paddingLeftMax : Nombre d'espaces minimum pour aligner les entrée en synchronisation avec
+                     *                  l'augmentation de l'index
+                     * realEntry :      Index réel de l'entrée à afficher sur l'écran
+                     * padLeftStr :     String contenant les espaces ' ' qui alignent les entrées de l'historique
+                     */
                     int paddingLeftMax = ListeHistorique.Count.ToString().Length - 1;
+                    int realEntry = ListeHistorique.Count - hEntry;
+                    string padLeftStr = new(' ', 1 + paddingLeftMax - realEntry.ToString().Length);
+
                     int lineLenMax = Console.WindowWidth - "[x]:dd-MM-yyyy HH:mm:ss : ".Length + paddingLeftMax - 13;
                     if (excerpt.Length > lineLenMax)
                     {
                         excerpt = excerpt[..lineLenMax] + "...";
                     }
 
-                    int realEntry = ListeHistorique.Count - hEntry;
-
-                    string padLeftStr = new string(' ', 1 + paddingLeftMax - realEntry.ToString().Length);
                     Console.WriteLine($"[{realEntry}]:" + padLeftStr + " " + dtStr + " : " + excerpt);
                 }
 
@@ -192,7 +197,7 @@ namespace LORENZ
                 PrivacyState privSta = ListeHistorique[index].Item4;
 
                 int invIndex = ListeHistorique.Count - index;
-                string headerMarker = new String('=', 50);
+                string headerMarker = new('=', 50);
                 Console.WriteLine(headerMarker);
                 Console.WriteLine("Message historique #" + invIndex);
                 Console.WriteLine("Déchiffré le " + dateOfDeciphering + " à " + hourOfDeciphering);
