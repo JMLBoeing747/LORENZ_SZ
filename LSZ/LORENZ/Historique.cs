@@ -38,29 +38,29 @@ namespace LORENZ
                             {
                                 if (dateEntry.Day == DateTime.Now.Day - 1 && headerSwitch < 2)
                                 {
-                                    Console.WriteLine("-------- Hier ---------");
+                                    Console.WriteLine("---------- Hier -----------");
                                     headerSwitch = 2;
                                 }
                                 else if (dateEntry.Day == DateTime.Now.Day && headerSwitch < 1)
                                 {
-                                    Console.WriteLine("----- Aujourd'hui -----");
+                                    Console.WriteLine("------- Aujourd'hui -------");
                                     headerSwitch = 1;
                                 }
                                 else if (dateEntry.Day < DateTime.Now.Day - 1)
                                 {
-                                    Console.WriteLine("---- Cette semaine ----");
+                                    Console.WriteLine("------ Cette semaine ------");
                                     headerSwitch = 3;
                                 }
                             }
                             else if (dateEntry.Day < DateTime.Now.Day - 7)
                             {
-                                Console.WriteLine("----- Ce mois-ci ------");
+                                Console.WriteLine("------- Ce mois-ci --------");
                                 headerSwitch = 4;
                             }
                         }
                         else if (dateEntry.Month < DateTime.Now.Month)
                         {
-                            Console.WriteLine("----- Cette année -----");
+                            Console.WriteLine("------- Cette année -------");
                             headerSwitch = 5;
                         }
                     }
@@ -76,7 +76,8 @@ namespace LORENZ
                     string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
                     string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
 
-                    int lineLenMax = Console.WindowWidth - "[x]:dd-MM-yyyy HH:mm:ss : ".Length - 13;
+                    int paddingLeftMax = ListeHistorique.Count.ToString().Length - 1;
+                    int lineLenMax = Console.WindowWidth - "[x]:dd-MM-yyyy HH:mm:ss : ".Length + paddingLeftMax - 13;
                     if (excerpt.Length > lineLenMax)
                     {
                         excerpt = excerpt[..lineLenMax] + "...";
@@ -84,7 +85,8 @@ namespace LORENZ
 
                     int realEntry = ListeHistorique.Count - hEntry;
 
-                    Console.WriteLine($"[{realEntry}]:" + dtStr + " : " + excerpt);
+                    string padLeftStr = new string(' ', 1 + paddingLeftMax - realEntry.ToString().Length);
+                    Console.WriteLine($"[{realEntry}]:" + padLeftStr + " " + dtStr + " : " + excerpt);
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -199,18 +201,28 @@ namespace LORENZ
                 switch (privSta)
                 {
                     case PrivacyState.NotDefined:
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Inconnu");
                         break;
                     case PrivacyState.Public:
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Public");
                         break;
                     case PrivacyState.Private:
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Privé");
                         break;
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("ERROR");
                         break;
                 }
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
                 Console.WriteLine(headerMarker);
                 Console.WriteLine("\n" + historicMsg);
                 Extensions.AfficherMarqueurFin();
