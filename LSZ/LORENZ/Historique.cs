@@ -157,17 +157,22 @@ namespace LORENZ
                 }
 
                 // Afficher entrée
-                if (numeroStr[0] == 'D')
+                if (numeroStr[0] == 'D' && numeroStr.Length > 1)
                 {
                     int numeroDel = int.Parse(numeroStr[1..]);
                     int realNumero = ListeHistorique.Count - numeroDel;
                     RetirerHistorique(realNumero);
                 }
-                else
+                else if (numeroStr[0] != 'D')
                 {
                     int numeroInt = int.Parse(numeroStr);
                     int realNumero = ListeHistorique.Count - numeroInt;
                     AfficherEntree(realNumero);
+                }
+                else
+                {
+                    Display.PrintMessage("Aucune entrée à supprimer !", MessageState.Failure);
+                    Console.ReadKey(true);
                 }
             }
         }
@@ -184,7 +189,8 @@ namespace LORENZ
                 string msgAuthor = ListeHistorique[index].Item3 == "" ? "Inconnu" : ListeHistorique[index].Item3;
                 PrivacyState privSta = ListeHistorique[index].Item4;
 
-                Console.WriteLine("Message historique #" + (index + 1));
+                int invIndex = ListeHistorique.Count - index;
+                Console.WriteLine("Message historique #" + invIndex);
                 Console.WriteLine("déchiffré le " + dateOfDeciphering + " à " + hourOfDeciphering + "h" + minSecsOfDeciphering);
                 Console.WriteLine("Auteur : " + msgAuthor);
                 Console.Write("Niveau de confidentialité : ");
@@ -205,7 +211,23 @@ namespace LORENZ
                 }
                 Console.WriteLine("\n" + historicMsg);
                 Extensions.AfficherMarqueurFin();
-                Console.ReadKey(true);
+                Console.WriteLine("\n[C]: Ajouter à une catégorie");
+                Console.WriteLine("[Del]: Supprimer ce message");
+                Console.WriteLine("\nAppuyez sur n'importe quelle autre touche pour quitter...");
+                ConsoleKeyInfo saisie = Console.ReadKey(true);
+                switch (saisie.Key)
+                {
+                    case ConsoleKey.C:
+                        // Ajouter catégorie
+                        break;
+                    case ConsoleKey.Delete:
+                        RetirerHistorique(index);
+                        Display.PrintMessage("Message supprimé", MessageState.Warning);
+                        Console.ReadKey(true);
+                        return;
+                    default:
+                        break;
+                }
             }
             else
             {
