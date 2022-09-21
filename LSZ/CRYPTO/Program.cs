@@ -5,10 +5,10 @@ namespace CRYPTO
 {
     class Program
     {
-        static string CryptoVersion { get => "1.0.0"; }
-        static string UserinfoTextFile { get => "USERINFO.TXT"; }
+        private static string CryptoVersion { get => "1.0.0"; }
+        private static string UserinfoTextFile { get => "USERINFO.TXT"; }
 
-        static int WarningMessageBegin()
+        private static int WarningMessageBegin()
         {
             Display.PrintMessage("WELCOME TO \"CRYPTO ENCRYPTOR\"!\n", MessageState.Warning);
 
@@ -41,7 +41,7 @@ namespace CRYPTO
                 return 0;
         }
 
-        static void CreateMatrix(ref uint[] keyQBytes, int opCode)
+        private static void CreateMatrix(ref uint[] keyQBytes, int opCode)
         {
             int matrixLength = (int)Math.Cbrt(Common.KeyNbrUInt * 4);
 
@@ -108,7 +108,7 @@ namespace CRYPTO
             }
         }
 
-        static void ChiffrerLeMessage(uint[] message)
+        private static void ChiffrerLeMessage(uint[] message)
         {
             //Show warning message...
             if (WarningMessageBegin() == -1)

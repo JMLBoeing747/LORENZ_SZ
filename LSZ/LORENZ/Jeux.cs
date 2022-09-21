@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Cryptography;
+using System;
 using System.IO;
-using Cryptography;
 
 namespace LORENZ
 {
-    static class Jeux
+    public static class Jeux
     {
         public static double TheGame(double Coins)
         {
@@ -104,7 +104,7 @@ namespace LORENZ
             return Coins;
         }
 
-        static int LevelMenu()
+        private static int LevelMenu()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Veuillez choisir un niveau :\nAppuyez sur ESC pour annuler.");
@@ -133,7 +133,7 @@ namespace LORENZ
                 return default;
         }
 
-        static void WriteCoinsIntoFile(double coins)
+        private static void WriteCoinsIntoFile(double coins)
         {
             string DirectoryPath = new FileInfo(Parametres.CoinsRecordFile).DirectoryName;
             if (!Directory.Exists(DirectoryPath))

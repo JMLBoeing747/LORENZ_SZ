@@ -22,7 +22,7 @@ namespace LORENZ
             Console.Clear();
         }
 
-        static void Demarrage()
+        private static void Demarrage()
         {
             Display.PrintMessage("Initialisation des composants...", MessageState.Info);
             Parametres.LireGeneralParamsFile();
@@ -167,7 +167,7 @@ namespace LORENZ
             Console.WriteLine(">>> " + Parametres.LID + " <<<");
         }
 
-        static void ChangerLePseudo()
+        private static void ChangerLePseudo()
         {
             Console.Clear();
             Console.WriteLine("Le pseudo est le nom qui sera affiché à tous les récepteurs pouvant déchiffrer le message");
@@ -203,7 +203,7 @@ namespace LORENZ
             Console.ReadKey(true);
         }
 
-        static void AfficherAide()
+        private static void AfficherAide()
         {
             try
             {
@@ -226,7 +226,7 @@ namespace LORENZ
             }
         }
 
-        static void ChiffrerLeMessage()
+        private static void ChiffrerLeMessage()
         {
             Console.Clear();
             Console.WriteLine("Preparation...");
@@ -310,7 +310,7 @@ namespace LORENZ
             }
         }
 
-        static bool IfOnlySpaces(string Message)
+        private static bool IfOnlySpaces(string Message)
         {
             int Spaces = 0;
             for (int c = 0; c < Message.Length; c++)
@@ -324,7 +324,7 @@ namespace LORENZ
             return Spaces == Message.Length;
         }
 
-        static void DechiffrerLeMessage()
+        private static void DechiffrerLeMessage()
         {
             //Demande d'écriture du message chiffré
             Console.Clear();
@@ -489,7 +489,7 @@ namespace LORENZ
             return false;
         }
 
-        static void RewriteCypherWarnMsg()
+        private static void RewriteCypherWarnMsg()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(Environment.NewLine + "Ce message n'est pas valide." + Environment.NewLine);
@@ -499,7 +499,7 @@ namespace LORENZ
             Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire :");
         }
 
-        static string TestCipher(string MessageToTest)
+        private static string TestCipher(string MessageToTest)
         {
             bool spacesInMessage = HaveSpaces(MessageToTest);
             if (MessageToTest.Length <= 38 || MessageToTest.Length % 4 != 0 || spacesInMessage)
@@ -515,7 +515,7 @@ namespace LORENZ
             return MessageToTest;
         }
 
-        static void MenuHistorique()
+        private static void MenuHistorique()
         {
             Console.Clear();
             if (Historique.ListeHistorique.Count == 0 && !Historique.LireFichierHistorique())
@@ -559,7 +559,7 @@ namespace LORENZ
             }
         }
 
-        static void MenuOptions()
+        private static void MenuOptions()
         {
             Console.Clear();
             while (true)

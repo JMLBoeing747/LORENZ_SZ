@@ -169,7 +169,7 @@ namespace LORENZ
             return false;
         }
 
-        static string CheckControlSenderPriv(string s)
+        private static string CheckControlSenderPriv(string s)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
             string strConcat = default;
@@ -195,7 +195,7 @@ namespace LORENZ
             return strConcat;
         }
 
-        static void ModuloOperation(int opType, string generalKey, ref string messageWithoutGK, bool isCiphering)
+        private static void ModuloOperation(int opType, string generalKey, ref string messageWithoutGK, bool isCiphering)
         {
             string resultKey = default;
             switch (opType)
@@ -247,7 +247,7 @@ namespace LORENZ
             messageWithoutGK = NewMessage;
         }
 
-        static string ModuloCipher(string generalKey, string messageWithoutGK, bool isCiphering)
+        private static string ModuloCipher(string generalKey, string messageWithoutGK, bool isCiphering)
         {
             ModuloOperation(1, generalKey, ref messageWithoutGK, isCiphering);
             ModuloOperation(2, generalKey, ref messageWithoutGK, isCiphering);
@@ -385,7 +385,7 @@ namespace LORENZ
             return MessageDecryptedFirstSCout;
         }
 
-        static void RemoveArrayItem(ref string[] array, params int[] indexes)
+        private static void RemoveArrayItem(ref string[] array, params int[] indexes)
         {
             static bool containsIndex(int indexToFind, int[] array)
             {
@@ -414,7 +414,7 @@ namespace LORENZ
             array = bufferArray;
         }
 
-        static bool IsControlCmd(string s)
+        private static bool IsControlCmd(string s)
         {
             if (s.ToUpper().Contains("SENDER:"))
             {

@@ -37,7 +37,7 @@ namespace LORENZKeygen
 
         }
 
-        static string ShowHiddenInfos(string info)
+        private static string ShowHiddenInfos(string info)
         {
             string hiddenInfo = default;
             int showCharNbr = info.Length >= 3 ? (int)Math.Floor(2 * Math.Log(info.Length - 2)) : 0;
