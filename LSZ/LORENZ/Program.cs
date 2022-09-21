@@ -133,6 +133,10 @@ namespace LORENZ
                         Console.Clear();
                         Display.PrintMessage("Pour quitter, appuyez sur ESC.", MessageState.Warning, resetColors: true);
                         continue;
+                    case ConsoleKey.A:
+                        Extensions.Music();
+                        OverridePress = true;
+                        break;
                     default:
                         Console.Clear();
                         Display.PrintMessage("Ceci n'est pas une option valide.", MessageState.Failure);
@@ -409,7 +413,7 @@ namespace LORENZ
 
                             Algorithmes.IsPrivateMessage = false;
                         }
-                        
+
                         if (Parametres.ShowPseudoNameSender)
                         {
                             Console.BackgroundColor = ConsoleColor.DarkGreen;

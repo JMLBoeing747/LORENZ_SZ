@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Security;
+using System.Threading;
 
 namespace LORENZ
 {
@@ -112,5 +113,37 @@ namespace LORENZ
 
             return true;
         }
+
+        public static void Music()
+        {
+            Display.PrintMessage("Playing...");
+            
+            int noteDur = 300;
+            int sleepDur = 100;
+
+            for (int times = 0; times < 4; times++)
+            {
+                Console.Beep(370, noteDur);
+                Thread.Sleep(sleepDur);
+                Console.Beep(294, noteDur);
+                Thread.Sleep(sleepDur);
+                Console.Beep(370, noteDur);
+                Thread.Sleep(sleepDur);
+            }
+            Thread.Sleep(1000);
+            for (int times = 0; times < 4; times++)
+            {
+                Console.Beep(330, noteDur);
+                Thread.Sleep(sleepDur);
+                Console.Beep(277, noteDur);
+                Thread.Sleep(sleepDur);
+                if (times < 3)
+                {
+                    Console.Beep(330, noteDur);
+                    Thread.Sleep(sleepDur);
+                }
+            }
+        }
     }
 }
+
