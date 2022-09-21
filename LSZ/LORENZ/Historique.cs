@@ -93,6 +93,7 @@ namespace LORENZ
                 Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
                 Console.WriteLine("Appuyez sur Backspace pour effacer.");
                 Console.WriteLine("\nPour retourner, appuyer sur ESC.");
+                Console.Write(">> ");
                 Console.ForegroundColor = ConsoleColor.Cyan;
 
                 string numeroStr = "";
@@ -182,16 +183,17 @@ namespace LORENZ
             if (index < ListeHistorique.Count && index >= 0)
             {
                 Console.Clear();
-                string dateOfDeciphering = ListeHistorique[index].Item1.ToString("dddd dd MMMM yyyy");
-                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("HH");
-                string minSecsOfDeciphering = ListeHistorique[index].Item1.ToString("mm:ss");
+                string dateOfDeciphering = ListeHistorique[index].Item1.ToString("dddd d MMMM yyyy");
+                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("H:m:ss");
                 string historicMsg = ListeHistorique[index].Item2;
                 string msgAuthor = ListeHistorique[index].Item3 == "" ? "Inconnu" : ListeHistorique[index].Item3;
                 PrivacyState privSta = ListeHistorique[index].Item4;
 
                 int invIndex = ListeHistorique.Count - index;
+                string headerMarker = new String('=', 50);
+                Console.WriteLine(headerMarker);
                 Console.WriteLine("Message historique #" + invIndex);
-                Console.WriteLine("déchiffré le " + dateOfDeciphering + " à " + hourOfDeciphering + "h" + minSecsOfDeciphering);
+                Console.WriteLine("Déchiffré le " + dateOfDeciphering + " à " + hourOfDeciphering);
                 Console.WriteLine("Auteur : " + msgAuthor);
                 Console.Write("Niveau de confidentialité : ");
                 switch (privSta)
@@ -209,6 +211,7 @@ namespace LORENZ
                         Console.WriteLine("ERROR");
                         break;
                 }
+                Console.WriteLine(headerMarker);
                 Console.WriteLine("\n" + historicMsg);
                 Extensions.AfficherMarqueurFin();
                 Console.WriteLine("\n[C]: Ajouter à une catégorie");
