@@ -118,8 +118,8 @@ namespace LORENZ
         {
             Display.PrintMessage("Playing...");
             
-            int noteDur = 300;
-            int sleepDur = 100;
+            int noteDur = 100;
+            int sleepDur = 255;
 
             for (int times = 0; times < 4; times++)
             {
@@ -130,7 +130,7 @@ namespace LORENZ
                 Console.Beep(370, noteDur);
                 Thread.Sleep(sleepDur);
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(sleepDur);
             for (int times = 0; times < 4; times++)
             {
                 Console.Beep(330, noteDur);
