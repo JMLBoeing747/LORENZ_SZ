@@ -303,7 +303,7 @@ namespace LORENZ
                     {
                         cipherFileName = Console.ReadLine();
                     } while (!Extensions.EcrireChiffrementLong(VraiMessageChiffre, cipherFileName));
-                    
+
                     Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     return;
@@ -400,7 +400,7 @@ namespace LORENZ
 
                     //Génération de la Table Code
                     string[,] TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
-                    //Vérification si GK mauvais car répétitions de trans
+                    // Vérification si GK mauvais car répétitions de trans
                     if (TheTableCode == null)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -409,25 +409,18 @@ namespace LORENZ
                         RewriteCypherWarnMsg();
                         continue;
                     }
-                    else if (!Algorithmes.IsGoodCheckSum)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(Environment.NewLine + "ATTENTION LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS");
-                        Console.WriteLine("DUE À UNE MODIFICATION ACCIDENTELLE OU MALINTENTIONNÉE DE VALEURS DANS LE CHIFFREMENT");
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                    }
-                    //Déchiffrement second
+
+                    // Déchiffrement second
                     string MessageDechiffreComplet = Algorithmes.DechiffrementSecond(TheTableCode, StrGeneralKey, MessageDechiffre1);
                     Console.ForegroundColor = ConsoleColor.White;
                     if (!Algorithmes.IsThePrivateReceiver && !Algorithmes.IsThePrivateSender)
                     {
                         // Si le message n'est pas destiné au bon utilisateur et que ce n'est pas son auteur
-                        Display.PrintMessage("LORENZ WARNING MSG: THIS MESSAGE IS PRIVATELY DESTINATED TO ANOTHER USER", MessageState.Warning);
+                        Display.PrintMessage("LORENZ WARNING MSG: CE MESSAGE NE VOUS EST PAS DESTINÉ.", MessageState.Warning);
                         Algorithmes.IsPrivateMessage = false;
                     }
                     else
                     {
-
                         PrivacyState msgPrivState;
                         if (!Algorithmes.IsPrivateMessage)
                         {
@@ -468,14 +461,14 @@ namespace LORENZ
                         if (!Algorithmes.IsGoodCheckSum)
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine(Environment.NewLine + "ATTENTION LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS");
-                            Console.WriteLine("DUE À UNE MODIFICATION ACCIDENTELLE OU MALINTENTIONNÉE DE VALEURS DANS LE CHIFFREMENT");
+                            Console.WriteLine(Environment.NewLine + "ATTENTION ! LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS");
+                            Console.WriteLine("DUE À UNE MODIFICATION ACCIDENTELLE OU MALINTENTIONNÉE DE VALEURS DANS LE CHIFFREMENT.");
                             Console.ForegroundColor = ConsoleColor.Cyan;
                         }
 
                         DateTime dateTimeDechiff = DateTime.Now;
                         Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("\nAppuyez sur S pour sauvegarder le message déchiffré.");
+                        Console.WriteLine("\n[S]: Sauvegarder le présent message\n");
                         Console.WriteLine("Appuyez sur toute autre touche pour retourner au menu principal...");
                         ConsoleKeyInfo saisie = Console.ReadKey(true);
                         if (saisie.Key == ConsoleKey.S)
