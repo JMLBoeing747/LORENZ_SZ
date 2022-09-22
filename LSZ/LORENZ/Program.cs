@@ -297,9 +297,13 @@ namespace LORENZ
                     Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
                         "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
                     Console.Write("Donnez un nom au fichier de chiffrement : ");
-                    string cipherFileName = Console.ReadLine();
 
-                    Extensions.EcrireChiffrementLong(VraiMessageChiffre, cipherFileName);
+                    string cipherFileName;
+                    do
+                    {
+                        cipherFileName = Console.ReadLine();
+                    } while (!Extensions.EcrireChiffrementLong(VraiMessageChiffre, cipherFileName));
+                    
                     Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     return;

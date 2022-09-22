@@ -13,6 +13,7 @@ namespace LORENZ
         {
             return NomFichierChiffrement ?? "";
         }
+        public static string DeniedChars => "#%&{}<>*?$!'\":@+`|=";
 
         public static void Configuration()
         {
@@ -34,9 +35,9 @@ namespace LORENZ
             Console.BackgroundColor = colorBackBef;
         }
 
-        public static void EcrireChiffrementLong(string msgChiffre)
+        public static bool EcrireChiffrementLong(string msgChiffre, string cipherFileName = "")
         {
-            NomFichierChiffrement = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+            NomFichierChiffrement = cipherFileName == "" ? DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt" : cipherFileName;
 
             if (Parametres.CipherFileDirectory == null)
             {
@@ -48,7 +49,29 @@ namespace LORENZ
                 Directory.CreateDirectory(Parametres.CipherFileDirectory);
             }
 
-            File.WriteAllText(Parametres.CipherFileDirectory + NomFichierChiffrement, msgChiffre);
+            try
+            {
+                File.WriteAllText(Parametres.CipherFileDirectory + NomFichierChiffrement, msgChiffre);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                Display.PrintMessage("Chemin d'accès invalide.\n"
+                                     + "Retirez tout caractère interdit "
+                                     + DeniedChars, MessageState.Failure);
+            }
+            catch (IOException)
+            {
+                Display.PrintMessage("Chemin d'accès invalide.\n"
+                                     + "Retirez tout caractère interdit "
+                                     + DeniedChars, MessageState.Failure);
+            }
+            catch (Exception)
+            {
+                Display.PrintMessage("Chemin d'accès invalide.", MessageState.Failure);
+            }
+            
+            return false;
         }
 
         public static bool SetCipherFileDirectory(bool cancelDenied = false)
@@ -97,9 +120,10 @@ namespace LORENZ
                 }
                 catch (ArgumentException)
                 {
-                    Display.PrintMessage("Chemin d'accès invalide.\n" +
-                        "Utilisez '\\' au lieu de '/' pour les séparateurs,\n" +
-                        "ou retirez tout caractère interdit #%&{}<>*?$!'\":@+`|=", MessageState.Failure);
+                    Display.PrintMessage("Chemin d'accès invalide.\n"
+                                         + "Utilisez '\\' au lieu de '/' pour les séparateurs,\n"
+                                         + "ou retirez tout caractère interdit "
+                                         + DeniedChars, MessageState.Failure);
                 }
                 catch (SecurityException)
                 {
@@ -117,7 +141,7 @@ namespace LORENZ
         public static void Music()
         {
             Display.PrintMessage("Playing...");
-            
+
             int noteDur = 100;
             int sleepDur = 255;
 
