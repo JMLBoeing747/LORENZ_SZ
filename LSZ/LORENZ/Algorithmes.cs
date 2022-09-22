@@ -89,9 +89,9 @@ namespace LORENZ
         {
             // Développement de la racine
             bool chainBool1 = int.TryParse(TransTableRoot[0].ToString(), out int chain1);
-            bool chainBool2 = int.TryParse(TransTableRoot[0].ToString(), out int chain2);
-            bool chainBool3 = int.TryParse(TransTableRoot[0].ToString(), out int chain3);
-            bool chainBool4 = int.TryParse(TransTableRoot[0].ToString(), out int chain4);
+            bool chainBool2 = int.TryParse(TransTableRoot[1].ToString(), out int chain2);
+            bool chainBool3 = int.TryParse(TransTableRoot[2].ToString(), out int chain3);
+            bool chainBool4 = int.TryParse(TransTableRoot[3].ToString(), out int chain4);
 
             if (!chainBool1 || !chainBool2 || !chainBool3 || !chainBool4)
             {
