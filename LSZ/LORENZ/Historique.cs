@@ -20,6 +20,15 @@ namespace LORENZ
 
         public static void AfficherHistorique()
         {
+            int msgHistoryMaxLen = 0;
+            for (int m = 0; m < ListeHistorique.Count; m++)
+            {
+                if (ListeHistorique[m].Item2.Length > msgHistoryMaxLen)
+                {
+                    msgHistoryMaxLen = ListeHistorique[m].Item2.Length;
+                }
+            }
+            
             while (true)
             {
                 Console.Clear();
@@ -38,35 +47,35 @@ namespace LORENZ
                             {
                                 if (dateEntry.Day == DateTime.Now.Day - 1 && headerSwitch < 2)
                                 {
-                                    Console.WriteLine("---------- Hier -----------");
+                                    Console.WriteLine("              Hier               ");
                                     headerSwitch = 2;
                                 }
                                 else if (dateEntry.Day == DateTime.Now.Day && headerSwitch < 1)
                                 {
-                                    Console.WriteLine("------- Aujourd'hui -------");
+                                    Console.WriteLine("           Aujourd'hui           ");
                                     headerSwitch = 1;
                                 }
                                 else if (dateEntry.Day < DateTime.Now.Day - 1)
                                 {
-                                    Console.WriteLine("------ Cette semaine ------");
+                                    Console.WriteLine("          Cette semaine          ");
                                     headerSwitch = 3;
                                 }
                             }
                             else if (dateEntry.Day < DateTime.Now.Day - 7)
                             {
-                                Console.WriteLine("------- Ce mois-ci --------");
+                                Console.WriteLine("           Ce mois-ci            ");
                                 headerSwitch = 4;
                             }
                         }
                         else if (dateEntry.Month < DateTime.Now.Month)
                         {
-                            Console.WriteLine("------- Cette année -------");
+                            Console.WriteLine("           Cette année           ");
                             headerSwitch = 5;
                         }
                     }
                     else if (dateEntry.Year < DateTime.Now.Year)
                     {
-                        Console.WriteLine("--- Il y a longtemps ---");
+                        Console.WriteLine("       Il y a longtemps       ");
                         headerSwitch = 6;
                     }
 
@@ -75,30 +84,52 @@ namespace LORENZ
 
                     string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
                     string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
+                    int excerptLen = ListeHistorique[hEntry].Item2.Length;
 
-                    /* paddingLeftMax : Nombre d'espaces minimum pour aligner les entrée en synchronisation avec
-                     *                  l'augmentation de l'index
-                     * realEntry :      Index réel de l'entrée à afficher sur l'écran
-                     * padLeftStr :     String contenant les espaces ' ' qui alignent les entrées de l'historique
+                    /* indexPaddingMax :  Nombre d'espaces minimum pour aligner les entrées en synchronisation avec
+                     *                   l'augmentation de l'index
+                     * lenPaddingMax :    Nombre d'espaces minimum pour aligner les entrées selon la plus grande longueur
+                     *                   de message sauvegardé dans l'historique
+                     * realEntry :        Index réel de l'entrée à afficher sur l'écran
+                     * indexPadStr :      String contenant les espaces ' ' qui alignent les entrées de l'historique
+                     *                   selon l'index du message
+                     * lenPadStr :        String contenant les espaces ' ' qui alignent les entrées de l'historique
+                     *                   selon la longueur du message
                      */
-                    int paddingLeftMax = ListeHistorique.Count.ToString().Length - 1;
+                    int indexPaddingMax = ListeHistorique.Count.ToString().Length;
+                    int lenPaddingMax = msgHistoryMaxLen.ToString().Length;
                     int realEntry = ListeHistorique.Count - hEntry;
-                    string padLeftStr = new(' ', 1 + paddingLeftMax - realEntry.ToString().Length);
+                    string indexPadStr = new(' ', indexPaddingMax - realEntry.ToString().Length);
+                    string lenPadStr = new(' ', lenPaddingMax - excerptLen.ToString().Length);
 
-                    int lineLenMax = Console.WindowWidth - "[x]:dd-MM-yyyy HH:mm:ss : ".Length + paddingLeftMax - 13;
+                    int lineLenMax = Console.WindowWidth
+                                     - "[x]: dd-MM-yyyy HH:mm:ss | long. : ".Length
+                                     - " | ".Length
+                                     - indexPaddingMax
+                                     - lenPaddingMax
+                                     - "...".Length
+                                     - 10;
+                    
                     if (excerpt.Length > lineLenMax)
                     {
                         excerpt = excerpt[..lineLenMax] + "...";
                     }
 
-                    Console.WriteLine($"[{realEntry}]:" + padLeftStr + " " + dtStr + " : " + excerpt);
+                    Console.WriteLine($"[{realEntry}]: "
+                                      + indexPadStr
+                                      + dtStr
+                                      + " | long. : "
+                                      + excerptLen
+                                      + lenPadStr
+                                      + " | "
+                                      + excerpt);
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments, " +
                                   "inscrivez le numéro d'index situé à gauche");
                 Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
-                Console.WriteLine("Appuyez sur Backspace pour effacer.");
+                Console.WriteLine("Vous pouvez utiliser Backspace pour corriger.");
                 Console.WriteLine("\nPour retourner, appuyer sur ESC.");
                 Console.Write(">> ");
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -128,7 +159,7 @@ namespace LORENZ
                         numeroStr += 'D';
                         Console.Write("Delete : ");
                     }
-                    else if (numero.Key == ConsoleKey.Backspace && curLeftInitial > 0)
+                    else if (numero.Key == ConsoleKey.Backspace && curLeftInitial > 3)
                     {
                         if (numeroStr != "D")
                         {
@@ -227,8 +258,9 @@ namespace LORENZ
                 }
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Cyan;
-
+                Console.WriteLine("Longueur : " + historicMsg.Length + " charactères");
                 Console.WriteLine(headerMarker);
+
                 Console.WriteLine("\n" + historicMsg);
                 Extensions.AfficherMarqueurFin();
                 Console.WriteLine("\n[C]: Ajouter à une catégorie");
