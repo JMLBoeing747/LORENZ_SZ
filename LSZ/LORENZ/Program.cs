@@ -465,6 +465,14 @@ namespace LORENZ
 
                         Extensions.AfficherMarqueurFin();
 
+                        if (!Algorithmes.IsGoodCheckSum)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine(Environment.NewLine + "ATTENTION LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS");
+                            Console.WriteLine("DUE À UNE MODIFICATION ACCIDENTELLE OU MALINTENTIONNÉE DE VALEURS DANS LE CHIFFREMENT");
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+
                         DateTime dateTimeDechiff = DateTime.Now;
                         Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.WriteLine("\nAppuyez sur S pour sauvegarder le message déchiffré.");
