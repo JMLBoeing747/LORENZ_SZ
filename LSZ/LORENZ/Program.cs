@@ -296,8 +296,10 @@ namespace LORENZ
                     Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
                     Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
                         "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
+                    Console.Write("Donnez un nom au fichier de chiffrement : ");
+                    string cipherFileName = Console.ReadLine();
 
-                    Extensions.EcrireChiffrementLong(VraiMessageChiffre);
+                    Extensions.EcrireChiffrementLong(VraiMessageChiffre, cipherFileName);
                     Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     return;
