@@ -465,8 +465,8 @@ namespace LORENZ
                 }
             }
 
-            string msgWithouAttrib = default;
-            for (int i = 1; i < strSplited.Length - 1; i++)
+            string msgWithouAttrib = strSplited[1];
+            for (int i = 2; i < strSplited.Length - 1; i++)
             {
                 msgWithouAttrib += '\xAD' + strSplited[i];
             }
