@@ -318,25 +318,9 @@ namespace LORENZ
                     MessageSum %= 10000;
                 }
             }
-            string TheMSumStr = null;
-            if (MessageSum >= 0 && MessageSum < 10)
-            {
-                TheMSumStr = "0" + "0" + "0" + Convert.ToString(MessageSum);
+
+            return MessageSum.ToString("D4");
             }
-            if (MessageSum >= 10 && MessageSum < 100)
-            {
-                TheMSumStr = "0" + "0" + Convert.ToString(MessageSum);
-            }
-            if (MessageSum >= 100 && MessageSum < 1000)
-            {
-                TheMSumStr = "0" + Convert.ToString(MessageSum);
-            }
-            if (MessageSum >= 1000 && MessageSum < 10000)
-            {
-                TheMSumStr = Convert.ToString(MessageSum);
-            }
-            return TheMSumStr;
-        }
 
         public static string DechiffrementPremier(string MessageEncrypted2)
         {
