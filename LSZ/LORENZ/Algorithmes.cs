@@ -169,29 +169,50 @@ namespace LORENZ
             return false;
         }
 
-        private static string CheckControlSenderPriv(string s)
+        private static string AddAttributes(string s)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
-            string strConcat = default;
+
+            string[] attributes = new string[4];
+            attributes[0] = "P" + Parametres.PseudoName;
+
+            string strConcat = "\xAD";
             for (int strInt = 0; strInt < strBufferTb.Length; strInt++)
             {
-                if (strBufferTb[strInt].ToUpper().StartsWith("SENDER:"))
+                if (strBufferTb[strInt].ToUpper().StartsWith("PRIV:"))
                 {
+                    string receivLID = strBufferTb[strInt]["PRIV:".Length..];
+                    attributes[1] = "R" + receivLID;
+                    attributes[2] = "S" + Parametres.LID;
+
                     RemoveArrayItem(ref strBufferTb, strInt);
                     strInt--;
                     continue;
                 }
-                else if (strBufferTb[strInt].ToUpper().StartsWith("PRIV:"))
+                else if (strBufferTb[strInt].ToUpper().StartsWith("AFDA:"))
                 {
-                    strConcat += "FROM:" + Parametres.LID + CmdSeperator;
+                    string afdaLID = strBufferTb[strInt]["AFDA:".Length..];
+                    RemoveArrayItem(ref strBufferTb, strInt);
+                    attributes[3] = "A";
                 }
 
-                if (strInt == strBufferTb.Length)
+                if (strInt == strBufferTb.Length - 1)
                 {
+                    strConcat += strBufferTb[strInt];
                     break;
                 }
-                strConcat += strBufferTb[strInt] + CmdSeperator;
+
+                strConcat += strBufferTb[strInt];
             }
+
+            for (int attr = 0; attr < attributes.Length; attr++)
+            {
+                if (attributes[attr] != null)
+                {
+                    strConcat = attributes[attr] + strConcat;
+                }
+            }
+            
             return strConcat;
         }
 
@@ -257,8 +278,7 @@ namespace LORENZ
         public static string Chiffrement(string TheMessage, string generalKey, string[,] ATableCode)
         {
             //-----Partie 1 du premier chiffrement
-            TheMessage = CheckControlSenderPriv(TheMessage);
-            TheMessage = CmdSeperator + "SENDER:" + Parametres.PseudoName + CmdSeperator + TheMessage;
+            TheMessage = AddAttributes(TheMessage);
             string TheEncryptedMessage = null;
             for (int c = 0; c < TheMessage.Length; c++)
             {
@@ -320,7 +340,7 @@ namespace LORENZ
             }
 
             return MessageSum.ToString("D4");
-            }
+        }
 
         public static string DechiffrementPremier(string MessageEncrypted2)
         {
@@ -398,69 +418,54 @@ namespace LORENZ
             array = bufferArray;
         }
 
-        private static bool IsControlCmd(string s)
+        private static string CheckAttributes(string s)
         {
-            if (s.ToUpper().Contains("SENDER:"))
+            string[] strSplited = s.Split('\xAD');
+            if (strSplited.Length < 2)
             {
-                SenderPseudoName = s["SENDER:".Length..];
-                return true;
+                throw new LORENZException("Erreur dans le formatage des attributs");
             }
-            else if (s.ToUpper().Contains("SHOW:"))
-            {
-                return true;
-            }
-            else if (s.ToUpper().Contains("FROM:"))
-            {
-                ThePrivateSenderLID = s["FROM:".Length..];
-                return true;
-            }
-            else if (s.ToUpper().Contains("PRIV:"))
-            {
-                IsPrivateMessage = true;
-                ThePrivateReceiverLID = s["PRIV:".Length..];
-                return true;
-            }
-            else if (s.ToUpper().Contains("AFDA:"))
-            {
-                if (s["AFDA:".Length..] == Parametres.LID)
-                {
-                    File.Delete(Parametres.UserlogFile);
-                    throw new LORENZException(ErrorCode.E0x00);
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private static string CheckControlAndFinalize(string s)
-        {
-            string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
-            string strConcat = default;
-            bool isCmdPrev = false;
-            for (int str = 0; str < strBufferTb.Length; str++)
+            string msgAttributes = strSplited[0];
+            for (int c = 0; c < msgAttributes.Length - 1; c++)
             {
-                if (IsControlCmd(strBufferTb[str]))
+                // Ajouter le code pour la CT
+
+                if (msgAttributes[c] == 'A')
                 {
-                    RemoveArrayItem(ref strBufferTb, str);
-                    str--;
-                    isCmdPrev = true;
-                    continue;
-                }
-                else if (!isCmdPrev)
-                {
-                    strConcat += CmdSeperator;
-                }
-                else
-                {
-                    isCmdPrev = false;
+                    c++;
+                    string afdaLID = msgAttributes.Substring(c, 6);
+                    if (afdaLID == Parametres.LID)
+                    {
+                        File.Delete(Parametres.UserlogFile);
+                        throw new LORENZException(ErrorCode.E0x00);
+                    }
                 }
 
-                strConcat += strBufferTb[str];
+                if (msgAttributes[c] == 'S')
+                {
+                    IsPrivateMessage = true;
+                    c++;
+                    ThePrivateSenderLID = msgAttributes.Substring(c, 6);
+                    c += 6;
+
+                    if (msgAttributes[c] == 'R')
+                    {
+                        c++;
+                        ThePrivateReceiverLID = msgAttributes.Substring(c, 6);
+                        c += 6;
+                    }
+                }
+
+                if (msgAttributes[c] == 'P')
+                {
+                    c++;
+                    SenderPseudoName = msgAttributes[c..];
+                    c += SenderPseudoName.Length;
+                }
             }
-            return strConcat;
+
+            return strSplited[1];
         }
 
         public static string DechiffrementSecond(string[,] TableCode, string generalKey, string MessageToDecrypt)
@@ -498,7 +503,7 @@ namespace LORENZ
             }
 
             //Vérifier présence de commandes de contrôle
-            DecipheredMessageComplete = CheckControlAndFinalize(DecipheredMessageComplete);
+            DecipheredMessageComplete = CheckAttributes(DecipheredMessageComplete);
             return DecipheredMessageComplete;
         }
 
