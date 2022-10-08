@@ -465,7 +465,13 @@ namespace LORENZ
                 }
             }
 
-            return strSplited[1];
+            string msgWithouAttrib = default;
+            for (int i = 1; i < strSplited.Length - 1; i++)
+            {
+                msgWithouAttrib += '\xAD' + strSplited[i];
+            }
+            
+            return msgWithouAttrib;
         }
 
         public static string DechiffrementSecond(string[,] TableCode, string generalKey, string MessageToDecrypt)
