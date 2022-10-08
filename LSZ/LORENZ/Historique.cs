@@ -261,7 +261,7 @@ namespace LORENZ
                 Console.WriteLine("Longueur : " + historicMsg.Length + " charactères");
                 Console.WriteLine(headerMarker);
 
-                Console.WriteLine("\n" + historicMsg);
+                Console.Write("\n" + historicMsg);
                 Extensions.AfficherMarqueurFin();
                 Console.WriteLine("\n[C]: Ajouter à une catégorie");
                 Console.WriteLine("[Del]: Supprimer ce message");

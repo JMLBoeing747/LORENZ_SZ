@@ -453,7 +453,7 @@ namespace LORENZ
                         }
                         else
                         {
-                            Console.WriteLine(MessageDechiffreComplet);
+                            Console.Write(MessageDechiffreComplet);
                         }
 
                         Extensions.AfficherMarqueurFin();
