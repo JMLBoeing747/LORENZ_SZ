@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LORENZ
 {
@@ -53,24 +53,39 @@ namespace LORENZ
 
             public void Add(string entry)
             {
+                foreach (SubWord item in SubWordsList)
+                {
+                    if (item.Word == entry)
+                    {
+                        item.Repeat(entry);
+                        return;
+                    }
+                }
+
                 if (entry.ToLower() == MainWord)
                 {
-                    foreach (SubWord item in SubWordsList)
-                    {
-                        if (item.Word == entry)
-                        {
-                            item.Repeat(entry);
-                            return;
-                        }
-                    }
-
                     string entryCode = EncodeWord(entry);
                     SubWord sw = new(entryCode);
                     SubWordsList.Add(sw);
                 }
+                else
+                {
+                    string[] divideWord = entry.Split('\'');
+                    if (divideWord.Length == 2)
+                    {
+                        string bigWord = divideWord[0].Length > divideWord[1].Length ? divideWord[0] : divideWord[1];
+                        if (bigWord.ToLower() == MainWord)
+                        {
+                            string littleWord = divideWord[0] == bigWord ? "\x90" + divideWord[1] : divideWord[0] + "\x90";
+                            string entryCode = EncodeWord(bigWord, littleWord);
+                            SubWord sw = new(entryCode);
+                            SubWordsList.Add(sw);
+                        }
+                    }
+                }
             }
 
-            private string EncodeWord(string word)
+            private string EncodeWord(string word, string part = null)
             {
                 string entryCode = default;
                 for (int cWord = 0; cWord < word.Length; cWord++)
@@ -84,7 +99,7 @@ namespace LORENZ
                         entryCode += "L";
                     }
                 }
-                
+
                 if (entryCode == "C" + new string('L', entryCode.Length - 1))
                 {
                     entryCode = "T";
@@ -98,7 +113,55 @@ namespace LORENZ
                     entryCode = "U";
                 }
 
+                if (part != null)
+                {
+                    if (entryCode == "")
+                    {
+                        entryCode += "X" + part;
+                    }
+                    else
+                    {
+                        entryCode += part;
+                    }
+                }
+
                 return entryCode;
+            }
+        }
+
+        struct CompressTable
+        {
+            private List<WordEntry> WordsList;
+
+            public CompressTable()
+            {
+                WordsList = new List<WordEntry>();
+            }
+
+            public void Check(string newWord)
+            {
+                if (newWord.Length > 2)
+                {
+                    if (WordsList.Count > 0)
+                    {
+                        foreach (WordEntry we in WordsList)
+                        {
+                            if (WordsList.IndexOf(we) < WordsList.Count - 1)
+                            {
+                                we.Add(newWord);
+                            }
+                            else
+                            {
+                                WordsList.Add(new(newWord));
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        WordsList.Add(new(newWord));
+                    }
+                }
             }
         }
 
@@ -115,7 +178,7 @@ namespace LORENZ
                     (< 'a' or > 'z') and
                     (< '\xC0') and not '\'')
                 {
-                        words.Add(tempWord);
+                    words.Add(tempWord);
                     tempWord = default;
                     wasSeparator = true;
                     tempWord += strC;
@@ -124,38 +187,19 @@ namespace LORENZ
                 {
                     if (wasSeparator)
                     {
-                            words.Add(tempWord);
+                        words.Add(tempWord);
                         tempWord = default;
                         wasSeparator = false;
                     }
-                    
+
                     tempWord += strC;
                 }
             }
 
-            List<WordEntry> preCompress = new();
+            CompressTable preCompress = new();
             foreach (string newWord in words)
             {
-                if (preCompress.Count > 0)
-                {
-                    foreach (WordEntry we in preCompress)
-                    {
-                        if (newWord.ToLower() == we.MainWord)
-                        {
-                            we.Add(newWord);
-                            break;
-                        }
-                        else if (preCompress.IndexOf(we) == preCompress.Count - 1)
-                        {
-                            preCompress.Add(new(newWord));
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    preCompress.Add(new(newWord));
-                }
+                preCompress.Check(newWord);
             }
         }
     }
