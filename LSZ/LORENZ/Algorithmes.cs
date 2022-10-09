@@ -278,6 +278,7 @@ namespace LORENZ
         public static string Chiffrement(string TheMessage, string generalKey, string[,] ATableCode)
         {
             //-----Partie 1 du premier chiffrement
+            Compression.TryCompression(TheMessage);
             TheMessage = AddAttributes(TheMessage);
             string TheEncryptedMessage = null;
             for (int c = 0; c < TheMessage.Length; c++)
