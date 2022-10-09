@@ -4,7 +4,7 @@ namespace LORENZ
 {
     public static class Compression
     {
-        struct SubWord
+        private struct SubWord
         {
             public string Word { get; }
             public int Count { get; private set; }
@@ -23,7 +23,7 @@ namespace LORENZ
                 }
             }
         }
-        struct WordEntry
+        private struct WordEntry
         {
             public string MainWord { get; private set; }
             private readonly List<SubWord> SubWordsList;
@@ -129,9 +129,9 @@ namespace LORENZ
             }
         }
 
-        struct CompressTable
+        private struct CompressTable
         {
-            private List<WordEntry> WordsList;
+            private readonly List<WordEntry> WordsList;
 
             public CompressTable()
             {
