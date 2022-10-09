@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LORENZ
 {
@@ -16,7 +13,7 @@ namespace LORENZ
             public SubWord(string word)
             {
                 Word = word;
-                Count = 0;
+                Count = 1;
             }
 
             public void Repeat(string newWord)
@@ -31,6 +28,15 @@ namespace LORENZ
         {
             public string MainWord { get; private set; }
             private List<SubWord> SubWordsList;
+
+            public WordEntry(string entry)
+            {
+                SubWordsList = new();
+                MainWord = entry.ToLower();
+                SubWord sw = new(entry);
+                SubWordsList.Add(sw);
+            }
+
             public int CountAll
             {
                 get
@@ -40,15 +46,9 @@ namespace LORENZ
                     {
                         temp += item.Count;
                     }
-                    
+
                     return temp;
                 }
-            }
-            public WordEntry(string entry)
-            {
-                SubWordsList = new();
-                MainWord = entry.ToLower();
-                SubWordsList.Add(new(MainWord));
             }
 
             public void Add(string subEntry)
@@ -105,9 +105,30 @@ namespace LORENZ
                 }
             }
 
-            List<string> factoStr = new();
-
-
+            List<WordEntry> preCompress = new();
+            foreach (string newWord in words)
+            {
+                if (preCompress.Count > 0)
+                {
+                    foreach (WordEntry we in preCompress)
+                    {
+                        if (newWord.ToLower() == we.MainWord)
+                        {
+                            we.Add(newWord);
+                            break;
+                        }
+                        else if (preCompress.IndexOf(we) == preCompress.Count - 1)
+                        {
+                            preCompress.Add(new(newWord));
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    preCompress.Add(new(newWord));
+                }
+            }
         }
     }
 }
