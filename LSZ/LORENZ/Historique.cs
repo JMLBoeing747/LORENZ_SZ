@@ -28,7 +28,7 @@ namespace LORENZ
                     msgHistoryMaxLen = ListeHistorique[m].Item2.Length;
                 }
             }
-            
+
             while (true)
             {
                 Console.Clear();
@@ -39,44 +39,62 @@ namespace LORENZ
                     Console.ForegroundColor = ConsoleColor.White;
 
                     DateTime dateEntry = ListeHistorique[hEntry].Item1;
-                    if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 5)
+                    if (headerSwitch < 1000)
                     {
-                        if (dateEntry.Month == DateTime.Now.Month && headerSwitch < 4)
+                        if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 100)
                         {
-                            if (dateEntry.Day >= DateTime.Now.Day - 7 && headerSwitch < 3)
+                            if (dateEntry.Month == DateTime.Now.Month && headerSwitch < 100)
                             {
-                                if (dateEntry.Day == DateTime.Now.Day - 1 && headerSwitch < 2)
+                                if (dateEntry.Day >= DateTime.Now.Day - 7 && headerSwitch < 10)
                                 {
-                                    Console.WriteLine("              Hier               ");
-                                    headerSwitch = 2;
+                                    if (dateEntry.Day == DateTime.Now.Day && headerSwitch < 1)
+                                    {
+                                        Console.WriteLine("           Aujourd'hui           ");
+                                        headerSwitch = 1;
+                                    }
+                                    else if (dateEntry.Day == DateTime.Now.Day - 1 && headerSwitch < 2)
+                                    {
+                                        Console.WriteLine("              Hier               ");
+                                        headerSwitch = 2;
+                                    }
+                                    else if (dateEntry.Day == DateTime.Now.Day - 2 && headerSwitch < 3)
+                                    {
+                                        Console.WriteLine("           Avant-hier            ");
+                                        headerSwitch = 3;
+                                    }
+                                    else if (dateEntry.Day < DateTime.Now.Day - 2)
+                                    {
+                                        Console.WriteLine("          Cette semaine          ");
+                                        headerSwitch = 10;
+                                    }
                                 }
-                                else if (dateEntry.Day == DateTime.Now.Day && headerSwitch < 1)
+                                else if (dateEntry.Month == DateTime.Now.Month)
                                 {
-                                    Console.WriteLine("           Aujourd'hui           ");
-                                    headerSwitch = 1;
-                                }
-                                else if (dateEntry.Day < DateTime.Now.Day - 1)
-                                {
-                                    Console.WriteLine("          Cette semaine          ");
-                                    headerSwitch = 3;
+                                    Console.WriteLine("           Ce mois-ci            ");
+                                    headerSwitch = 100;
                                 }
                             }
-                            else if (dateEntry.Day < DateTime.Now.Day - 7)
+                            else if (dateEntry.Month == DateTime.Now.Month - 1 && headerSwitch < 20)
                             {
-                                Console.WriteLine("           Ce mois-ci            ");
-                                headerSwitch = 4;
+                                Console.WriteLine("         Le mois dernier         ");
+                                headerSwitch = 20;
                             }
+                            else if (dateEntry.Month < DateTime.Now.Month - 1)
+                            {
+                                Console.WriteLine("           Cette année           ");
+                                headerSwitch = 100;
+                            } 
                         }
-                        else if (dateEntry.Month < DateTime.Now.Month)
+                        else if (dateEntry.Year == DateTime.Now.Year - 1 && headerSwitch < 200)
                         {
-                            Console.WriteLine("           Cette année           ");
-                            headerSwitch = 5;
+                            Console.WriteLine("         L'année dernière        ");
+                            headerSwitch = 200;
                         }
-                    }
-                    else if (dateEntry.Year < DateTime.Now.Year)
-                    {
-                        Console.WriteLine("       Il y a longtemps       ");
-                        headerSwitch = 6;
+                        else
+                        {
+                            Console.WriteLine("         Il y a longtemps        ");
+                            headerSwitch = 1000;
+                        }
                     }
 
                     Console.ResetColor();
@@ -109,7 +127,7 @@ namespace LORENZ
                                      - lenPaddingMax
                                      - "...".Length
                                      - 10;
-                    
+
                     if (excerpt.Length > lineLenMax)
                     {
                         excerpt = excerpt[..lineLenMax] + "...";
@@ -222,13 +240,14 @@ namespace LORENZ
             {
                 Console.Clear();
                 string dateOfDeciphering = ListeHistorique[index].Item1.ToString("dddd d MMMM yyyy");
-                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("H:m:ss");
+                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("H' h 'mm");
                 string historicMsg = ListeHistorique[index].Item2;
                 string msgAuthor = ListeHistorique[index].Item3 == "" ? "Inconnu" : ListeHistorique[index].Item3;
                 PrivacyState privSta = ListeHistorique[index].Item4;
 
+                string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 ";
                 int invIndex = ListeHistorique.Count - index;
-                string headerMarker = new('=', 50);
+                string headerMarker = new('=', modelMax.Length);
                 Console.WriteLine(headerMarker);
                 Console.WriteLine("Message historique #" + invIndex);
                 Console.WriteLine("Déchiffré le " + dateOfDeciphering + " à " + hourOfDeciphering);

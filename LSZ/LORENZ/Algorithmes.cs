@@ -193,7 +193,7 @@ namespace LORENZ
                 {
                     string afdaLID = strBufferTb[strInt]["AFDA:".Length..];
                     RemoveArrayItem(ref strBufferTb, strInt);
-                    attributes[3] = "A";
+                    attributes[3] = "A" + afdaLID;
                 }
 
                 if (strInt == strBufferTb.Length - 1)
@@ -212,7 +212,7 @@ namespace LORENZ
                     strConcat = attributes[attr] + strConcat;
                 }
             }
-            
+
             return strConcat;
         }
 
@@ -470,7 +470,7 @@ namespace LORENZ
             {
                 msgWithouAttrib += '\xAD' + strSplited[i];
             }
-            
+
             return msgWithouAttrib;
         }
 
