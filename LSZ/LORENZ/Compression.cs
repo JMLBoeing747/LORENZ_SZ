@@ -1,6 +1,4 @@
-﻿using System;
 using System.Collections.Generic;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace LORENZ
 {
@@ -28,7 +26,7 @@ namespace LORENZ
         struct WordEntry
         {
             public string MainWord { get; private set; }
-            private List<SubWord> SubWordsList;
+            private readonly List<SubWord> SubWordsList;
 
             public WordEntry(string entry)
             {
@@ -117,10 +115,7 @@ namespace LORENZ
                     (< 'a' or > 'z') and
                     (< '\xC0') and not '\'')
                 {
-                    if (tempWord.Length > 2)
-                    {
                         words.Add(tempWord);
-                    }
                     tempWord = default;
                     wasSeparator = true;
                     tempWord += strC;
@@ -129,10 +124,7 @@ namespace LORENZ
                 {
                     if (wasSeparator)
                     {
-                        if (tempWord is not " " and not "\n")
-                        {
                             words.Add(tempWord);
-                        }
                         tempWord = default;
                         wasSeparator = false;
                     }
