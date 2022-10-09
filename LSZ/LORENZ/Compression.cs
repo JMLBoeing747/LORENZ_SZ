@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace LORENZ
 {
@@ -33,7 +34,8 @@ namespace LORENZ
             {
                 SubWordsList = new();
                 MainWord = entry.ToLower();
-                SubWord sw = new(entry);
+                string entryCode = EncodeWord(entry);
+                SubWord sw = new(entryCode);
                 SubWordsList.Add(sw);
             }
 
@@ -51,21 +53,41 @@ namespace LORENZ
                 }
             }
 
-            public void Add(string subEntry)
+            public void Add(string entry)
             {
-                if (subEntry.ToLower() == MainWord)
+                if (entry.ToLower() == MainWord)
                 {
                     foreach (SubWord item in SubWordsList)
                     {
-                        if (item.Word == subEntry)
+                        if (item.Word == entry)
                         {
-                            item.Repeat(subEntry);
+                            item.Repeat(entry);
                             return;
                         }
                     }
 
-                    SubWordsList.Add(new(subEntry));
+                    string entryCode = EncodeWord(entry);
+                    SubWord sw = new(entryCode);
+                    SubWordsList.Add(sw);
                 }
+            }
+
+            private string EncodeWord(string word)
+            {
+                string entryCode = default;
+                for (int cWord = 0; cWord < word.Length; cWord++)
+                {
+                    if (MainWord[cWord] != word[cWord])
+                    {
+                        entryCode += "1";
+                    }
+                    else
+                    {
+                        entryCode += "0";
+                    }
+                }
+                
+                return entryCode;
             }
         }
 
@@ -79,7 +101,8 @@ namespace LORENZ
                 char strC = strToCompress[i];
                 if (strC is (< '0' or > '9') and
                     (< 'A' or > 'Z') and
-                    (< 'a' or > 'z') and not '\'')
+                    (< 'a' or > 'z') and
+                    (< '\xC0') and not '\'')
                 {
                     if (tempWord.Length > 2)
                     {
