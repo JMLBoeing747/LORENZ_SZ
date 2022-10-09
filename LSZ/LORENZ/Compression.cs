@@ -79,14 +79,27 @@ namespace LORENZ
                 {
                     if (MainWord[cWord] != word[cWord])
                     {
-                        entryCode += "1";
+                        entryCode += "C";
                     }
                     else
                     {
-                        entryCode += "0";
+                        entryCode += "L";
                     }
                 }
                 
+                if (entryCode == "C" + new string('L', entryCode.Length - 1))
+                {
+                    entryCode = "T";
+                }
+                else if (entryCode == new string('L', entryCode.Length))
+                {
+                    entryCode = "";
+                }
+                else if (entryCode == new string('C', entryCode.Length))
+                {
+                    entryCode = "U";
+                }
+
                 return entryCode;
             }
         }
