@@ -141,6 +141,24 @@ namespace LORENZ
 
             return entryCode;
         }
+
+        public void Sort()
+        {
+            for (int sw1 = 1; sw1 < SubWordsList.Count; sw1++)
+            {
+                for (int sw2 = sw1 - 1; sw2 >= 0; sw2--)
+                {
+                    if (SubWordsList[sw2 + 1].Count > SubWordsList[sw2].Count)
+                    {
+                        (SubWordsList[sw2], SubWordsList[sw2 + 1]) = (SubWordsList[sw2 + 1], SubWordsList[sw2]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public class CompressTable
@@ -174,6 +192,25 @@ namespace LORENZ
                 else
                 {
                     WordsList.Add(new(newWord));
+                }
+            }
+        }
+
+        public void Sort()
+        {
+            for (int we1 = 0; we1 < WordsList.Count; we1++)
+            {
+                WordsList[we1].Sort();
+                for (int we2 = we1 - 1; we2 >= 0; we2--)
+                {
+                    if (WordsList[we2 + 1].CountAll > WordsList[we2].CountAll)
+                    {
+                        (WordsList[we2], WordsList[we2 + 1]) = (WordsList[we2 + 1], WordsList[we2]);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -217,6 +254,8 @@ namespace LORENZ
             {
                 preCompress.Check(newWord);
             }
+
+            preCompress.Sort();
         }
     }
 }
