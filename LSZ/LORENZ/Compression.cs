@@ -222,6 +222,17 @@ namespace LORENZ
                 }
             }
         }
+
+        public void Clean()
+        {
+            for (int we = 0; we < WordsList.Count; we++)
+            {
+                if (WordsList[we].CountAll == 1)
+                {
+                    WordsList.RemoveAt(we);
+                    we--;
+                }
+            }
     }
 
     public static class Compression
@@ -268,6 +279,7 @@ namespace LORENZ
                 preCompress.Check(newWord);
             }
 
+            preCompress.Clean();
             preCompress.Sort();
         }
     }
