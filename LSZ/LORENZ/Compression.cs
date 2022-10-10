@@ -6,18 +6,18 @@ namespace LORENZ
     {
         private struct SubWord
         {
-            public string Word { get; }
+            public string WordCode { get; }
             public int Count { get; private set; }
 
-            public SubWord(string word)
+            public SubWord(string wordCode)
             {
-                Word = word;
+                WordCode = wordCode;
                 Count = 1;
             }
 
             public void Repeat(string newWord)
             {
-                if (newWord.ToLower() == Word)
+                if (newWord == WordCode)
                 {
                     Count++;
                 }
@@ -51,38 +51,54 @@ namespace LORENZ
                 }
             }
 
-            public void Add(string entry)
+            public bool Add(string entry)
             {
-                foreach (SubWord item in SubWordsList)
+                string[] divideWord = entry.Split('\'');
+                if (divideWord.Length == 2)
                 {
-                    if (item.Word == entry)
+                    string bigWord = divideWord[0].Length > divideWord[1].Length ? divideWord[0] : divideWord[1];
+                    if (bigWord.ToLower() != MainWord)
                     {
-                        item.Repeat(entry);
-                        return;
+                        return false;
+                    }
+                    else
+                    {
+                        string littleWord = divideWord[0] == bigWord ? "\x90" + divideWord[1] : divideWord[0] + "\x90";
+                        string entryCode = EncodeWord(bigWord, littleWord);
+                        foreach (SubWord item in SubWordsList)
+                        {
+                            if (item.WordCode == entryCode)
+                            {
+                                item.Repeat(entryCode);
+                                return true;
+                            }
+                        }
+
+                        SubWord sw = new(entryCode);
+                        SubWordsList.Add(sw);
                     }
                 }
-
-                if (entry.ToLower() == MainWord)
+                else if (entry.ToLower() == MainWord)
                 {
                     string entryCode = EncodeWord(entry);
+                    foreach (SubWord item in SubWordsList)
+                    {
+                        if (item.WordCode == entryCode)
+                        {
+                            item.Repeat(entryCode);
+                            return true;
+                        }
+                    }
+
                     SubWord sw = new(entryCode);
                     SubWordsList.Add(sw);
                 }
                 else
                 {
-                    string[] divideWord = entry.Split('\'');
-                    if (divideWord.Length == 2)
-                    {
-                        string bigWord = divideWord[0].Length > divideWord[1].Length ? divideWord[0] : divideWord[1];
-                        if (bigWord.ToLower() == MainWord)
-                        {
-                            string littleWord = divideWord[0] == bigWord ? "\x90" + divideWord[1] : divideWord[0] + "\x90";
-                            string entryCode = EncodeWord(bigWord, littleWord);
-                            SubWord sw = new(entryCode);
-                            SubWordsList.Add(sw);
-                        }
-                    }
+                    return false;
                 }
+
+                return true;
             }
 
             private string EncodeWord(string word, string part = null)
@@ -146,11 +162,11 @@ namespace LORENZ
                     {
                         foreach (WordEntry we in WordsList)
                         {
-                            if (WordsList.IndexOf(we) < WordsList.Count - 1)
+                            if (we.Add(newWord))
                             {
-                                we.Add(newWord);
+                                break;
                             }
-                            else
+                            else if (WordsList.IndexOf(we) == WordsList.Count - 1)
                             {
                                 WordsList.Add(new(newWord));
                                 break;
