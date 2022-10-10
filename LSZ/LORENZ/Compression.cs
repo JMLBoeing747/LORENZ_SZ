@@ -234,6 +234,12 @@ namespace LORENZ
             for (int i = 0; i < msgToCompress.Length; i++)
             {
                 char strC = msgToCompress[i];
+                if (i == 0)
+                {
+                    tempWord += strC;
+                    continue;
+                }
+
                 if (strC is (< '0' or > '9') and
                     (< 'A' or > 'Z') and
                     (< 'a' or > 'z') and
@@ -242,7 +248,6 @@ namespace LORENZ
                     words.Add(tempWord);
                     tempWord = default;
                     wasSeparator = true;
-                    tempWord += strC;
                 }
                 else
                 {
@@ -252,10 +257,10 @@ namespace LORENZ
                         tempWord = default;
                         wasSeparator = false;
                     }
+                }
 
                     tempWord += strC;
                 }
-            }
 
             CompressTable preCompress = new();
             foreach (string newWord in words)
