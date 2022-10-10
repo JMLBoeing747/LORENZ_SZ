@@ -173,10 +173,18 @@ namespace LORENZ
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
 
-            string[] attributes = new string[4];
+            string[] attributes = new string[5];
+            /* Tableau des attributs :
+             * [0] : P + Pseudo
+             * [1] : R + LID du récepteur (lorsque privé)
+             * [2] : S + LID de l'expéditeur (lorsque privé)
+             * [3] : A + LID to AFDA
+             * [4] : CT (Table de compression, si applicable)
+             */
+
             attributes[0] = "P" + Parametres.PseudoName;
 
-            string strConcat = "\xAD";
+            string strConcat = default;
             for (int strInt = 0; strInt < strBufferTb.Length; strInt++)
             {
                 if (strBufferTb[strInt].ToUpper().StartsWith("PRIV:"))
@@ -204,6 +212,10 @@ namespace LORENZ
 
                 strConcat += strBufferTb[strInt];
             }
+
+            string msgWithoutAttrib = strConcat;
+            Compression.TryCompression(msgWithoutAttrib, ref attributes);
+            strConcat = "\xAD" + msgWithoutAttrib;
 
             for (int attr = 0; attr < attributes.Length; attr++)
             {
@@ -278,7 +290,6 @@ namespace LORENZ
         public static string Chiffrement(string TheMessage, string generalKey, string[,] ATableCode)
         {
             //-----Partie 1 du premier chiffrement
-            Compression.TryCompression(TheMessage);
             TheMessage = AddAttributes(TheMessage);
             string TheEncryptedMessage = null;
             for (int c = 0; c < TheMessage.Length; c++)

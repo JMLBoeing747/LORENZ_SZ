@@ -218,14 +218,14 @@ namespace LORENZ
 
     public static class Compression
     {
-        public static void TryCompression(string strToCompress)
+        public static void TryCompression(string msgToCompress, ref string[] attributes)
         {
             List<string> words = new();
             string tempWord = default;
             bool wasSeparator = false;
-            for (int i = 0; i < strToCompress.Length; i++)
+            for (int i = 0; i < msgToCompress.Length; i++)
             {
-                char strC = strToCompress[i];
+                char strC = msgToCompress[i];
                 if (strC is (< '0' or > '9') and
                     (< 'A' or > 'Z') and
                     (< 'a' or > 'z') and
