@@ -29,10 +29,8 @@ namespace LORENZ
         public WordEntry(string entry)
         {
             SubWordsList = new();
-            MainWord = entry.ToLower();
-            string entryCode = EncodeWord(entry);
-            SubWord sw = new(entryCode);
-            SubWordsList.Add(sw);
+            MainWord = default;
+            Add(entry);
         }
 
         public int CountAll
@@ -55,6 +53,11 @@ namespace LORENZ
             if (divideWord.Length == 2)
             {
                 string bigWord = divideWord[0].Length > divideWord[1].Length ? divideWord[0] : divideWord[1];
+                if (SubWordsList.Count == 0)
+                {
+                    MainWord = bigWord.ToLower();
+                }
+                
                 if (bigWord.ToLower() != MainWord)
                 {
                     return false;
@@ -76,8 +79,13 @@ namespace LORENZ
                     SubWordsList.Add(sw);
                 }
             }
-            else if (entry.ToLower() == MainWord)
+            else if ((entry.ToLower() == MainWord) || (SubWordsList.Count == 0))
             {
+                if (SubWordsList.Count == 0)
+            {
+                    MainWord = entry.ToLower();
+                }
+
                 string entryCode = EncodeWord(entry);
                 foreach (SubWord item in SubWordsList)
                 {
