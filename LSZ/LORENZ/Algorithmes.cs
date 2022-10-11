@@ -169,7 +169,7 @@ namespace LORENZ
             return false;
         }
 
-        private static string AddAttributes(string s)
+        private static string AddAttributes(string s, ref double compressRatio)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
             string[] attributes = new string[5];
@@ -220,7 +220,7 @@ namespace LORENZ
                 }
             }
 
-            Compression.TryCompression(msgWithoutAttrib, ref attributeStr);
+            //compressRatio = Compression.TryCompression(ref msgWithoutAttrib, ref attributeStr);
             return attributeStr + "\xAD" + msgWithoutAttrib;
         }
 
@@ -286,7 +286,8 @@ namespace LORENZ
         public static string Chiffrement(string TheMessage, string generalKey, string[,] ATableCode)
         {
             //-----Partie 1 du premier chiffrement
-            TheMessage = AddAttributes(TheMessage);
+            double cRatio = 0.0;
+            TheMessage = AddAttributes(TheMessage, ref cRatio);
             string TheEncryptedMessage = null;
             for (int c = 0; c < TheMessage.Length; c++)
             {
