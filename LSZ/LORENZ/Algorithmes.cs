@@ -172,7 +172,6 @@ namespace LORENZ
         private static string AddAttributes(string s)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
-
             string[] attributes = new string[5];
             /* Tableau des attributs :
              * [0] : P + Pseudo
@@ -181,10 +180,9 @@ namespace LORENZ
              * [3] : A + LID to AFDA
              * [4] : CT (Table de compression, si applicable)
              */
-
             attributes[0] = "P" + Parametres.PseudoName;
 
-            string strConcat = default;
+            string msgWithoutAttrib = default;
             for (int strInt = 0; strInt < strBufferTb.Length; strInt++)
             {
                 if (strBufferTb[strInt].ToUpper().StartsWith("PRIV:"))
@@ -206,26 +204,24 @@ namespace LORENZ
 
                 if (strInt == strBufferTb.Length - 1)
                 {
-                    strConcat += strBufferTb[strInt];
+                    msgWithoutAttrib += strBufferTb[strInt];
                     break;
                 }
 
-                strConcat += strBufferTb[strInt];
+                msgWithoutAttrib += strBufferTb[strInt];
             }
 
-            string msgWithoutAttrib = strConcat;
-            Compression.TryCompression(msgWithoutAttrib, ref attributes);
-            strConcat = "\xAD" + msgWithoutAttrib;
-
-            for (int attr = 0; attr < attributes.Length; attr++)
+            string attributeStr = default;
+            foreach (string attr in attributes)
             {
-                if (attributes[attr] != null)
+                if (attr != null)
                 {
-                    strConcat = attributes[attr] + strConcat;
+                    attributeStr = attr + attributeStr;
                 }
             }
 
-            return strConcat;
+            Compression.TryCompression(msgWithoutAttrib, ref attributeStr);
+            return attributeStr + "\xAD" + msgWithoutAttrib;
         }
 
         private static void ModuloOperation(int opType, string generalKey, ref string messageWithoutGK, bool isCiphering)
