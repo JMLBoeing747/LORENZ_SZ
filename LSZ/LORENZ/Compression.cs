@@ -4,23 +4,26 @@ namespace LORENZ
 {
     public class SubWord
     {
+        public string WordName { get; }
         public string WordCode { get; }
         public int Count { get; private set; }
 
-        public SubWord(string wordCode)
+        public SubWord(string wordName, string wordCode)
         {
+            WordName = wordName;
             WordCode = wordCode;
             Count = 1;
         }
 
         public void Repeat(string newWord)
         {
-            if (newWord == WordCode)
+            if (newWord == WordName)
             {
                 Count++;
             }
         }
     }
+
     public class WordEntry
     {
         public string MainWord { get; private set; }
@@ -65,17 +68,17 @@ namespace LORENZ
                 else
                 {
                     string littleWord = divideWord[0] == bigWord ? "\x90" + divideWord[1] : divideWord[0] + "\x90";
-                    string entryCode = EncodeWord(bigWord, littleWord);
                     foreach (SubWord item in SubWordsList)
                     {
-                        if (item.WordCode == entryCode)
+                        if (item.WordName == entry)
                         {
-                            item.Repeat(entryCode);
+                            item.Repeat(entry);
                             return true;
                         }
                     }
 
-                    SubWord sw = new(entryCode);
+                    string entryCode = EncodeWord(bigWord, littleWord);
+                    SubWord sw = new(entry, entryCode);
                     SubWordsList.Add(sw);
                 }
             }
@@ -86,17 +89,17 @@ namespace LORENZ
                     MainWord = entry.ToLower();
                 }
 
-                string entryCode = EncodeWord(entry);
                 foreach (SubWord item in SubWordsList)
                 {
-                    if (item.WordCode == entryCode)
+                    if (item.WordName == entry)
                     {
-                        item.Repeat(entryCode);
+                        item.Repeat(entry);
                         return true;
                     }
                 }
 
-                SubWord sw = new(entryCode);
+                string entryCode = EncodeWord(entry);
+                SubWord sw = new(entry, entryCode);
                 SubWordsList.Add(sw);
             }
             else
