@@ -85,7 +85,7 @@ namespace LORENZ
             else if ((entry.ToLower() == MainWord) || (SubWordsList.Count == 0))
             {
                 if (SubWordsList.Count == 0)
-            {
+                {
                     MainWord = entry.ToLower();
                 }
 
@@ -170,6 +170,22 @@ namespace LORENZ
                 }
             }
         }
+
+        public string GetEntryCode(string entryWord)
+        {
+            if (entryWord.Length > 2)
+            {
+                foreach (SubWord sw in SubWordsList)
+                {
+                    if (sw.WordName == entryWord)
+                    {
+                        return sw.WordCode;
+                    }
+                }
+            }
+
+            return entryWord;
+        }
     }
 
     public class CompressTable
@@ -236,6 +252,24 @@ namespace LORENZ
                     we--;
                 }
             }
+        }
+
+        public string GetCompressCode(string entryWord)
+        {
+            if (entryWord.Length > 2)
+            {
+                foreach (WordEntry we in WordsList)
+                {
+                    string entryCode = we.GetEntryCode(entryWord);
+                    if (entryCode != entryWord)
+                    {
+                        return "\x8F" + WordsList.IndexOf(we) + entryCode;
+                    }
+                }
+            }
+
+            return entryWord;
+        }
     }
 
     public static class Compression
@@ -273,8 +307,8 @@ namespace LORENZ
                     }
                 }
 
-                    tempWord += strC;
-                }
+                tempWord += strC;
+            }
 
             CompressTable preCompress = new();
             foreach (string newWord in words)
@@ -284,6 +318,12 @@ namespace LORENZ
 
             preCompress.Clean();
             preCompress.Sort();
+
+            string newCompressStr = default;
+            foreach (string w in words)
+            {
+                newCompressStr += preCompress.GetCompressCode(w);
+            }
         }
     }
 }
