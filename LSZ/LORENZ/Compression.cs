@@ -254,7 +254,7 @@ namespace LORENZ
             }
         }
 
-        public string GetCompressCode(string entryWord)
+        public string GetMarkupCompress(string entryWord)
         {
             if (entryWord.Length > 2)
             {
@@ -274,8 +274,14 @@ namespace LORENZ
 
     public static class Compression
     {
-        public static void TryCompression(string msgToCompress, ref string[] attributes)
+        public static void TryCompression(string msgToCompress, ref string attrStr)
         {
+            // Création du message complet sans compression
+            string fullInitalMsg = attrStr + "\xAD" + msgToCompress;
+
+            /* Découpage du message en mots et en ponctuations
+             * pour faciliter la recherche de similitudes
+             */
             List<string> words = new();
             string tempWord = default;
             bool wasSeparator = false;
@@ -310,6 +316,7 @@ namespace LORENZ
                 tempWord += strC;
             }
 
+            // Remplissage de la table de compression
             CompressTable preCompress = new();
             foreach (string newWord in words)
             {
@@ -319,10 +326,11 @@ namespace LORENZ
             preCompress.Clean();
             preCompress.Sort();
 
+            // Construction du nouveau message avec balises de compression
             string newCompressStr = default;
             foreach (string w in words)
             {
-                newCompressStr += preCompress.GetCompressCode(w);
+                newCompressStr += preCompress.GetMarkupCompress(w);
             }
         }
     }
