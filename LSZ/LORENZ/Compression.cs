@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace LORENZ
 {
@@ -60,7 +61,7 @@ namespace LORENZ
                 {
                     MainWord = bigWord.ToLower();
                 }
-                
+
                 if (bigWord.ToLower() != MainWord)
                 {
                     return false;
@@ -117,23 +118,23 @@ namespace LORENZ
             {
                 if (MainWord[cWord] != word[cWord])
                 {
-                    entryCode += "C";
+                    entryCode += "1";
                 }
                 else
                 {
-                    entryCode += "L";
+                    entryCode += "0";
                 }
             }
 
-            if (entryCode == "C" + new string('L', entryCode.Length - 1))
-            {
-                entryCode = "T";
-            }
-            else if (entryCode == new string('L', entryCode.Length))
+            if (entryCode == new string('0', entryCode.Length))
             {
                 entryCode = "";
             }
-            else if (entryCode == new string('C', entryCode.Length))
+            else if (entryCode == "1" + new string('0', entryCode.Length - 1))
+            {
+                entryCode = "T";
+            }
+            else if (entryCode == new string('1', entryCode.Length))
             {
                 entryCode = "U";
             }
@@ -171,6 +172,34 @@ namespace LORENZ
             }
         }
 
+        public bool Rebase()
+        {
+            if (SubWordsList.Count == 1)
+            {
+                if (SubWordsList[0].WordName == MainWord)
+                {
+                    return false;
+                }
+
+                string uniqueWord = SubWordsList[0].WordName;
+                int uniqueWordCount = SubWordsList[0].Count;
+                SubWordsList.Clear();
+
+                MainWord = uniqueWord;
+                string uniqueWordCode = EncodeWord(uniqueWord);
+                SubWord uniqueSubWord = new(uniqueWord, uniqueWordCode);
+                for (int i = 1; i < uniqueWordCount; i++)
+                {
+                    uniqueSubWord.Repeat(uniqueWord);
+                }
+
+                SubWordsList.Add(uniqueSubWord);
+                return true;
+            }
+
+            return false;
+        }
+
         public string GetEntryCode(string entryWord)
         {
             if (entryWord.Length > 2)
@@ -191,7 +220,7 @@ namespace LORENZ
     public class CompressTable
     {
         private readonly List<WordEntry> WordsList;
-
+        public int EntriesCount => WordsList.Count;
         public CompressTable()
         {
             WordsList = new();
@@ -242,16 +271,30 @@ namespace LORENZ
             }
         }
 
-        public void Clean()
+        public bool Clean(int level = 1)
         {
+            if (level < 1)
+            {
+                return false;
+            }
+
+            bool isModified = false;
             for (int we = 0; we < WordsList.Count; we++)
             {
-                if (WordsList[we].CountAll == 1)
+                if (WordsList[we].CountAll <= level)
                 {
                     WordsList.RemoveAt(we);
                     we--;
+                    isModified = true;
+                }
+                else
+                {
+                    bool isRebased = WordsList[we].Rebase();
+                    isModified = isRebased || isModified;
                 }
             }
+
+            return isModified;
         }
 
         public string GetMarkupCompress(string entryWord)
@@ -293,10 +336,12 @@ namespace LORENZ
 
     public static class Compression
     {
-        public static void TryCompression(string msgToCompress, ref string attrStr)
+        public static double MinCompressRatio { get; set; } = 15.0;
+
+        public static double TryCompression(ref string msgToCompress, ref string attrStr)
         {
             // Création du message complet sans compression
-            string fullInitalMsg = attrStr + "\xAD" + msgToCompress;
+            string fullInitialMsg = attrStr + "\xAD" + msgToCompress;
 
             /* Découpage du message en mots et en ponctuations
              * pour faciliter la recherche de similitudes
@@ -334,29 +379,50 @@ namespace LORENZ
 
                 tempWord += strC;
             }
+            words.Add(tempWord);
 
-            // Remplissage + nettoyage de la table de compression
+            // Remplissage + triage de la table de compression
             CompressTable compressTable = new();
             foreach (string newWord in words)
             {
                 compressTable.Check(newWord);
             }
 
-            compressTable.Clean();
             compressTable.Sort();
-
-            // Construction du nouveau message avec balises de compression
-            string newCompressStr = default;
-            foreach (string w in words)
+            int pass = 0;
+            while (true)
             {
-                newCompressStr += compressTable.GetMarkupCompress(w);
+                pass++;
+                if (!compressTable.Clean(pass))
+                {
+                    continue;
+                }
+                else if (compressTable.EntriesCount == 0)
+                {
+                    return 0.0;
+                }
+
+                // Construction du nouveau message avec balises de compression
+                string newCompressStr = default;
+                foreach (string w in words)
+                {
+                    newCompressStr += compressTable.GetMarkupCompress(w);
+                }
+
+                string CTStr = compressTable.GetString();
+
+                string fullCompressMsg = CTStr + attrStr + "\xAD" + newCompressStr;
+                int diffCount = fullInitialMsg.Length - fullCompressMsg.Length;
+                // Test de compression
+                double ratio = diffCount / (double)fullInitialMsg.Length;
+
+                if (ratio >= MinCompressRatio)
+                {
+                    attrStr = CTStr + attrStr;
+                    msgToCompress = newCompressStr;
+                    return ratio;
+                }
             }
-
-            string CTStr = compressTable.GetString();
-
-            string fullCompressMsg = CTStr + attrStr + newCompressStr;
-            int diffCount = fullInitalMsg.Length - fullCompressMsg.Length;
-            double ratio = diffCount / (double)fullInitalMsg.Length;
         }
     }
 }
