@@ -270,6 +270,25 @@ namespace LORENZ
 
             return entryWord;
         }
+
+        public string GetString()
+        {
+            string temp = "C";
+            for (int we = 0; we < WordsList.Count; we++)
+            {
+                temp += WordsList[we].MainWord;
+                if (we == WordsList.Count - 1)
+                {
+                    temp += ";";
+                }
+                else
+                {
+                    temp += ",";
+                }
+            }
+
+            return temp;
+        }
     }
 
     public static class Compression
@@ -332,6 +351,12 @@ namespace LORENZ
             {
                 newCompressStr += compressTable.GetMarkupCompress(w);
             }
+
+            string CTStr = compressTable.GetString();
+
+            string fullCompressMsg = CTStr + attrStr + newCompressStr;
+            int diffCount = fullInitalMsg.Length - fullCompressMsg.Length;
+            double ratio = diffCount / (double)fullInitalMsg.Length;
         }
     }
 }
