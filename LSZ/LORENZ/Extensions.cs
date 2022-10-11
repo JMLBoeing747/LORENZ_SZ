@@ -37,7 +37,12 @@ namespace LORENZ
 
         public static bool EcrireChiffrementLong(string msgChiffre, string cipherFileName = "")
         {
-            NomFichierChiffrement = cipherFileName == "" ? DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt" : cipherFileName;
+            if (cipherFileName == "")
+            {
+                return false;
+            }
+            
+            NomFichierChiffrement = cipherFileName;
 
             if (Parametres.CipherFileDirectory == null)
             {

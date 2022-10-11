@@ -302,6 +302,12 @@ namespace LORENZ
                     do
                     {
                         cipherFileName = Console.ReadLine();
+                        if (cipherFileName == "")
+                        {
+                            Display.PrintMessage("Aucun nom spécifié. Opération annulée.", MessageState.Failure);
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            return;
+                        }
                     } while (!Extensions.EcrireChiffrementLong(VraiMessageChiffre, cipherFileName));
 
                     Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
