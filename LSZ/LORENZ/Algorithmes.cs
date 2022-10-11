@@ -288,6 +288,14 @@ namespace LORENZ
             //-----Partie 1 du premier chiffrement
             double cRatio = 0.0;
             TheMessage = AddAttributes(TheMessage, ref cRatio);
+            if (cRatio > 0.0)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Compression : " + (cRatio * 100).ToString("0.0") + " %\n");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
             string TheEncryptedMessage = null;
             for (int c = 0; c < TheMessage.Length; c++)
             {
