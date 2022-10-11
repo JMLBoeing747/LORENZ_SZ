@@ -28,6 +28,7 @@ namespace LORENZ
     {
         public string MainWord { get; private set; }
         private readonly List<SubWord> SubWordsList;
+        private const char WORD_MARKUP = '\x90';
 
         public WordEntry(string entry)
         {
@@ -67,7 +68,7 @@ namespace LORENZ
                 }
                 else
                 {
-                    string littleWord = divideWord[0] == bigWord ? "\x90" + divideWord[1] : divideWord[0] + "\x90";
+                    string littleWord = divideWord[0] == bigWord ? WORD_MARKUP + divideWord[1] : divideWord[0] + WORD_MARKUP;
                     foreach (SubWord item in SubWordsList)
                     {
                         if (item.WordName == entry)
@@ -220,6 +221,9 @@ namespace LORENZ
     {
         private readonly List<WordEntry> WordsList;
         public int EntriesCount => WordsList.Count;
+
+        private const char COMPRESS_MARKUP = '\x8F';
+
         public CompressTable()
         {
             WordsList = new();
@@ -305,7 +309,7 @@ namespace LORENZ
                     string entryCode = we.GetEntryCode(entryWord);
                     if (entryCode != entryWord)
                     {
-                        return "\x8F" + WordsList.IndexOf(we) + entryCode;
+                        return COMPRESS_MARKUP.ToString() + WordsList.IndexOf(we) + entryCode;
                     }
                 }
             }
@@ -340,7 +344,7 @@ namespace LORENZ
         public static double TryCompression(ref string msgToCompress, ref string attrStr)
         {
             // Création du message complet sans compression
-            string fullInitialMsg = attrStr + "\xAD" + msgToCompress;
+            string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgToCompress;
 
             /* Découpage du message en mots et en ponctuations
              * pour faciliter la recherche de similitudes
@@ -410,7 +414,7 @@ namespace LORENZ
 
                 string CTStr = compressTable.GetString();
 
-                string fullCompressMsg = CTStr + attrStr + "\xAD" + newCompressStr;
+                string fullCompressMsg = CTStr + attrStr + Algorithmes.ATTRIB_SEP + newCompressStr;
                 int diffCount = fullInitialMsg.Length - fullCompressMsg.Length;
                 // Test de compression
                 double ratio = diffCount / (double)fullInitialMsg.Length;
