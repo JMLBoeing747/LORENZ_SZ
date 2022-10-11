@@ -316,21 +316,21 @@ namespace LORENZ
                 tempWord += strC;
             }
 
-            // Remplissage de la table de compression
-            CompressTable preCompress = new();
+            // Remplissage + nettoyage de la table de compression
+            CompressTable compressTable = new();
             foreach (string newWord in words)
             {
-                preCompress.Check(newWord);
+                compressTable.Check(newWord);
             }
 
-            preCompress.Clean();
-            preCompress.Sort();
+            compressTable.Clean();
+            compressTable.Sort();
 
             // Construction du nouveau message avec balises de compression
             string newCompressStr = default;
             foreach (string w in words)
             {
-                newCompressStr += preCompress.GetMarkupCompress(w);
+                newCompressStr += compressTable.GetMarkupCompress(w);
             }
         }
     }
