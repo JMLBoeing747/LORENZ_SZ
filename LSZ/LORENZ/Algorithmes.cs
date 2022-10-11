@@ -18,6 +18,7 @@ namespace LORENZ
         private static string TransTableRoot { get; set; } = "1234";
         private static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
 
+        public const char ATTRIB_SEP = '\xAD';
         private const int MIN_CHAR_TABLE = 32;
         private const int MAX_CHAR_TABLE = 256;
 
@@ -221,7 +222,7 @@ namespace LORENZ
             }
 
             compressRatio = Compression.TryCompression(ref msgWithoutAttrib, ref attributeStr);
-            return attributeStr + "\xAD" + msgWithoutAttrib;
+            return attributeStr + ATTRIB_SEP + msgWithoutAttrib;
         }
 
         private static void ModuloOperation(int opType, string generalKey, ref string messageWithoutGK, bool isCiphering)
@@ -437,7 +438,7 @@ namespace LORENZ
 
         private static string CheckAttributes(string s)
         {
-            string[] strSplited = s.Split('\xAD');
+            string[] strSplited = s.Split(ATTRIB_SEP);
             if (strSplited.Length < 2)
             {
                 throw new LORENZException("Erreur dans le formatage des attributs");
@@ -485,7 +486,7 @@ namespace LORENZ
             string msgWithouAttrib = strSplited[1];
             for (int i = 2; i < strSplited.Length - 1; i++)
             {
-                msgWithouAttrib += '\xAD' + strSplited[i];
+                msgWithouAttrib += ATTRIB_SEP + strSplited[i];
             }
 
             return msgWithouAttrib;
