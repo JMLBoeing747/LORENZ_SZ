@@ -336,7 +336,7 @@ namespace LORENZ
 
     public static class Compression
     {
-        public static double MinCompressRatio { get; set; } = 15.0;
+        public static double MinCompressRatio { get; set; } = 0.15;
 
         public static double TryCompression(ref string msgToCompress, ref string attrStr)
         {
