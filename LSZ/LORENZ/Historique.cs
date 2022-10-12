@@ -234,7 +234,7 @@ namespace LORENZ
                                   "inscrivez le numéro d'index qui les identifie à gauche");
                 Console.WriteLine("et appuyez sur ENTRÉE.");
                 Console.WriteLine("Pour supprimer une entrée : appuyez sur DELETE et inscrivez son index.");
-                Console.WriteLine("Utilisez BACKSPACE pour corriger et les flèches gauche/droite pour changer de page.");
+                Console.WriteLine("Utilisez BACKSPACE pour corriger et les FLÈCHES GAUCHE / DROITE pour changer de page.");
                 Console.WriteLine("\nPour retourner, appuyer sur ESC.");
                 Console.Write(">> ");
                 Console.ForegroundColor = ConsoleColor.Cyan;
