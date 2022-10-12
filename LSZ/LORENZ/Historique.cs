@@ -337,7 +337,11 @@ namespace LORENZ
                             numeroDel = -1;
                         }
                         int realNumero = ListeHistorique.Count - numeroDel;
-                        RetirerHistorique(realNumero);
+                        if (RetirerHistorique(realNumero))
+                        {
+                            stackReview(realNumero);
+                        }
+
                     }
                     else if (numeroStr[0] != 'D')
                     {
@@ -346,7 +350,10 @@ namespace LORENZ
                             numeroInt = -1;
                         }
                         int realNumero = ListeHistorique.Count - numeroInt;
-                        AfficherEntree(realNumero);
+                        if (!AfficherEntree(realNumero))
+                        {
+                            stackReview(realNumero);
+                        }
                     }
                     else
                     {
@@ -357,9 +364,29 @@ namespace LORENZ
                     lastEntry = stackLastEntry.Pop();
                 }
             }
+
+            void stackReview(int deleted)
+            {
+                Stack<int> tempNew = new();
+                while (stackLastEntry.Count > 0)
+                {
+                    int old = stackLastEntry.Pop();
+                    if (old >= deleted)
+                    {
+                        old--;
+                    }
+
+                    tempNew.Push(old);
+                }
+                while (tempNew.Count > 0)
+                {
+                    int rev = tempNew.Pop();
+                    stackLastEntry.Push(rev);
+                }
+            }
         }
 
-        public static void AfficherEntree(int index)
+        public static bool AfficherEntree(int index)
         {
             if (index < ListeHistorique.Count && index >= 0)
             {
@@ -420,7 +447,7 @@ namespace LORENZ
                         RetirerHistorique(index);
                         Display.PrintMessage("Message supprimé", MessageState.Warning);
                         Console.ReadKey(true);
-                        return;
+                        return false;
                     default:
                         break;
                 }
@@ -431,6 +458,8 @@ namespace LORENZ
                 Display.PrintMessage("Index invalide !", MessageState.Failure);
                 Console.ReadKey(true);
             }
+
+            return true;
         }
 
         public static bool LireFichierHistorique()
@@ -561,17 +590,20 @@ namespace LORENZ
             EcrireHistorique();
         }
 
-        public static void RetirerHistorique(int indexEntree)
+        public static bool RetirerHistorique(int indexEntree)
         {
             if (indexEntree < ListeHistorique.Count && indexEntree >= 0)
             {
                 ListeHistorique.RemoveAt(indexEntree);
                 EcrireHistorique();
+                return true;
             }
             else
             {
+                Console.CursorLeft = 0;
                 Display.PrintMessage("Index invalide !", MessageState.Failure);
                 Console.ReadKey(true);
+                return false;
             }
         }
 
