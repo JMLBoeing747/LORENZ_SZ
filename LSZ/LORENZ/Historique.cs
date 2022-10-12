@@ -16,8 +16,7 @@ namespace LORENZ
     public static class Historique
     {
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
-        public static List<(DateTime, string, string, PrivacyState)> ListeHistorique { get; private set; } = new List<(DateTime, string, string, PrivacyState)>();
-
+        public static List<(DateTime, string, string, PrivacyState)> ListeHistorique { get; private set; } = new();
 
         public static void AfficherHistorique()
         {
