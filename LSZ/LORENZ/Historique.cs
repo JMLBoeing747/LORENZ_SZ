@@ -220,6 +220,10 @@ namespace LORENZ
                         stackLastEntry.Push(lastEntry);
                         lastEntry = 0;
                     }
+                    else if (page == 0 && hEntry == 0)
+                    {
+                        lastEntry = 0;
+                    }
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -261,8 +265,16 @@ namespace LORENZ
                             _ = stackLastEntry.Pop();
                         }
 
-                        lastEntry = stackLastEntry.Pop();
-                        page--;
+                        if (stackLastEntry.Count > 0)
+                        {
+                            lastEntry = stackLastEntry.Pop();
+                            page--;
+                        }
+                        else
+                        {
+                            lastEntry = ListeHistorique.Count - 1;
+                            page = 0;
+                        }
                         break;
                     }
 
