@@ -29,11 +29,18 @@ namespace LORENZ
                 }
             }
 
+            int page = 0;
+            int lastEntry = ListeHistorique.Count - 1;
+            Stack<int> stackLastEntry = new();
             while (true)
             {
                 Console.Clear();
                 int headerSwitch = 0;
-                for (int hEntry = ListeHistorique.Count - 1; hEntry >= 0; hEntry--)
+                int entryMaxHeight = Console.WindowHeight - 10;
+                int headerMaxHeight = entryMaxHeight - 1;
+                bool testHeader = false;
+                bool failHeader = false;
+                for (int hEntry = lastEntry; hEntry >= 0; hEntry--)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
@@ -54,97 +61,170 @@ namespace LORENZ
                                     }
                                     else if (dateEntry.Day == DateTime.Now.Day - 1 && headerSwitch < 2)
                                     {
-                                        Console.WriteLine("              Hier               ");
-                                        headerSwitch = 2;
+                                        if (!testHeader)
+                                        {
+                                            Console.WriteLine("              Hier               ");
+                                            headerSwitch = 2;
+                                        }
+
+                                        failHeader = testHeader;
                                     }
                                     else if (dateEntry.Day == DateTime.Now.Day - 2 && headerSwitch < 3)
                                     {
-                                        Console.WriteLine("           Avant-hier            ");
-                                        headerSwitch = 3;
+                                        if (!testHeader)
+                                        {
+                                            Console.WriteLine("           Avant-hier            ");
+                                            headerSwitch = 3;
+                                        }
+
+                                        failHeader = testHeader;
                                     }
                                     else if (dateEntry.Day < DateTime.Now.Day - 2)
                                     {
-                                        Console.WriteLine("          Cette semaine          ");
-                                        headerSwitch = 10;
+                                        if (!testHeader)
+                                        {
+                                            Console.WriteLine("          Cette semaine          ");
+                                            headerSwitch = 10;
+                                        }
+
+                                        failHeader = testHeader;
                                     }
                                 }
                                 else if (dateEntry.Month == DateTime.Now.Month)
                                 {
-                                    Console.WriteLine("           Ce mois-ci            ");
-                                    headerSwitch = 100;
+                                    if (!testHeader)
+                                    {
+                                        Console.WriteLine("           Ce mois-ci            ");
+                                        headerSwitch = 100;
+                                    }
+
+                                    failHeader = testHeader;
                                 }
                             }
                             else if (dateEntry.Month == DateTime.Now.Month - 1 && headerSwitch < 20)
                             {
-                                Console.WriteLine("         Le mois dernier         ");
-                                headerSwitch = 20;
+                                if (!testHeader)
+                                {
+                                    Console.WriteLine("         Le mois dernier         ");
+                                    headerSwitch = 20;
+                                }
+
+                                failHeader = testHeader;
                             }
                             else if (dateEntry.Month < DateTime.Now.Month - 1)
                             {
-                                Console.WriteLine("           Cette année           ");
-                                headerSwitch = 100;
+                                if (!testHeader)
+                                {
+                                    Console.WriteLine("           Cette année           ");
+                                    headerSwitch = 100;
+                                }
+
+                                failHeader = testHeader;
                             }
                         }
                         else if (dateEntry.Year == DateTime.Now.Year - 1 && headerSwitch < 200)
                         {
-                            Console.WriteLine("         L'année dernière        ");
-                            headerSwitch = 200;
+                            if (!testHeader)
+                            {
+                                Console.WriteLine("         L'année dernière        ");
+                                headerSwitch = 200;
+                            }
+
+                            failHeader = testHeader;
                         }
                         else
                         {
-                            Console.WriteLine("         Il y a longtemps        ");
-                            headerSwitch = 1000;
+                            if (!testHeader)
+                            {
+                                Console.WriteLine("         Il y a longtemps        ");
+                                headerSwitch = 1000;
+                            }
+
+                            failHeader = testHeader;
                         }
                     }
 
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
 
-                    string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
-                    string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
-                    int excerptLen = ListeHistorique[hEntry].Item2.Length;
-
-                    /* indexPaddingMax :  Nombre d'espaces minimum pour aligner les entrées en synchronisation avec
-                     *                   l'augmentation de l'index
-                     * lenPaddingMax :    Nombre d'espaces minimum pour aligner les entrées selon la plus grande longueur
-                     *                   de message sauvegardé dans l'historique
-                     * realEntry :        Index réel de l'entrée à afficher sur l'écran
-                     * indexPadStr :      String contenant les espaces ' ' qui alignent les entrées de l'historique
-                     *                   selon l'index du message
-                     * lenPadStr :        String contenant les espaces ' ' qui alignent les entrées de l'historique
-                     *                   selon la longueur du message
-                     */
-                    int indexPaddingMax = ListeHistorique.Count.ToString().Length;
-                    int lenPaddingMax = msgHistoryMaxLen.ToString().Length;
-                    int realEntry = ListeHistorique.Count - hEntry;
-                    string indexPadStr = new(' ', indexPaddingMax - realEntry.ToString().Length);
-                    string lenPadStr = new(' ', lenPaddingMax - excerptLen.ToString().Length);
-
-                    int lineLenMax = Console.WindowWidth
-                                     - "[x]: dd-MM-yyyy HH:mm:ss | long. : ".Length
-                                     - " | ".Length
-                                     - indexPaddingMax
-                                     - lenPaddingMax
-                                     - "...".Length
-                                     - 10;
-
-                    if (excerpt.Length > lineLenMax)
+                    if (!failHeader)
                     {
-                        excerpt = excerpt[..lineLenMax] + "...";
+                        string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
+                        string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
+                        int excerptLen = ListeHistorique[hEntry].Item2.Length;
+
+                        /* indexPaddingMax :  Nombre d'espaces minimum pour aligner les entrées en synchronisation avec
+                         *                   l'augmentation de l'index
+                         * lenPaddingMax :    Nombre d'espaces minimum pour aligner les entrées selon la plus grande longueur
+                         *                   de message sauvegardé dans l'historique
+                         * realEntry :        Index réel de l'entrée à afficher sur l'écran
+                         * indexPadStr :      String contenant les espaces ' ' qui alignent les entrées de l'historique
+                         *                   selon l'index du message
+                         * lenPadStr :        String contenant les espaces ' ' qui alignent les entrées de l'historique
+                         *                   selon la longueur du message
+                         */
+                        int indexPaddingMax = ListeHistorique.Count.ToString().Length;
+                        int lenPaddingMax = msgHistoryMaxLen.ToString().Length;
+                        int realEntry = ListeHistorique.Count - hEntry;
+                        string indexPadStr = new(' ', indexPaddingMax - realEntry.ToString().Length);
+                        string lenPadStr = new(' ', lenPaddingMax - excerptLen.ToString().Length);
+
+                        int lineLenMax = Console.WindowWidth
+                                         - "[x]: dd-MM-yyyy HH:mm:ss | long. : ".Length
+                                         - " | ".Length
+                                         - indexPaddingMax
+                                         - lenPaddingMax
+                                         - "...".Length
+                                         - 10;
+
+                        if (excerpt.Length > lineLenMax)
+                        {
+                            excerpt = excerpt[..lineLenMax] + "...";
+                        }
+
+                        Console.WriteLine($"[{realEntry}]: "
+                                          + indexPadStr
+                                          + dtStr
+                                          + " | long. : "
+                                          + excerptLen
+                                          + lenPadStr
+                                          + " | "
+                                          + excerpt);
                     }
 
-                    Console.WriteLine($"[{realEntry}]: "
-                                      + indexPadStr
-                                      + dtStr
-                                      + " | long. : "
-                                      + excerptLen
-                                      + lenPadStr
-                                      + " | "
-                                      + excerpt);
+                    testHeader = Console.CursorTop > headerMaxHeight;
+
+                    if ((Console.CursorTop > entryMaxHeight && hEntry > 0) || failHeader)
+                    {
+                        if (failHeader)
+                        {
+                            Console.WriteLine();
+                        }
+
+                        if (page > 0)
+                        {
+                            Console.WriteLine("\n<< Précédent | Suivant >>");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nSuivant >>");
+                        }
+
+                        stackLastEntry.Push(lastEntry);
+                        lastEntry = hEntry;
+                        break;
+                    }
+                    else if (page > 0 && hEntry == 0)
+                    {
+                        Console.WriteLine("\n<< Précédent");
+                        lastEntry = hEntry;
+                    }
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\nPour accéder au contenu complet d'un de ces éléments, " +
+                string separator = new('-', Console.WindowWidth - 10);
+                Console.WriteLine(separator);
+                Console.WriteLine("Pour accéder au contenu complet d'un de ces éléments, " +
                                   "inscrivez le numéro d'index situé à gauche");
                 Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
                 Console.WriteLine("Vous pouvez utiliser Backspace pour corriger.");
@@ -153,6 +233,7 @@ namespace LORENZ
                 Console.ForegroundColor = ConsoleColor.Cyan;
 
                 string numeroStr = "";
+                bool changedPage = false;
                 while (true)
                 {
                     int curTopInitial = Console.CursorTop;
@@ -162,6 +243,19 @@ namespace LORENZ
                     if (numero.Key == ConsoleKey.Escape)
                     {
                         return;
+                    }
+                    else if (numero.Key == ConsoleKey.RightArrow && lastEntry > 0)
+                    {
+                        changedPage = true;
+                        page++;
+                        break;
+                    }
+                    else if (numero.Key == ConsoleKey.LeftArrow && page > 0)
+                    {
+                        changedPage = true;
+                        lastEntry = stackLastEntry.Pop();
+                        page--;
+                        break;
                     }
 
                     if (numero.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)
@@ -213,23 +307,26 @@ namespace LORENZ
                     }
                 }
 
-                // Afficher entrée
-                if (numeroStr[0] == 'D' && numeroStr.Length > 1)
+                if (!changedPage)
                 {
-                    int numeroDel = int.Parse(numeroStr[1..]);
-                    int realNumero = ListeHistorique.Count - numeroDel;
-                    RetirerHistorique(realNumero);
-                }
-                else if (numeroStr[0] != 'D')
-                {
-                    int numeroInt = int.Parse(numeroStr);
-                    int realNumero = ListeHistorique.Count - numeroInt;
-                    AfficherEntree(realNumero);
-                }
-                else
-                {
-                    Display.PrintMessage("Aucune entrée à supprimer !", MessageState.Failure);
-                    Console.ReadKey(true);
+                    // Afficher entrée
+                    if (numeroStr[0] == 'D' && numeroStr.Length > 1)
+                    {
+                        int numeroDel = int.Parse(numeroStr[1..]);
+                        int realNumero = ListeHistorique.Count - numeroDel;
+                        RetirerHistorique(realNumero);
+                    }
+                    else if (numeroStr[0] != 'D')
+                    {
+                        int numeroInt = int.Parse(numeroStr);
+                        int realNumero = ListeHistorique.Count - numeroInt;
+                        AfficherEntree(realNumero);
+                    }
+                    else
+                    {
+                        Display.PrintMessage("Aucune entrée à supprimer !", MessageState.Failure);
+                        Console.ReadKey(true);
+                    }
                 }
             }
         }
