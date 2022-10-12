@@ -16,16 +16,16 @@ namespace LORENZ
     public static class Historique
     {
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
-        public static List<(DateTime, string, string, PrivacyState)> ListeHistorique { get; private set; } = new();
+        public static List<(DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; private set; } = new();
 
         public static void AfficherHistorique()
         {
             int msgHistoryMaxLen = 0;
             for (int m = 0; m < ListeHistorique.Count; m++)
             {
-                if (ListeHistorique[m].Item2.Length > msgHistoryMaxLen)
+                if (ListeHistorique[m].msg.Length > msgHistoryMaxLen)
                 {
-                    msgHistoryMaxLen = ListeHistorique[m].Item2.Length;
+                    msgHistoryMaxLen = ListeHistorique[m].msg.Length;
                 }
             }
 
@@ -45,7 +45,7 @@ namespace LORENZ
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    DateTime dateEntry = ListeHistorique[hEntry].Item1;
+                    DateTime dateEntry = ListeHistorique[hEntry].cipherDate;
                     if (headerSwitch < 1000)
                     {
                         if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 100)
@@ -149,9 +149,9 @@ namespace LORENZ
 
                     if (!failHeader)
                     {
-                        string dtStr = ListeHistorique[hEntry].Item1.ToString("G");
-                        string excerpt = ListeHistorique[hEntry].Item2.Replace('\n', ' ');
-                        int excerptLen = ListeHistorique[hEntry].Item2.Length;
+                        string dtStr = ListeHistorique[hEntry].cipherDate.ToString("G");
+                        string excerpt = ListeHistorique[hEntry].msg.Replace('\n', ' ');
+                        int excerptLen = ListeHistorique[hEntry].msg.Length;
 
                         /* indexPaddingMax :  Nombre d'espaces minimum pour aligner les entrées en synchronisation avec
                          *                   l'augmentation de l'index
@@ -366,11 +366,11 @@ namespace LORENZ
             if (index < ListeHistorique.Count && index >= 0)
             {
                 Console.Clear();
-                string dateOfDeciphering = ListeHistorique[index].Item1.ToString("dddd d MMMM yyyy");
-                string hourOfDeciphering = ListeHistorique[index].Item1.ToString("H' h 'mm");
-                string historicMsg = ListeHistorique[index].Item2;
-                string msgAuthor = ListeHistorique[index].Item3 == "" ? "Inconnu" : ListeHistorique[index].Item3;
-                PrivacyState privSta = ListeHistorique[index].Item4;
+                string dateOfDeciphering = ListeHistorique[index].cipherDate.ToString("dddd d MMMM yyyy");
+                string hourOfDeciphering = ListeHistorique[index].cipherDate.ToString("H' h 'mm");
+                string historicMsg = ListeHistorique[index].msg;
+                string msgAuthor = ListeHistorique[index].author == "" ? "Inconnu" : ListeHistorique[index].author;
+                PrivacyState privSta = ListeHistorique[index].pState;
 
                 string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 ";
                 int invIndex = ListeHistorique.Count - index;
