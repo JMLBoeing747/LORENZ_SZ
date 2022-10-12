@@ -16,7 +16,7 @@ namespace LORENZ
     public static class Historique
     {
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
-        public static List<(DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; private set; } = new();
+        public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; private set; } = new();
 
         public static void AfficherHistorique()
         {
@@ -332,7 +332,7 @@ namespace LORENZ
                     // Afficher entrée
                     if (numeroStr[0] == 'D' && numeroStr.Length > 1)
                     {
-                        if(!int.TryParse(numeroStr[1..], out int numeroDel))
+                        if (!int.TryParse(numeroStr[1..], out int numeroDel))
                         {
                             numeroDel = -1;
                         }
@@ -462,36 +462,42 @@ namespace LORENZ
                 foreach (string itemLine in historyLines)
                 {
                     string[] itemEntries = itemLine.Split('\0');
-                    string itemEntry1 = "", itemEntry2 = "", itemEntry3 = "";
-                    if (itemEntries.Length >= 2)
-                    {
-                        itemEntry1 = itemEntries[0];
-                        itemEntry2 = itemEntries[1];
-                    }
+                    string itemIDStr = "", itemDT = "", itemMsg = "", itemAuthor = "", itemPState = "";
 
                     if (itemEntries.Length >= 3)
                     {
-                        itemEntry3 = itemEntries[2];
-                    }
+                        itemIDStr = itemEntries[0];
+                        itemDT = itemEntries[1];
+                        itemMsg = itemEntries[2];
 
-                    PrivacyState privSta = PrivacyState.NotDefined;
                     if (itemEntries.Length >= 4)
                     {
-                        privSta = itemEntries[3] switch
+                            itemAuthor = itemEntries[3];
+
+                            if (itemEntries.Length >= 5)
+                            {
+                                itemPState = itemEntries[4];
+                            }
+                        }
+                    }
+
+                    (uint, DateTime, string, string, PrivacyState) tupleEntry = new();
+                    if (!uint.TryParse(itemIDStr, out uint itemID))
+                    {
+                        itemID = AssignNewId();
+                    }
+                    DateTime dtEntry = DateTime.Parse(itemDT);
+                    PrivacyState privSta = itemPState switch
                         {
                             "1" => PrivacyState.Public,
                             "-1" => PrivacyState.Private,
                             _ => PrivacyState.NotDefined,
                         };
-                    }
-
-
-                    (DateTime, string, string, PrivacyState) tupleEntry = new();
-                    DateTime dtEntry = DateTime.Parse(itemEntry1);
-                    tupleEntry.Item1 = dtEntry;
-                    tupleEntry.Item2 = itemEntry2;
-                    tupleEntry.Item3 = itemEntry3;
-                    tupleEntry.Item4 = privSta;
+                    tupleEntry.Item1 = itemID;
+                    tupleEntry.Item2 = dtEntry;
+                    tupleEntry.Item3 = itemMsg;
+                    tupleEntry.Item4 = itemAuthor;
+                    tupleEntry.Item5 = privSta;
                     ListeHistorique.Add(tupleEntry);
                 }
             }
@@ -508,9 +514,14 @@ namespace LORENZ
         {
             Common.CphrMode = CypherMode.x1;
             string allHistoryStr = "";
-            foreach ((DateTime, string, string, PrivacyState) item in ListeHistorique)
+            foreach ((uint, DateTime, string, string, PrivacyState) item in ListeHistorique)
             {
-                allHistoryStr += item.Item1.ToUniversalTime().ToString("u") + "\0" + item.Item2 + "\0" + item.Item3 + "\0" + (int)item.Item4 + "\0\0";
+                allHistoryStr += item.Item1.ToString() +
+                    "\0" + item.Item2.ToUniversalTime().ToString("u") +
+                    "\0" + item.Item3 +
+                    "\0" + item.Item4 +
+                    "\0" + (int)item.Item5 +
+                    "\0\0";
             }
 
             uint[] allHistoryUInt = Encryption.ToUIntArray(allHistoryStr);
@@ -544,7 +555,8 @@ namespace LORENZ
         {
             LireFichierHistorique();
             auteur = auteur == "" ? "Inconnu" : auteur;
-            (DateTime, string, string, PrivacyState) nouvEntreeTuple = (dateEntree, nouvEntree, auteur, pState);
+            uint newID = AssignNewId();
+            (uint, DateTime, string, string, PrivacyState) nouvEntreeTuple = (newID, dateEntree, nouvEntree, auteur, pState);
             ListeHistorique.Add(nouvEntreeTuple);
             EcrireHistorique();
         }
@@ -561,6 +573,35 @@ namespace LORENZ
                 Display.PrintMessage("Index invalide !", MessageState.Failure);
                 Console.ReadKey(true);
             }
+        }
+
+        private static uint AssignNewId()
+        {
+            List<uint> potentials = new();
+            uint normal = 0;
+            for (int i = 0; i < ListeHistorique.Count; i++, normal++)
+            {
+                uint id = ListeHistorique[i].ID;
+                if (id != normal)
+                {
+                    if (potentials[0] == id)
+                    {
+                        potentials.RemoveAt(0);
+                        potentials.Add(normal);
+                    }
+
+                    if (id > normal)
+                    {
+                        for (uint j = normal; j < id; j++)
+                        {
+                            potentials.Add(normal);
+                        }
+                        normal = id;
+                    }
+                }
+            }
+
+            return potentials.Count > 0 ? potentials[0] : (uint)ListeHistorique.Count;
         }
     }
 }
