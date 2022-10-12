@@ -272,7 +272,7 @@ namespace LORENZ
                             lastEntry = ListeHistorique.Count - 1;
                             page = 0;
                         }
-                        
+
                         break;
                     }
 
@@ -470,8 +470,8 @@ namespace LORENZ
                         itemDT = itemEntries[1];
                         itemMsg = itemEntries[2];
 
-                    if (itemEntries.Length >= 4)
-                    {
+                        if (itemEntries.Length >= 4)
+                        {
                             itemAuthor = itemEntries[3];
 
                             if (itemEntries.Length >= 5)
@@ -488,11 +488,11 @@ namespace LORENZ
                     }
                     DateTime dtEntry = DateTime.Parse(itemDT);
                     PrivacyState privSta = itemPState switch
-                        {
-                            "1" => PrivacyState.Public,
-                            "-1" => PrivacyState.Private,
-                            _ => PrivacyState.NotDefined,
-                        };
+                    {
+                        "1" => PrivacyState.Public,
+                        "-1" => PrivacyState.Private,
+                        _ => PrivacyState.NotDefined,
+                    };
                     tupleEntry.Item1 = itemID;
                     tupleEntry.Item2 = dtEntry;
                     tupleEntry.Item3 = itemMsg;
@@ -602,6 +602,37 @@ namespace LORENZ
             }
 
             return potentials.Count > 0 ? potentials[0] : (uint)ListeHistorique.Count;
+        }
+    }
+
+    public class Categorie
+    {
+        public string Nom { get; set; }
+        private List<uint> ListeMsg { get; set; }
+
+        public Categorie(string nom)
+        {
+            Nom = nom;
+            ListeMsg = new();
+        }
+
+        public void AddMsg(uint id)
+        {
+            ListeMsg.Add(id);
+        }
+
+        public bool RemoveMsg(uint id)
+        {
+            for (int msg = 0; msg < ListeMsg.Count; msg++)
+            {
+                if (id == ListeMsg[msg])
+                {
+                    ListeMsg.RemoveAt(msg);
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
