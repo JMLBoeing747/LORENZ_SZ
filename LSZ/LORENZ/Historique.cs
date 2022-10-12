@@ -211,7 +211,7 @@ namespace LORENZ
                         }
 
                         stackLastEntry.Push(lastEntry);
-                        lastEntry = hEntry;
+                        lastEntry = hEntry - 1;
                         break;
                     }
                     else if (page > 0 && hEntry == 0)
