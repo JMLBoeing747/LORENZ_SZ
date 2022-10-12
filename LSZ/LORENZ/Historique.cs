@@ -36,7 +36,7 @@ namespace LORENZ
             {
                 Console.Clear();
                 int headerSwitch = 0;
-                int entryMaxHeight = Console.WindowHeight - 10;
+                int entryMaxHeight = Console.WindowHeight - 12;
                 int headerMaxHeight = entryMaxHeight - 1;
                 bool testHeader = false;
                 bool failHeader = false;
@@ -226,9 +226,10 @@ namespace LORENZ
                 string separator = new('-', Console.WindowWidth - 10);
                 Console.WriteLine(separator);
                 Console.WriteLine("Pour accéder au contenu complet d'un de ces éléments, " +
-                                  "inscrivez le numéro d'index situé à gauche");
-                Console.WriteLine("qui les identifie et appuyez sur ENTRÉE.");
-                Console.WriteLine("Vous pouvez utiliser Backspace pour corriger.");
+                                  "inscrivez le numéro d'index qui les identifie à gauche");
+                Console.WriteLine("et appuyez sur ENTRÉE.");
+                Console.WriteLine("Pour supprimer une entrée : appuyez sur DELETE et inscrivez son index.");
+                Console.WriteLine("Utilisez BACKSPACE pour corriger et les flèches gauche/droite pour changer de page.");
                 Console.WriteLine("\nPour retourner, appuyer sur ESC.");
                 Console.Write(">> ");
                 Console.ForegroundColor = ConsoleColor.Cyan;
