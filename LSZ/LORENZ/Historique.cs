@@ -199,6 +199,7 @@ namespace LORENZ
                         if (failHeader)
                         {
                             Console.WriteLine();
+                            hEntry += 1;
                         }
 
                         if (page > 0)
@@ -218,11 +219,11 @@ namespace LORENZ
                     {
                         Console.WriteLine("\n<< Précédent");
                         stackLastEntry.Push(lastEntry);
-                        lastEntry = 0;
+                        lastEntry = -1;
                     }
                     else if (page == 0 && hEntry == 0)
                     {
-                        lastEntry = 0;
+                        lastEntry = -1;
                     }
                 }
 
@@ -250,7 +251,7 @@ namespace LORENZ
                     {
                         return;
                     }
-                    else if (numero.Key == ConsoleKey.RightArrow && lastEntry > 0)
+                    else if (numero.Key == ConsoleKey.RightArrow && lastEntry >= 0)
                     {
                         changedPage = true;
                         page++;
@@ -259,11 +260,7 @@ namespace LORENZ
                     else if (numero.Key == ConsoleKey.LeftArrow && page > 0)
                     {
                         changedPage = true;
-                        if (lastEntry == 0)
-                        {
-                            // Pour retirer le lastEntry de la page actuelle
-                            _ = stackLastEntry.Pop();
-                        }
+                        _ = stackLastEntry.Pop();
 
                         if (stackLastEntry.Count > 0)
                         {
@@ -275,6 +272,7 @@ namespace LORENZ
                             lastEntry = ListeHistorique.Count - 1;
                             page = 0;
                         }
+                        
                         break;
                     }
 
