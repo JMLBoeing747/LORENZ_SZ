@@ -2,25 +2,215 @@
 
 namespace LORENZ
 {
-    public class SubWord
+    public static class Compression
     {
-        public string WordName { get; }
-        public string WordCode { get; }
-        public int Count { get; private set; }
+        public static double MinCompressRatio { get; set; } = 0.15;
 
-        public SubWord(string wordName, string wordCode)
+        public static double TryCompression(ref string msgToCompress, ref string attrStr)
         {
-            WordName = wordName;
-            WordCode = wordCode;
-            Count = 1;
+            // Création du message complet sans compression
+            string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgToCompress;
+
+            /* Découpage du message en mots et en ponctuations
+             * pour faciliter la recherche de similitudes
+             */
+            List<string> words = new();
+            string tempWord = default;
+            bool wasSeparator = false;
+            for (int i = 0; i < msgToCompress.Length; i++)
+            {
+                char strC = msgToCompress[i];
+                if (i == 0)
+                {
+                    tempWord += strC;
+                    continue;
+                }
+
+                if (strC is (< '0' or > '9') and
+                    (< 'A' or > 'Z') and
+                    (< 'a' or > 'z') and
+                    (< '\xC0') and not '\'')
+                {
+                    words.Add(tempWord);
+                    tempWord = default;
+                    wasSeparator = true;
+                }
+                else
+                {
+                    if (wasSeparator)
+                    {
+                        words.Add(tempWord);
+                        tempWord = default;
+                        wasSeparator = false;
+                    }
+                }
+
+                tempWord += strC;
+            }
+            words.Add(tempWord);
+
+            // Remplissage + triage de la table de compression
+            CompressTable compressTable = new();
+            foreach (string newWord in words)
+            {
+                compressTable.Check(newWord);
+            }
+
+            compressTable.Sort();
+            int pass = 0;
+            while (true)
+            {
+                pass++;
+                if (!compressTable.Clean(pass))
+                {
+                    continue;
+                }
+                else if (compressTable.EntriesCount == 0)
+                {
+                    return 0.0;
+                }
+
+                // Construction du nouveau message avec balises de compression
+                string newCompressStr = default;
+                foreach (string w in words)
+                {
+                    newCompressStr += compressTable.GetMarkupCompress(w);
+                }
+
+                string CTStr = compressTable.GetString();
+
+                string fullCompressMsg = CTStr + attrStr + Algorithmes.ATTRIB_SEP + newCompressStr;
+                int diffCount = fullInitialMsg.Length - fullCompressMsg.Length;
+                // Test de compression
+                double ratio = diffCount / (double)fullInitialMsg.Length;
+
+                if (ratio >= MinCompressRatio)
+                {
+                    attrStr = CTStr + attrStr;
+                    msgToCompress = newCompressStr;
+                    return ratio;
+                }
+            }
+        }
+    }
+
+    public class CompressTable
+    {
+        private readonly List<WordEntry> WordsList;
+        public int EntriesCount => WordsList.Count;
+
+        private const char COMPRESS_MARKUP = '\x8F';
+
+        public CompressTable()
+        {
+            WordsList = new();
         }
 
-        public void Repeat(string newWord)
+        public void Check(string newWord)
         {
-            if (newWord == WordName)
+            if (newWord.Length > 2)
             {
-                Count++;
+                if (WordsList.Count > 0)
+                {
+                    foreach (WordEntry we in WordsList)
+                    {
+                        if (we.Add(newWord))
+                        {
+                            break;
+                        }
+                        else if (WordsList.IndexOf(we) == WordsList.Count - 1)
+                        {
+                            WordsList.Add(new(newWord));
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    WordsList.Add(new(newWord));
+                }
             }
+        }
+
+        public void Sort()
+        {
+            for (int we1 = 0; we1 < WordsList.Count; we1++)
+            {
+                WordsList[we1].Sort();
+                for (int we2 = we1 - 1; we2 >= 0; we2--)
+                {
+                    if (WordsList[we2 + 1].CountAll > WordsList[we2].CountAll)
+                    {
+                        (WordsList[we2], WordsList[we2 + 1]) = (WordsList[we2 + 1], WordsList[we2]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        public bool Clean(int level = 1)
+        {
+            if (level < 1)
+            {
+                return false;
+            }
+
+            bool isModified = false;
+            for (int we = 0; we < WordsList.Count; we++)
+            {
+                if (WordsList[we].CountAll <= level)
+                {
+                    WordsList.RemoveAt(we);
+                    we--;
+                    isModified = true;
+                }
+                else
+                {
+                    bool isRebased = WordsList[we].Rebase();
+                    isModified = isRebased || isModified;
+                }
+            }
+
+            return isModified;
+        }
+
+        public string GetMarkupCompress(string entryWord)
+        {
+            if (entryWord.Length > 2)
+            {
+                foreach (WordEntry we in WordsList)
+                {
+                    string entryCode = we.GetEntryCode(entryWord);
+                    if (entryCode != entryWord)
+                    {
+                        return COMPRESS_MARKUP.ToString() + WordsList.IndexOf(we) + entryCode;
+                    }
+                }
+            }
+
+            return entryWord;
+        }
+
+        public string GetString()
+        {
+            string temp = "C";
+            for (int we = 0; we < WordsList.Count; we++)
+            {
+                temp += WordsList[we].MainWord;
+                if (we == WordsList.Count - 1)
+                {
+                    temp += ";";
+                }
+                else
+                {
+                    temp += ",";
+                }
+            }
+
+            return temp;
         }
     }
 
@@ -217,214 +407,24 @@ namespace LORENZ
         }
     }
 
-    public class CompressTable
+    public class SubWord
     {
-        private readonly List<WordEntry> WordsList;
-        public int EntriesCount => WordsList.Count;
+        public string WordName { get; }
+        public string WordCode { get; }
+        public int Count { get; private set; }
 
-        private const char COMPRESS_MARKUP = '\x8F';
-
-        public CompressTable()
+        public SubWord(string wordName, string wordCode)
         {
-            WordsList = new();
+            WordName = wordName;
+            WordCode = wordCode;
+            Count = 1;
         }
 
-        public void Check(string newWord)
+        public void Repeat(string newWord)
         {
-            if (newWord.Length > 2)
+            if (newWord == WordName)
             {
-                if (WordsList.Count > 0)
-                {
-                    foreach (WordEntry we in WordsList)
-                    {
-                        if (we.Add(newWord))
-                        {
-                            break;
-                        }
-                        else if (WordsList.IndexOf(we) == WordsList.Count - 1)
-                        {
-                            WordsList.Add(new(newWord));
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    WordsList.Add(new(newWord));
-                }
-            }
-        }
-
-        public void Sort()
-        {
-            for (int we1 = 0; we1 < WordsList.Count; we1++)
-            {
-                WordsList[we1].Sort();
-                for (int we2 = we1 - 1; we2 >= 0; we2--)
-                {
-                    if (WordsList[we2 + 1].CountAll > WordsList[we2].CountAll)
-                    {
-                        (WordsList[we2], WordsList[we2 + 1]) = (WordsList[we2 + 1], WordsList[we2]);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-        public bool Clean(int level = 1)
-        {
-            if (level < 1)
-            {
-                return false;
-            }
-
-            bool isModified = false;
-            for (int we = 0; we < WordsList.Count; we++)
-            {
-                if (WordsList[we].CountAll <= level)
-                {
-                    WordsList.RemoveAt(we);
-                    we--;
-                    isModified = true;
-                }
-                else
-                {
-                    bool isRebased = WordsList[we].Rebase();
-                    isModified = isRebased || isModified;
-                }
-            }
-
-            return isModified;
-        }
-
-        public string GetMarkupCompress(string entryWord)
-        {
-            if (entryWord.Length > 2)
-            {
-                foreach (WordEntry we in WordsList)
-                {
-                    string entryCode = we.GetEntryCode(entryWord);
-                    if (entryCode != entryWord)
-                    {
-                        return COMPRESS_MARKUP.ToString() + WordsList.IndexOf(we) + entryCode;
-                    }
-                }
-            }
-
-            return entryWord;
-        }
-
-        public string GetString()
-        {
-            string temp = "C";
-            for (int we = 0; we < WordsList.Count; we++)
-            {
-                temp += WordsList[we].MainWord;
-                if (we == WordsList.Count - 1)
-                {
-                    temp += ";";
-                }
-                else
-                {
-                    temp += ",";
-                }
-            }
-
-            return temp;
-        }
-    }
-
-    public static class Compression
-    {
-        public static double MinCompressRatio { get; set; } = 0.15;
-
-        public static double TryCompression(ref string msgToCompress, ref string attrStr)
-        {
-            // Création du message complet sans compression
-            string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgToCompress;
-
-            /* Découpage du message en mots et en ponctuations
-             * pour faciliter la recherche de similitudes
-             */
-            List<string> words = new();
-            string tempWord = default;
-            bool wasSeparator = false;
-            for (int i = 0; i < msgToCompress.Length; i++)
-            {
-                char strC = msgToCompress[i];
-                if (i == 0)
-                {
-                    tempWord += strC;
-                    continue;
-                }
-
-                if (strC is (< '0' or > '9') and
-                    (< 'A' or > 'Z') and
-                    (< 'a' or > 'z') and
-                    (< '\xC0') and not '\'')
-                {
-                    words.Add(tempWord);
-                    tempWord = default;
-                    wasSeparator = true;
-                }
-                else
-                {
-                    if (wasSeparator)
-                    {
-                        words.Add(tempWord);
-                        tempWord = default;
-                        wasSeparator = false;
-                    }
-                }
-
-                tempWord += strC;
-            }
-            words.Add(tempWord);
-
-            // Remplissage + triage de la table de compression
-            CompressTable compressTable = new();
-            foreach (string newWord in words)
-            {
-                compressTable.Check(newWord);
-            }
-
-            compressTable.Sort();
-            int pass = 0;
-            while (true)
-            {
-                pass++;
-                if (!compressTable.Clean(pass))
-                {
-                    continue;
-                }
-                else if (compressTable.EntriesCount == 0)
-                {
-                    return 0.0;
-                }
-
-                // Construction du nouveau message avec balises de compression
-                string newCompressStr = default;
-                foreach (string w in words)
-                {
-                    newCompressStr += compressTable.GetMarkupCompress(w);
-                }
-
-                string CTStr = compressTable.GetString();
-
-                string fullCompressMsg = CTStr + attrStr + Algorithmes.ATTRIB_SEP + newCompressStr;
-                int diffCount = fullInitialMsg.Length - fullCompressMsg.Length;
-                // Test de compression
-                double ratio = diffCount / (double)fullInitialMsg.Length;
-
-                if (ratio >= MinCompressRatio)
-                {
-                    attrStr = CTStr + attrStr;
-                    msgToCompress = newCompressStr;
-                    return ratio;
-                }
+                Count++;
             }
         }
     }
