@@ -571,7 +571,7 @@ namespace LORENZ
         private static void MenuHistorique()
         {
             Console.Clear();
-            if (Historique.ListeHistorique.Count == 0)
+            if (Historique.Count == 0)
             {
                 Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
                 if (!Historique.LireFichierHistorique())

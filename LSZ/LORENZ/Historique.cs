@@ -17,7 +17,7 @@ namespace LORENZ
     {
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
         public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; private set; } = new();
-
+        public static int Count => ListeHistorique.Count;
         public static void AfficherHistorique()
         {
             int msgHistoryMaxLen = 0;
