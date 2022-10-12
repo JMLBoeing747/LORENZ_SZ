@@ -240,7 +240,7 @@ namespace LORENZ
                     int curTopInitial = Console.CursorTop;
                     int curLeftInitial = Console.CursorLeft;
 
-                    ConsoleKeyInfo numero = Console.ReadKey();
+                    ConsoleKeyInfo numero = Console.ReadKey(true);
                     if (numero.Key == ConsoleKey.Escape)
                     {
                         return;
@@ -268,10 +268,12 @@ namespace LORENZ
                     if (numero.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)
                     {
                         numeroStr += ((int)numero.Key - 48).ToString();
+                        Console.Write((char)numero.Key);
                     }
                     else if (numero.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)
                     {
                         numeroStr += ((int)numero.Key - 96).ToString();
+                        Console.Write((int)(numero.Key - 96));
                     }
                     else if (numero.Key == ConsoleKey.Delete && numeroStr.Length == 0)
                     {
@@ -408,6 +410,7 @@ namespace LORENZ
             }
             else
             {
+                Console.CursorLeft = 0;
                 Display.PrintMessage("Index invalide !", MessageState.Failure);
                 Console.ReadKey(true);
             }
