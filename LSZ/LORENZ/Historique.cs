@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace LORENZ
 {
@@ -83,7 +84,7 @@ namespace LORENZ
                             {
                                 Console.WriteLine("           Cette année           ");
                                 headerSwitch = 100;
-                            } 
+                            }
                         }
                         else if (dateEntry.Year == DateTime.Now.Year - 1 && headerSwitch < 200)
                         {
@@ -317,15 +318,18 @@ namespace LORENZ
                 }
 
                 Decyphering.OpeningDecyphering(FichierHistorique, out uint[] cipherKey, out uint[] value);
+                Cryptographie.CreateMatrix(ref cipherKey, -23);
                 Common.XORPassIntoMessage(cipherKey, ref value);
+                Cryptographie.CreateMatrix(ref cipherKey, -24);
                 Common.ReverseKey(ref cipherKey);
+                Common.XORPassIntoMessage(cipherKey, ref value);
                 Common.NotOperationToKey(ref cipherKey);
                 Common.XORPassIntoMessage(cipherKey, ref value);
 
                 string historyStr = "";
                 foreach (uint bItem in value)
                 {
-                    historyStr += (char)bItem;
+                    historyStr += (char)(bItem & 0xFF);
                 }
 
                 ListeHistorique.Clear();
@@ -385,12 +389,28 @@ namespace LORENZ
             }
 
             uint[] allHistoryUInt = Encryption.ToUIntArray(allHistoryStr);
+            for (int i = 0; i < allHistoryUInt.Length; i++)
+            {
+                byte[] filling = new byte[3];
+                RandomNumberGenerator.Create().GetBytes(filling);
+                uint filling3Bytes = 0;
+                for (int b = 0; b < filling.Length; b++)
+                {
+                    filling3Bytes += (uint)filling[b] << (8 * b);
+                }
+
+                allHistoryUInt[i] += filling3Bytes << 8;
+            }
+
             uint[] cipherKey = new uint[Common.KeyNbrUInt];
             Cryptography.Random.RandomGeneratedNumberQb(ref cipherKey);
             Common.XORPassIntoMessage(cipherKey, ref allHistoryUInt);
             Common.NotOperationToKey(ref cipherKey);
-            Common.ReverseKey(ref cipherKey);
             Common.XORPassIntoMessage(cipherKey, ref allHistoryUInt);
+            Common.ReverseKey(ref cipherKey);
+            Cryptographie.CreateMatrix(ref cipherKey, 24);
+            Common.XORPassIntoMessage(cipherKey, ref allHistoryUInt);
+            Cryptographie.CreateMatrix(ref cipherKey, 23);
             Encryption.ClosingCyphering(cipherKey, ref allHistoryUInt);
             Encryption.WriteCypherIntoFile(allHistoryUInt, FichierHistorique);
         }
