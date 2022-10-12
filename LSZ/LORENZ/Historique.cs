@@ -217,7 +217,8 @@ namespace LORENZ
                     else if (page > 0 && hEntry == 0)
                     {
                         Console.WriteLine("\n<< Précédent");
-                        lastEntry = hEntry;
+                        stackLastEntry.Push(lastEntry);
+                        lastEntry = 0;
                     }
                 }
 
@@ -253,6 +254,12 @@ namespace LORENZ
                     else if (numero.Key == ConsoleKey.LeftArrow && page > 0)
                     {
                         changedPage = true;
+                        if (lastEntry == 0)
+                        {
+                            // Pour retirer le lastEntry de la page actuelle
+                            _ = stackLastEntry.Pop();
+                        }
+
                         lastEntry = stackLastEntry.Pop();
                         page--;
                         break;
@@ -327,6 +334,8 @@ namespace LORENZ
                         Display.PrintMessage("Aucune entrée à supprimer !", MessageState.Failure);
                         Console.ReadKey(true);
                     }
+
+                    lastEntry = stackLastEntry.Pop();
                 }
             }
         }
