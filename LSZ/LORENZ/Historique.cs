@@ -431,7 +431,6 @@ namespace LORENZ
                     return false;
                 }
 
-                Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
                 Decyphering.OpeningDecyphering(FichierHistorique, out uint[] cipherKey, out uint[] value);
                 Cryptographie.CreateMatrix(ref cipherKey, -23);
                 Common.XORPassIntoMessage(cipherKey, ref value);
@@ -484,8 +483,6 @@ namespace LORENZ
                     tupleEntry.Item4 = privSta;
                     ListeHistorique.Add(tupleEntry);
                 }
-                
-                Console.Clear();
             }
             catch (CryptographyException)
             {

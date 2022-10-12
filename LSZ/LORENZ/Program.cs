@@ -571,16 +571,24 @@ namespace LORENZ
         private static void MenuHistorique()
         {
             Console.Clear();
-            if (Historique.ListeHistorique.Count == 0 && !Historique.LireFichierHistorique())
+            if (Historique.ListeHistorique.Count == 0)
             {
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("L'historique est vide.");
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Display.PrintMessage("\nSauvegardez des messages déchiffrés pour le remplir et revenez y jeter un coup d'oeil.",
-                                     MessageState.Warning);
-                return;
+                Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
+                if (!Historique.LireFichierHistorique())
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("L'historique est vide.");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Display.PrintMessage("\nSauvegardez des messages déchiffrés pour le remplir et revenez y jeter un coup d'oeil.",
+                                         MessageState.Warning);
+                    return;
+                }
+                else
+                {
+                    Console.Clear();
+                }
             }
 
             while (true)
