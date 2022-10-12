@@ -321,13 +321,19 @@ namespace LORENZ
                     // Afficher entrée
                     if (numeroStr[0] == 'D' && numeroStr.Length > 1)
                     {
-                        int numeroDel = int.Parse(numeroStr[1..]);
+                        if(!int.TryParse(numeroStr[1..], out int numeroDel))
+                        {
+                            numeroDel = -1;
+                        }
                         int realNumero = ListeHistorique.Count - numeroDel;
                         RetirerHistorique(realNumero);
                     }
                     else if (numeroStr[0] != 'D')
                     {
-                        int numeroInt = int.Parse(numeroStr);
+                        if (!int.TryParse(numeroStr[0..], out int numeroInt))
+                        {
+                            numeroInt = -1;
+                        }
                         int realNumero = ListeHistorique.Count - numeroInt;
                         AfficherEntree(realNumero);
                     }
