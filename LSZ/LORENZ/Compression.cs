@@ -99,7 +99,7 @@ namespace LORENZ
             while (true)
             {
                 pass++;
-                if (pass > 1 && !compressTable.Clean(pass))
+                if (!compressTable.Clean(pass) && pass > 1)
                 {
                     continue;
                 }
@@ -107,8 +107,7 @@ namespace LORENZ
                 {
                     // Test de compression des répétitions
                     string repCompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
-                    int repDiffCount = repCompressMsg.Length - msgACompress.Length;
-
+                    int repDiffCount = fullInitialMsg.Length - repCompressMsg.Length;
                     return repDiffCount / (double)fullInitialMsg.Length;
                 }
 
