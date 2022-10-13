@@ -4,12 +4,12 @@ namespace LORENZ
 {
     public static class Compression
     {
-        public static double MinCompressRatio { get; set; } = 0.10;
+        public static double RatioCompressionMin { get; set; } = 0.10;
 
-        public static double TryCompression(ref string msgToCompress, ref string attrStr)
+        public static double EssaiCompression(ref string msgACompress, ref string attrStr)
         {
             // Création du message complet sans compression
-            string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgToCompress;
+            string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
 
             // Pré-compression pour vérifier les répétitions de caractères
             string tempMsgCompress = default;
@@ -17,17 +17,17 @@ namespace LORENZ
             char repeatChar = default;
             int repeatBegin = 0;
             int repeatCount = 0;
-            for (int c = 0; c < msgToCompress.Length; c++)
+            for (int c = 0; c < msgACompress.Length; c++)
             {
                 if (repeatChar == default)
                 {
-                    repeatChar = msgToCompress[c];
+                    repeatChar = msgACompress[c];
                     continue;
                 }
 
                 if (c > repeatBegin)
                 {
-                    if (msgToCompress[c] == repeatChar)
+                    if (msgACompress[c] == repeatChar)
                     {
                         repeatCount++;
                     }
@@ -36,19 +36,19 @@ namespace LORENZ
                         string repeatPart = repeatMarker.ToString() + (repeatCount + 1).ToString() + repeatChar.ToString();
                         if (repeatCount > repeatPart.Length)
                         {
-                            string partBefore = msgToCompress[..repeatBegin];
-                            string partAfter = msgToCompress[c..];
+                            string partBefore = msgACompress[..repeatBegin];
+                            string partAfter = msgACompress[c..];
                             tempMsgCompress = partBefore + repeatPart + partAfter;
                         }
 
-                        repeatChar = msgToCompress[c];
+                        repeatChar = msgACompress[c];
                         repeatBegin = c;
                         repeatCount = 0;
                     }
                 }
             }
 
-            msgToCompress = tempMsgCompress;
+            msgACompress = tempMsgCompress;
             
             /* Découpage du message en mots et en ponctuations
              * pour faciliter la recherche de similitudes
@@ -56,9 +56,9 @@ namespace LORENZ
             List<string> words = new();
             string tempWord = default;
             bool wasSeparator = false;
-            for (int i = 0; i < msgToCompress.Length; i++)
+            for (int i = 0; i < msgACompress.Length; i++)
             {
-                char strC = msgToCompress[i];
+                char strC = msgACompress[i];
                 if (i == 0)
                 {
                     tempWord += strC;
@@ -123,13 +123,18 @@ namespace LORENZ
                 // Test de compression
                 double ratio = diffCount / (double)fullInitialMsg.Length;
 
-                if (ratio >= MinCompressRatio)
+                if (ratio >= RatioCompressionMin)
                 {
                     attrStr = CTStr + attrStr;
-                    msgToCompress = newCompressStr;
+                    msgACompress = newCompressStr;
                     return ratio;
                 }
             }
+        }
+
+        public static void EssaiDecompression(ref string msgADecompress, ref string attrStr)
+        {
+
         }
     }
 
