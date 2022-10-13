@@ -4,7 +4,7 @@ namespace LORENZ
 {
     public static class Compression
     {
-        public static double RatioCompressionMin { get; set; } = 0.15;
+        public static double RatioCompressionMin { get; set; } = 0.05;
 
         public static double EssaiCompression(ref string msgACompress, ref string attrStr)
         {
@@ -200,6 +200,9 @@ namespace LORENZ
                                     case 'U':
                                         wordSelect = wordSelect.ToUpper();
                                         break;
+                                    case 'I':
+                                        wordSelect = wordSelect[0] + wordSelect[1..].ToUpper();
+                                        break;
                                     case 'X':
                                         break;
                                     default:
@@ -207,7 +210,7 @@ namespace LORENZ
                                         break;
                                 }
 
-                                if (msgADecompress[d] is 'T' or 'U' or 'X')
+                                if (msgADecompress[d] is 'T' or 'U' or 'I' or 'X')
                                 {
                                     string wordApostrophe = "";
                                     bool markupFound = false;
@@ -507,27 +510,31 @@ namespace LORENZ
             string entryCode = default;
             for (int cWord = 0; cWord < word.Length; cWord++)
             {
-                if (MainWord[cWord] != word[cWord])
+                if (MainWord[cWord] == (word[cWord] + 0x20))
                 {
-                    entryCode += "1";
+                    entryCode += "U";
                 }
                 else
                 {
-                    entryCode += "0";
+                    entryCode += "L";
                 }
             }
 
-            if (entryCode == new string('0', entryCode.Length))
+            if (entryCode == new string('L', entryCode.Length))
             {
                 entryCode = "";
             }
-            else if (entryCode == "1" + new string('0', entryCode.Length - 1))
+            else if (entryCode == "U" + new string('L', entryCode.Length - 1))
             {
                 entryCode = "T";
             }
-            else if (entryCode == new string('1', entryCode.Length))
+            else if (entryCode == new string('U', entryCode.Length))
             {
                 entryCode = "U";
+            }
+            else if (entryCode == "L" + new string('U', entryCode.Length - 1))
+            {
+                entryCode = "I";
             }
 
             if (part != null)
