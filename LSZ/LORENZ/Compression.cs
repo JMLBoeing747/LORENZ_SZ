@@ -48,7 +48,7 @@ namespace LORENZ
             }
 
             msgACompress = tempMsgCompress;
-            
+
             /* Découpage du message en mots et en ponctuations
              * pour faciliter la recherche de similitudes
              */
@@ -64,23 +64,18 @@ namespace LORENZ
                     continue;
                 }
 
-                if (strC is (< '0' or > '9') and
-                    (< 'A' or > 'Z') and
-                    (< 'a' or > 'z') and
-                    (< '\xC0') and not '\'')
+                if (strC != '\'' && IsWordSeparator(strC) || wasSeparator)
+                {
+
+                    words.Add(tempWord);
+                    tempWord = default;
+                    wasSeparator = IsWordSeparator(strC);
+                }
+                else if (strC == '\'' && IsWordSeparator(msgACompress[i + 1]))
                 {
                     words.Add(tempWord);
                     tempWord = default;
                     wasSeparator = true;
-                }
-                else
-                {
-                    if (wasSeparator)
-                    {
-                        words.Add(tempWord);
-                        tempWord = default;
-                        wasSeparator = false;
-                    }
                 }
 
                 tempWord += strC;
@@ -129,7 +124,7 @@ namespace LORENZ
                 {
                     attrStr = CTStr + attrStr;
                     msgACompress = newCompressStr;
-                    
+
                     return ratio;
                 }
             }
@@ -158,11 +153,11 @@ namespace LORENZ
                             string partBefore = tempMsgCompress[..c];
                             string partAfter = tempMsgCompress[(d + 2)..];
                             tempMsgCompress = partBefore + repeatStr + partAfter;
-                            
+
                             c += repeatCount - 1;
                             break;
                         }
-                        
+
                         repeatCountStr += tempMsgCompress[d];
                     }
                 }
@@ -180,7 +175,7 @@ namespace LORENZ
                         attrStr = attrStr[(c + 1)..];
                         break;
                     }
-                    
+
                     CTStr += attrStr[c];
                 }
 
@@ -277,6 +272,25 @@ namespace LORENZ
                 string repDecompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
                 int repDiffCount = repDecompressMsg.Length - fullInitialMsg.Length;
                 return repDiffCount / (double)repDecompressMsg.Length;
+            }
+        }
+
+        private static bool IsWordSeparator(char toEval)
+        {
+            if (toEval == '-')
+            {
+                return false;
+            }
+            else if (toEval is (< '0' or > '9') and
+                               (< 'A' or > 'Z') and
+                               (< 'a' or > 'z') and
+                               (< '\xC0'))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
