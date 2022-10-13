@@ -221,7 +221,7 @@ namespace LORENZ
                 }
             }
 
-            compressRatio = Compression.TryCompression(ref msgWithoutAttrib, ref attributeStr);
+            compressRatio = Compression.EssaiCompression(ref msgWithoutAttrib, ref attributeStr);
             return attributeStr + ATTRIB_SEP + msgWithoutAttrib;
         }
 
