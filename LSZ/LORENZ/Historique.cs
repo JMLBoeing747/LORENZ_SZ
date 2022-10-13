@@ -18,6 +18,8 @@ namespace LORENZ
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
         public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; private set; } = new();
         public static int Count => ListeHistorique.Count;
+        private static List<Categorie> ListeCategories { get; set; } = new();
+        public static int CategoriesCount => ListeCategories.Count;
         public static void AfficherHistorique()
         {
             int msgHistoryMaxLen = 0;
@@ -634,6 +636,86 @@ namespace LORENZ
             }
 
             return potentials.Count > 0 ? potentials[0] : (uint)ListeHistorique.Count;
+        }
+
+        public static void ConsulterListeCategories()
+        {
+            Console.Clear();
+            if (ListeCategories.Count > 0)
+            {
+                Console.WriteLine("Sélectionnez une catégorie en inscrivant son index");
+                Console.WriteLine("Appuyez sur ESC pour retourner...\n");
+
+                for (int cat = 0; cat < ListeCategories.Count; cat++)
+                {
+                    Console.WriteLine("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom);
+                }
+
+                int curTopInitial = Console.CursorTop;
+                int curLeftInitial = Console.CursorLeft;
+                string indexCatStr = default;
+                while (true)
+                {
+                    ConsoleKeyInfo numero = Console.ReadKey();
+                    if (numero.Key == ConsoleKey.Escape)
+                    {
+                        return;
+                    }
+
+                    if (numero.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)
+                    {
+                        indexCatStr += ((int)numero.Key - 48).ToString();
+                        Console.Write((char)numero.Key);
+                    }
+                    else if (numero.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)
+                    {
+                        indexCatStr += ((int)numero.Key - 96).ToString();
+                        Console.Write((int)(numero.Key - 96));
+                    }
+                    else if (numero.Key == ConsoleKey.Backspace && curLeftInitial > 3)
+                    {
+                        Console.SetCursorPosition(curLeftInitial - 1, curTopInitial);
+                        Console.Write(' ');
+                        Console.SetCursorPosition(curLeftInitial - 1, curTopInitial);
+
+                        indexCatStr = indexCatStr[..(indexCatStr.Length - 1)];
+                    }
+                    else if (numero.Key == ConsoleKey.Enter)
+                    {
+                        if (indexCatStr.Length != 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(curLeftInitial, curTopInitial);
+                        }
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(curLeftInitial, curTopInitial);
+                        Console.Write(' ');
+                        Console.SetCursorPosition(curLeftInitial, curTopInitial);
+                    }
+                }
+            }
+            else
+            {
+                Display.PrintMessage("Il n'y a aucune catégorie existante.", MessageState.Warning);
+                Display.PrintMessage("Créez-en une nouvelle avant de continuer.", MessageState.Warning);
+                Console.WriteLine("\nAppuyez sur n'importe quelle touche pour retourner...");
+                Console.ReadKey(true);
+            }
+        }
+
+        public static void OuvrirCategorie(int index)
+        {
+
+        }
+
+        public static void NouvelleCategorie()
+        {
+
         }
     }
 

@@ -595,7 +595,11 @@ namespace LORENZ
             {
                 Console.WriteLine("===== Historique =====\n");
                 Console.WriteLine("[H]: Consulter l'historique");
-                Console.WriteLine("[C]: Nouvelle catégorie");
+                if (Historique.CategoriesCount > 0)
+                {
+                    Console.Write("[C]: Consulter les catégories");
+                }
+                Console.WriteLine("[N]: Nouvelle catégorie");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
 
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
@@ -606,7 +610,11 @@ namespace LORENZ
                         Console.Clear();
                         break;
                     case ConsoleKey.C:
-                        // Méthode nouvelle catégorie
+                        Historique.ConsulterListeCategories();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.N:
+                        Historique.NouvelleCategorie();
                         Console.Clear();
                         break;
                     case ConsoleKey.Escape:
