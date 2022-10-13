@@ -457,7 +457,7 @@ namespace LORENZ
             else
             {
                 Console.CursorLeft = 0;
-                Display.PrintMessage("Index invalide !", MessageState.Failure);
+                Display.PrintMessage("Index invalide ! ", MessageState.Failure);
                 Console.ReadKey(true);
             }
 
@@ -603,7 +603,7 @@ namespace LORENZ
             else
             {
                 Console.CursorLeft = 0;
-                Display.PrintMessage("Index invalide !", MessageState.Failure);
+                Display.PrintMessage("Index invalide ! ", MessageState.Failure);
                 Console.ReadKey(true);
                 return false;
             }
