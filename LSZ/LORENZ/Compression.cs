@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LORENZ
 {
@@ -90,7 +91,10 @@ namespace LORENZ
             }
 
             compressTable.Sort();
+            
+            // Test de compression par passes multiples
             int pass = 0;
+            List<(string msg, string CT, double ratio)> passesList = new();
             while (true)
             {
                 pass++;
@@ -100,10 +104,30 @@ namespace LORENZ
                 }
                 if (compressTable.EntriesCount == 0)
                 {
-                    // Calcul du ratio de compression par répétitions
-                    string repCompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
-                    int repDiffCount = fullInitialMsg.Length - repCompressMsg.Length;
-                    return repDiffCount / (double)fullInitialMsg.Length;
+                    if (passesList.Count == 0)
+                    {
+                        // Calcul du ratio de compression par répétitions
+                        string repCompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
+                        int repDiffCount = fullInitialMsg.Length - repCompressMsg.Length;
+                        return repDiffCount / (double)fullInitialMsg.Length;
+                    }
+                    else
+                    {
+                        double bestRatio = 0.0;
+                        int bestIndex = 0;
+                        for (int compEntry = 0; compEntry < passesList.Count; compEntry++)
+                        {
+                            if (passesList[compEntry].ratio > bestRatio)
+                            {
+                                bestRatio = passesList[compEntry].ratio;
+                                bestIndex = compEntry;
+                            }
+                        }
+
+                        attrStr = passesList[bestIndex].CT + attrStr;
+                        msgACompress = passesList[bestIndex].msg;
+                        return passesList[bestIndex].ratio;
+                    }
                 }
 
                 // Construction du nouveau message avec balises de compression
@@ -122,10 +146,7 @@ namespace LORENZ
 
                 if (ratio >= RatioCompressionMin)
                 {
-                    attrStr = CTStr + attrStr;
-                    msgACompress = newCompressStr;
-
-                    return ratio;
+                    passesList.Add((newCompressStr, CTStr, ratio));
                 }
             }
         }
