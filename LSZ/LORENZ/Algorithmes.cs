@@ -170,7 +170,7 @@ namespace LORENZ
             return false;
         }
 
-        private static string AddAttributes(string s, ref double compressRatio)
+        private static string AddAttributes(string s, ref double ratio)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
             string[] attributes = new string[5];
@@ -221,7 +221,7 @@ namespace LORENZ
                 }
             }
 
-            compressRatio = Compression.EssaiCompression(ref msgWithoutAttrib, ref attributeStr);
+            ratio = Compression.EssaiCompression(ref msgWithoutAttrib, ref attributeStr);
             return attributeStr + ATTRIB_SEP + msgWithoutAttrib;
         }
 
@@ -436,7 +436,7 @@ namespace LORENZ
             array = bufferArray;
         }
 
-        private static string CheckAttributes(string s)
+        private static string CheckAttributes(string s, ref double ratio)
         {
             string[] strSplited = s.Split(ATTRIB_SEP);
             if (strSplited.Length < 2)
@@ -455,7 +455,7 @@ namespace LORENZ
                 msgWithouAttrib += ATTRIB_SEP + strSplited[i];
             }
 
-            Compression.EssaiDecompression(ref msgWithouAttrib, ref msgAttributes);
+            ratio = Compression.EssaiDecompression(ref msgWithouAttrib, ref msgAttributes);
 
             for (int c = 0; c < msgAttributes.Length - 1; c++)
             {
@@ -531,7 +531,17 @@ namespace LORENZ
             }
 
             //Vérifier présence de commandes de contrôle
-            DecipheredMessageComplete = CheckAttributes(DecipheredMessageComplete);
+            double dRatio = 0.0;
+            DecipheredMessageComplete = CheckAttributes(DecipheredMessageComplete, ref dRatio);
+            if (dRatio > 0.0)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Décompression : " + (dRatio * 100).ToString("0.0") + " %\n");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
+
             return DecipheredMessageComplete;
         }
 

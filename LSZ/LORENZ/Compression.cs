@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LORENZ
 {
@@ -91,7 +90,7 @@ namespace LORENZ
             }
 
             compressTable.Sort();
-            
+
             // Test de compression par passes multiples
             int pass = 0;
             List<(string msg, string CT, double ratio)> passesList = new();
