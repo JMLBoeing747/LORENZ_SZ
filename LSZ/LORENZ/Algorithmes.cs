@@ -445,10 +445,20 @@ namespace LORENZ
             }
 
             string msgAttributes = strSplited[0];
+            string msgWithouAttrib = strSplited[1];
+
+            /* Pour combler les morceaux qui pourraient avoir été divisés de trop
+             * par un ajout intentionnel du caractère 0xAD dans le message
+             */
+            for (int i = 2; i < strSplited.Length; i++)
+            {
+                msgWithouAttrib += ATTRIB_SEP + strSplited[i];
+            }
+
+            Compression.EssaiDecompression(ref msgWithouAttrib, ref msgAttributes);
+
             for (int c = 0; c < msgAttributes.Length - 1; c++)
             {
-                // Ajouter le code pour la CT
-
                 if (msgAttributes[c] == 'A')
                 {
                     c++;
@@ -481,12 +491,6 @@ namespace LORENZ
                     SenderPseudoName = msgAttributes[c..];
                     c += SenderPseudoName.Length;
                 }
-            }
-
-            string msgWithouAttrib = strSplited[1];
-            for (int i = 2; i < strSplited.Length - 1; i++)
-            {
-                msgWithouAttrib += ATTRIB_SEP + strSplited[i];
             }
 
             return msgWithouAttrib;

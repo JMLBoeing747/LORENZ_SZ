@@ -136,7 +136,37 @@ namespace LORENZ
 
         public static void EssaiDecompression(ref string msgADecompress, ref string attrStr)
         {
+            // Création du message complet sans compression
+            string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
 
+            // Pré-compression pour vérifier les répétitions de caractères
+            string tempMsgCompress = msgADecompress;
+            char repeatMarker = '\x8D';
+            string repeatCountStr = default;
+            for (int c = 0; c < tempMsgCompress.Length; c++)
+            {
+                if (tempMsgCompress[c] == repeatMarker)
+                {
+                    for (int d = c + 1; d < tempMsgCompress.Length; d++)
+                    {
+                        if (tempMsgCompress[d] == '\'')
+                        {
+                            int repeatCount = int.Parse(repeatCountStr);
+                            char repeatChar = tempMsgCompress[d + 1];
+                            string repeatStr = new(repeatChar, repeatCount);
+                            string partBefore = tempMsgCompress[..c];
+                            string partAfter = tempMsgCompress[(d + 2)..];
+                            tempMsgCompress = partBefore + repeatStr + partAfter;
+                            c += repeatCount - 1;
+                            break;
+                        }
+                        
+                        repeatCountStr += tempMsgCompress[d];
+                    }
+                }
+            }
+
+            msgADecompress = tempMsgCompress;
         }
     }
 
