@@ -83,7 +83,7 @@ namespace LORENZ
                             {
                                 Console.WriteLine("           Cette année           ");
                                 headerSwitch = 100;
-                            } 
+                            }
                         }
                         else if (dateEntry.Year == DateTime.Now.Year - 1 && headerSwitch < 200)
                         {
