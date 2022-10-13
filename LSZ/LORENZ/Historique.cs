@@ -443,7 +443,7 @@ namespace LORENZ
                 switch (saisie.Key)
                 {
                     case ConsoleKey.C:
-                        // Ajouter catégorie
+                        AjouterMsgCategorie(index);
                         break;
                     case ConsoleKey.Delete:
                         RetirerHistorique(index);
@@ -638,7 +638,7 @@ namespace LORENZ
             return potentials.Count > 0 ? potentials[0] : (uint)ListeHistorique.Count;
         }
 
-        public static void ConsulterListeCategories()
+        public static void AfficherCategories()
         {
             Console.Clear();
             if (ListeCategories.Count > 0)
@@ -708,12 +708,57 @@ namespace LORENZ
             }
         }
 
-        public static void OuvrirCategorie(int index)
+        public static void ConsulterCategorie(int indexCat)
+        {
+            if (indexCat < ListeCategories.Count && indexCat >= 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Catégorie " + ListeCategories[indexCat].Nom);
+                Console.WriteLine();
+
+                // afficher les messages de la catégorie...
+            }
+            else
+            {
+                Console.CursorLeft = 0;
+                Display.PrintMessage("Index invalide ! ", MessageState.Failure);
+                Console.ReadKey(true);
+            }
+        }
+
+        public static void NouvelleCategorie(int msgIndex = -1)
+        {
+            Console.Clear();
+            Console.WriteLine("Création d'une nouvelle catégorie\n");
+            Console.Write("Nom de la catégorie : ");
+            string newCatName = Console.ReadLine();
+            ListeCategories.Add(new(newCatName));
+            Display.PrintMessage("Catégorie " + newCatName + " créée avec succès !", MessageState.Success);
+
+            if (msgIndex == -1)
+            {
+                Console.WriteLine("\nPour ajouter des entrées, accédez à l'un d'eux dans l'historique principal,");
+                Console.WriteLine("appuyez sur C puis choisissez la catégorie correspondante.");
+                Console.WriteLine("\nAppuyez sur n'importe quelle touche pour terminer...");
+                Console.ReadKey(true);
+            }
+            else
+            {
+
+            }
+        }
+
+        private static void AjouterMsgCategorie(int msgIndex)
         {
 
         }
 
-        public static void NouvelleCategorie()
+        private static void LireFichierCategories()
+        {
+
+        }
+
+        private static void EcrireFichierCategories()
         {
 
         }
