@@ -4,13 +4,52 @@ namespace LORENZ
 {
     public static class Compression
     {
-        public static double MinCompressRatio { get; set; } = 0.15;
+        public static double MinCompressRatio { get; set; } = 0.10;
 
         public static double TryCompression(ref string msgToCompress, ref string attrStr)
         {
             // Création du message complet sans compression
             string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgToCompress;
 
+            // Pré-compression pour vérifier les répétitions de caractères
+            string tempMsgCompress = default;
+            char repeatMarker = '\x8D';
+            char repeatChar = default;
+            int repeatBegin = 0;
+            int repeatCount = 0;
+            for (int c = 0; c < msgToCompress.Length; c++)
+            {
+                if (repeatChar == default)
+                {
+                    repeatChar = msgToCompress[c];
+                    continue;
+                }
+
+                if (c > repeatBegin)
+                {
+                    if (msgToCompress[c] == repeatChar)
+                    {
+                        repeatCount++;
+                    }
+                    else
+                    {
+                        string repeatPart = repeatMarker.ToString() + (repeatCount + 1).ToString() + repeatChar.ToString();
+                        if (repeatCount > repeatPart.Length)
+                        {
+                            string partBefore = msgToCompress[..repeatBegin];
+                            string partAfter = msgToCompress[c..];
+                            tempMsgCompress = partBefore + repeatPart + partAfter;
+                        }
+
+                        repeatChar = msgToCompress[c];
+                        repeatBegin = c;
+                        repeatCount = 0;
+                    }
+                }
+            }
+
+            msgToCompress = tempMsgCompress;
+            
             /* Découpage du message en mots et en ponctuations
              * pour faciliter la recherche de similitudes
              */
@@ -61,11 +100,11 @@ namespace LORENZ
             while (true)
             {
                 pass++;
-                if (!compressTable.Clean(pass))
+                if (pass > 1 && !compressTable.Clean(pass))
                 {
                     continue;
                 }
-                else if (compressTable.EntriesCount == 0)
+                if (compressTable.EntriesCount == 0)
                 {
                     return 0.0;
                 }
