@@ -105,7 +105,7 @@ namespace LORENZ
                 }
                 if (compressTable.EntriesCount == 0)
                 {
-                    // Test de compression des répétitions
+                    // Calcul du ratio de compression par répétitions
                     string repCompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
                     int repDiffCount = fullInitialMsg.Length - repCompressMsg.Length;
                     return repDiffCount / (double)fullInitialMsg.Length;
@@ -134,7 +134,7 @@ namespace LORENZ
             }
         }
 
-        public static void EssaiDecompression(ref string msgADecompress, ref string attrStr)
+        public static double EssaiDecompression(ref string msgADecompress, ref string attrStr)
         {
             // Création du message complet sans compression
             string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
@@ -157,6 +157,7 @@ namespace LORENZ
                             string partBefore = tempMsgCompress[..c];
                             string partAfter = tempMsgCompress[(d + 2)..];
                             tempMsgCompress = partBefore + repeatStr + partAfter;
+                            
                             c += repeatCount - 1;
                             break;
                         }
@@ -167,6 +168,111 @@ namespace LORENZ
             }
 
             msgADecompress = tempMsgCompress;
+
+            if (attrStr[0] == 'C')
+            {
+                string CTStr = default;
+                for (int c = 1; c < attrStr.Length; c++)
+                {
+                    if (attrStr[c] == ';')
+                    {
+                        break;
+                    }
+                    
+                    CTStr += attrStr[c];
+                }
+
+                string[] CTWords = CTStr.Split(',');
+
+                for (int c = 0; c < msgADecompress.Length; c++)
+                {
+                    if (msgADecompress[c] == CompressTable.COMPRESS_MARKUP)
+                    {
+                        string indexStr = default;
+                        for (int d = c + 1; d < msgADecompress.Length; d++)
+                        {
+                            if (msgADecompress[d] is < '0' or > '9')
+                            {
+                                int indexCT = int.Parse(indexStr);
+                                string wordSelect = CTWords[indexCT];
+                                switch (msgADecompress[d])
+                                {
+                                    case 'T':
+                                        wordSelect = (char)(wordSelect[0] - 0x20) + wordSelect[1..];
+                                        break;
+                                    case 'U':
+                                        wordSelect = wordSelect.ToUpper();
+                                        break;
+                                    case 'X':
+                                        break;
+                                    default:
+                                        d--;
+                                        break;
+                                }
+
+                                if (msgADecompress[d] is 'T' or 'U' or 'X')
+                                {
+                                    string wordApostrophe = "";
+                                    bool markupFound = false;
+                                    int e;
+                                    for (e = d + 1; e < msgADecompress.Length; e++)
+                                    {
+                                        if (msgADecompress[e] == WordEntry.WORD_MARKUP)
+                                        {
+                                            if (wordApostrophe.Length > 0)
+                                            {
+                                                e++;
+                                                wordSelect = wordApostrophe + "'" + wordSelect;
+                                                break;
+                                            }
+
+                                            markupFound = true;
+                                        }
+                                        else if (msgADecompress[e] is (>= '0' and <= '9') or
+                                                                      (>= 'A' and <= 'Z') or
+                                                                      (>= 'a' and <= 'z') or
+                                                                      (>= '\xC0'))
+                                        {
+                                            wordApostrophe += msgADecompress[e];
+                                        }
+                                        else if (markupFound)
+                                        {
+                                            wordSelect += "'" + wordApostrophe;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    d = e - 1;
+                                }
+
+                                d++;
+                                string partBefore = msgADecompress[..c];
+                                string partAfter = msgADecompress[d..];
+                                msgADecompress = partBefore + wordSelect + partAfter;
+
+                                c += wordSelect.Length - 1;
+                                break;
+                            }
+
+                            indexStr += msgADecompress[d];
+                        }
+                    }
+                }
+
+
+
+                return 0.0; // à changer
+            }
+            else
+            {
+                // Calcul du ratio de décompression par répétitions
+                string repDecompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
+                int repDiffCount = repDecompressMsg.Length - fullInitialMsg.Length;
+                return repDiffCount / (double)repDecompressMsg.Length;
+            }
         }
     }
 
@@ -175,7 +281,7 @@ namespace LORENZ
         private readonly List<WordEntry> WordsList;
         public int EntriesCount => WordsList.Count;
 
-        private const char COMPRESS_MARKUP = '\x8F';
+        public const char COMPRESS_MARKUP = '\x8F';
 
         public CompressTable()
         {
@@ -294,7 +400,7 @@ namespace LORENZ
     {
         public string MainWord { get; private set; }
         private readonly List<SubWord> SubWordsList;
-        private const char WORD_MARKUP = '\x90';
+        public const char WORD_MARKUP = '\x90';
 
         public WordEntry(string entry)
         {
