@@ -587,6 +587,46 @@ namespace LORENZ
                 SubWordsList.Add(uniqueSubWord);
                 return true;
             }
+            else if (SubWordsList.Count > 1)
+            {
+                // Vérifie si tous les sous-mots ont le même mot principal
+                string commonWord = default;
+                foreach (SubWord sw in SubWordsList)
+                {
+                    if (commonWord == default)
+                    {
+                        commonWord = sw.WordName.ToLower();
+                    }
+                    else if (commonWord != sw.WordName.ToLower())
+                    {
+                        return false;
+                    }
+                }
+
+                List<string> tempSW = new();
+                List<int> tempCounts = new();
+                foreach (SubWord oldSW in SubWordsList)
+                {
+                    tempSW.Add(oldSW.WordName);
+                    tempCounts.Add(oldSW.Count);
+                }
+                SubWordsList.Clear();
+
+                MainWord = commonWord;
+                for (int s = 0; s < tempSW.Count; s++)
+                {
+                    string commonWordCode = EncodeWord(tempSW[s]);
+                    SubWord commonSubWord = new(tempSW[s], commonWordCode);
+                    for (int i = 1; i < tempCounts[s]; i++)
+                    {
+                        commonSubWord.Repeat(tempSW[s]);
+                    }
+
+                    SubWordsList.Add(commonSubWord);
+                }
+
+                return true;
+            }
 
             return false;
         }
