@@ -4,7 +4,7 @@ namespace LORENZ
 {
     public static class Compression
     {
-        public static double RatioCompressionMin { get; set; } = 0.10;
+        public static double RatioCompressionMin { get; set; } = 0.15;
 
         public static double EssaiCompression(ref string msgACompress, ref string attrStr)
         {
@@ -129,6 +129,7 @@ namespace LORENZ
                 {
                     attrStr = CTStr + attrStr;
                     msgACompress = newCompressStr;
+                    
                     return ratio;
                 }
             }
@@ -176,6 +177,7 @@ namespace LORENZ
                 {
                     if (attrStr[c] == ';')
                     {
+                        attrStr = attrStr[(c + 1)..];
                         break;
                     }
                     
@@ -262,9 +264,12 @@ namespace LORENZ
                     }
                 }
 
+                // Calcul du ratio de décompression
+                string fullDecompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
+                int diffCount = fullDecompressMsg.Length - fullInitialMsg.Length;
+                double ratio = diffCount / (double)fullDecompressMsg.Length;
 
-
-                return 0.0; // à changer
+                return ratio;
             }
             else
             {
