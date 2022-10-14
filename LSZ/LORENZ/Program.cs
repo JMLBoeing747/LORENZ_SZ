@@ -247,6 +247,11 @@ namespace LORENZ
 
             // Demande d'écriture du message
             Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n           CHIFFREMENT           \n");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             string MessageOriginal = "";
             string LigneMessage = "";
 
@@ -345,6 +350,10 @@ namespace LORENZ
         {
             //Demande d'écriture du message chiffré
             Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n          DÉCHIFFREMENT          \n");
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !");
             Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
