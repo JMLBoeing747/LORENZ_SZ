@@ -252,42 +252,32 @@ namespace LORENZ
             Console.WriteLine("\n           CHIFFREMENT           \n");
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Cyan;
-            string MessageOriginal = "";
-            string LigneMessage = "";
-
+            string MessageOriginal;
             while (true)
             {
                 Console.WriteLine("Écrivez le texte à chiffrer : ");
                 Display.PrintMessage("AVIS : Vous pouvez écrire plusieurs paragraphes !", MessageState.Warning);
                 Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
                 Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D et sur ENTRÉE.");
-                while (LigneMessage.Length == 0 || !LigneMessage.EndsWith('\x04'))
+                MessageOriginal = Extensions.SpecialPrint('\x04');
+                
+                if (MessageOriginal != null)
                 {
-                    LigneMessage = Console.ReadLine();
-                    MessageOriginal += LigneMessage + '\n';
-                    if (MessageOriginal == "\n")
+                    MessageOriginal = MessageOriginal[..^1];
+                    if (string.IsNullOrWhiteSpace(MessageOriginal))
                     {
+                        Display.PrintMessage("Aucun texte détecté.", MessageState.Failure);
+                    }
+                    else
+                    {
+                        MessageOriginal += '\n';
                         break;
                     }
                 }
-
-                if (MessageOriginal.Length > 2)
-                {
-                    MessageOriginal = MessageOriginal[..^2] + '\n';
-                }
-
-                if (IfOnlySpaces(MessageOriginal))
-                {
-                    if (MessageOriginal == "\n")
-                    {
-                        OverridePress = true;
-                        return;
-                    }
-                    Console.WriteLine("Aucun texte détecté.");
-                }
                 else
                 {
-                    break;
+                    OverridePress = true;
+                    return;
                 }
             }
 

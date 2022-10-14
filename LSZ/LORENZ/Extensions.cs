@@ -1,5 +1,6 @@
 ﻿using Cryptography;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using System.Threading;
@@ -41,7 +42,7 @@ namespace LORENZ
             {
                 return false;
             }
-            
+
             NomFichierChiffrement = cipherFileName;
 
             if (Parametres.CipherFileDirectory == null)
@@ -75,7 +76,7 @@ namespace LORENZ
             {
                 Display.PrintMessage("Chemin d'accès invalide.", MessageState.Failure);
             }
-            
+
             return false;
         }
 
@@ -141,6 +142,79 @@ namespace LORENZ
             }
 
             return true;
+        }
+
+        public static string SpecialPrint(char endChar = '\n',
+                                          bool hideEndChar = true,
+                                          ConsoleKey escapeKey = ConsoleKey.Escape,
+                                          bool addNewLine = true,
+                                          bool includeCtrl = false)
+        {
+            string writeStr = default;
+            char pressChar;
+            int beginTop = Console.CursorTop;
+            Stack<int> lastLeft = new();
+            do
+            {
+                int beginLeft = Console.CursorLeft;
+                ConsoleKeyInfo keyPress = Console.ReadKey();
+                pressChar = keyPress.KeyChar;
+                if (keyPress.Key == escapeKey)
+                {
+                    return null;
+                }
+                else if (keyPress.Key == ConsoleKey.Backspace)
+                {
+                    Console.Write(' ');
+                    Console.CursorLeft--;
+                    if (Console.CursorLeft == beginLeft && Console.CursorTop > beginTop)
+                    {
+                        Console.CursorTop--;
+                        Console.CursorLeft = lastLeft.Pop();
+                        writeStr = writeStr[..^1];
+                        continue;
+                    }
+
+                    if (writeStr.Length > 0)
+                    {
+                        writeStr = writeStr[..^1];
+                    }
+                    continue;
+                }
+                else if (keyPress.Key == ConsoleKey.Enter && endChar != '\n')
+                {
+                    int curEndLn = writeStr.Length % Console.WindowWidth;
+                    lastLeft.Push(curEndLn);
+                    Console.CursorTop++;
+                    pressChar = '\n';
+                }
+                else if (!includeCtrl)
+                {
+                    if (pressChar != endChar && pressChar is > '\0' and < '\x20')
+                    {
+                        Console.CursorLeft--;
+                        Console.Write(' ');
+                        Console.CursorLeft--;
+                        continue;
+                    }
+                }
+
+                writeStr += pressChar;
+            } while (pressChar != endChar);
+
+            if (hideEndChar && endChar != '\r')
+            {
+                Console.CursorLeft--;
+                Console.Write(' ');
+                Console.CursorLeft--;
+            }
+            
+            if (addNewLine)
+            {
+                Console.WriteLine();
+            }
+
+            return writeStr;
         }
 
         public static void Music()
