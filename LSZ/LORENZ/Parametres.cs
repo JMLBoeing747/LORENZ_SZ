@@ -305,6 +305,10 @@ namespace LORENZ
             string setting = "Setting";
             int ini3 = GetPrivateProfileString(setting, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
             CipherFileDirectory = sb.ToString();
+            sb.Clear();
+
+            int ini4 = GetPrivateProfileString(setting, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
+            // Insert ratio code assignment
         }
 
         public static void WriteGeneralParamsFile()
@@ -314,6 +318,7 @@ namespace LORENZ
             WritePrivateProfileString(profile, "PSEUDONAME", PseudoName, GeneralParamsFile);
             string setting = "Setting";
             WritePrivateProfileString(setting, "CIPHFILEDR", CipherFileDirectory, GeneralParamsFile);
+            WritePrivateProfileString(setting, "CMPRSRATIO", "0.15", GeneralParamsFile); // Insérer la variable ratio
         }
     }
 }
