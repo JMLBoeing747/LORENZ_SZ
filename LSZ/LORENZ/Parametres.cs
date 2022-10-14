@@ -308,7 +308,7 @@ namespace LORENZ
             sb.Clear();
 
             int ini4 = GetPrivateProfileString(setting, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
-            Compression.RatioCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
+            Compression.TauxCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
         }
 
         public static void WriteGeneralParamsFile()
@@ -318,7 +318,7 @@ namespace LORENZ
             WritePrivateProfileString(profile, "PSEUDONAME", PseudoName, GeneralParamsFile);
             string setting = "Setting";
             WritePrivateProfileString(setting, "CIPHFILEDR", CipherFileDirectory, GeneralParamsFile);
-            WritePrivateProfileString(setting, "CMPRSRATIO", Compression.RatioCompressionMin.ToString(), GeneralParamsFile);
+            WritePrivateProfileString(setting, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), GeneralParamsFile);
         }
     }
 }

@@ -643,6 +643,7 @@ namespace LORENZ
             while (true)
             {
                 Console.WriteLine("===== Options de chiffrement =====\n");
+                Console.WriteLine("C : Modifier le taux de compression");
                 Console.WriteLine("T : Disposition de la table de transcription");
                 Console.WriteLine("S : Disposition de la table secrète");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
@@ -650,6 +651,10 @@ namespace LORENZ
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
                 switch (saisie.Key)
                 {
+                    case ConsoleKey.C:
+                        Compression.ModifierTaux();
+                        Console.Clear();
+                        break;
                     case ConsoleKey.T:
                         Algorithmes.SetTransTable();
                         Console.Clear();

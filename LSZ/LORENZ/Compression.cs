@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Cryptography;
+using System;
+using System.Collections.Generic;
 
 namespace LORENZ
 {
     public static class Compression
     {
-        public static double RatioCompressionMin { get; set; } = 0.05;
+        public static double TauxCompressionMin { get; set; } = 0.05;
 
         public static double EssaiCompression(ref string msgACompress, ref string attrStr)
         {
@@ -143,7 +145,7 @@ namespace LORENZ
                 int diffCount = fullInitialMsg.Length - fullCompressMsg.Length;
                 double ratio = diffCount / (double)fullInitialMsg.Length;
 
-                if (ratio >= RatioCompressionMin)
+                if (ratio >= TauxCompressionMin)
                 {
                     passesList.Add((newCompressStr, CTStr, ratio));
                 }
@@ -315,6 +317,40 @@ namespace LORENZ
             {
                 return false;
             }
+        }
+
+        public static void ModifierTaux()
+        {
+            Console.Clear();
+            Console.WriteLine("Modification du taux de compression");
+            Console.WriteLine("\nInscrivez le taux de compression minimum que vous désirez obtenir");
+            Console.WriteLine("lors de vos futurs chiffrements.");
+            Display.PrintMessage("Taux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
+                                 MessageState.Warning);
+
+            string newRatioStr = default;
+            double newRatio;
+            do
+            {
+                if (newRatioStr != default)
+                {
+                    Display.PrintMessage("Ceci n'est pas un pourcentage valide.", MessageState.Failure);
+                }
+
+                Console.Write("Nouveau taux : ");
+                newRatioStr = Console.ReadLine();
+                if (newRatioStr == "")
+                {
+                    return;
+                }
+            } while (!double.TryParse(newRatioStr, out newRatio));
+
+            TauxCompressionMin = newRatio / 100;
+            Parametres.WriteGeneralParamsFile();
+            Display.PrintMessage("Nouveau taux enregistré : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
+                                 MessageState.Success);
+            Console.WriteLine("Appuyez sur une touche pour terminer...");
+            Console.ReadKey(true);
         }
     }
 
