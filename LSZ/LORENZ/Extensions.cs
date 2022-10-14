@@ -192,9 +192,16 @@ namespace LORENZ
                 {
                     if (pressChar != endChar && pressChar is > '\0' and < '\x20')
                     {
-                        Console.CursorLeft--;
-                        Console.Write(' ');
-                        Console.CursorLeft--;
+                        if (Console.CursorLeft == beginLeft + 1)
+                        {
+                            Console.CursorLeft--;
+                            Console.Write(' ');
+                            Console.CursorLeft--;
+                        }
+                        else if (pressChar == '\x0A' && Console.CursorTop > beginTop)
+                        {
+                            Console.CursorTop--;
+                        }
                         continue;
                     }
                 }
