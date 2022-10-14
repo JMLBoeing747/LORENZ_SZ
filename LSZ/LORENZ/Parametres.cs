@@ -137,19 +137,19 @@ namespace LORENZ
             if (newPseudo == "")
             {
                 PseudoName = Environment.UserName;
-                WriteGeneralParamsFile();
+                EcrireGeneralParamsFile();
                 Display.PrintMessage("Valeur initialisée à : " + PseudoName);
             }
             else if (newPseudo == Environment.UserName)
             {
                 PseudoName = newPseudo;
-                WriteGeneralParamsFile();
+                EcrireGeneralParamsFile();
                 Display.PrintMessage("Valeur par défaut choisie", MessageState.Warning);
             }
             else
             {
                 PseudoName = newPseudo;
-                WriteGeneralParamsFile();
+                EcrireGeneralParamsFile();
                 Display.PrintMessage("Nouveau pseudo enregistré!", MessageState.Success);
             }
             Display.PrintMessage("Appuyez sur une touche pour continuer...", MessageState.Warning);
@@ -311,7 +311,7 @@ namespace LORENZ
             Compression.TauxCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
         }
 
-        public static void WriteGeneralParamsFile()
+        public static void EcrireGeneralParamsFile()
         {
             string profile = "Profile";
             WritePrivateProfileString(profile, "SHOWSENDER", ShowPseudoNameSender.ToString(), GeneralParamsFile);

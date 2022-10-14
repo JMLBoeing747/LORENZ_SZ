@@ -346,7 +346,7 @@ namespace LORENZ
             } while (!double.TryParse(newRatioStr, out newRatio));
 
             TauxCompressionMin = newRatio / 100;
-            Parametres.WriteGeneralParamsFile();
+            Parametres.EcrireGeneralParamsFile();
             Display.PrintMessage("Nouveau taux enregistré : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
                                  MessageState.Success);
             Console.WriteLine("Appuyez sur une touche pour terminer...");

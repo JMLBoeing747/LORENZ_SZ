@@ -98,7 +98,7 @@ namespace LORENZ
                         continue;
                     case ConsoleKey.S:
                         Parametres.ShowPseudoNameSender = !Parametres.ShowPseudoNameSender;
-                        Parametres.WriteGeneralParamsFile();
+                        Parametres.EcrireGeneralParamsFile();
                         Console.Clear();
                         if (Parametres.ShowPseudoNameSender)
                         {
@@ -195,13 +195,13 @@ namespace LORENZ
             else if (newPseudo == Environment.UserName || newPseudo.ToUpper() == "$DEFAULT")
             {
                 Parametres.PseudoName = Environment.UserName;
-                Parametres.WriteGeneralParamsFile();
+                Parametres.EcrireGeneralParamsFile();
                 Display.PrintMessage("Valeur par défaut réinitialisée", MessageState.Warning);
             }
             else
             {
                 Parametres.PseudoName = newPseudo;
-                Parametres.WriteGeneralParamsFile();
+                Parametres.EcrireGeneralParamsFile();
                 Display.PrintMessage("Nouveau pseudo enregistré !", MessageState.Success);
             }
             Display.PrintMessage("Appuyez sur une touche pour continuer...", MessageState.Warning);

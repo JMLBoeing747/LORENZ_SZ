@@ -116,7 +116,7 @@ namespace LORENZ
                         Parametres.CipherFileDirectory = dinfo.FullName;
                     }
                     Display.PrintMessage("Répertoire spécifié : " + Parametres.CipherFileDirectory);
-                    Parametres.WriteGeneralParamsFile();
+                    Parametres.EcrireGeneralParamsFile();
                     break;
                 }
                 catch (ArgumentNullException)
