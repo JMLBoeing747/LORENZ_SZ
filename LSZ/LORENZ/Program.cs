@@ -257,8 +257,8 @@ namespace LORENZ
             {
                 Console.WriteLine("Écrivez le texte à chiffrer : ");
                 Display.PrintMessage("AVIS : Vous pouvez écrire plusieurs paragraphes !", MessageState.Warning);
-                Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
-                Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D et sur ENTRÉE.");
+                Console.WriteLine("Pour annuler, appuyez sur ESC.");
+                Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D.");
                 MessageOriginal = Extensions.SpecialPrint('\x04');
                 
                 if (MessageOriginal != null)
@@ -320,20 +320,6 @@ namespace LORENZ
             {
                 OverridePress = true;
             }
-        }
-
-        private static bool IfOnlySpaces(string Message)
-        {
-            int Spaces = 0;
-            for (int c = 0; c < Message.Length; c++)
-            {
-                if (Message[c] == ' ')
-                {
-                    Spaces++;
-                }
-            }
-
-            return Spaces == Message.Length;
         }
 
         private static void DechiffrerLeMessage()
