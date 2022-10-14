@@ -50,7 +50,7 @@ namespace LORENZ
                     DateTime dateEntry = ListeHistorique[hEntry].cipherDate;
                     if (headerSwitch < 1000)
                     {
-                        if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 100)
+                        if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 1000)
                         {
                             if (dateEntry.Month == DateTime.Now.Month && headerSwitch < 100)
                             {
@@ -92,7 +92,7 @@ namespace LORENZ
                                         failHeader = testHeader;
                                     }
                                 }
-                                else if (dateEntry.Month == DateTime.Now.Month)
+                                else if (dateEntry.Day < DateTime.Now.Day - 7)
                                 {
                                     if (!testHeader)
                                     {
@@ -103,12 +103,12 @@ namespace LORENZ
                                     failHeader = testHeader;
                                 }
                             }
-                            else if (dateEntry.Month == DateTime.Now.Month - 1 && headerSwitch < 20)
+                            else if (dateEntry.Month == DateTime.Now.Month - 1 && headerSwitch < 200)
                             {
                                 if (!testHeader)
                                 {
                                     Console.WriteLine("         Le mois dernier         ");
-                                    headerSwitch = 20;
+                                    headerSwitch = 200;
                                 }
 
                                 failHeader = testHeader;
@@ -118,18 +118,18 @@ namespace LORENZ
                                 if (!testHeader)
                                 {
                                     Console.WriteLine("           Cette année           ");
-                                    headerSwitch = 100;
+                                    headerSwitch = 1000;
                                 }
 
                                 failHeader = testHeader;
                             }
                         }
-                        else if (dateEntry.Year == DateTime.Now.Year - 1 && headerSwitch < 200)
+                        else if (dateEntry.Year == DateTime.Now.Year - 1 && headerSwitch < 2000)
                         {
                             if (!testHeader)
                             {
                                 Console.WriteLine("         L'année dernière        ");
-                                headerSwitch = 200;
+                                headerSwitch = 2000;
                             }
 
                             failHeader = testHeader;
@@ -139,7 +139,7 @@ namespace LORENZ
                             if (!testHeader)
                             {
                                 Console.WriteLine("         Il y a longtemps        ");
-                                headerSwitch = 1000;
+                                headerSwitch = 10000;
                             }
 
                             failHeader = testHeader;
