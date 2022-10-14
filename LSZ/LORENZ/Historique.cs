@@ -618,7 +618,7 @@ namespace LORENZ
                 uint id = ListeHistorique[i].ID;
                 if (id != normal)
                 {
-                    if (potentials[0] == id)
+                    if (potentials.Count > 0 && potentials[0] == id)
                     {
                         potentials.RemoveAt(0);
                         potentials.Add(normal);
