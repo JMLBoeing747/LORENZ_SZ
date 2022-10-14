@@ -260,7 +260,7 @@ namespace LORENZ
                 Console.WriteLine("Pour annuler, appuyez sur ESC.");
                 Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D.");
                 MessageOriginal = Extensions.SpecialPrint('\x04');
-                
+
                 if (MessageOriginal != null)
                 {
                     MessageOriginal = MessageOriginal[..^1];
@@ -340,21 +340,35 @@ namespace LORENZ
             {
                 while (true)
                 {
-                    bool isFile = ConcatSegementsMessage(out string MessageADechiffrer);
+                    string messageADechiffrer = Extensions.SpecialPrint('\x04');
 
-                    if (isFile)
+                    if (messageADechiffrer == null)
                     {
-                        string cipherFilePath = Parametres.CipherFileDirectory + MessageADechiffrer["FILE:".Length..];
+                        OverridePress = true;
+                        return;
+                    }
+
+                    messageADechiffrer = messageADechiffrer[..^1];
+                    string[] multiLines = messageADechiffrer.Split('\n');
+                    messageADechiffrer = default;
+                    for (int i = 0; i < multiLines.Length; i++)
+                    {
+                        messageADechiffrer += multiLines[i];
+                    }
+
+                    if (messageADechiffrer.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
+                    {
+                        string cipherFilePath = Parametres.CipherFileDirectory + messageADechiffrer["FILE:".Length..];
                         if (File.Exists(cipherFilePath))
                         {
-                            MessageADechiffrer = File.ReadAllText(cipherFilePath);
+                            messageADechiffrer = File.ReadAllText(cipherFilePath);
                         }
                         else
                         {
-                            cipherFilePath = MessageADechiffrer["FILE:".Length..];
+                            cipherFilePath = messageADechiffrer["FILE:".Length..];
                             if (File.Exists(cipherFilePath))
                             {
-                                MessageADechiffrer = File.ReadAllText(cipherFilePath);
+                                messageADechiffrer = File.ReadAllText(cipherFilePath);
                             }
                             else
                             {
@@ -371,7 +385,7 @@ namespace LORENZ
                     }
 
                     //Validité du chiffrement complet
-                    string MessageTeste = TestCipher(MessageADechiffrer);
+                    string MessageTeste = TestCipher(messageADechiffrer);
                     if (MessageTeste == null)
                     {
                         RewriteCypherWarnMsg();
@@ -493,22 +507,16 @@ namespace LORENZ
 
         public static bool ConcatSegementsMessage(out string messageConcat)
         {
-            messageConcat = "";
-            string messagePart;
-            do
-            {
-                messagePart = Console.ReadLine();
-                messageConcat += messagePart;
-                if (messageConcat.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
-                {
-                    return true;
-                }
-            } while (messagePart != "");
-
-
-            if (messageConcat == "")
+            messageConcat = Extensions.SpecialPrint('\x04');
+            if (messageConcat == null)
             {
                 throw new LORENZException(ErrorCode.E0xFFF, false);
+            }
+
+            messageConcat = messageConcat[..^1];
+            if (messageConcat.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
             }
 
             return false;
