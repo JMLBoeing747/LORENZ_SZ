@@ -359,7 +359,7 @@ namespace LORENZ
             Console.ResetColor();
             Display.PrintMessage("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !", MessageState.Warning);
             Console.ForegroundColor = ConsoleColor.Cyan;
-            
+
             try
             {
                 while (true)
@@ -375,6 +375,7 @@ namespace LORENZ
                         return;
                     }
 
+                    // Retrait du caractère de terminaison et des retours à la ligne
                     messageADechiffrer = messageADechiffrer[..^1];
                     string[] multiLines = messageADechiffrer.Split('\n');
                     messageADechiffrer = default;
@@ -400,8 +401,8 @@ namespace LORENZ
                             else
                             {
                                 Display.PrintMessage("Le fichier \""
-                                                 + cipherFilePath
-                                                 + "\" n'existe pas dans le répertoire de chiffrement.", MessageState.Failure);
+                                                     + cipherFilePath
+                                                     + "\" n'existe pas dans le répertoire de chiffrement.", MessageState.Failure);
                                 Display.PrintMessage("Le répertoire de chiffrement spécifié est : " + Parametres.CipherFileDirectory,
                                                      MessageState.Warning);
                                 Console.WriteLine("Entrez un nouveau chemin d'accès ou un chiffrement valide,");
@@ -412,14 +413,13 @@ namespace LORENZ
                     }
 
                     //Validité du chiffrement complet
-                    string MessageTeste = TestCipher(messageADechiffrer);
-                    if (MessageTeste == null)
+                    if (!TestCipher(messageADechiffrer))
                     {
                         Display.PrintMessage("\nCe message n'est pas valide.\n", MessageState.Failure);
                         continue;
                     }
                     //Déchiffrement premier
-                    string MessageDechiffre1 = Algorithmes.DechiffrementPremier(MessageTeste);
+                    string MessageDechiffre1 = Algorithmes.DechiffrementPremier(messageADechiffrer);
                     //Validité déchiffrement premier total
                     if (MessageDechiffre1 == null)
                     {
@@ -532,32 +532,9 @@ namespace LORENZ
             }
         }
 
-        public static bool HaveSpaces(string Message)
+        private static bool TestCipher(string MessageToTest)
         {
-            for (int c = 0; c < Message.Length; c++)
-            {
-                if (Convert.ToString(Message[c]) == " ")
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static void RewriteCypherWarnMsg()
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(Environment.NewLine + "Ce message n'est pas valide." + Environment.NewLine);
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Entrez un texte valide à déchiffrer.");
-            Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
-            Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire :");
-        }
-
-        private static string TestCipher(string MessageToTest)
-        {
-            bool spacesInMessage = HaveSpaces(MessageToTest);
+            bool spacesInMessage = MessageToTest.Contains(' ');
             if (MessageToTest.Length <= 38 || MessageToTest.Length % 4 != 0 || spacesInMessage)
             {
                 if (spacesInMessage)
@@ -566,9 +543,11 @@ namespace LORENZ
                     Console.WriteLine(Environment.NewLine + "TYPING BREAK ERROR : SPACES DETECTED.");
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
-                return null;
+                
+                return false;
             }
-            return MessageToTest;
+            
+            return true;
         }
 
         private static void MenuHistorique()
