@@ -40,19 +40,33 @@ namespace LORENZ
                 Console.WriteLine("2 : Déchiffrement");
                 Console.WriteLine("L : LID");
                 Console.WriteLine("J : Jeu");
+                Console.WriteLine("H : Historique");
+
+                Console.WriteLine();
                 if (!Parametres.ShowPseudoNameSender)
                 {
-                    Console.WriteLine("S : Afficher l'expéditeur");
+                    Console.WriteLine("[ ] Afficher l'expéditeur (S)");
                 }
                 else
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("S : Masquer l'expéditeur");
+                    Console.WriteLine("[X] Afficher l'expéditeur (S)");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
-                Console.WriteLine("H : Historique");
+                if (!Compression.CompressionActive)
+                {
+                    Console.WriteLine("[ ] Activer la compression (C)");
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("[X] Activer la compression (C)");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                }
 
                 Console.WriteLine("\nP : Modifier le pseudo");
                 if (Parametres.CipherFileDirectory != null)
@@ -96,21 +110,34 @@ namespace LORENZ
                         Console.Clear();
                         Argent = NewArgent;
                         continue;
+                    case ConsoleKey.H:
+                        MenuHistorique();
+                        continue;
                     case ConsoleKey.S:
                         Parametres.ShowPseudoNameSender = !Parametres.ShowPseudoNameSender;
                         Parametres.EcrireGeneralParamsFile();
                         Console.Clear();
                         if (Parametres.ShowPseudoNameSender)
                         {
-                            Display.PrintMessage("EXPÉDITEUR AFFICHÉ", MessageState.Warning);
+                            Display.PrintMessage("Expéditeur AFFICHÉ", MessageState.Warning);
                         }
                         else
                         {
-                            Display.PrintMessage("EXPÉDITEUR MASQUÉ", MessageState.Warning);
+                            Display.PrintMessage("Expéditeur MASQUÉ", MessageState.Warning);
                         }
                         continue;
-                    case ConsoleKey.H:
-                        MenuHistorique();
+                    case ConsoleKey.C:
+                        Compression.CompressionActive = !Compression.CompressionActive;
+                        Parametres.EcrireGeneralParamsFile();
+                        Console.Clear();
+                        if (Compression.CompressionActive)
+                        {
+                            Display.PrintMessage("Compression ACTIVÉE", MessageState.Warning);
+                        }
+                        else
+                        {
+                            Display.PrintMessage("Compression DÉSACTIVÉE", MessageState.Warning);
+                        }
                         continue;
                     case ConsoleKey.P:
                         ChangerLePseudo();
@@ -626,7 +653,10 @@ namespace LORENZ
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("===== Options de chiffrement =====\n");
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("\n      Options de chiffrement     \n");
+                Console.ResetColor();
                 Console.WriteLine("C : Modifier le taux de compression");
                 Console.WriteLine("T : Disposition de la table de transcription");
                 Console.WriteLine("S : Disposition de la table secrète");

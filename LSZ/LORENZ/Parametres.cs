@@ -297,28 +297,34 @@ namespace LORENZ
             int ini1 = GetPrivateProfileString(profile, "SHOWSENDER", "", sb, sb.Capacity, GeneralParamsFile);
             ShowPseudoNameSender = sb.ToString() == "True";
             sb.Clear();
-
             int ini2 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, GeneralParamsFile);
             PseudoName = sb.ToString();
             sb.Clear();
 
-            string setting = "Setting";
-            int ini3 = GetPrivateProfileString(setting, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
+            string settings = "Settings";
+            int ini3 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
             CipherFileDirectory = sb.ToString();
             sb.Clear();
 
-            int ini4 = GetPrivateProfileString(setting, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
+            string compression = "Compression";
+            int ini4 = GetPrivateProfileString(compression, "ACTIVCMPRS", "", sb, sb.Capacity, GeneralParamsFile);
+            Compression.CompressionActive = sb.ToString() == "True";
+            sb.Clear();
+            int ini5 = GetPrivateProfileString(compression, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
             Compression.TauxCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
         }
 
         public static void EcrireGeneralParamsFile()
         {
+            File.Delete(GeneralParamsFile);
             string profile = "Profile";
             WritePrivateProfileString(profile, "SHOWSENDER", ShowPseudoNameSender.ToString(), GeneralParamsFile);
             WritePrivateProfileString(profile, "PSEUDONAME", PseudoName, GeneralParamsFile);
-            string setting = "Setting";
-            WritePrivateProfileString(setting, "CIPHFILEDR", CipherFileDirectory, GeneralParamsFile);
-            WritePrivateProfileString(setting, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), GeneralParamsFile);
+            string settings = "Settings";
+            WritePrivateProfileString(settings, "CIPHFILEDR", CipherFileDirectory, GeneralParamsFile);
+            string compression = "Compression";
+            WritePrivateProfileString(compression, "ACTIVCMPRS", Compression.CompressionActive.ToString(), GeneralParamsFile);
+            WritePrivateProfileString(compression, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), GeneralParamsFile);
         }
     }
 }

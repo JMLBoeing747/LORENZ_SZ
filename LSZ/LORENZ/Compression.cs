@@ -6,10 +6,16 @@ namespace LORENZ
 {
     public static class Compression
     {
-        public static double TauxCompressionMin { get; set; } = 0.05;
+        public static bool CompressionActive { get; set; }
+        public static double TauxCompressionMin { get; set; }
 
         public static double EssaiCompression(ref string msgACompress, ref string attrStr)
         {
+            if (!CompressionActive)
+            {
+                return 0.0;
+            }
+            
             // Création du message complet sans compression
             string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
 
@@ -154,6 +160,11 @@ namespace LORENZ
 
         public static double EssaiDecompression(ref string msgADecompress, ref string attrStr)
         {
+            if (!CompressionActive)
+            {
+                return 0.0;
+            }
+            
             // Création du message complet sans compression
             string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
 
