@@ -188,7 +188,7 @@ namespace LORENZ
                     Console.CursorTop++;
                     pressChar = '\n';
                 }
-                else if (!includeCtrl)
+                else if (!includeCtrl && pressChar != '\0')
                 {
                     if (pressChar != endChar && pressChar is > '\0' and < '\x20')
                     {
@@ -204,6 +204,10 @@ namespace LORENZ
                         }
                         continue;
                     }
+                }
+                else if (pressChar == '\0')
+                {
+                    continue;
                 }
 
                 writeStr += pressChar;
