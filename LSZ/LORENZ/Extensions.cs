@@ -150,7 +150,7 @@ namespace LORENZ
                                           bool addNewLine = true,
                                           bool includeCtrl = false)
         {
-            string writeStr = default;
+            string writeLine = "";
             char pressChar;
             int beginTop = Console.CursorTop;
             Stack<int> lastLeft = new();
@@ -170,27 +170,29 @@ namespace LORENZ
                     if (Console.CursorLeft == beginLeft && Console.CursorTop > beginTop)
                     {
                         Console.CursorTop--;
-                        Console.CursorLeft = lastLeft.Pop();
-                        writeStr = writeStr[..^1];
+                        int addedChars = lastLeft.Count > 1 ? lastLeft.Pop() - lastLeft.Peek() : lastLeft.Pop();
+                        int curEndLn = addedChars % Console.WindowWidth;
+                        Console.CursorLeft = curEndLn;
+                        writeLine = writeLine[..^1];
                         continue;
                     }
 
-                    if (writeStr.Length > 0)
+                    if (writeLine.Length > 0)
                     {
-                        writeStr = writeStr[..^1];
+                        writeLine = writeLine[..^1];
                     }
                     continue;
                 }
                 else if (keyPress.Key == ConsoleKey.Enter && endChar != '\n')
                 {
-                    int curEndLn = writeStr.Length % Console.WindowWidth;
-                    lastLeft.Push(curEndLn);
+                    int totalCharsWritten = writeLine.Length - lastLeft.Count;
+                    lastLeft.Push(totalCharsWritten);
                     Console.CursorTop++;
                     pressChar = '\n';
                 }
                 else if (!includeCtrl && pressChar != '\0')
                 {
-                    if (pressChar != endChar && pressChar is > '\0' and < '\x20')
+                    if (pressChar != endChar && pressChar is > '\0' and < ' ')
                     {
                         if (Console.CursorLeft == beginLeft + 1)
                         {
@@ -210,7 +212,7 @@ namespace LORENZ
                     continue;
                 }
 
-                writeStr += pressChar;
+                writeLine += pressChar;
             } while (pressChar != endChar);
 
             if (hideEndChar && endChar != '\r')
@@ -219,13 +221,13 @@ namespace LORENZ
                 Console.Write(' ');
                 Console.CursorLeft--;
             }
-            
+
             if (addNewLine)
             {
                 Console.WriteLine();
             }
 
-            return writeStr;
+            return writeLine;
         }
 
         public static void Music()
