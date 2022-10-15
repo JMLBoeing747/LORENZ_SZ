@@ -282,10 +282,10 @@ namespace LORENZ
             string MessageOriginal;
             while (true)
             {
-                Console.WriteLine("Écrivez le texte à chiffrer : ");
-                Display.PrintMessage("AVIS : Vous pouvez écrire plusieurs paragraphes !", MessageState.Warning);
+                Display.PrintMessage("AVIS : Vous pouvez écrire sur plusieurs paragraphes !", MessageState.Warning);
                 Console.WriteLine("Pour annuler, appuyez sur ESC.");
                 Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D.");
+                Console.WriteLine("Entrez le texte à chiffrer :");
                 MessageOriginal = Extensions.SpecialPrint('\x04');
 
                 if (MessageOriginal != null)
@@ -356,17 +356,17 @@ namespace LORENZ
             Console.BackgroundColor = ConsoleColor.DarkMagenta;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n          DÉCHIFFREMENT          \n");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !");
-            Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
+            Console.ResetColor();
+            Display.PrintMessage("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !", MessageState.Warning);
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Entrez le texte à déchiffrer :");
-            Console.WriteLine("Pour annuler, appuyez sur ENTRÉE sans rien écrire.");
+            
             try
             {
                 while (true)
                 {
+                    Console.WriteLine("Pour annuler, appuyez sur ESC.");
+                    Console.WriteLine("Pour terminer, appuyez sur CTRL + D.");
+                    Console.WriteLine("Entrez le texte à déchiffrer :");
                     string messageADechiffrer = Extensions.SpecialPrint('\x04');
 
                     if (messageADechiffrer == null)
@@ -405,7 +405,7 @@ namespace LORENZ
                                 Display.PrintMessage("Le répertoire de chiffrement spécifié est : " + Parametres.CipherFileDirectory,
                                                      MessageState.Warning);
                                 Console.WriteLine("Entrez un nouveau chemin d'accès ou un chiffrement valide,");
-                                Console.WriteLine("ou appuyez sur ENTRÉE sans rien écrire pour quitter.");
+                                Console.WriteLine("ou appuyez sur ESC pour quitter.");
                                 continue;
                             }
                         }
@@ -415,7 +415,7 @@ namespace LORENZ
                     string MessageTeste = TestCipher(messageADechiffrer);
                     if (MessageTeste == null)
                     {
-                        RewriteCypherWarnMsg();
+                        Display.PrintMessage("\nCe message n'est pas valide.\n", MessageState.Failure);
                         continue;
                     }
                     //Déchiffrement premier
@@ -423,7 +423,7 @@ namespace LORENZ
                     //Validité déchiffrement premier total
                     if (MessageDechiffre1 == null)
                     {
-                        RewriteCypherWarnMsg();
+                        Display.PrintMessage("\nCe message n'est pas valide.\n", MessageState.Failure);
                         continue;
                     }
 
@@ -437,8 +437,8 @@ namespace LORENZ
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(Environment.NewLine + "ERREUR FATALE CODE 55 : Le chiffrement n'est pas authentique.");
+                        Display.PrintMessage("\nCe message n'est pas valide.\n", MessageState.Failure);
                         Console.ForegroundColor = ConsoleColor.Cyan;
-                        RewriteCypherWarnMsg();
                         continue;
                     }
 
@@ -530,23 +530,6 @@ namespace LORENZ
                 OverridePress = true;
                 return;
             }
-        }
-
-        public static bool ConcatSegementsMessage(out string messageConcat)
-        {
-            messageConcat = Extensions.SpecialPrint('\x04');
-            if (messageConcat == null)
-            {
-                throw new LORENZException(ErrorCode.E0xFFF, false);
-            }
-
-            messageConcat = messageConcat[..^1];
-            if (messageConcat.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
-            return false;
         }
 
         public static bool HaveSpaces(string Message)
