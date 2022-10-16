@@ -20,9 +20,10 @@ namespace LORENZ
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("Bienvenue " + Parametres.PseudoName);
+            Console.Write("Bienvenue " + Parametres.PseudoName);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine();
         }
 
         public static void AfficherMarqueurFin()
@@ -31,9 +32,10 @@ namespace LORENZ
             ConsoleColor colorBackBef = Console.BackgroundColor;
             Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("=== FIN ===");
+            Console.Write("=== FIN ===");
             Console.ForegroundColor = colorForeBef;
             Console.BackgroundColor = colorBackBef;
+            Console.WriteLine();
         }
 
         public static bool EcrireChiffrementLong(string msgChiffre, string cipherFileName = "")
@@ -226,7 +228,7 @@ namespace LORENZ
                             int newSpaces = Console.CursorLeft - beginLeft;
                             writeLine += new string(' ', newSpaces);
                         }
-                        
+
                         continue;
                     }
                 }
