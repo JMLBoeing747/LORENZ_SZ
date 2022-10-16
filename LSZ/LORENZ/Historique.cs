@@ -149,6 +149,8 @@ namespace LORENZ
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
 
+                    // realEntry : Index réel de l'entrée à afficher sur l'écran
+                    int realEntry = ListeHistorique.Count - hEntry;
                     if (!failHeader)
                     {
                         string dtStr = ListeHistorique[hEntry].cipherDate.ToString("G");
@@ -159,7 +161,6 @@ namespace LORENZ
                          *                   l'augmentation de l'index
                          * lenPaddingMax :    Nombre d'espaces minimum pour aligner les entrées selon la plus grande longueur
                          *                   de message sauvegardé dans l'historique
-                         * realEntry :        Index réel de l'entrée à afficher sur l'écran
                          * indexPadStr :      String contenant les espaces ' ' qui alignent les entrées de l'historique
                          *                   selon l'index du message
                          * lenPadStr :        String contenant les espaces ' ' qui alignent les entrées de l'historique
@@ -167,7 +168,6 @@ namespace LORENZ
                          */
                         int indexPaddingMax = ListeHistorique.Count.ToString().Length;
                         int lenPaddingMax = msgHistoryMaxLen.ToString().Length;
-                        int realEntry = ListeHistorique.Count - hEntry;
                         string indexPadStr = new(' ', indexPaddingMax - realEntry.ToString().Length);
                         string lenPadStr = new(' ', lenPaddingMax - excerptLen.ToString().Length);
 
@@ -195,7 +195,7 @@ namespace LORENZ
                     }
 
                     testHeader = Console.CursorTop > headerMaxHeight;
-
+                    string leastEntries = $"{realEntry} / {ListeHistorique.Count} entrées";
                     if ((Console.CursorTop > entryMaxHeight && hEntry > 0) || failHeader)
                     {
                         if (failHeader)
@@ -204,22 +204,24 @@ namespace LORENZ
                             hEntry += 1;
                         }
 
+                        string fowBackStr = default;
                         if (page > 0)
                         {
-                            Console.WriteLine("\n<< Précédent | Suivant >>");
+                            fowBackStr = "\n<< Précédent | Suivant >>" + leastEntries.PadLeft(40);
                         }
                         else
                         {
-                            Console.WriteLine("\nSuivant >>");
+                            fowBackStr = "\nSuivant >>" + leastEntries.PadLeft(40);
                         }
 
+                        Console.WriteLine(fowBackStr);
                         stackLastEntry.Push(lastEntry);
                         lastEntry = hEntry - 1;
                         break;
                     }
                     else if (page > 0 && hEntry == 0)
                     {
-                        Console.WriteLine("\n<< Précédent");
+                        Console.WriteLine("\n<< Précédent" + leastEntries.PadLeft(40));
                         stackLastEntry.Push(lastEntry);
                         lastEntry = -1;
                     }
