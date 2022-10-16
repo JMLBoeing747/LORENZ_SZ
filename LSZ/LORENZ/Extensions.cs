@@ -156,7 +156,6 @@ namespace LORENZ
             Stack<int> lastLeft = new();
             do
             {
-                int beginTop = Console.CursorTop;
                 int beginLeft = Console.CursorLeft;
                 ConsoleKeyInfo keyPress = Console.ReadKey();
                 pressChar = keyPress.KeyChar;
@@ -220,7 +219,14 @@ namespace LORENZ
                         else if (pressChar == '\x0A' && Console.CursorTop > topTop)
                         {
                             Console.CursorTop--;
+                            Console.CursorLeft = beginLeft;
                         }
+                        else if (pressChar == '\x09')
+                        {
+                            int newSpaces = Console.CursorLeft - beginLeft;
+                            writeLine += new string(' ', newSpaces);
+                        }
+                        
                         continue;
                     }
                 }
