@@ -116,7 +116,8 @@ namespace LORENZ
                         // Calcul du ratio de compression par répétitions
                         string repCompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
                         int repDiffCount = fullInitialMsg.Length - repCompressMsg.Length;
-                        return repDiffCount / (double)fullInitialMsg.Length;
+                        double repRatio = repDiffCount / (double)fullInitialMsg.Length;
+                        return -repRatio;
                     }
                     else
                     {
@@ -295,7 +296,6 @@ namespace LORENZ
                 string fullDecompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
                 int diffCount = fullDecompressMsg.Length - fullInitialMsg.Length;
                 double ratio = diffCount / (double)fullDecompressMsg.Length;
-
                 return ratio;
             }
             else
@@ -303,7 +303,8 @@ namespace LORENZ
                 // Calcul du ratio de décompression par répétitions
                 string repDecompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
                 int repDiffCount = repDecompressMsg.Length - fullInitialMsg.Length;
-                return repDiffCount / (double)repDecompressMsg.Length;
+                double repRatio = repDiffCount / (double)repDecompressMsg.Length;
+                return -repRatio;
             }
         }
 

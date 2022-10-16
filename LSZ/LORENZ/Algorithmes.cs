@@ -282,11 +282,20 @@ namespace LORENZ
             //-----Partie 1 du premier chiffrement
             double cRatio = 0.0;
             theMessage = AddAttributes(theMessage, ref cRatio);
-            if (cRatio > 0.0)
+            if (cRatio != 0.0)
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Compression : " + (cRatio * 100).ToString("0.0") + " %");
+                if (cRatio > 0)
+                {
+                    Console.Write("Compression : ");
+                }
+                else
+                {
+                    Console.Write("Compression par répétitions : ");
+                    cRatio = -cRatio;
+                }
+                Console.Write((cRatio * 100).ToString("0.0") + " %");
                 Console.ResetColor();
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -520,13 +529,23 @@ namespace LORENZ
             //Vérifier présence de commandes de contrôle
             double dRatio = 0.0;
             decipheredMessageComplete = CheckAttributes(decipheredMessageComplete, ref dRatio);
-            if (dRatio > 0.0)
+            if (dRatio != 0.0)
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Décompression : " + (dRatio * 100).ToString("0.0") + " %");
-                Console.WriteLine();
+                if (dRatio > 0.0)
+                {
+
+                    Console.Write("Décompression : ");
+                }
+                else
+                {
+                    Console.Write("Décompression par répétitions : ");
+                    dRatio = -dRatio;
+                }
+                Console.Write((dRatio * 100).ToString("0.0") + " %");
                 Console.ResetColor();
+                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
             }
 
