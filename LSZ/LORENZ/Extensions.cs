@@ -107,7 +107,7 @@ namespace LORENZ
             {
                 Console.Write(">>> ");
                 string dirPath = SpecialPrint();
-                if (dirPath == null || dirPath == "\r")
+                if (dirPath is null or "")
                 {
                     if (!cancelDenied)
                     {
