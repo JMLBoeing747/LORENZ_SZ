@@ -105,10 +105,9 @@ namespace LORENZ
                         AfficherLID();
                         break;
                     case ConsoleKey.J:
-                        double NewArgent = Jeux.TheGame(Argent);
+                        Jeux.TheGame(ref argent);
                         Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.Clear();
-                        Argent = NewArgent;
                         continue;
                     case ConsoleKey.H:
                         MenuHistorique();

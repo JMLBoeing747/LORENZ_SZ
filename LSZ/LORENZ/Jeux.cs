@@ -6,7 +6,7 @@ namespace LORENZ
 {
     public static class Jeux
     {
-        public static double TheGame(double Coins)
+        public static void TheGame(ref double coins)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -15,7 +15,7 @@ namespace LORENZ
             {
                 levelChoosed = LevelMenu();
                 if (levelChoosed == -1)
-                    return Coins;
+                    return;
                 else if (levelChoosed == default)
                 {
                     Console.Clear();
@@ -101,7 +101,6 @@ namespace LORENZ
                     }
                 }
             }
-            return Coins;
         }
 
         private static int LevelMenu()
