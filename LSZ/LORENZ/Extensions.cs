@@ -146,7 +146,7 @@ namespace LORENZ
             return true;
         }
 
-        public static string SpecialPrint(char endChar = '\n',
+        public static string SpecialPrint(char endChar = '\r',
                                           bool hideEndChar = true,
                                           ConsoleKey escapeKey = ConsoleKey.Escape,
                                           bool addNewLine = true,
@@ -155,6 +155,7 @@ namespace LORENZ
             string writeLine = "";
             char pressChar;
             int topTop = Console.CursorTop;
+            int beginBegin = Console.CursorLeft;
             Stack<int> lastLeft = new();
             do
             {
@@ -167,6 +168,12 @@ namespace LORENZ
                 }
                 else if (keyPress.Key == ConsoleKey.Backspace)
                 {
+                    if (Console.CursorLeft < beginBegin)
+                    {
+                        Console.CursorLeft++;
+                        continue;
+                    }
+
                     Console.Write(' ');
                     Console.CursorLeft--;
                     if (Console.CursorLeft == beginLeft && Console.CursorTop > topTop)
@@ -191,7 +198,7 @@ namespace LORENZ
                     }
                     continue;
                 }
-                else if ((keyPress.Key == ConsoleKey.Enter && endChar != '\n')
+                else if ((keyPress.Key == ConsoleKey.Enter && endChar != '\r')
                          || (Console.CursorLeft == Console.WindowWidth - 1))
                 {
                     int totalCharsWritten = Console.CursorLeft < Console.WindowWidth - 1 ?
