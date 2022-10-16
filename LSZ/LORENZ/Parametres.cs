@@ -84,6 +84,7 @@ namespace LORENZ
         public static void VerifierParametres()
         {
             while (true)
+            {
                 try
                 {
                     Display.PrintMessage("Identification...", MessageState.Warning);
@@ -98,9 +99,15 @@ namespace LORENZ
                     //Update LASTACSS.LZI...
                     EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     if (Directory.Exists("CRYPTO"))
+                    {
                         Directory.Delete("CRYPTO", true);
+                    }
+
                     if (File.Exists(ProductKeyFile))
+                    {
                         File.Delete(ProductKeyFile);
+                    }
+
                     Display.PrintMessage("Identification successful!", MessageState.Success);
                     return;
                 }
@@ -118,8 +125,12 @@ namespace LORENZ
                         //Writing for first time LASTACSS.LZI...
                         EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     }
-                    else throw new LORENZException(le.Err);
+                    else
+                    {
+                        throw new LORENZException(le.Err);
+                    }
                 }
+            }
         }
 
         private static void CreerPseudo()
@@ -170,7 +181,10 @@ namespace LORENZ
                 {
                     essais++;
                     if (essais == 6)
+                    {
                         break;
+                    }
+
                     Console.Clear();
                     if (essais == 1 && !File.Exists(ProductKeyFile))
                     {
@@ -203,9 +217,14 @@ namespace LORENZ
                     }
                     ConsoleKeyInfo saisie = Console.ReadKey(true);
                     while (saisie.Key == ConsoleKey.LeftWindows || saisie.Key == ConsoleKey.RightWindows)
+                    {
                         saisie = Console.ReadKey(true);
+                    }
+
                     if (saisie.Key == ConsoleKey.Escape)
+                    {
                         throw new LORENZException(ErrorCode.E0xFFF, false);
+                    }
                 }
             }
             throw new LORENZException(ErrorCode.E0x20);
@@ -236,9 +255,13 @@ namespace LORENZ
                 (string, string, DateTime, string) userInfos = Decyphering.ShortingUserInfos(Decyphering.StripOutAndSplit(cypheredMessageOnly));
                 DateTime dtLimit = userInfos.Item3.AddMinutes(5.0);
                 if (userInfos.Item3 < DateTime.UtcNow && dtLimit > DateTime.UtcNow)
+                {
                     return (userInfos.Item1, userInfos.Item2, userInfos.Item4);
+                }
                 else
+                {
                     throw new LORENZException(ErrorCode.E0x20, false);
+                }
             }
             catch (CryptographyException)
             {
@@ -260,7 +283,10 @@ namespace LORENZ
         private static void LireLastAccessFile(DateTime lastAccessTimeToCompare)
         {
             if (!File.Exists(UserlogFile))
+            {
                 throw new LORENZException(ErrorCode.E0x12, false);
+            }
+
             try
             {
                 string[] dateTimeStripped = Decyphering.StripOutAndSplit(Cryptographie.DechiffrerFichier(LastAccessFile));
@@ -268,7 +294,9 @@ namespace LORENZ
                 DateTime dtLast = DateTime.Parse(dateTimeStripped[0]);
                 Display.PrintMessage(".", MessageState.Info, false);
                 if (dtLast != lastAccessTimeToCompare)
+                {
                     throw new LORENZException(ErrorCode.E0x11, false);
+                }
             }
             catch
             {
@@ -280,7 +308,10 @@ namespace LORENZ
         {
             byte[] byteArray = new byte[s.Length];
             for (int c = 0; c < s.Length; c++)
+            {
                 byteArray[c] = Convert.ToByte(s[c]);
+            }
+
             return byteArray;
         }
 

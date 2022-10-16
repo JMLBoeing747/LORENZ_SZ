@@ -343,7 +343,7 @@ namespace LORENZ
             int msgSum = 0;
             for (int a = 0; a < messageToSum.Length; a++)
             {
-                msgSum += (int)messageToSum[a];
+                msgSum += messageToSum[a];
                 msgSum %= 10000;
             }
 
@@ -382,7 +382,7 @@ namespace LORENZ
             string CSStr = messageDecipheredFirst[0..4];
             string msgWithoutSC = messageDecipheredFirst[4..];
             int checkSumFound = int.Parse(CSStr);
-            
+
             //Calcul de la somme des caractères pour valider la somme de contrôle
             for (int i = 0; i < msgWithoutSC.Length; i++)
             {
@@ -630,6 +630,7 @@ namespace LORENZ
             }
 
             TransTableRoot = rootTemp;
+            Parametres.EcrireGeneralParamsFile();
             Console.WriteLine("\nNouvelle racine : " + TransTableRoot);
             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
             Console.ReadKey(true);
@@ -693,6 +694,7 @@ namespace LORENZ
                         if (!sameChars)
                         {
                             BaseSecretCode = newSTSet.ToUpper();
+                            Parametres.EcrireGeneralParamsFile();
                             Display.PrintMessage("Nouvelle disposition : " + BaseSecretCode, MessageState.Success);
                             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
                             Console.ReadKey(true);
