@@ -360,27 +360,27 @@ namespace LORENZ
             return MessageSum.ToString("D4");
         }
 
-        public static string DechiffrementPremier(string MessageEncrypted2)
+        public static string DechiffrementPremier(string messageEncrypted, out bool isGoodCS)
         {
-            char[,] SecretTableCode = GenerateSTC();
-            string MessageDecipheredFirst = null;
-            string MessageDecryptedFirstSCout = null;
-            int CharError = 0;
-            for (int c = 0; c < MessageEncrypted2.Length; c++)
+            isGoodCS = false;
+            char[,] secretTableCode = GenerateSTC();
+            string messageDecipheredFirst = null;
+            int charErrorCount = 0;
+            for (int c = 0; c < messageEncrypted.Length; c++)
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    if (MessageEncrypted2[c] == SecretTableCode[1, i])
+                    if (messageEncrypted[c] == secretTableCode[1, i])
                     {
-                        MessageDecipheredFirst += SecretTableCode[0, i];
+                        messageDecipheredFirst += secretTableCode[0, i];
                         break;
                     }
-                    if (MessageEncrypted2[c] != SecretTableCode[0, i] && i == 9)
+                    if (messageEncrypted[c] != secretTableCode[0, i] && i == 9)
                     {
-                        CharError++;
+                        charErrorCount++;
                     }
                 }
-                if (CharError > 0 && c == MessageEncrypted2.Length - 1)
+                if (charErrorCount > 0 && c == messageEncrypted.Length - 1)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(Environment.NewLine + "ERREUR : Un ou des caractères sont erronés");
@@ -389,22 +389,18 @@ namespace LORENZ
                 }
             }
             //Extraction de la somme de contrôle
-            string StrOfCS = null;
-            for (int a = 0; a < 4; a++)
-            {
-                StrOfCS += MessageDecipheredFirst[a];
-            }
-            int CheckSumFound = Convert.ToInt32(StrOfCS);
+            string CSStr = messageDecipheredFirst[0..4];
+            string msgWithoutSC = messageDecipheredFirst[4..];
+            int checkSumFound = int.Parse(CSStr);
+            
             //Calcul de la somme des caractères pour valider la somme de contrôle
-            int CalculatedCS = 0;
-            for (int i = 4; i < MessageDecipheredFirst.Length; i++)
+            for (int i = 0; i < msgWithoutSC.Length; i++)
             {
-                CalculatedCS += Convert.ToInt32(MessageDecipheredFirst[i]);
-                MessageDecryptedFirstSCout += MessageDecipheredFirst[i];
-                CalculatedCS %= 10000;
+                checkSumFound -= msgWithoutSC[i];
+                checkSumFound = checkSumFound < 0 ? checkSumFound + 10000 : checkSumFound;
             }
-            IsGoodCheckSum = CalculatedCS == CheckSumFound;
-            return MessageDecryptedFirstSCout;
+            isGoodCS = checkSumFound == 0;
+            return msgWithoutSC;
         }
 
         private static void RemoveArrayItem(ref string[] array, params int[] indexes)
