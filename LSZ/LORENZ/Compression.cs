@@ -332,8 +332,9 @@ namespace LORENZ
             Console.Clear();
             Console.WriteLine("Modification du taux de compression");
             Console.WriteLine("\nInscrivez le taux de compression minimum que vous désirez obtenir");
-            Console.WriteLine("lors de vos futurs chiffrements.");
-            Display.PrintMessage("Taux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
+            Console.WriteLine("lors de vos futurs chiffrements.\n");
+            Display.PrintMessage("Pour annuler, appuyez sur ESC ou sur ENTRÉE sans rien écrire", MessageState.Warning);
+            Display.PrintMessage("\nTaux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
                                  MessageState.Warning);
 
             string newRatioStr = default;
