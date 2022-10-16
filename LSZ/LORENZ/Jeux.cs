@@ -23,80 +23,80 @@ namespace LORENZ
                 }
                 else break;
             }
-            int MaxRandNum = default;
+            int maxRandNum = default;
             for (int i = 0; i < levelChoosed; i++)
-                MaxRandNum += (int)(5 * Math.Pow(10, i));
-            int RandomNum = new System.Random().Next(0, MaxRandNum + 1);
+                maxRandNum += (int)(5 * Math.Pow(10, i));
+            int randomNum = new System.Random().Next(0, maxRandNum + 1);
             Console.Clear();
-            Console.WriteLine($"LORENZ a choisi un chiffre entre 0 et {MaxRandNum}.");
+            Console.WriteLine($"LORENZ a choisi un chiffre entre 0 et {maxRandNum}.");
             Console.WriteLine("Essayez de le trouver !");
             Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour quitter.");
-            double WinCoins;
-            int Try = 0;
-            int ChoosenNum = -1;
-            while (RandomNum != ChoosenNum)
+            double winCoins;
+            int tries = 0;
+            int choosenNum = -1;
+            while (randomNum != choosenNum)
             {
-                string Choosen = Console.ReadLine();
-                if (Choosen == "")
+                string choosen = Console.ReadLine();
+                if (choosen == "")
                     break;
-                if (!int.TryParse(Choosen, out ChoosenNum))
+                if (!int.TryParse(choosen, out choosenNum))
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Ceci n'est pas un nombre, veuillez entrer un nombre entre 0 et {MaxRandNum}.");
+                    Console.WriteLine($"Ceci n'est pas un nombre, veuillez entrer un nombre entre 0 et {maxRandNum}.");
                     Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
-                else if (ChoosenNum > MaxRandNum || ChoosenNum < 0)
+                else if (choosenNum > maxRandNum || choosenNum < 0)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Ce nombre n'est pas compris entre 0 et {MaxRandNum}, veuillez entrer un nombre entre 0 et {MaxRandNum}.");
+                    Console.WriteLine($"Ce nombre n'est pas compris entre 0 et {maxRandNum}, veuillez entrer un nombre entre 0 et {maxRandNum}.");
                     Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else
                 {
-                    Try += 1;
-                    WinCoins = Math.Ceiling((double)(MaxRandNum / 2 / Try));
+                    tries += 1;
+                    winCoins = Math.Ceiling((double)(maxRandNum / 2 / tries));
                     Console.Clear();
-                    if (RandomNum > ChoosenNum)
+                    if (randomNum > choosenNum)
                         Console.WriteLine("C'est plus haut !");
-                    else if (RandomNum < ChoosenNum)
+                    else if (randomNum < choosenNum)
                         Console.WriteLine("C'est plus bas !");
                     else
                     {
-                        if (Try != 1)
-                            Console.WriteLine("BRAVO ! Vous avez réussi en " + Try + " coups !");
+                        if (tries != 1)
+                            Console.WriteLine("BRAVO ! Vous avez réussi en " + tries + " coups !");
                         else
                             Console.WriteLine("BRAVO ! Vous avez réussi du premier coup !");
                         Console.WriteLine("BILAN");
-                        Console.WriteLine("Sous-total :         " + Coins + " Coins");
-                        Coins += WinCoins;
-                        Console.WriteLine("Montant gagné :      " + WinCoins + " Coins");
-                        if (Try == 1)
+                        Console.WriteLine("Sous-total :         " + coins + " Coins");
+                        coins += winCoins;
+                        Console.WriteLine("Montant gagné :      " + winCoins + " Coins");
+                        if (tries == 1)
                         {
-                            Coins += WinCoins * 55;
-                            Console.WriteLine("Bonus du 1er coup :  " + WinCoins * 55 + $" Coins ({WinCoins} x 55)");
+                            coins += winCoins * 55;
+                            Console.WriteLine("Bonus du 1er coup :  " + winCoins * 55 + $" Coins ({winCoins} x 55)");
                         }
-                        else if (Try == 55)
+                        else if (tries == 55)
                         {
-                            Coins += Try * 55;
-                            Console.WriteLine("Bonus persévérence : " + Try * 55 + $" Coins ({WinCoins} x 55)");
+                            coins += tries * 55;
+                            Console.WriteLine("Bonus persévérence : " + tries * 55 + $" Coins ({winCoins} x 55)");
                         }
-                        if (WinCoins == 55)
+                        if (winCoins == 55)
                         {
-                            Coins += WinCoins * 55;
-                            Console.WriteLine("Bonus du montant :   " + WinCoins * 55 + " Coins (55 x 55)");
+                            coins += winCoins * 55;
+                            Console.WriteLine("Bonus du montant :   " + winCoins * 55 + " Coins (55 x 55)");
                         }
-                        if (RandomNum == 55)
+                        if (randomNum == 55)
                         {
-                            Coins += WinCoins * 55;
-                            Console.WriteLine("Bonus de la 55 :     " + WinCoins * 55 + $" Coins ({WinCoins} x 55)");
+                            coins += winCoins * 55;
+                            Console.WriteLine("Bonus de la 55 :     " + winCoins * 55 + $" Coins ({winCoins} x 55)");
                         }
                         Console.WriteLine("-------------------------------------------------------");
-                        Console.WriteLine("Nouveau solde :      " + Coins + " Coins");
-                        WriteCoinsIntoFile(Coins);
+                        Console.WriteLine("Nouveau solde :      " + coins + " Coins");
+                        WriteCoinsIntoFile(coins);
                         Console.ReadKey(true);
                     }
                 }
@@ -134,9 +134,9 @@ namespace LORENZ
 
         private static void WriteCoinsIntoFile(double coins)
         {
-            string DirectoryPath = new FileInfo(Parametres.CoinsRecordFile).DirectoryName;
-            if (!Directory.Exists(DirectoryPath))
-                Directory.CreateDirectory(DirectoryPath);
+            string directoryPath = new FileInfo(Parametres.CoinsRecordFile).DirectoryName;
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
             Cryptographie.ChiffrerFichier(Encryption.CreateScrambledMessage(coins.ToString()), Parametres.CoinsRecordFile);
         }
 

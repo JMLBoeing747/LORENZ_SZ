@@ -27,7 +27,7 @@ namespace LORENZ
         {
             Display.PrintMessage("Initialisation des composants...", MessageState.Info);
             Parametres.LireGeneralParamsFile();
-            double Argent = Jeux.ReadCoinsInfoFile();
+            double argent = Jeux.ReadCoinsInfoFile();
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("DER LORENZ SCHLÜSSELZUSATZ " + VersionNumber);
@@ -80,9 +80,9 @@ namespace LORENZ
                 Console.WriteLine("O : Options de chiffrement");
                 Console.WriteLine("\nF1 : AIDE\n");
                 Console.WriteLine("Pour quitter, appuyez sur ESC");
-                if (Argent > 0.00)
+                if (argent > 0.00)
                 {
-                    Console.WriteLine(Environment.NewLine + "Votre solde : " + Argent + " Coins");
+                    Console.WriteLine(Environment.NewLine + "Votre solde : " + argent + " Coins");
                 }
 
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
@@ -263,13 +263,13 @@ namespace LORENZ
             Console.WriteLine("Preparation...");
 
             // Génération du GK et de la TableCode correspondante
-            string StrGeneralKey = Algorithmes.GeneratorGK();
-            string[,] TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
-            while (TheTableCode == null)
+            string strGeneralKey;
+            string[,] theTableCode;
+            do
             {
-                StrGeneralKey = Algorithmes.GeneratorGK();
-                TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
-            }
+                strGeneralKey = Algorithmes.GeneratorGK();
+                theTableCode = Algorithmes.GenerateTableCode(strGeneralKey);
+            } while (theTableCode == null);
 
             // Demande d'écriture du message
             Console.Clear();
@@ -278,25 +278,25 @@ namespace LORENZ
             Console.WriteLine("\n           CHIFFREMENT           \n");
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Cyan;
-            string MessageOriginal;
+            string messageOriginal;
             while (true)
             {
                 Display.PrintMessage("AVIS : Vous pouvez écrire sur plusieurs paragraphes !", MessageState.Warning);
                 Console.WriteLine("Pour annuler, appuyez sur ESC.");
                 Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D.");
                 Console.WriteLine("Entrez le texte à chiffrer :");
-                MessageOriginal = Extensions.SpecialPrint('\x04');
+                messageOriginal = Extensions.SpecialPrint('\x04');
 
-                if (MessageOriginal != null)
+                if (messageOriginal != null)
                 {
-                    MessageOriginal = MessageOriginal[..^1];
-                    if (string.IsNullOrWhiteSpace(MessageOriginal))
+                    messageOriginal = messageOriginal[..^1];
+                    if (string.IsNullOrWhiteSpace(messageOriginal))
                     {
                         Display.PrintMessage("Aucun texte détecté.", MessageState.Failure);
                     }
                     else
                     {
-                        MessageOriginal += '\n';
+                        messageOriginal += '\n';
                         break;
                     }
                 }
@@ -307,11 +307,11 @@ namespace LORENZ
                 }
             }
 
-            if (MessageOriginal != "\n")
+            if (messageOriginal != "\n")
             {
-                string MessageChiffre = Algorithmes.Chiffrement(MessageOriginal, StrGeneralKey, TheTableCode);
-                string VraiMessageChiffre = Algorithmes.SecondChiffrement(MessageChiffre);
-                if (VraiMessageChiffre.Length > 4094)
+                string messageChiffre = Algorithmes.Chiffrement(messageOriginal, strGeneralKey, theTableCode);
+                string vraiMessageChiffre = Algorithmes.SecondChiffrement(messageChiffre);
+                if (vraiMessageChiffre.Length > 4094)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
@@ -329,7 +329,7 @@ namespace LORENZ
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             return;
                         }
-                    } while (!Extensions.EcrireChiffrementLong(VraiMessageChiffre, cipherFileName));
+                    } while (!Extensions.EcrireChiffrementLong(vraiMessageChiffre, cipherFileName));
 
                     Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                     Console.ForegroundColor = ConsoleColor.Cyan;
@@ -339,7 +339,7 @@ namespace LORENZ
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Le message chiffré :");
-                Console.WriteLine(VraiMessageChiffre);
+                Console.WriteLine(vraiMessageChiffre);
                 Console.ForegroundColor = ConsoleColor.Cyan;
             }
             else
@@ -385,22 +385,23 @@ namespace LORENZ
 
                     if (messageADechiffrer.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
                     {
-                        string cipherFilePath = Parametres.CipherFileDirectory + messageADechiffrer["FILE:".Length..].Trim();
+                        string cipherFileName = messageADechiffrer["FILE:".Length..].Trim();
+                        string cipherFilePath = Parametres.CipherFileDirectory + cipherFileName;
                         if (File.Exists(cipherFilePath))
                         {
                             messageADechiffrer = File.ReadAllText(cipherFilePath);
                         }
                         else
                         {
-                            cipherFilePath = messageADechiffrer["FILE:".Length..];
-                            if (File.Exists(cipherFilePath))
+                            string localCipherFilePath = cipherFileName;
+                            if (File.Exists(localCipherFilePath))
                             {
-                                messageADechiffrer = File.ReadAllText(cipherFilePath);
+                                messageADechiffrer = File.ReadAllText(localCipherFilePath);
                             }
                             else
                             {
                                 Display.PrintMessage("Le fichier \""
-                                                     + cipherFilePath
+                                                     + cipherFileName
                                                      + "\" n'existe pas dans le répertoire de chiffrement.", MessageState.Failure);
                                 Display.PrintMessage("Le répertoire de chiffrement spécifié est : " + Parametres.CipherFileDirectory,
                                                      MessageState.Warning);
@@ -418,21 +419,21 @@ namespace LORENZ
                         continue;
                     }
                     //Déchiffrement premier
-                    string MessageDechiffre1 = Algorithmes.DechiffrementPremier(messageADechiffrer);
+                    string messageDechiffre1 = Algorithmes.DechiffrementPremier(messageADechiffrer, out bool isGoodCS);
                     //Validité déchiffrement premier total
-                    if (MessageDechiffre1 == null)
+                    if (messageDechiffre1 == null)
                     {
                         Display.PrintMessage("\nCe message n'est pas valide.\n", MessageState.Failure);
                         continue;
                     }
 
                     //Extraction du GK
-                    string StrGeneralKey = Algorithmes.DeveloppGK(MessageDechiffre1);
+                    string strGeneralKey = Algorithmes.DeveloppGK(messageDechiffre1);
 
                     //Génération de la Table Code
-                    string[,] TheTableCode = Algorithmes.GenerateTableCode(StrGeneralKey);
+                    string[,] theTableCode = Algorithmes.GenerateTableCode(strGeneralKey);
                     // Vérification si GK mauvais car répétitions de trans
-                    if (TheTableCode == null)
+                    if (theTableCode == null)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(Environment.NewLine + "ERREUR FATALE CODE 55 : Le chiffrement n'est pas authentique.");
@@ -442,7 +443,7 @@ namespace LORENZ
                     }
 
                     // Déchiffrement second
-                    string MessageDechiffreComplet = Algorithmes.DechiffrementSecond(TheTableCode, StrGeneralKey, MessageDechiffre1);
+                    string messageDechiffreComplet = Algorithmes.DechiffrementSecond(theTableCode, strGeneralKey, messageDechiffre1);
                     Console.ForegroundColor = ConsoleColor.White;
                     if (!Algorithmes.IsThePrivateReceiver && !Algorithmes.IsThePrivateSender)
                     {
@@ -480,16 +481,16 @@ namespace LORENZ
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(Algorithmes.SenderPseudoName + " :");
                             Console.ResetColor();
-                            Console.Write(" " + MessageDechiffreComplet);
+                            Console.Write(" " + messageDechiffreComplet);
                         }
                         else
                         {
-                            Console.Write(MessageDechiffreComplet);
+                            Console.Write(messageDechiffreComplet);
                         }
 
                         Extensions.AfficherMarqueurFin();
 
-                        if (!Algorithmes.IsGoodCheckSum)
+                        if (!isGoodCS)
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine(Environment.NewLine + "ATTENTION ! LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS");
@@ -504,7 +505,7 @@ namespace LORENZ
                         ConsoleKeyInfo saisie = Console.ReadKey(true);
                         if (saisie.Key == ConsoleKey.S)
                         {
-                            Historique.AjouterHistorique(MessageDechiffreComplet,
+                            Historique.AjouterHistorique(messageDechiffreComplet,
                                                          dateTimeDechiff,
                                                          Algorithmes.SenderPseudoName,
                                                          msgPrivState);
@@ -531,10 +532,10 @@ namespace LORENZ
             }
         }
 
-        private static bool TestCipher(string MessageToTest)
+        private static bool TestCipher(string messageToTest)
         {
-            bool spacesInMessage = MessageToTest.Contains(' ');
-            if (MessageToTest.Length <= 38 || MessageToTest.Length % 4 != 0 || spacesInMessage)
+            bool spacesInMessage = messageToTest.Contains(' ');
+            if (messageToTest.Length <= 38 || messageToTest.Length % 4 != 0 || spacesInMessage)
             {
                 if (spacesInMessage)
                 {
@@ -542,10 +543,10 @@ namespace LORENZ
                     Console.WriteLine(Environment.NewLine + "TYPING BREAK ERROR : SPACES DETECTED.");
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
-                
+
                 return false;
             }
-            
+
             return true;
         }
 
