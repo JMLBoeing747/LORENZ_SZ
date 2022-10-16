@@ -181,6 +181,7 @@ namespace LORENZ
                 pressChar = keyPress.KeyChar;
                 if (keyPress.Key == escapeKey)
                 {
+                    Console.Write("\xFF");
                     return null;
                 }
                 else if (keyPress.Key == ConsoleKey.Backspace)
