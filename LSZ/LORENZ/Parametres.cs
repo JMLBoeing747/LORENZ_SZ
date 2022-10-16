@@ -334,7 +334,7 @@ namespace LORENZ
 
             string settings = "Settings";
             int ini21 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
-            CipherFileDirectory = sb.ToString();
+            CipherFileDirectory = sb.ToString() == "" ? null : sb.ToString();
             sb.Clear();
             int ini22 = GetPrivateProfileString(settings, "TRANSTABLE", "", sb, sb.Capacity, GeneralParamsFile);
             Algorithmes.TransTableRoot = sb.ToString();
