@@ -15,6 +15,9 @@ namespace LORENZ
 
     public static class Historique
     {
+        private const char RECD_SEP = '\x1E';
+        private const char UNIT_SEP = '\x1F';
+
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
         private static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
@@ -204,7 +207,7 @@ namespace LORENZ
                             hEntry += 1;
                         }
 
-                        string fowBackStr = default;
+                        string fowBackStr;
                         if (page > 0)
                         {
                             fowBackStr = "\n<< Précédent | Suivant >>" + leastEntries.PadLeft(40);
@@ -491,10 +494,10 @@ namespace LORENZ
                 }
 
                 ListeHistorique.Clear();
-                string[] historyLines = historyStr.Split("\0\0", StringSplitOptions.RemoveEmptyEntries);
+                string[] historyLines = historyStr.Split(RECD_SEP, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string itemLine in historyLines)
                 {
-                    string[] itemEntries = itemLine.Split('\0');
+                    string[] itemEntries = itemLine.Split(UNIT_SEP);
                     string itemIDStr = "", itemDT = "", itemMsg = "", itemAuthor = "", itemPState = "";
 
                     if (itemEntries.Length >= 3)
@@ -550,11 +553,11 @@ namespace LORENZ
             foreach ((uint, DateTime, string, string, PrivacyState) item in ListeHistorique)
             {
                 allHistoryStr += item.Item1.ToString() +
-                    "\0" + item.Item2.ToUniversalTime().ToString("u") +
-                    "\0" + item.Item3 +
-                    "\0" + item.Item4 +
-                    "\0" + (int)item.Item5 +
-                    "\0\0";
+                    UNIT_SEP + item.Item2.ToUniversalTime().ToString("u") +
+                    UNIT_SEP + item.Item3 +
+                    UNIT_SEP + item.Item4 +
+                    UNIT_SEP + (int)item.Item5 +
+                    RECD_SEP;
             }
 
             uint[] allHistoryUInt = Encryption.ToUIntArray(allHistoryStr);
