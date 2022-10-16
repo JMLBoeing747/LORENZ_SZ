@@ -152,10 +152,11 @@ namespace LORENZ
         {
             string writeLine = "";
             char pressChar;
-            int beginTop = Console.CursorTop;
+            int topTop = Console.CursorTop;
             Stack<int> lastLeft = new();
             do
             {
+                int beginTop = Console.CursorTop;
                 int beginLeft = Console.CursorLeft;
                 ConsoleKeyInfo keyPress = Console.ReadKey();
                 pressChar = keyPress.KeyChar;
@@ -167,12 +168,18 @@ namespace LORENZ
                 {
                     Console.Write(' ');
                     Console.CursorLeft--;
-                    if (Console.CursorLeft == beginLeft && Console.CursorTop > beginTop)
+                    if (Console.CursorLeft == beginLeft && Console.CursorTop > topTop)
                     {
                         Console.CursorTop--;
-                        int addedChars = lastLeft.Count > 1 ? lastLeft.Pop() - lastLeft.Peek() : lastLeft.Pop();
-                        int curEndLn = addedChars % Console.WindowWidth;
+                        int charsInLine = lastLeft.Count > 1 ? lastLeft.Pop() - lastLeft.Peek() : lastLeft.Pop();
+                        int curEndLn = charsInLine % Console.WindowWidth;
                         Console.CursorLeft = curEndLn;
+                        if (writeLine[^1] != '\n')
+                        {
+                            Console.CursorLeft--;
+                            Console.Write(' ');
+                            Console.CursorLeft--;
+                        }
                         writeLine = writeLine[..^1];
                         continue;
                     }
@@ -183,12 +190,22 @@ namespace LORENZ
                     }
                     continue;
                 }
-                else if (keyPress.Key == ConsoleKey.Enter && endChar != '\n')
+                else if ((keyPress.Key == ConsoleKey.Enter && endChar != '\n')
+                         || (Console.CursorLeft == Console.WindowWidth - 1))
                 {
-                    int totalCharsWritten = writeLine.Length - lastLeft.Count;
+                    int totalCharsWritten = Console.CursorLeft < Console.WindowWidth - 1 ?
+                                            writeLine.Length - lastLeft.Count : writeLine.Length + 1 - lastLeft.Count;
                     lastLeft.Push(totalCharsWritten);
                     Console.CursorTop++;
-                    pressChar = '\n';
+
+                    if (Console.CursorLeft < Console.WindowWidth - 1)
+                    {
+                        pressChar = '\n';
+                    }
+                    else
+                    {
+                        Console.CursorLeft = 0;
+                    }
                 }
                 else if (!includeCtrl && pressChar != '\0')
                 {
@@ -200,7 +217,7 @@ namespace LORENZ
                             Console.Write(' ');
                             Console.CursorLeft--;
                         }
-                        else if (pressChar == '\x0A' && Console.CursorTop > beginTop)
+                        else if (pressChar == '\x0A' && Console.CursorTop > topTop)
                         {
                             Console.CursorTop--;
                         }
