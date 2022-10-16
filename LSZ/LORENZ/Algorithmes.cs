@@ -286,8 +286,9 @@ namespace LORENZ
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Compression : " + (cRatio * 100).ToString("0.0") + " %\n");
+                Console.Write("Compression : " + (cRatio * 100).ToString("0.0") + " %");
                 Console.ResetColor();
+                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
             }
             string theEncryptedMessage = null;
@@ -523,7 +524,8 @@ namespace LORENZ
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Décompression : " + (dRatio * 100).ToString("0.0") + " %\n");
+                Console.Write("Décompression : " + (dRatio * 100).ToString("0.0") + " %");
+                Console.WriteLine();
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Cyan;
             }
