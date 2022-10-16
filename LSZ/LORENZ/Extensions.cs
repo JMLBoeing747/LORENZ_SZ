@@ -38,6 +38,34 @@ namespace LORENZ
             Console.WriteLine();
         }
 
+        public static void AfficherTitre(string titre,
+                                         ConsoleColor backTitle,
+                                         ConsoleColor foreTitle = ConsoleColor.White,
+                                         int length = 35,
+                                         bool capitals = true)
+        {
+            ConsoleColor colorForeBef = Console.ForegroundColor;
+            ConsoleColor colorBackBef = Console.BackgroundColor;
+            Console.BackgroundColor = backTitle;
+            Console.ForegroundColor = foreTitle;
+            if (capitals)
+            {
+                titre = titre.ToUpper();
+            }
+
+            int spaceCount = (length - titre.Length) / 2;
+            if (spaceCount > 0)
+            {
+                titre = new string(' ', spaceCount) + titre + new string(' ', spaceCount);
+                int diff = length - titre.Length;
+                titre = diff > 0 ? new string(' ', diff) + titre : titre;
+            }
+            Console.WriteLine($"\n{titre}\n");
+            Console.ResetColor();
+            Console.ForegroundColor = colorForeBef;
+            Console.BackgroundColor = colorBackBef;
+        }
+
         public static bool EcrireChiffrementLong(string msgChiffre, string cipherFileName = "")
         {
             if (cipherFileName == "")
@@ -89,9 +117,11 @@ namespace LORENZ
                 Console.ForegroundColor = ConsoleColor.Yellow;
             }
 
+            AfficherTitre("Répertoire des chiffrements", ConsoleColor.DarkYellow, ConsoleColor.Black);
             Console.WriteLine("Le répertoire des fichiers de chiffrement permet à LORENZ de localiser les fichiers de chiffrement.");
-            Console.WriteLine("Ces fichiers contiennent soit un chiffrement trop long pour être recollé dans le terminal, soit un");
-            Console.WriteLine("message devant être déchiffré.");
+            Console.WriteLine("Ces fichiers se créent lorsqu'un message chiffré devient trop long pour être retranscrit sur le");
+            Console.WriteLine("terminal. Lorsque viendra le temps de déchiffrer de tels fichiers, il faudra alors les insérer dans");
+            Console.WriteLine("ce répertoire afin d'amorcer leur déchiffrement.");
             Console.WriteLine("\nSpécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :");
             if (!cancelDenied)
             {

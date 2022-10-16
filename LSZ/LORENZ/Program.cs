@@ -191,16 +191,19 @@ namespace LORENZ
         private static void AfficherLID()
         {
             Console.Clear();
+            Extensions.AfficherTitre("LORENZ ID (LID)", ConsoleColor.Gray, ConsoleColor.Black);
             Console.WriteLine("Le LID permet de vous identifier de façon unique envers tous les utilisateurs LORENZ.");
             Console.WriteLine("Vous avez besoin de connaître le LID de votre correspondant si vous désirez lui envoyer un");
             Console.WriteLine("message en privé. Le LID ne peut pas être modifié car il est propre à chaque clé de produit.");
-            Console.WriteLine("Voici votre LID de six caractères :\n");
+            Console.WriteLine("\nVoici votre LID de six caractères :\n");
             Console.WriteLine(">>> " + Parametres.LID + " <<<");
         }
 
         private static void ChangerLePseudo()
         {
             Console.Clear();
+            Extensions.AfficherTitre("Modifier le pseudo", ConsoleColor.DarkYellow, ConsoleColor.Black);
+            
             Console.WriteLine("Le pseudo est le nom qui sera affiché à tous les récepteurs pouvant déchiffrer le message");
             Console.WriteLine("et qui ont activé l'affichage de l'expéditeur. Si vous désirez le modifier, tapez");
             Console.WriteLine("ci-dessous le nouveau pseudo à utiliser pour les chiffrements futurs. Si vous désirez le");
@@ -275,11 +278,7 @@ namespace LORENZ
 
             // Demande d'écriture du message
             Console.Clear();
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n           CHIFFREMENT           \n");
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            Extensions.AfficherTitre("Chiffrement", ConsoleColor.DarkGreen);
             string messageOriginal;
             while (true)
             {
@@ -345,10 +344,7 @@ namespace LORENZ
         {
             //Demande d'écriture du message chiffré
             Console.Clear();
-            Console.BackgroundColor = ConsoleColor.DarkMagenta;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n          DÉCHIFFREMENT          \n");
-            Console.ResetColor();
+            Extensions.AfficherTitre("Déchiffrement", ConsoleColor.DarkMagenta);
             Display.PrintMessage("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !", MessageState.Warning);
             Console.ForegroundColor = ConsoleColor.Cyan;
 
@@ -567,7 +563,7 @@ namespace LORENZ
 
             while (true)
             {
-                Console.WriteLine("===== Historique =====\n");
+                Extensions.AfficherTitre("Historique", ConsoleColor.Gray, ConsoleColor.Black);
                 Console.WriteLine("[H]: Consulter l'historique");
                 if (Historique.CategoriesCount > 0)
                 {
@@ -607,10 +603,9 @@ namespace LORENZ
             Console.Clear();
             while (true)
             {
-                Console.BackgroundColor = ConsoleColor.DarkYellow;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.WriteLine("\n      Options de chiffrement     \n");
-                Console.ResetColor();
+                Extensions.AfficherTitre("Options de chiffrement",
+                                               ConsoleColor.DarkYellow,
+                                               ConsoleColor.Black);
                 Console.WriteLine("C : Modifier le taux de compression");
                 Console.WriteLine("T : Disposition de la table de transcription");
                 Console.WriteLine("S : Disposition de la table secrète");

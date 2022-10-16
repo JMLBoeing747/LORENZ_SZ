@@ -9,6 +9,7 @@ namespace LORENZ
         public static void TheGame(ref double coins)
         {
             Console.Clear();
+            Extensions.AfficherTitre("Le jeu LORENZ", ConsoleColor.DarkBlue);
             Console.ForegroundColor = ConsoleColor.Yellow;
             int levelChoosed;
             while (true)
