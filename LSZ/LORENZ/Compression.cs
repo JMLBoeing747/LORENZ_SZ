@@ -160,11 +160,6 @@ namespace LORENZ
 
         public static double EssaiDecompression(ref string msgADecompress, ref string attrStr)
         {
-            if (!CompressionActive)
-            {
-                return 0.0;
-            }
-            
             // Création du message complet sans compression
             string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
 
@@ -188,6 +183,7 @@ namespace LORENZ
                             tempMsgCompress = partBefore + repeatStr + partAfter;
 
                             c += repeatCount - 1;
+                            repeatCountStr = default;
                             break;
                         }
 
