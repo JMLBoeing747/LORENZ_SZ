@@ -14,8 +14,8 @@ namespace LORENZ
         public static bool IsThePrivateSender => ThePrivateSenderLID == Parametres.LID || !IsPrivateMessage;
         public static string SenderPseudoName { get; set; }
         public static string CmdSeperator => "/*/";
-        private static string TransTableRoot { get; set; } = "1234";
-        private static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
+        public static string TransTableRoot { get; set; } = "1234";
+        public static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
 
         public const char ATTRIB_SEP = '\xAD';
         private const int MIN_CHAR_TABLE = 32;

@@ -294,23 +294,29 @@ namespace LORENZ
             StringBuilder sb = new(255);
 
             string profile = "Profile";
-            int ini1 = GetPrivateProfileString(profile, "SHOWSENDER", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini11 = GetPrivateProfileString(profile, "SHOWSENDER", "", sb, sb.Capacity, GeneralParamsFile);
             ShowPseudoNameSender = sb.ToString() == "True";
             sb.Clear();
-            int ini2 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini12 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, GeneralParamsFile);
             PseudoName = sb.ToString();
             sb.Clear();
 
             string settings = "Settings";
-            int ini3 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini21 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
             CipherFileDirectory = sb.ToString();
+            sb.Clear();
+            int ini22 = GetPrivateProfileString(settings, "TRANSTABLE", "", sb, sb.Capacity, GeneralParamsFile);
+            Algorithmes.TransTableRoot = sb.ToString();
+            sb.Clear();
+            int ini23 = GetPrivateProfileString(settings, "SECRETABLE", "", sb, sb.Capacity, GeneralParamsFile);
+            Algorithmes.BaseSecretCode = sb.ToString();
             sb.Clear();
 
             string compression = "Compression";
-            int ini4 = GetPrivateProfileString(compression, "ACTIVCMPRS", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini31 = GetPrivateProfileString(compression, "ACTIVCMPRS", "", sb, sb.Capacity, GeneralParamsFile);
             Compression.CompressionActive = sb.ToString() == "True";
             sb.Clear();
-            int ini5 = GetPrivateProfileString(compression, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini32 = GetPrivateProfileString(compression, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
             Compression.TauxCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
         }
 
@@ -322,6 +328,8 @@ namespace LORENZ
             WritePrivateProfileString(profile, "PSEUDONAME", PseudoName, GeneralParamsFile);
             string settings = "Settings";
             WritePrivateProfileString(settings, "CIPHFILEDR", CipherFileDirectory, GeneralParamsFile);
+            WritePrivateProfileString(settings, "TRANSTABLE", Algorithmes.TransTableRoot, GeneralParamsFile);
+            WritePrivateProfileString(settings, "SECRETABLE", Algorithmes.BaseSecretCode, GeneralParamsFile);
             string compression = "Compression";
             WritePrivateProfileString(compression, "ACTIVCMPRS", Compression.CompressionActive.ToString(), GeneralParamsFile);
             WritePrivateProfileString(compression, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), GeneralParamsFile);
