@@ -492,10 +492,10 @@ namespace LORENZ
 
                         DateTime dateTimeDechiff = DateTime.Now;
                         Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("\n[S]: Sauvegarder le présent message\n");
+                        Console.WriteLine("\n[CTRL + S] : Sauvegarder le présent message\n");
                         Console.WriteLine("Appuyez sur toute autre touche pour retourner au menu principal...");
                         ConsoleKeyInfo saisie = Console.ReadKey(true);
-                        if (saisie.Key == ConsoleKey.S)
+                        if (saisie.KeyChar == '\x13')
                         {
                             Historique.AjouterHistorique(messageDechiffreComplet,
                                                          dateTimeDechiff,
