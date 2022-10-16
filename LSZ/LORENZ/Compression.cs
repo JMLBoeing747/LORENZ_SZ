@@ -177,6 +177,7 @@ namespace LORENZ
                             tempMsgCompress = partBefore + repeatStr + partAfter;
 
                             c += repeatCount - 1;
+                            repeatCountStr = default;
                             break;
                         }
 
