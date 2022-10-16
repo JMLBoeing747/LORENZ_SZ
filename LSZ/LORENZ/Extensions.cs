@@ -41,7 +41,7 @@ namespace LORENZ
             {
                 return false;
             }
-            
+
             NomFichierChiffrement = cipherFileName;
 
             if (Parametres.CipherFileDirectory == null)
@@ -75,7 +75,7 @@ namespace LORENZ
             {
                 Display.PrintMessage("Chemin d'accès invalide.", MessageState.Failure);
             }
-            
+
             return false;
         }
 

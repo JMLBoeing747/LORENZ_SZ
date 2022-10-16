@@ -247,6 +247,11 @@ namespace LORENZ
 
             // Demande d'écriture du message
             Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n           CHIFFREMENT           \n");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             string MessageOriginal = "";
             string LigneMessage = "";
 
@@ -345,6 +350,10 @@ namespace LORENZ
         {
             //Demande d'écriture du message chiffré
             Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n          DÉCHIFFREMENT          \n");
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !");
             Console.WriteLine("Validez la dernière ligne en cliquant ENTRÉE sans rien écrire dans cette dernière.");
@@ -571,23 +580,35 @@ namespace LORENZ
         private static void MenuHistorique()
         {
             Console.Clear();
-            if (Historique.ListeHistorique.Count == 0 && !Historique.LireFichierHistorique())
+            if (Historique.Count == 0)
             {
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("L'historique est vide.");
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Display.PrintMessage("\nSauvegardez des messages déchiffrés pour le remplir et revenez y jeter un coup d'oeil.",
-                                     MessageState.Warning);
-                return;
+                Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
+                if (!Historique.LireFichierHistorique())
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("L'historique est vide.");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Display.PrintMessage("\nSauvegardez des messages déchiffrés pour le remplir et revenez y jeter un coup d'oeil.",
+                                         MessageState.Warning);
+                    return;
+                }
+                else
+                {
+                    Console.Clear();
+                }
             }
 
             while (true)
             {
                 Console.WriteLine("===== Historique =====\n");
                 Console.WriteLine("[H]: Consulter l'historique");
-                Console.WriteLine("[C]: Nouvelle catégorie");
+                if (Historique.CategoriesCount > 0)
+                {
+                    Console.WriteLine("[C]: Consulter les catégories");
+                }
+                Console.WriteLine("[N]: Nouvelle catégorie");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
 
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
@@ -598,7 +619,11 @@ namespace LORENZ
                         Console.Clear();
                         break;
                     case ConsoleKey.C:
-                        // Méthode nouvelle catégorie
+                        Historique.AfficherCategories();
+                        Console.Clear();
+                        break;
+                    case ConsoleKey.N:
+                        Historique.NouvelleCategorie();
                         Console.Clear();
                         break;
                     case ConsoleKey.Escape:
@@ -618,6 +643,7 @@ namespace LORENZ
             while (true)
             {
                 Console.WriteLine("===== Options de chiffrement =====\n");
+                Console.WriteLine("C : Modifier le taux de compression");
                 Console.WriteLine("T : Disposition de la table de transcription");
                 Console.WriteLine("S : Disposition de la table secrète");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
@@ -625,6 +651,10 @@ namespace LORENZ
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
                 switch (saisie.Key)
                 {
+                    case ConsoleKey.C:
+                        Compression.ModifierTaux();
+                        Console.Clear();
+                        break;
                     case ConsoleKey.T:
                         Algorithmes.SetTransTable();
                         Console.Clear();

@@ -18,6 +18,7 @@ namespace LORENZ
         private static string TransTableRoot { get; set; } = "1234";
         private static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
 
+        public const char ATTRIB_SEP = '\xAD';
         private const int MIN_CHAR_TABLE = 32;
         private const int MAX_CHAR_TABLE = 256;
 
@@ -169,14 +170,20 @@ namespace LORENZ
             return false;
         }
 
-        private static string AddAttributes(string s)
+        private static string AddAttributes(string s, ref double ratio)
         {
             string[] strBufferTb = s.Split(CmdSeperator, StringSplitOptions.RemoveEmptyEntries);
-
-            string[] attributes = new string[4];
+            string[] attributes = new string[5];
+            /* Tableau des attributs :
+             * [0] : P + Pseudo
+             * [1] : R + LID du récepteur (lorsque privé)
+             * [2] : S + LID de l'expéditeur (lorsque privé)
+             * [3] : A + LID to AFDA
+             * [4] : CT (Table de compression, si applicable)
+             */
             attributes[0] = "P" + Parametres.PseudoName;
 
-            string strConcat = "\xAD";
+            string msgWithoutAttrib = default;
             for (int strInt = 0; strInt < strBufferTb.Length; strInt++)
             {
                 if (strBufferTb[strInt].ToUpper().StartsWith("PRIV:"))
@@ -198,22 +205,24 @@ namespace LORENZ
 
                 if (strInt == strBufferTb.Length - 1)
                 {
-                    strConcat += strBufferTb[strInt];
+                    msgWithoutAttrib += strBufferTb[strInt];
                     break;
                 }
 
-                strConcat += strBufferTb[strInt];
+                msgWithoutAttrib += strBufferTb[strInt];
             }
 
-            for (int attr = 0; attr < attributes.Length; attr++)
+            string attributeStr = default;
+            foreach (string attr in attributes)
             {
-                if (attributes[attr] != null)
+                if (attr != null)
                 {
-                    strConcat = attributes[attr] + strConcat;
+                    attributeStr = attr + attributeStr;
                 }
             }
 
-            return strConcat;
+            ratio = Compression.EssaiCompression(ref msgWithoutAttrib, ref attributeStr);
+            return attributeStr + ATTRIB_SEP + msgWithoutAttrib;
         }
 
         private static void ModuloOperation(int opType, string generalKey, ref string messageWithoutGK, bool isCiphering)
@@ -278,7 +287,16 @@ namespace LORENZ
         public static string Chiffrement(string TheMessage, string generalKey, string[,] ATableCode)
         {
             //-----Partie 1 du premier chiffrement
-            TheMessage = AddAttributes(TheMessage);
+            double cRatio = 0.0;
+            TheMessage = AddAttributes(TheMessage, ref cRatio);
+            if (cRatio > 0.0)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Compression : " + (cRatio * 100).ToString("0.0") + " %\n");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
             string TheEncryptedMessage = null;
             for (int c = 0; c < TheMessage.Length; c++)
             {
@@ -418,19 +436,29 @@ namespace LORENZ
             array = bufferArray;
         }
 
-        private static string CheckAttributes(string s)
+        private static string CheckAttributes(string s, ref double ratio)
         {
-            string[] strSplited = s.Split('\xAD');
+            string[] strSplited = s.Split(ATTRIB_SEP);
             if (strSplited.Length < 2)
             {
                 throw new LORENZException("Erreur dans le formatage des attributs");
             }
 
             string msgAttributes = strSplited[0];
+            string msgWithouAttrib = strSplited[1];
+
+            /* Pour combler les morceaux qui pourraient avoir été divisés de trop
+             * par un ajout intentionnel du caractère 0xAD dans le message
+             */
+            for (int i = 2; i < strSplited.Length; i++)
+            {
+                msgWithouAttrib += ATTRIB_SEP + strSplited[i];
+            }
+
+            ratio = Compression.EssaiDecompression(ref msgWithouAttrib, ref msgAttributes);
+
             for (int c = 0; c < msgAttributes.Length - 1; c++)
             {
-                // Ajouter le code pour la CT
-
                 if (msgAttributes[c] == 'A')
                 {
                     c++;
@@ -463,12 +491,6 @@ namespace LORENZ
                     SenderPseudoName = msgAttributes[c..];
                     c += SenderPseudoName.Length;
                 }
-            }
-
-            string msgWithouAttrib = strSplited[1];
-            for (int i = 2; i < strSplited.Length - 1; i++)
-            {
-                msgWithouAttrib += '\xAD' + strSplited[i];
             }
 
             return msgWithouAttrib;
@@ -509,7 +531,17 @@ namespace LORENZ
             }
 
             //Vérifier présence de commandes de contrôle
-            DecipheredMessageComplete = CheckAttributes(DecipheredMessageComplete);
+            double dRatio = 0.0;
+            DecipheredMessageComplete = CheckAttributes(DecipheredMessageComplete, ref dRatio);
+            if (dRatio > 0.0)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Décompression : " + (dRatio * 100).ToString("0.0") + " %\n");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
+
             return DecipheredMessageComplete;
         }
 

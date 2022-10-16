@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Cryptography;
+using System;
 using System.IO;
-using Cryptography;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace LORENZ
 {
@@ -22,6 +23,63 @@ namespace LORENZ
 
         public static string LID { get; set; }
         public static string CipherFileDirectory { get; set; }
+
+        /// <summary>
+        /// The <c>WritePrivateProfileString</c> function copies a string into the specified section of the specified initialization
+        /// file. This function is provided for compatibility with 16-bit Windows-based applications. WIn32-based applications
+        /// should store initialization information in the registry. (From WIN32 API docs)
+        /// </summary>
+        /// <param name="lpAppName">Points to a null-terminated string containing the name of the section to which the string
+        /// will be copied. If the section does not exist, it is created. The name of the section is case-independent; the
+        /// string can be any combination of uppercase and lowercase letters.</param>
+        /// <param name="lpKeyName">Points to the null-terminated string containing the name of the key to be associated with a
+        /// string. If the key does not exist in the specified section, it is created. If this parameter is <c>NULL</c>, the entire
+        /// section, including all entries within the section, is deleted.</param>
+        /// <param name="lpString">Points to a null-terminated string to be written to the file. If this parameter is <c>NULL</c>,
+        /// the key pointed to by the <c>lpKeyName</c> parameter is deleted.</param>
+        /// <param name="lpFileName">Points to a null-terminated string that names the initialization file.</param>
+        /// <returns>If the function successfully copies the string to the initialization file, the return value is nonzero.
+        /// If the function fails, or if it flushes the cached version of the most recently accessed initialization file, the
+        /// return value is zero. To get extended error information, call <c>GetLastError</c>.</returns>
+        [DllImport("Kernel32", CharSet = CharSet.Unicode)]
+        private static extern bool WritePrivateProfileString(string lpAppName,
+                                                             string lpKeyName,
+                                                             string lpString,
+                                                             string lpFileName);
+
+        /// <summary>
+        /// The <c>GetPrivateProfileString</c> function retrieves a string from the specified section in an initialization file.
+        /// This function is provided for compatibility with 16-bit Windows-based applications. Win32-based applications
+        /// should store initialization information in the registry. (From WIN32 API docs)
+        /// </summary>
+        /// <param name="lpAppName">Points to a null-terminated string that specifies the section containing the key name. If
+        /// this parameter is <c>NULL</c>, the <c>GetPrivateProfileString</c> function copies all section names in the file to
+        /// the supplied buffer.</param>
+        /// <param name="lpKeyName">Pointer to the null-terminated string containing the key name whose associated string is to
+        /// be retrieved. If this parameter is <c>NULL</c>, all key names in the section specified by the <c>lpAppName</c>
+        /// parameter are copied to the buffer specified by the <c>lpReturnedString</c> parameter.</param>
+        /// <param name="lpDefault">Pointer to a null-terminated default string. If the <c>lpKeyName</c> key cannot be found in
+        /// the initialization file, <c>GetPrivateProfileString</c> copies the default string to the <c>lpReturnedString</c>
+        /// buffer. This parameter cannot be <c>NULL</c>. Avoid specifying a default string with trailing blank characters. The
+        /// function inserts a null character in the <c>lpReturnedString</c> buffer to strip any trailing blanks.</param>
+        /// <param name="lpReturnedString">Pointer to the buffer that receives the retrieved string.</param>
+        /// <param name="nSize">Specifies the size, in characters, of the buffer pointed to by the <c>lpReturnedString</c>
+        /// parameter.</param>
+        /// <param name="lpFileName">Pointer to a null-terminated string that names the initialization file. If this parameter
+        /// does not contain a full path to the file, Windows searches for the file in the Windows directory.</param>
+        /// <returns>If the function succeeds, the return value is the number of characters copied to the buffer, not including
+        /// the terminating null character. If neither <c>lpAppName</c> nor <c>lpKeyName</c> is <c>NULL</c> and the supplied
+        /// destination buffer is too small to hold the requested string, the string is truncated and followed by a null
+        /// character, and the return value is equal to <c>nSize</c> minus one. If either <c>lpAppName</c> or <c>lpKeyName</c>
+        /// is <c>NULL</c> and the supplied destination buffer is too small to hold all the strings, the last string is
+        /// truncated and followed by two null characters. In this case, the return value is equal to nSize minus two.</returns>
+        [DllImport("Kernel32", CharSet = CharSet.Unicode)]
+        private static extern int GetPrivateProfileString(string lpAppName,
+                                                          string lpKeyName,
+                                                          string lpDefault,
+                                                          StringBuilder lpReturnedString,
+                                                          int nSize,
+                                                          string lpFileName);
 
         public static void VerifierParametres()
         {
@@ -229,47 +287,38 @@ namespace LORENZ
         public static void LireGeneralParamsFile()
         {
             if (!File.Exists(GeneralParamsFile))
-                CreerPseudo();
-            string[] AllLinesArray = File.ReadAllLines(GeneralParamsFile, System.Text.Encoding.UTF8);
-            foreach (string line in AllLinesArray)
             {
-                string[] parameter = line.Split('=');
-                switch (parameter[0])
-                {
-                    case "SHOWSENDER":
-                        ShowPseudoNameSender = parameter[1] == "True";
-                        break;
-                    case "PSEUDONAME":
-                        PseudoName = parameter[1];
-                        break;
-                    case "CIPHERFILEDIR":
-                        CipherFileDirectory = parameter[1];
-                        break;
-                    default:
-                        break;
-                }
+                CreerPseudo();
             }
+
+            StringBuilder sb = new(255);
+
+            string profile = "Profile";
+            int ini1 = GetPrivateProfileString(profile, "SHOWSENDER", "", sb, sb.Capacity, GeneralParamsFile);
+            ShowPseudoNameSender = sb.ToString() == "True";
+            sb.Clear();
+
+            int ini2 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, GeneralParamsFile);
+            PseudoName = sb.ToString();
+            sb.Clear();
+
+            string setting = "Setting";
+            int ini3 = GetPrivateProfileString(setting, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
+            CipherFileDirectory = sb.ToString();
+            sb.Clear();
+
+            int ini4 = GetPrivateProfileString(setting, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
+            Compression.TauxCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
         }
 
         public static void WriteGeneralParamsFile()
         {
-            // Premier élément à insérer
-            List<string> parameters = new()
-            {
-                "SHOWSENDER=" + ShowPseudoNameSender
-            };
-
-            if (PseudoName != Environment.UserName)
-            {
-                parameters.Add("PSEUDONAME=" + PseudoName);
-            }
-            
-            if (CipherFileDirectory != null)
-            {
-                parameters.Add("CIPHERFILEDIR=" + CipherFileDirectory);
-            }
-            
-            File.WriteAllLines(GeneralParamsFile, parameters);
+            string profile = "Profile";
+            WritePrivateProfileString(profile, "SHOWSENDER", ShowPseudoNameSender.ToString(), GeneralParamsFile);
+            WritePrivateProfileString(profile, "PSEUDONAME", PseudoName, GeneralParamsFile);
+            string setting = "Setting";
+            WritePrivateProfileString(setting, "CIPHFILEDR", CipherFileDirectory, GeneralParamsFile);
+            WritePrivateProfileString(setting, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), GeneralParamsFile);
         }
     }
 }
