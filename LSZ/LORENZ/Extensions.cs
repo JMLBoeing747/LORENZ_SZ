@@ -119,10 +119,6 @@ namespace LORENZ
                         continue;
                     }
                 }
-                else
-                {
-                    dirPath = dirPath[..^1];
-                }
 
                 try
                 {
@@ -166,6 +162,7 @@ namespace LORENZ
         public static string SpecialPrint(char endChar = '\r',
                                           uint maxLength = 0,
                                           bool hideEndChar = true,
+                                          bool stripEndChar = true,
                                           ConsoleKey escapeKey = ConsoleKey.Escape,
                                           bool addNewLine = true,
                                           bool includeCtrl = false)
@@ -283,7 +280,12 @@ namespace LORENZ
                 writeLine += pressChar;
             } while (pressChar != endChar);
 
-            if (hideEndChar && endChar != '\r')
+            if (stripEndChar)
+            {
+                writeLine = writeLine[..^1];
+            }
+            
+            if (hideEndChar && !string.IsNullOrWhiteSpace(endChar.ToString()))
             {
                 Console.CursorLeft--;
                 Console.Write(' ');

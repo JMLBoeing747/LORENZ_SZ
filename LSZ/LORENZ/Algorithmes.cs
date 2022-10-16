@@ -691,7 +691,7 @@ namespace LORENZ
                 {
                     return;
                 }
-                else if (newSTSet != "\r")
+                else if (newSTSet != "")
                 {
                     if (newSTSet.Length != 10)
                     {

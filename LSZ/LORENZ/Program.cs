@@ -211,15 +211,11 @@ namespace LORENZ
             Console.WriteLine("\nActuel : " + Parametres.PseudoName);
             Console.Write("Nouveau >>> ");
             string newPseudo = Extensions.SpecialPrint();
-            if (newPseudo == null || newPseudo == "\r")
+            if (newPseudo is null or "")
             {
                 return;
             }
-            else
-            {
-                newPseudo = newPseudo[..^1];
-            }
-            
+
             if (newPseudo == Parametres.PseudoName)
             {
                 Display.PrintMessage("Pseudo identique au précédent. Aucun changement à faire.", MessageState.Warning);
@@ -295,7 +291,6 @@ namespace LORENZ
 
                 if (messageOriginal != null)
                 {
-                    messageOriginal = messageOriginal[..^1];
                     if (string.IsNullOrWhiteSpace(messageOriginal))
                     {
                         Display.PrintMessage("Aucun texte détecté.", MessageState.Failure);
@@ -313,45 +308,37 @@ namespace LORENZ
                 }
             }
 
-            if (messageOriginal != "\n")
+            string messageChiffre = Algorithmes.Chiffrement(messageOriginal, strGeneralKey, theTableCode);
+            string vraiMessageChiffre = Algorithmes.SecondChiffrement(messageChiffre);
+            if (vraiMessageChiffre.Length > 4094)
             {
-                string messageChiffre = Algorithmes.Chiffrement(messageOriginal, strGeneralKey, theTableCode);
-                string vraiMessageChiffre = Algorithmes.SecondChiffrement(messageChiffre);
-                if (vraiMessageChiffre.Length > 4094)
-                {
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
-                    Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
-                        "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
-                    Console.Write("Donnez un nom au fichier de chiffrement : ");
-
-                    string cipherFileName;
-                    do
-                    {
-                        cipherFileName = Console.ReadLine();
-                        if (cipherFileName == "")
-                        {
-                            Display.PrintMessage("Aucun nom spécifié. Opération annulée.", MessageState.Failure);
-                            Console.ForegroundColor = ConsoleColor.Cyan;
-                            return;
-                        }
-                    } while (!Extensions.EcrireChiffrementLong(vraiMessageChiffre, cipherFileName));
-
-                    Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    return;
-                }
-
-
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Le message chiffré :");
-                Console.WriteLine(vraiMessageChiffre);
+                Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
+                Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
+                    "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
+                Console.Write("Donnez un nom au fichier de chiffrement : ");
+
+                string cipherFileName;
+                do
+                {
+                    cipherFileName = Console.ReadLine();
+                    if (cipherFileName == "")
+                    {
+                        Display.PrintMessage("Aucun nom spécifié. Opération annulée.", MessageState.Failure);
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        return;
+                    }
+                } while (!Extensions.EcrireChiffrementLong(vraiMessageChiffre, cipherFileName));
+
+                Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                 Console.ForegroundColor = ConsoleColor.Cyan;
+                return;
             }
-            else
-            {
-                OverridePress = true;
-            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Le message chiffré :");
+            Console.WriteLine(vraiMessageChiffre);
+            Console.ForegroundColor = ConsoleColor.Cyan;
         }
 
         private static void DechiffrerLeMessage()
@@ -380,8 +367,7 @@ namespace LORENZ
                         return;
                     }
 
-                    // Retrait du caractère de terminaison et des retours à la ligne
-                    messageADechiffrer = messageADechiffrer[..^1];
+                    // Retrait des retours à la ligne
                     string[] multiLines = messageADechiffrer.Split('\n');
                     messageADechiffrer = default;
                     for (int i = 0; i < multiLines.Length; i++)
