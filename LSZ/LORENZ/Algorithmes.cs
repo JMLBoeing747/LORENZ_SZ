@@ -686,7 +686,7 @@ namespace LORENZ
             while (true)
             {
                 Console.Write("Nouvelle disposition : ");
-                string newSTSet = Extensions.SpecialPrint();
+                string newSTSet = Extensions.SpecialPrint(maxLength: 10);
                 if (newSTSet == null)
                 {
                     return;

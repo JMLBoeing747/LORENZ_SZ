@@ -164,6 +164,7 @@ namespace LORENZ
         }
 
         public static string SpecialPrint(char endChar = '\r',
+                                          uint maxLength = 0,
                                           bool hideEndChar = true,
                                           ConsoleKey escapeKey = ConsoleKey.Escape,
                                           bool addNewLine = true,
@@ -176,6 +177,7 @@ namespace LORENZ
             Stack<int> lastLeft = new();
             do
             {
+                int beginTop = Console.CursorTop;
                 int beginLeft = Console.CursorLeft;
                 ConsoleKeyInfo keyPress = Console.ReadKey();
                 pressChar = keyPress.KeyChar;
@@ -216,49 +218,65 @@ namespace LORENZ
                     }
                     continue;
                 }
-                else if ((keyPress.Key == ConsoleKey.Enter && endChar != '\r')
+                else if (maxLength == 0 || writeLine.Length < maxLength)
+                {
+                    if ((keyPress.Key == ConsoleKey.Enter && endChar != '\r')
                          || (Console.CursorLeft == Console.WindowWidth - 1))
-                {
-                    int totalCharsWritten = Console.CursorLeft < Console.WindowWidth - 1 ?
-                                            writeLine.Length - lastLeft.Count : writeLine.Length + 1 - lastLeft.Count;
-                    lastLeft.Push(totalCharsWritten);
-                    Console.CursorTop++;
+                    {
+                        int totalCharsWritten = Console.CursorLeft < Console.WindowWidth - 1 ?
+                                                writeLine.Length - lastLeft.Count : writeLine.Length + 1 - lastLeft.Count;
+                        lastLeft.Push(totalCharsWritten);
+                        Console.CursorTop++;
 
-                    if (Console.CursorLeft < Console.WindowWidth - 1)
-                    {
-                        pressChar = '\n';
+                        if (Console.CursorLeft < Console.WindowWidth - 1)
+                        {
+                            pressChar = '\n';
+                        }
+                        else
+                        {
+                            Console.CursorLeft = 0;
+                        }
                     }
-                    else
+                    else if (!includeCtrl && pressChar != '\0')
                     {
-                        Console.CursorLeft = 0;
-                    }
-                }
-                else if (!includeCtrl && pressChar != '\0')
-                {
-                    if (pressChar != endChar && pressChar is > '\0' and < ' ')
-                    {
-                        if (Console.CursorLeft == beginLeft + 1)
+                        if (pressChar != endChar && pressChar is > '\0' and < ' ')
                         {
-                            Console.CursorLeft--;
-                            Console.Write(' ');
-                            Console.CursorLeft--;
-                        }
-                        else if (pressChar == '\x0A' && Console.CursorTop > topTop)
-                        {
-                            Console.CursorTop--;
-                            Console.CursorLeft = beginLeft;
-                        }
-                        else if (pressChar == '\x09')
-                        {
-                            int newSpaces = Console.CursorLeft - beginLeft;
-                            writeLine += new string(' ', newSpaces);
-                        }
+                            if (Console.CursorLeft == beginLeft + 1)
+                            {
+                                Console.CursorLeft--;
+                                Console.Write(' ');
+                                Console.CursorLeft--;
+                            }
+                            else if (pressChar == '\x0A' && Console.CursorTop > topTop)
+                            {
+                                Console.CursorTop--;
+                                Console.CursorLeft = beginLeft;
+                            }
+                            else if (pressChar == '\x09')
+                            {
+                                int newSpaces = Console.CursorLeft - beginLeft;
+                                writeLine += new string(' ', newSpaces);
+                            }
 
+                            continue;
+                        }
+                    }
+                    else if (pressChar == '\0')
+                    {
                         continue;
                     }
                 }
-                else if (pressChar == '\0')
+                else
                 {
+                    Console.CursorTop = beginTop;
+                    if (Console.CursorLeft > beginLeft)
+                    {
+                        int forwardChars = Console.CursorLeft - beginLeft;
+                        Console.CursorLeft = beginLeft;
+                        Console.Write(new string(' ', forwardChars));
+                        Console.CursorLeft = beginLeft;
+                    }
+                    
                     continue;
                 }
 
