@@ -84,27 +84,44 @@ namespace LORENZ
 
         public static bool SetCipherFileDirectory(bool cancelDenied = false)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            if (cancelDenied)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
+
+            Console.WriteLine("Le répertoire des fichiers de chiffrement permet à LORENZ de localiser les fichiers de chiffrement.");
+            Console.WriteLine("Ces fichiers contiennent soit un chiffrement trop long pour être recollé dans le terminal, soit un");
+            Console.WriteLine("message devant être déchiffré.");
+            Console.WriteLine("\nSpécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :");
+            if (!cancelDenied)
+            {
+                Display.PrintMessage("Pour annuler, appuyez sur ESC ou sur ENTRÉE sans rien écrire", MessageState.Warning);
+            }
+
+            if (Parametres.CipherFileDirectory != null)
+            {
+                Console.WriteLine("\nRépertoire actuel : " + Parametres.CipherFileDirectory);
+            }
+
             while (true)
             {
-                Console.WriteLine("Spécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :");
-                if (!cancelDenied)
-                {
-                    Display.PrintMessage("Appuyez sur ENTRÉE sans rien écrire pour annuler.", MessageState.Warning);
-                }
-
-                Console.WriteLine();
-
-                if (Parametres.CipherFileDirectory != null)
-                {
-                    Console.WriteLine("Répertoire actuel : " + Parametres.CipherFileDirectory);
-                }
-
                 Console.Write(">>> ");
-                string dirPath = Console.ReadLine();
-                if (dirPath == "")
+                string dirPath = SpecialPrint();
+                if (dirPath == null || dirPath == "\r")
                 {
-                    return false;
+                    if (!cancelDenied)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        Display.PrintMessage("Vous devez spécifier un chemin d'accès valide.", MessageState.Failure);
+                        continue;
+                    }
+                }
+                else
+                {
+                    dirPath = dirPath[..^1];
                 }
 
                 try
@@ -118,7 +135,7 @@ namespace LORENZ
                     {
                         Parametres.CipherFileDirectory = dinfo.FullName;
                     }
-                    Display.PrintMessage("Répertoire spécifié : " + Parametres.CipherFileDirectory);
+                    Display.PrintMessage("Répertoire spécifié : " + Parametres.CipherFileDirectory, MessageState.Success);
                     Parametres.EcrireGeneralParamsFile();
                     break;
                 }

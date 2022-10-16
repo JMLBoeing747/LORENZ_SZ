@@ -206,9 +206,9 @@ namespace LORENZ
             Console.WriteLine("ci-dessous le nouveau pseudo à utiliser pour les chiffrements futurs. Si vous désirez le");
             Console.WriteLine("réinitialiser, taper tel quel votre nom d'utilisateur système ou $DEFAULT (la casse");
             Console.WriteLine("n'importe pas).");
-            Console.WriteLine("Pour annuler, appuyer sur ESC ou sur ENTRÉE sans rien écrire.");
+            Console.WriteLine("\nPour annuler, appuyer sur ESC ou sur ENTRÉE sans rien écrire.");
 
-            Console.WriteLine("Actuel : " + Parametres.PseudoName);
+            Console.WriteLine("\nActuel : " + Parametres.PseudoName);
             Console.Write("Nouveau >>> ");
             string newPseudo = Extensions.SpecialPrint();
             if (newPseudo == null || newPseudo == "\r")
@@ -319,7 +319,7 @@ namespace LORENZ
                 string vraiMessageChiffre = Algorithmes.SecondChiffrement(messageChiffre);
                 if (vraiMessageChiffre.Length > 4094)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
                     Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
                         "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
