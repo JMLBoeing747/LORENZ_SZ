@@ -660,13 +660,17 @@ namespace LORENZ
 
             Console.CursorTop = 5;      // Pour effacer les lignes indiquant d'appuyer sur F12.
             Console.WriteLine("\nInscrivez la nouvelle disposition sous la forme d'une chaine de 10 caractères uniques.");
-            Console.WriteLine("Pour annuler l'opération, appuyez sur ENTRÉE sans rien écrire.\n");
+            Console.WriteLine("Pour annuler l'opération, appuyez sur ESC sans rien écrire.\n");
             Console.WriteLine("Disposition actuelle de la TS : " + BaseSecretCode);
             while (true)
             {
                 Console.Write("Nouvelle disposition : ");
-                string newSTSet = Console.ReadLine();
-                if (newSTSet != "")
+                string newSTSet = Extensions.SpecialPrint();
+                if (newSTSet == null)
+                {
+                    return;
+                }
+                else if (newSTSet != "\r")
                 {
                     if (newSTSet.Length != 10)
                     {

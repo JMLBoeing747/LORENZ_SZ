@@ -205,16 +205,22 @@ namespace LORENZ
             Console.WriteLine("et qui ont activé l'affichage de l'expéditeur. Si vous désirez le modifier, tapez");
             Console.WriteLine("ci-dessous le nouveau pseudo à utiliser pour les chiffrements futurs. Si vous désirez le");
             Console.WriteLine("réinitialiser, taper tel quel votre nom d'utilisateur système ou $DEFAULT (la casse");
-            Console.WriteLine("n'importe pas). Sinon, appuyer sur ENTRÉE sans rien écrire.");
+            Console.WriteLine("n'importe pas).");
+            Console.WriteLine("Pour annuler, appuyer sur ESC ou sur ENTRÉE sans rien écrire.");
 
             Console.WriteLine("Actuel : " + Parametres.PseudoName);
             Console.Write("Nouveau >>> ");
-            string newPseudo = Console.ReadLine();
-            if (newPseudo == "")
+            string newPseudo = Extensions.SpecialPrint();
+            if (newPseudo == null || newPseudo == "\r")
             {
                 return;
             }
-            else if (newPseudo == Parametres.PseudoName)
+            else
+            {
+                newPseudo = newPseudo[..^1];
+            }
+            
+            if (newPseudo == Parametres.PseudoName)
             {
                 Display.PrintMessage("Pseudo identique au précédent. Aucun changement à faire.", MessageState.Warning);
             }
