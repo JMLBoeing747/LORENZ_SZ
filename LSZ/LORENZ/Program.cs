@@ -210,7 +210,7 @@ namespace LORENZ
 
             Console.WriteLine("\nActuel : " + Parametres.PseudoName);
             Console.Write("Nouveau >>> ");
-            string newPseudo = Extensions.SpecialPrint();
+            string newPseudo = Extensions.SpecialInput();
             if (newPseudo is null or "")
             {
                 return;
@@ -287,7 +287,7 @@ namespace LORENZ
                 Console.WriteLine("Pour annuler, appuyez sur ESC.");
                 Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D.");
                 Console.WriteLine("Entrez le texte à chiffrer :");
-                messageOriginal = Extensions.SpecialPrint('\x04');
+                messageOriginal = Extensions.SpecialInput('\x04');
 
                 if (messageOriginal != null)
                 {
@@ -359,7 +359,7 @@ namespace LORENZ
                     Console.WriteLine("Pour annuler, appuyez sur ESC.");
                     Console.WriteLine("Pour terminer, appuyez sur CTRL + D.");
                     Console.WriteLine("Entrez le texte à déchiffrer :");
-                    string messageADechiffrer = Extensions.SpecialPrint('\x04');
+                    string messageADechiffrer = Extensions.SpecialInput('\x04');
 
                     if (messageADechiffrer == null)
                     {

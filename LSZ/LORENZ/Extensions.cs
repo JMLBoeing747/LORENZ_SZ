@@ -106,7 +106,7 @@ namespace LORENZ
             while (true)
             {
                 Console.Write(">>> ");
-                string dirPath = SpecialPrint();
+                string dirPath = SpecialInput();
                 if (dirPath is null or "")
                 {
                     if (!cancelDenied)
@@ -159,7 +159,7 @@ namespace LORENZ
             return true;
         }
 
-        public static string SpecialPrint(char endChar = '\r',
+        public static string SpecialInput(char endChar = '\r',
                                           uint maxLength = 0,
                                           bool hideEndChar = true,
                                           bool stripEndChar = true,
