@@ -446,7 +446,7 @@ namespace LORENZ
                 switch (saisie.Key)
                 {
                     case ConsoleKey.C:
-                        Categorie.MenuAjoutMsg(index);
+                        Categorie.AjoutCategorieMsg(index);
                         break;
                     case ConsoleKey.Delete:
                         RetirerHistorique(index);
