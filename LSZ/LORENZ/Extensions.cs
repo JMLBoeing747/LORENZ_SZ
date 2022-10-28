@@ -244,12 +244,12 @@ namespace LORENZ
                                 Console.Write(' ');
                                 Console.CursorLeft--;
                             }
-                            else if (pressChar == '\x0A' && Console.CursorTop > topTop)
+                            else if (pressChar == '\x0A' && Console.CursorTop > topTop)     // New line char
                             {
                                 Console.CursorTop--;
                                 Console.CursorLeft = beginLeft;
                             }
-                            else if (pressChar == '\x09')
+                            else if (pressChar == '\x09')                                   // Tab char
                             {
                                 int newSpaces = Console.CursorLeft - beginLeft;
                                 writeLine += new string(' ', newSpaces);
@@ -298,6 +298,142 @@ namespace LORENZ
             }
 
             return writeLine;
+        }
+
+        public static int SpecialInputDigits(char endChar = '\r',
+                                             uint maxLength = 0,
+                                             bool hideEndChar = true,
+                                             ConsoleKey escapeKey = ConsoleKey.Escape,
+                                             bool addNewLine = true)
+        {
+            string writeLine = "";
+            char pressChar;
+            int topTop = Console.CursorTop;
+            int beginBegin = Console.CursorLeft;
+            Stack<int> lastLeft = new();
+            do
+            {
+                int beginTop = Console.CursorTop;
+                int beginLeft = Console.CursorLeft;
+                ConsoleKeyInfo keyPress = Console.ReadKey();
+                pressChar = keyPress.KeyChar;
+                if (keyPress.Key == escapeKey)
+                {
+                    Console.Write("\xFF");
+                    return -1;
+                }
+                else if (keyPress.Key == ConsoleKey.Backspace)
+                {
+                    if (Console.CursorLeft < beginBegin)
+                    {
+                        Console.CursorLeft++;
+                        continue;
+                    }
+
+                    Console.Write(' ');
+                    Console.CursorLeft--;
+                    if (Console.CursorLeft == beginLeft && Console.CursorTop > topTop)
+                    {
+                        Console.CursorTop--;
+                        int charsInLine = lastLeft.Count > 1 ? lastLeft.Pop() - lastLeft.Peek() : lastLeft.Pop();
+                        int curEndLn = charsInLine % Console.WindowWidth;
+                        Console.CursorLeft = curEndLn;
+                        if (writeLine[^1] != '\n')
+                        {
+                            Console.CursorLeft--;
+                            Console.Write(' ');
+                            Console.CursorLeft--;
+                        }
+                        writeLine = writeLine[..^1];
+                        continue;
+                    }
+
+                    if (writeLine.Length > 0)
+                    {
+                        writeLine = writeLine[..^1];
+                    }
+                    continue;
+                }
+                else if (maxLength == 0 || writeLine.Length < maxLength)
+                {
+                    if ((keyPress.Key == ConsoleKey.Enter && endChar != '\r')
+                         || (Console.CursorLeft == Console.WindowWidth - 1))
+                    {
+                        int totalCharsWritten = Console.CursorLeft < Console.WindowWidth - 1 ?
+                                                writeLine.Length - lastLeft.Count : writeLine.Length + 1 - lastLeft.Count;
+                        lastLeft.Push(totalCharsWritten);
+                        Console.CursorTop++;
+
+                        if (Console.CursorLeft < Console.WindowWidth - 1)
+                        {
+                            pressChar = '\n';
+                        }
+                        else
+                        {
+                            Console.CursorLeft = 0;
+                        }
+                    }
+                    else if (pressChar != '\0')
+                    {
+                        if (pressChar != endChar && (pressChar > '9' || pressChar < '0'))
+                        {
+                            if (Console.CursorLeft == beginLeft + 1)
+                            {
+                                Console.CursorLeft--;
+                                Console.Write(' ');
+                                Console.CursorLeft--;
+                            }
+                            else if (pressChar == '\x0A' && Console.CursorTop > topTop)     // New line char
+                            {
+                                Console.CursorTop--;
+                                Console.CursorLeft = beginLeft;
+                            }
+                            else if (pressChar == '\x09')                                   // Tab char
+                            {
+                                int newSpaces = Console.CursorLeft - beginLeft;
+                                writeLine += new string(' ', newSpaces);
+                            }
+
+                            continue;
+                        }
+                    }
+                    else if (pressChar == '\0')
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    Console.CursorTop = beginTop;
+                    if (Console.CursorLeft > beginLeft)
+                    {
+                        int forwardChars = Console.CursorLeft - beginLeft;
+                        Console.CursorLeft = beginLeft;
+                        Console.Write(new string(' ', forwardChars));
+                        Console.CursorLeft = beginLeft;
+                    }
+
+                    continue;
+                }
+
+                writeLine += pressChar;
+            } while (pressChar != endChar);
+
+            writeLine = writeLine[..^1];
+
+            if (hideEndChar && !string.IsNullOrWhiteSpace(endChar.ToString()))
+            {
+                Console.CursorLeft--;
+                Console.Write(' ');
+                Console.CursorLeft--;
+            }
+
+            if (addNewLine)
+            {
+                Console.WriteLine();
+            }
+            
+            return int.TryParse(writeLine, out int writeInt) ? writeInt : -2;
         }
 
         public static void Music()

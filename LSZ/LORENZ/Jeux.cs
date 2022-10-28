@@ -30,21 +30,21 @@ namespace LORENZ
             Console.Clear();
             Console.WriteLine($"LORENZ a choisi un chiffre entre 0 et {maxRandNum}.");
             Console.WriteLine("Essayez de le trouver !");
-            Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour quitter.");
+            Console.WriteLine("Appuyez sur ESC sans rien écrire pour quitter.");
             double winCoins;
             int tries = 0;
             int choosenNum = -1;
             while (randomNum != choosenNum)
             {
-                string choosen = Console.ReadLine();
-                if (choosen == "")
+                choosenNum = Extensions.SpecialInputDigits();
+                if (choosenNum == -1)
                     break;
-                if (!int.TryParse(choosen, out choosenNum))
+                if (choosenNum == -2)
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ceci n'est pas un nombre, veuillez entrer un nombre entre 0 et {maxRandNum}.");
-                    Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour quitter.");
+                    Console.WriteLine("Appuyez sur ESC sans rien écrire pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else if (choosenNum > maxRandNum || choosenNum < 0)
@@ -52,12 +52,12 @@ namespace LORENZ
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ce nombre n'est pas compris entre 0 et {maxRandNum}, veuillez entrer un nombre entre 0 et {maxRandNum}.");
-                    Console.WriteLine("Appuyez sur ENTRÉE sans rien écrire pour quitter.");
+                    Console.WriteLine("Appuyez sur ESC sans rien écrire pour quitter.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else
                 {
-                    tries += 1;
+                    tries++;
                     winCoins = Math.Ceiling((double)(maxRandNum / 2 / tries));
                     Console.Clear();
                     if (randomNum > choosenNum)
