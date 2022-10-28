@@ -584,8 +584,16 @@ namespace LORENZ
                         Console.Clear();
                         break;
                     case ConsoleKey.C:
-                        Categorie.MenuGeneral();
-                        Console.Clear();
+                        if (Categorie.CategoriesCount > 0)
+                        {
+                            Categorie.MenuGeneral();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                        }
                         break;
                     case ConsoleKey.N:
                         Categorie.NouvelleCategorie();
