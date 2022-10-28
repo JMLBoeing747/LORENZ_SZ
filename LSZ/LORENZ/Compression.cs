@@ -6,10 +6,16 @@ namespace LORENZ
 {
     public static class Compression
     {
-        public static double TauxCompressionMin { get; set; } = 0.05;
+        public static bool CompressionActive { get; set; }
+        public static double TauxCompressionMin { get; set; }
 
         public static double EssaiCompression(ref string msgACompress, ref string attrStr)
         {
+            if (!CompressionActive)
+            {
+                return 0.0;
+            }
+            
             // Création du message complet sans compression
             string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
 
@@ -110,7 +116,8 @@ namespace LORENZ
                         // Calcul du ratio de compression par répétitions
                         string repCompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
                         int repDiffCount = fullInitialMsg.Length - repCompressMsg.Length;
-                        return repDiffCount / (double)fullInitialMsg.Length;
+                        double repRatio = repDiffCount / (double)fullInitialMsg.Length;
+                        return -repRatio;
                     }
                     else
                     {
@@ -289,7 +296,6 @@ namespace LORENZ
                 string fullDecompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
                 int diffCount = fullDecompressMsg.Length - fullInitialMsg.Length;
                 double ratio = diffCount / (double)fullDecompressMsg.Length;
-
                 return ratio;
             }
             else
@@ -297,7 +303,8 @@ namespace LORENZ
                 // Calcul du ratio de décompression par répétitions
                 string repDecompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgADecompress;
                 int repDiffCount = repDecompressMsg.Length - fullInitialMsg.Length;
-                return repDiffCount / (double)repDecompressMsg.Length;
+                double repRatio = repDiffCount / (double)repDecompressMsg.Length;
+                return -repRatio;
             }
         }
 
@@ -325,8 +332,9 @@ namespace LORENZ
             Console.Clear();
             Console.WriteLine("Modification du taux de compression");
             Console.WriteLine("\nInscrivez le taux de compression minimum que vous désirez obtenir");
-            Console.WriteLine("lors de vos futurs chiffrements.");
-            Display.PrintMessage("Taux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
+            Console.WriteLine("lors de vos futurs chiffrements.\n");
+            Display.PrintMessage("Pour annuler, appuyez sur ESC ou sur ENTRÉE sans rien écrire", MessageState.Warning);
+            Display.PrintMessage("\nTaux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
                                  MessageState.Warning);
 
             string newRatioStr = default;
@@ -339,15 +347,15 @@ namespace LORENZ
                 }
 
                 Console.Write("Nouveau taux : ");
-                newRatioStr = Console.ReadLine();
-                if (newRatioStr == "")
+                newRatioStr = Extensions.SpecialPrint();
+                if (newRatioStr is null or "")
                 {
                     return;
                 }
             } while (!double.TryParse(newRatioStr, out newRatio));
 
             TauxCompressionMin = newRatio / 100;
-            Parametres.WriteGeneralParamsFile();
+            Parametres.EcrireGeneralParamsFile();
             Display.PrintMessage("Nouveau taux enregistré : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
                                  MessageState.Success);
             Console.WriteLine("Appuyez sur une touche pour terminer...");

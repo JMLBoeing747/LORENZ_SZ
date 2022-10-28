@@ -15,6 +15,9 @@ namespace LORENZ
 
     public static class Historique
     {
+        private const char RECD_SEP = '\x1E';
+        private const char UNIT_SEP = '\x1F';
+
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
         private static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
@@ -149,6 +152,8 @@ namespace LORENZ
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
 
+                    // realEntry : Index réel de l'entrée à afficher sur l'écran
+                    int realEntry = ListeHistorique.Count - hEntry;
                     if (!failHeader)
                     {
                         string dtStr = ListeHistorique[hEntry].cipherDate.ToString("G");
@@ -159,7 +164,6 @@ namespace LORENZ
                          *                   l'augmentation de l'index
                          * lenPaddingMax :    Nombre d'espaces minimum pour aligner les entrées selon la plus grande longueur
                          *                   de message sauvegardé dans l'historique
-                         * realEntry :        Index réel de l'entrée à afficher sur l'écran
                          * indexPadStr :      String contenant les espaces ' ' qui alignent les entrées de l'historique
                          *                   selon l'index du message
                          * lenPadStr :        String contenant les espaces ' ' qui alignent les entrées de l'historique
@@ -167,7 +171,6 @@ namespace LORENZ
                          */
                         int indexPaddingMax = ListeHistorique.Count.ToString().Length;
                         int lenPaddingMax = msgHistoryMaxLen.ToString().Length;
-                        int realEntry = ListeHistorique.Count - hEntry;
                         string indexPadStr = new(' ', indexPaddingMax - realEntry.ToString().Length);
                         string lenPadStr = new(' ', lenPaddingMax - excerptLen.ToString().Length);
 
@@ -195,7 +198,7 @@ namespace LORENZ
                     }
 
                     testHeader = Console.CursorTop > headerMaxHeight;
-
+                    string leastEntries = $"{realEntry} / {ListeHistorique.Count} entrées";
                     if ((Console.CursorTop > entryMaxHeight && hEntry > 0) || failHeader)
                     {
                         if (failHeader)
@@ -204,22 +207,24 @@ namespace LORENZ
                             hEntry += 1;
                         }
 
+                        string fowBackStr;
                         if (page > 0)
                         {
-                            Console.WriteLine("\n<< Précédent | Suivant >>");
+                            fowBackStr = "\n<< Précédent | Suivant >>" + leastEntries.PadLeft(40);
                         }
                         else
                         {
-                            Console.WriteLine("\nSuivant >>");
+                            fowBackStr = "\nSuivant >>" + leastEntries.PadLeft(40);
                         }
 
+                        Console.WriteLine(fowBackStr);
                         stackLastEntry.Push(lastEntry);
                         lastEntry = hEntry - 1;
                         break;
                     }
                     else if (page > 0 && hEntry == 0)
                     {
-                        Console.WriteLine("\n<< Précédent");
+                        Console.WriteLine("\n<< Précédent" + leastEntries.PadLeft(40));
                         stackLastEntry.Push(lastEntry);
                         lastEntry = -1;
                     }
@@ -489,10 +494,10 @@ namespace LORENZ
                 }
 
                 ListeHistorique.Clear();
-                string[] historyLines = historyStr.Split("\0\0", StringSplitOptions.RemoveEmptyEntries);
+                string[] historyLines = historyStr.Split(RECD_SEP, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string itemLine in historyLines)
                 {
-                    string[] itemEntries = itemLine.Split('\0');
+                    string[] itemEntries = itemLine.Split(UNIT_SEP);
                     string itemIDStr = "", itemDT = "", itemMsg = "", itemAuthor = "", itemPState = "";
 
                     if (itemEntries.Length >= 3)
@@ -548,11 +553,11 @@ namespace LORENZ
             foreach ((uint, DateTime, string, string, PrivacyState) item in ListeHistorique)
             {
                 allHistoryStr += item.Item1.ToString() +
-                    "\0" + item.Item2.ToUniversalTime().ToString("u") +
-                    "\0" + item.Item3 +
-                    "\0" + item.Item4 +
-                    "\0" + (int)item.Item5 +
-                    "\0\0";
+                    UNIT_SEP + item.Item2.ToUniversalTime().ToString("u") +
+                    UNIT_SEP + item.Item3 +
+                    UNIT_SEP + item.Item4 +
+                    UNIT_SEP + (int)item.Item5 +
+                    RECD_SEP;
             }
 
             uint[] allHistoryUInt = Encryption.ToUIntArray(allHistoryStr);
@@ -618,7 +623,7 @@ namespace LORENZ
                 uint id = ListeHistorique[i].ID;
                 if (id != normal)
                 {
-                    if (potentials[0] == id)
+                    if (potentials.Count > 0 && potentials[0] == id)
                     {
                         potentials.RemoveAt(0);
                         potentials.Add(normal);

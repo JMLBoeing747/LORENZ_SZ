@@ -13,10 +13,9 @@ namespace LORENZ
         public static string ThePrivateSenderLID { get; set; } = "";
         public static bool IsThePrivateSender => ThePrivateSenderLID == Parametres.LID || !IsPrivateMessage;
         public static string SenderPseudoName { get; set; }
-        public static string CmdSeperator { get => "/*/"; }
-        public static bool IsGoodCheckSum { get; set; }
-        private static string TransTableRoot { get; set; } = "1234";
-        private static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
+        public static string CmdSeperator => "/*/";
+        public static string TransTableRoot { get; set; } = "1234";
+        public static string BaseSecretCode { get; set; } = "S8H2ALDVFP";
 
         public const char ATTRIB_SEP = '\xAD';
         private const int MIN_CHAR_TABLE = 32;
@@ -24,69 +23,63 @@ namespace LORENZ
 
         public static string GeneratorGK()
         {
-            string StrGeneralKey = null;
+            string strGeneralKey = null;
             for (int i = 0; i < 32; i++)
             {
-                int Value = Cryptography.Random.RandomGeneratedNumber(0, 10);
-                StrGeneralKey += Convert.ToString(Value);
+                int value = Cryptography.Random.RandomGeneratedNumber(0, 10);
+                strGeneralKey += Convert.ToString(value);
             }
-            return StrGeneralKey;
+            return strGeneralKey;
         }
 
-        public static string DeveloppGK(string MessageDecrypted1)
+        public static string DeveloppGK(string messageDecrypted1)
         {
-            string StrGeneralKey = null;
-            for (int i = 0; i < 32; i++)
-            {
-                StrGeneralKey += Convert.ToString(MessageDecrypted1[i]);
-            }
-
-            return StrGeneralKey;
+            return messageDecrypted1[..32];
         }
 
-        public static string[,] GenerateTableCode(string TheGK)
+        public static string[,] GenerateTableCode(string theGK)
         {
             //Génération de la table vide avec caractères
-            string[,] TableCode = new string[2, MAX_CHAR_TABLE - MIN_CHAR_TABLE];
+            string[,] tableCode = new string[2, MAX_CHAR_TABLE - MIN_CHAR_TABLE];
             for (int charac = MIN_CHAR_TABLE; charac < MAX_CHAR_TABLE; charac++)
             {
                 if (charac == '\x81')
                 {
                     // Pour insérer le caractère CR (carriage return) dans une entrée vide du CHCP 1252
                     // Voir https://fr.wikipedia.org/wiki/Windows-1252
-                    TableCode[0, charac - MIN_CHAR_TABLE] = Convert.ToString('\x0D');
+                    tableCode[0, charac - MIN_CHAR_TABLE] = Convert.ToString('\x0D');
                 }
                 else if (charac == '\x9D')
                 {
                     // Pour insérer le caractère LF (Line feed) dans une entrée vide du CHCP 1252
                     // Voir https://fr.wikipedia.org/wiki/Windows-1252
-                    TableCode[0, charac - MIN_CHAR_TABLE] = Convert.ToString('\x0A');
+                    tableCode[0, charac - MIN_CHAR_TABLE] = Convert.ToString('\x0A');
                 }
                 else
                 {
-                    TableCode[0, charac - MIN_CHAR_TABLE] = Convert.ToString((char)charac);
+                    tableCode[0, charac - MIN_CHAR_TABLE] = Convert.ToString((char)charac);
                 }
             }
             //Génération des Trans
-            string[] TransChar = GenerateTranscriptionTable(TheGK);
+            string[] transChar = GenerateTranscriptionTable(theGK);
             //Vérification des Trans identiques
-            bool Identical = HaveIdenticalTransChar(TransChar);
-            if (Identical)
+            bool identical = HaveIdenticalTransChar(transChar);
+            if (identical)
             {
-                TableCode = null;
+                tableCode = null;
             }
             else
             {
                 for (int i = 0; i < MAX_CHAR_TABLE - MIN_CHAR_TABLE; i++)
                 {
-                    TableCode[1, i] = TransChar[i];
+                    tableCode[1, i] = transChar[i];
                 }
             }
 
-            return TableCode;
+            return tableCode;
         }
 
-        private static string[] GenerateTranscriptionTable(string TheGK)
+        private static string[] GenerateTranscriptionTable(string theGK)
         {
             // Développement de la racine
             bool chainBool1 = int.TryParse(TransTableRoot[0].ToString(), out int chain1);
@@ -100,67 +93,67 @@ namespace LORENZ
             }
 
             // Génération des string divisant le GK en 4
-            string GK1 = TheGK[..8];
-            string GK2 = TheGK.Substring(8, 8);
-            string GK3 = TheGK.Substring(16, 8);
-            string GK4 = TheGK.Substring(24, 8);
+            string GK1 = theGK[..8];
+            string GK2 = theGK.Substring(8, 8);
+            string GK3 = theGK.Substring(16, 8);
+            string GK4 = theGK.Substring(24, 8);
 
             // Création des colonnes de TRANS
             // Colonne 1
-            string[] Colonne1 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne1, false, chain1, 0, 64, GK1);
-            GeneratorOfColumns(ref Colonne1, false, Convert.ToInt32(Colonne1[63]), 64, 96, GK2);
-            GeneratorOfColumns(ref Colonne1, true, Convert.ToInt32(Colonne1[95]), 96, 160, GK4);
-            GeneratorOfColumns(ref Colonne1, true, Convert.ToInt32(Colonne1[159]), 160, 224, GK3);
+            string[] colonne1 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
+            GeneratorOfColumns(ref colonne1, false, chain1, 0, 64, GK1);
+            GeneratorOfColumns(ref colonne1, false, Convert.ToInt32(colonne1[63]), 64, 96, GK2);
+            GeneratorOfColumns(ref colonne1, true, Convert.ToInt32(colonne1[95]), 96, 160, GK4);
+            GeneratorOfColumns(ref colonne1, true, Convert.ToInt32(colonne1[159]), 160, 224, GK3);
 
             // Colonne 2
-            string[] Colonne2 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne2, true, chain2, 0, 64, GK2);
-            GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[63]), 64, 96, GK1);
-            GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[95]), 96, 160, GK3);
-            GeneratorOfColumns(ref Colonne2, false, Convert.ToInt32(Colonne2[159]), 160, 224, GK4);
+            string[] colonne2 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
+            GeneratorOfColumns(ref colonne2, true, chain2, 0, 64, GK2);
+            GeneratorOfColumns(ref colonne2, false, Convert.ToInt32(colonne2[63]), 64, 96, GK1);
+            GeneratorOfColumns(ref colonne2, false, Convert.ToInt32(colonne2[95]), 96, 160, GK3);
+            GeneratorOfColumns(ref colonne2, false, Convert.ToInt32(colonne2[159]), 160, 224, GK4);
 
             // Colonne 3
-            string[] Colonne3 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne3, false, chain3, 0, 64, GK3);
-            GeneratorOfColumns(ref Colonne3, true, Convert.ToInt32(Colonne3[63]), 64, 96, GK4);
-            GeneratorOfColumns(ref Colonne3, true, Convert.ToInt32(Colonne3[95]), 96, 160, GK2);
-            GeneratorOfColumns(ref Colonne3, false, Convert.ToInt32(Colonne3[159]), 160, 224, GK1);
+            string[] colonne3 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
+            GeneratorOfColumns(ref colonne3, false, chain3, 0, 64, GK3);
+            GeneratorOfColumns(ref colonne3, true, Convert.ToInt32(colonne3[63]), 64, 96, GK4);
+            GeneratorOfColumns(ref colonne3, true, Convert.ToInt32(colonne3[95]), 96, 160, GK2);
+            GeneratorOfColumns(ref colonne3, false, Convert.ToInt32(colonne3[159]), 160, 224, GK1);
 
             // Colonne 4
-            string[] Colonne4 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
-            GeneratorOfColumns(ref Colonne4, true, chain4, 0, 64, GK4);
-            GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[63]), 64, 96, GK3);
-            GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[95]), 96, 160, GK1);
-            GeneratorOfColumns(ref Colonne4, true, Convert.ToInt32(Colonne4[159]), 160, 224, GK2);
+            string[] colonne4 = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
+            GeneratorOfColumns(ref colonne4, true, chain4, 0, 64, GK4);
+            GeneratorOfColumns(ref colonne4, true, Convert.ToInt32(colonne4[63]), 64, 96, GK3);
+            GeneratorOfColumns(ref colonne4, true, Convert.ToInt32(colonne4[95]), 96, 160, GK1);
+            GeneratorOfColumns(ref colonne4, true, Convert.ToInt32(colonne4[159]), 160, 224, GK2);
 
-            string[] TransChar = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
+            string[] transChar = new string[MAX_CHAR_TABLE - MIN_CHAR_TABLE];
             for (int i = 0; i < MAX_CHAR_TABLE - MIN_CHAR_TABLE; i++)
             {
-                TransChar[i] = Colonne1[i] + Colonne2[i] + Colonne3[i] + Colonne4[i];
+                transChar[i] = colonne1[i] + colonne2[i] + colonne3[i] + colonne4[i];
             }
 
-            return TransChar;
+            return transChar;
         }
 
-        private static void GeneratorOfColumns(ref string[] ATableColumn, bool order, int chain, int MinLimit, int MaxLimit, string GKPart)
+        private static void GeneratorOfColumns(ref string[] aTableColumn, bool order, int chain, int minLimit, int maxLimit, string GKPart)
         {
             int j = -1;
-            for (int i = MinLimit; i < MaxLimit; i++)
+            for (int i = minLimit; i < maxLimit; i++)
             {
                 j = order ? (j + 1) % 8 : (j + 7) % 8;
                 chain = (chain + int.Parse(GKPart[j].ToString())) % 10;
-                ATableColumn[i] = Convert.ToString(chain);
+                aTableColumn[i] = Convert.ToString(chain);
             }
         }
 
-        private static bool HaveIdenticalTransChar(string[] ATable)
+        private static bool HaveIdenticalTransChar(string[] aTable)
         {
-            for (int c = 0; c < ATable.Length; c++)
+            for (int c = 0; c < aTable.Length; c++)
             {
-                for (int i = c + 1; i < ATable.Length; i++)
+                for (int i = c + 1; i < aTable.Length; i++)
                 {
-                    if (ATable[c] == ATable[i])
+                    if (aTable[c] == aTable[i])
                     {
                         return true;
                     }
@@ -247,7 +240,7 @@ namespace LORENZ
             }
 
             //--Modulo sur le chiffrement
-            string NewMessage = default;
+            string newMessage = default;
             for (int count = 0; count < messageWithoutGK.Length; count++)
             {
                 for (int j = 0; j < resultKey.Length; j++)
@@ -261,11 +254,11 @@ namespace LORENZ
                     int valueMsg = int.Parse(messageWithoutGK[count].ToString());
                     if (isCiphering)
                     {
-                        NewMessage += (valueMsg + valueGK) % 10;
+                        newMessage += (valueMsg + valueGK) % 10;
                     }
                     else
                     {
-                        NewMessage += (valueMsg - valueGK + 10) % 10;
+                        newMessage += (valueMsg - valueGK + 10) % 10;
                     }
 
                     if (j + 1 != resultKey.Length)
@@ -274,7 +267,7 @@ namespace LORENZ
                     }
                 }
             }
-            messageWithoutGK = NewMessage;
+            messageWithoutGK = newMessage;
         }
 
         private static string ModuloCipher(string generalKey, string messageWithoutGK, bool isCiphering)
@@ -284,103 +277,110 @@ namespace LORENZ
             return messageWithoutGK;
         }
 
-        public static string Chiffrement(string TheMessage, string generalKey, string[,] ATableCode)
+        public static string Chiffrement(string theMessage, string generalKey, string[,] aTableCode)
         {
             //-----Partie 1 du premier chiffrement
             double cRatio = 0.0;
-            TheMessage = AddAttributes(TheMessage, ref cRatio);
-            if (cRatio > 0.0)
+            theMessage = AddAttributes(theMessage, ref cRatio);
+            if (cRatio != 0.0)
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Compression : " + (cRatio * 100).ToString("0.0") + " %\n");
+                if (cRatio > 0)
+                {
+                    Console.Write("Compression : ");
+                }
+                else
+                {
+                    Console.Write("Compression par répétitions : ");
+                    cRatio = -cRatio;
+                }
+                Console.Write((cRatio * 100).ToString("0.0") + " %");
                 Console.ResetColor();
+                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
             }
-            string TheEncryptedMessage = null;
-            for (int c = 0; c < TheMessage.Length; c++)
+            string theEncryptedMessage = null;
+            for (int c = 0; c < theMessage.Length; c++)
             {
-                string CharToEvaluate = Convert.ToString(TheMessage[c]);
+                string charToEvaluate = theMessage[c].ToString();
                 for (int i = 0; i < MAX_CHAR_TABLE - MIN_CHAR_TABLE; i++)
                 {
-                    if (CharToEvaluate == ATableCode[0, i])
+                    if (charToEvaluate == aTableCode[0, i])
                     {
-                        TheEncryptedMessage += ATableCode[1, i];
+                        theEncryptedMessage += aTableCode[1, i];
                         break;
                     }
-                    if (CharToEvaluate != ATableCode[0, i] && i == MAX_CHAR_TABLE - 1)
+                    if (charToEvaluate != aTableCode[0, i] && i == MAX_CHAR_TABLE - 1)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Le caractère " + TheMessage[c] + " n'est pas supporté. Néanmoins, il a été remplacé par \"?\" pour compléter le message.");
+                        Console.WriteLine("Le caractère " + theMessage[c] + " n'est pas supporté. Néanmoins, il a été remplacé par \"?\" pour compléter le message.");
                         Console.ForegroundColor = ConsoleColor.Cyan;
-                        TheEncryptedMessage += ATableCode[1, 31];
+                        theEncryptedMessage += aTableCode[1, 31];
                     }
                 }
             }
 
             //-----Retour en incluant la partie 2 du chiffrement
-            return generalKey + ModuloCipher(generalKey, TheEncryptedMessage, true);
+            return generalKey + ModuloCipher(generalKey, theEncryptedMessage, true);
         }
 
-        public static string SecondChiffrement(string FirstEncryptedMessage)
+        public static string SecondChiffrement(string firstEncryptMsg)
         {
-            char[,] SecretTableCode = GenerateSTC();
+            char[,] secretTableCode = GenerateSTC();
             //Calcul de la somme de contrôle et positionnement dans le chiffrement
-            string SommeControle = CheckSum(FirstEncryptedMessage);
-            string CompleteFirstEncryptedMessage = SommeControle + FirstEncryptedMessage;
+            string sommeControle = CheckSum(firstEncryptMsg);
+            string complFirEncMsg = sommeControle + firstEncryptMsg;
             //Le second chiffrement
-            string TheSecondEncryptedMessage = null;
-            for (int c = 0; c < CompleteFirstEncryptedMessage.Length; c++)
+            string secondEncryptMsg = null;
+            for (int c = 0; c < complFirEncMsg.Length; c++)
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    if (CompleteFirstEncryptedMessage[c] == SecretTableCode[0, i])
+                    if (complFirEncMsg[c] == secretTableCode[0, i])
                     {
-                        TheSecondEncryptedMessage += SecretTableCode[1, i];
+                        secondEncryptMsg += secretTableCode[1, i];
                         break;
                     }
                 }
             }
 
-            return TheSecondEncryptedMessage;
+            return secondEncryptMsg;
         }
 
-        private static string CheckSum(string MessageToSum)
+        private static string CheckSum(string messageToSum)
         {
-            int MessageSum = 0;
-            for (int a = 0; a < MessageToSum.Length; a++)
+            int msgSum = 0;
+            for (int a = 0; a < messageToSum.Length; a++)
             {
-                MessageSum += Convert.ToInt32(MessageToSum[a]);
-                if (MessageSum > 9999)
-                {
-                    MessageSum %= 10000;
-                }
+                msgSum += messageToSum[a];
+                msgSum %= 10000;
             }
 
-            return MessageSum.ToString("D4");
+            return msgSum.ToString("D4");
         }
 
-        public static string DechiffrementPremier(string MessageEncrypted2)
+        public static string DechiffrementPremier(string messageEncrypted, out bool isGoodCS)
         {
-            char[,] SecretTableCode = GenerateSTC();
-            string MessageDecipheredFirst = null;
-            string MessageDecryptedFirstSCout = null;
-            int CharError = 0;
-            for (int c = 0; c < MessageEncrypted2.Length; c++)
+            isGoodCS = false;
+            char[,] secretTableCode = GenerateSTC();
+            string messageDecipheredFirst = null;
+            int charErrorCount = 0;
+            for (int c = 0; c < messageEncrypted.Length; c++)
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    if (MessageEncrypted2[c] == SecretTableCode[1, i])
+                    if (messageEncrypted[c] == secretTableCode[1, i])
                     {
-                        MessageDecipheredFirst += SecretTableCode[0, i];
+                        messageDecipheredFirst += secretTableCode[0, i];
                         break;
                     }
-                    if (MessageEncrypted2[c] != SecretTableCode[0, i] && i == 9)
+                    if (messageEncrypted[c] != secretTableCode[0, i] && i == 9)
                     {
-                        CharError++;
+                        charErrorCount++;
                     }
                 }
-                if (CharError > 0 && c == MessageEncrypted2.Length - 1)
+                if (charErrorCount > 0 && c == messageEncrypted.Length - 1)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(Environment.NewLine + "ERREUR : Un ou des caractères sont erronés");
@@ -389,22 +389,18 @@ namespace LORENZ
                 }
             }
             //Extraction de la somme de contrôle
-            string StrOfCS = null;
-            for (int a = 0; a < 4; a++)
-            {
-                StrOfCS += MessageDecipheredFirst[a];
-            }
-            int CheckSumFound = Convert.ToInt32(StrOfCS);
+            string CSStr = messageDecipheredFirst[0..4];
+            string msgWithoutSC = messageDecipheredFirst[4..];
+            int checkSumFound = int.Parse(CSStr);
+
             //Calcul de la somme des caractères pour valider la somme de contrôle
-            int CalculatedCS = 0;
-            for (int i = 4; i < MessageDecipheredFirst.Length; i++)
+            for (int i = 0; i < msgWithoutSC.Length; i++)
             {
-                CalculatedCS += Convert.ToInt32(MessageDecipheredFirst[i]);
-                MessageDecryptedFirstSCout += MessageDecipheredFirst[i];
-                CalculatedCS %= 10000;
+                checkSumFound -= msgWithoutSC[i];
+                checkSumFound = checkSumFound < 0 ? checkSumFound + 10000 : checkSumFound;
             }
-            IsGoodCheckSum = CalculatedCS == CheckSumFound;
-            return MessageDecryptedFirstSCout;
+            isGoodCS = checkSumFound == 0;
+            return msgWithoutSC;
         }
 
         private static void RemoveArrayItem(ref string[] array, params int[] indexes)
@@ -496,10 +492,10 @@ namespace LORENZ
             return msgWithouAttrib;
         }
 
-        public static string DechiffrementSecond(string[,] TableCode, string generalKey, string MessageToDecrypt)
+        public static string DechiffrementSecond(string[,] tableCode, string generalKey, string messageToDecrypt)
         {
-            string MessageWithoutGK = MessageToDecrypt[generalKey.Length..];
-            string NewMessageWithoutGK = ModuloCipher(generalKey, MessageWithoutGK, false);
+            string messageWithoutGK = messageToDecrypt[generalKey.Length..];
+            string NewMessageWithoutGK = ModuloCipher(generalKey, messageWithoutGK, false);
 
             //Extraction des trans
             List<string> ExtractedTransList = new();
@@ -513,51 +509,62 @@ namespace LORENZ
                 ExtractedTransList.Add(ElementsOfOneTrans);
             }
             //Traitement des trans
-            string DecipheredMessageComplete = null;
+            string decipheredMessageComplete = null;
             for (int i = 0; i < ExtractedTransList.Count; i++)
             {
                 for (int c = 0; c < MAX_CHAR_TABLE - MIN_CHAR_TABLE; c++)
                 {
-                    if (ExtractedTransList[i] == TableCode[1, c])
+                    if (ExtractedTransList[i] == tableCode[1, c])
                     {
-                        DecipheredMessageComplete += TableCode[0, c];
+                        decipheredMessageComplete += tableCode[0, c];
                         break;
                     }
-                    if (ExtractedTransList[i] != TableCode[1, c] && c == MAX_CHAR_TABLE - MIN_CHAR_TABLE - 1)
+                    if (ExtractedTransList[i] != tableCode[1, c] && c == MAX_CHAR_TABLE - MIN_CHAR_TABLE - 1)
                     {
-                        DecipheredMessageComplete += TableCode[0, 31];
+                        decipheredMessageComplete += tableCode[0, 31];
                     }
                 }
             }
 
             //Vérifier présence de commandes de contrôle
             double dRatio = 0.0;
-            DecipheredMessageComplete = CheckAttributes(DecipheredMessageComplete, ref dRatio);
-            if (dRatio > 0.0)
+            decipheredMessageComplete = CheckAttributes(decipheredMessageComplete, ref dRatio);
+            if (dRatio != 0.0)
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Décompression : " + (dRatio * 100).ToString("0.0") + " %\n");
+                if (dRatio > 0.0)
+                {
+
+                    Console.Write("Décompression : ");
+                }
+                else
+                {
+                    Console.Write("Décompression par répétitions : ");
+                    dRatio = -dRatio;
+                }
+                Console.Write((dRatio * 100).ToString("0.0") + " %");
                 Console.ResetColor();
+                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
             }
 
-            return DecipheredMessageComplete;
+            return decipheredMessageComplete;
         }
 
         private static char[,] GenerateSTC()
         {
-            char[,] SecretTC = new char[2, 10];
+            char[,] secretTC = new char[2, 10];
             for (int i = 0; i < 10; i++)
             {
-                SecretTC[0, i] = Convert.ToChar(Convert.ToString(i));
+                secretTC[0, i] = Convert.ToChar(Convert.ToString(i));
             }
 
             for (int i = 0; i < BaseSecretCode.Length; i++)
             {
-                SecretTC[1, i] = BaseSecretCode[i];
+                secretTC[1, i] = BaseSecretCode[i];
             }
-            return SecretTC;
+            return secretTC;
         }
 
         public static void SetTransTable()
@@ -644,6 +651,7 @@ namespace LORENZ
             }
 
             TransTableRoot = rootTemp;
+            Parametres.EcrireGeneralParamsFile();
             Console.WriteLine("\nNouvelle racine : " + TransTableRoot);
             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
             Console.ReadKey(true);
@@ -673,13 +681,17 @@ namespace LORENZ
 
             Console.CursorTop = 5;      // Pour effacer les lignes indiquant d'appuyer sur F12.
             Console.WriteLine("\nInscrivez la nouvelle disposition sous la forme d'une chaine de 10 caractères uniques.");
-            Console.WriteLine("Pour annuler l'opération, appuyez sur ENTRÉE sans rien écrire.\n");
+            Console.WriteLine("Pour annuler l'opération, appuyez sur ESC sans rien écrire.\n");
             Console.WriteLine("Disposition actuelle de la TS : " + BaseSecretCode);
             while (true)
             {
                 Console.Write("Nouvelle disposition : ");
-                string newSTSet = Console.ReadLine();
-                if (newSTSet != "")
+                string newSTSet = Extensions.SpecialPrint(maxLength: 10);
+                if (newSTSet == null)
+                {
+                    return;
+                }
+                else if (newSTSet != "")
                 {
                     if (newSTSet.Length != 10)
                     {
@@ -707,6 +719,7 @@ namespace LORENZ
                         if (!sameChars)
                         {
                             BaseSecretCode = newSTSet.ToUpper();
+                            Parametres.EcrireGeneralParamsFile();
                             Display.PrintMessage("Nouvelle disposition : " + BaseSecretCode, MessageState.Success);
                             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
                             Console.ReadKey(true);
