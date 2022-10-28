@@ -17,9 +17,17 @@ namespace LORENZ
             ListeMsg = new();
         }
 
-        private void AddMsg(uint id)
+        private bool AddMsg(uint id)
         {
-            ListeMsg.Add(id);
+            if (!ListeMsg.Contains(id))
+            {
+                ListeMsg.Add(id);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool RemoveMsg(uint id)
@@ -41,8 +49,7 @@ namespace LORENZ
             if (histIndex >= 0 && histIndex < Historique.Count)
             {
                 uint idRetriv = Historique.ListeHistorique[histIndex].ID;
-                AddMsg(idRetriv);
-                return true;
+                return AddMsg(idRetriv);
             }
 
             return false;
@@ -124,11 +131,11 @@ namespace LORENZ
                 Console.WriteLine("1. Accédez à l'un d'eux dans l'historique principal;");
                 Console.WriteLine("2. Appuyez sur C puis choisissez la catégorie correspondante.");
             }
-            else
+            /*else
             {
                 newCategory.AjoutMsg(msgIndex);
                 Display.PrintMessage("Message ajouté avec succès !", MessageState.Success);
-            }
+            }*/
 
             Console.WriteLine("\nAppuyez sur n'importe quelle touche pour terminer...");
             Console.ReadKey(true);
@@ -143,13 +150,34 @@ namespace LORENZ
             }
 
             Console.WriteLine("Appuyez sur ESC pour annuler...");
-            int indexCat = -1;
-            // add special print digit
-
-            if (indexCat >= 0 && indexCat < ListeCategories.Count)
+            int indexTyped;
+            do
             {
-                ListeCategories[indexCat].AjoutMsg(histIndex);
-            }
+                indexTyped = Extensions.SpecialInputDigits();
+                int indexCat = indexTyped - 1;
+                if (indexCat >= 0 && indexCat < ListeCategories.Count)
+                {
+                    if (!ListeCategories[indexCat].AjoutMsg(histIndex))
+                    {
+                        Display.PrintMessage("Le message que vous essayez d'ajouter", MessageState.Warning);
+                        Display.PrintMessage("a déjà été ajouté dans la catégorie sélectionnée.", MessageState.Warning);
+                        Display.PrintMessage("Choisissez une autre catégorie pour poursuivre l'opération.", MessageState.Warning);
+                    }
+                    else
+                    {
+                        Display.PrintMessage("Message ajouté avec succès !", MessageState.Success);
+                        Display.PrintMessage("Appuyez sur n'importe quelle touche pour terminer...", MessageState.Warning);
+                        Console.ReadKey(true);
+                        break;
+                    }
+                    
+                }
+                else if (indexTyped != -1)
+                {
+                    Display.PrintMessage("Index invalide ! ", MessageState.Failure);
+                }
+
+            } while (indexTyped != -1);
         }
 
         private static void LireFichierCategories()
