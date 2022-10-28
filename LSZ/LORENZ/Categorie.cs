@@ -17,7 +17,7 @@ namespace LORENZ
             ListeMsg = new();
         }
 
-        public void AddMsg(uint id)
+        private void AddMsg(uint id)
         {
             ListeMsg.Add(id);
         }
@@ -146,9 +146,28 @@ namespace LORENZ
             }
         }
 
-        public static void MenuAjoutMsg(int msgIndex)
+        public static void MenuAjoutMsg(int histIndex)
         {
+            Console.WriteLine("Sélectionnez la catégorie dans laquelle vous désirez placer le message :\n");
+            for (int i = 0; i < ListeCategories.Count; i++)
+            {
+                Console.WriteLine("[" + (i + 1) + "]: " + ListeCategories[i].Nom);
+            }
 
+            Console.WriteLine("Appuyez sur ESC pour annuler...");
+            // add special print digit
+        }
+
+        private bool AjoutMsg(int histIndex)
+        {
+            if (histIndex >= 0 && histIndex < Historique.Count)
+            {
+                uint idRetriv = Historique.ListeHistorique[histIndex].ID;
+                AddMsg(idRetriv);
+                return true;
+            }
+
+            return false;
         }
 
         private static void LireFichierCategories()

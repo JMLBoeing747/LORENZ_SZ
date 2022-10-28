@@ -19,7 +19,7 @@ namespace LORENZ
         private const char UNIT_SEP = '\x1F';
 
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
-        private static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
+        public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
         public static void AfficherHistorique()
         {
