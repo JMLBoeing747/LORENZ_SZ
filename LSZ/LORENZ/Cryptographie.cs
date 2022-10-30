@@ -39,7 +39,7 @@ namespace LORENZ
         {
             uint[] cypheredMessageOnly = DechiffrerFichier(Parametres.UserlogFile);
             Display.PrintMessage(".", MessageState.Info, false);
-            //Strip out unknown characters, associate and verifying infos...
+            // Strip out unknown characters, associate and verifying infos...
             (string, string, DateTime, string) userInfos = Decyphering.ShortingUserInfos(Decyphering.StripOutAndSplit(cypheredMessageOnly));
             Display.PrintMessage(".", MessageState.Info, false);
             if (userInfos.Item3 < DateTime.UtcNow)
@@ -56,7 +56,7 @@ namespace LORENZ
             Parametres.FichierEnAnalyse = filename;
             try
             {
-                //Decyphering...
+                // Decyphering...
                 Decyphering.OpeningDecyphering(filename, out uint[] keyQBytes, out uint[] decypheredMessage);
                 CreateMatrix(ref keyQBytes, -25);
                 Common.NotOperationToKey(ref keyQBytes);
@@ -92,7 +92,7 @@ namespace LORENZ
         {
             int matrixLength = (int)Math.Cbrt(Common.KeyNbrUInt * 4);
 
-            //Divide keyQBytes into bytes for keyBytes
+            // Divide keyQBytes into bytes for keyBytes
             Common.UIntToByteArray(keyQBytes, out byte[] keyBytes);
 
             byte[,,] theByteMatrix = new byte[matrixLength, matrixLength, matrixLength];
@@ -100,7 +100,7 @@ namespace LORENZ
             int lineLength = theByteMatrix.GetLength(1);
             int columnLength = theByteMatrix.GetLength(2);
 
-            //Create matrix from byteArray
+            // Create matrix from byteArray
             int counter = 0;
             for (int deep = 0; deep < deepLength; deep++)
                 for (int line = 0; line < lineLength; line++)
@@ -180,7 +180,7 @@ namespace LORENZ
                     return;
             }
 
-            //Create keyBytes from moved matrix
+            // Create keyBytes from moved matrix
             counter = 0;
             for (int deep = 0; deep < deepLength; deep++)
                 for (int line = 0; line < lineLength; line++)
@@ -190,7 +190,7 @@ namespace LORENZ
                         counter++;
                     }
 
-            //Create keyQBytes from keyBytes
+            // Create keyQBytes from keyBytes
             Common.ByteToUIntArray(keyBytes, out keyQBytes);
         }
     }

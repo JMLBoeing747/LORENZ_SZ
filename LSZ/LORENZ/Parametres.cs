@@ -88,15 +88,15 @@ namespace LORENZ
                 try
                 {
                     Display.PrintMessage("Identification...", MessageState.Warning);
-                    //Verify integrity of USERLOG.LZI when reading LASTACCS.LZI...
+                    // Verify integrity of USERLOG.LZI when reading LASTACCS.LZI...
                     Display.PrintMessage("CHECKING 1.", MessageState.Info, false);
                     LireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     Display.PrintMessage("OK", MessageState.Info);
-                    //Read USERLOG.LZI...
+                    // Read USERLOG.LZI...
                     Display.PrintMessage("CHECKING 2.", MessageState.Info, false);
                     Cryptographie.DechiffrerUserinfo();
                     Display.PrintMessage("OK", MessageState.Info);
-                    //Update LASTACSS.LZI...
+                    // Update LASTACSS.LZI...
                     EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     if (Directory.Exists("CRYPTO"))
                     {
@@ -118,11 +118,11 @@ namespace LORENZ
                         string LIDRetrieved = LireCleProduit().Item3;
                         Display.PrintMessage("SUCCESS: KEY IS VALID.", MessageState.Success);
                         File.Delete(ProductKeyFile);
-                        //Write userinfos into USERLOGI.LZI...
+                        // Write userinfos into USERLOGI.LZI...
                         Display.PrintMessage("Writing parameters...", MessageState.Info);
                         Directory.CreateDirectory(ParamsDirectory);
                         EcrireParametres(LIDRetrieved);
-                        //Writing for first time LASTACSS.LZI...
+                        // Writing for first time LASTACSS.LZI...
                         EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     }
                     else
@@ -235,7 +235,7 @@ namespace LORENZ
             FichierEnAnalyse = ProductKeyFile;
             try
             {
-                //Decyphering...
+                // Decyphering...
                 Decyphering.OpeningDecyphering(ProductKeyFile, out uint[] keyQBytes, out uint[] cypheredMessageOnly);
                 Display.PrintMessage("Déchiffrement de la clé de produit...", MessageState.Info);
                 Common.XORPassIntoMessage(keyQBytes, ref cypheredMessageOnly);
@@ -251,7 +251,7 @@ namespace LORENZ
                 Cryptographie.CreateMatrix(ref keyQBytes, -12);
                 Common.XORPassIntoMessage(keyQBytes, ref cypheredMessageOnly);
 
-                //Strip out unknown characters, associate and verifying infos...
+                // Strip out unknown characters, associate and verifying infos...
                 (string, string, DateTime, string) userInfos = Decyphering.ShortingUserInfos(Decyphering.StripOutAndSplit(cypheredMessageOnly));
                 DateTime dtLimit = userInfos.Item3.AddMinutes(5.0);
                 if (userInfos.Item3 < DateTime.UtcNow && dtLimit > DateTime.UtcNow)
