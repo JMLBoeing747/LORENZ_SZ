@@ -7,9 +7,9 @@
     <Company>LORENZ SZ</Company>
     <Description>Application permettant de chiffrer et de déchiffrer des messages de type LORENZ uniquement. Chiffrer des messages n'aura jamais été aussi facile et accessible, tout en étant sécuritaire et fiable.</Description>
     <ApplicationIcon>LZICON.ICO</ApplicationIcon>
-    <Version>3.0</Version>
+    <Version>3.0.0</Version>
     <AssemblyVersion>3.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
+    <FileVersion>3.0.0</FileVersion>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
