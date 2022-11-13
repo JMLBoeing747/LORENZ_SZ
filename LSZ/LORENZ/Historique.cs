@@ -21,19 +21,36 @@ namespace LORENZ
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
         public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
-        public static void AfficherHistorique()
+        
+        public static void AfficherHistorique(List<uint> selection = null)
         {
-            int msgHistoryMaxLen = 0;
-            for (int m = 0; m < ListeHistorique.Count; m++)
+            List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> tempHist = new();
+            if (selection != null)
             {
-                if (ListeHistorique[m].msg.Length > msgHistoryMaxLen)
+                for (int e = 0; e < Count; e++)
                 {
-                    msgHistoryMaxLen = ListeHistorique[m].msg.Length;
+                    if (selection.Contains(ListeHistorique[e].ID))
+                    {
+                        tempHist.Add(ListeHistorique[e]);
+                    }
+                }
+            }
+            else
+            {
+                tempHist = ListeHistorique;
+            }
+
+            int msgHistoryMaxLen = 0;
+            for (int m = 0; m < tempHist.Count; m++)
+            {
+                if (tempHist[m].msg.Length > msgHistoryMaxLen)
+                {
+                    msgHistoryMaxLen = tempHist[m].msg.Length;
                 }
             }
 
             int page = 0;
-            int lastEntry = ListeHistorique.Count - 1;
+            int lastEntry = tempHist.Count - 1;
             Stack<int> stackLastEntry = new();
             while (true)
             {
@@ -44,11 +61,11 @@ namespace LORENZ
                 bool testHeader = false;
                 bool failHeader = false;
                 for (int hEntry = lastEntry; hEntry >= 0; hEntry--)
-                {
+                {   
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    DateTime dateEntry = ListeHistorique[hEntry].cipherDate;
+                    DateTime dateEntry = tempHist[hEntry].cipherDate;
                     if (headerSwitch < 1000)
                     {
                         if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 1000)
@@ -151,12 +168,12 @@ namespace LORENZ
                     Console.ForegroundColor = ConsoleColor.Cyan;
 
                     // realEntry : Index réel de l'entrée à afficher sur l'écran
-                    int realEntry = ListeHistorique.Count - hEntry;
+                    int realEntry = tempHist.Count - hEntry;
                     if (!failHeader)
                     {
-                        string dtStr = ListeHistorique[hEntry].cipherDate.ToString("G");
-                        string excerpt = ListeHistorique[hEntry].msg.Replace('\n', ' ');
-                        int excerptLen = ListeHistorique[hEntry].msg.Length;
+                        string dtStr = tempHist[hEntry].cipherDate.ToString("G");
+                        string excerpt = tempHist[hEntry].msg.Replace('\n', ' ');
+                        int excerptLen = tempHist[hEntry].msg.Length;
 
                         /* indexPaddingMax :  Nombre d'espaces minimum pour aligner les entrées en synchronisation avec
                          *                   l'augmentation de l'index
@@ -167,7 +184,7 @@ namespace LORENZ
                          * lenPadStr :        String contenant les espaces ' ' qui alignent les entrées de l'historique
                          *                   selon la longueur du message
                          */
-                        int indexPaddingMax = ListeHistorique.Count.ToString().Length;
+                        int indexPaddingMax = tempHist.Count.ToString().Length;
                         int lenPaddingMax = msgHistoryMaxLen.ToString().Length;
                         string indexPadStr = new(' ', indexPaddingMax - realEntry.ToString().Length);
                         string lenPadStr = new(' ', lenPaddingMax - excerptLen.ToString().Length);
@@ -196,7 +213,7 @@ namespace LORENZ
                     }
 
                     testHeader = Console.CursorTop > headerMaxHeight;
-                    string leastEntries = $"{realEntry} / {ListeHistorique.Count} entrées";
+                    string leastEntries = $"{realEntry} / {tempHist.Count} entrées";
                     if ((Console.CursorTop > entryMaxHeight && hEntry > 0) || failHeader)
                     {
                         if (failHeader)
@@ -228,6 +245,7 @@ namespace LORENZ
                     }
                     else if (page == 0 && hEntry == 0)
                     {
+                        stackLastEntry.Push(lastEntry);
                         lastEntry = -1;
                     }
                 }
@@ -274,7 +292,7 @@ namespace LORENZ
                         }
                         else
                         {
-                            lastEntry = ListeHistorique.Count - 1;
+                            lastEntry = tempHist.Count - 1;
                             page = 0;
                         }
 
@@ -341,7 +359,7 @@ namespace LORENZ
                         {
                             numeroDel = -1;
                         }
-                        int realNumero = ListeHistorique.Count - numeroDel;
+                        int realNumero = tempHist.Count - numeroDel;
                         if (RetirerHistorique(realNumero))
                         {
                             stackReview(realNumero);
@@ -354,8 +372,8 @@ namespace LORENZ
                         {
                             numeroInt = -1;
                         }
-                        int realNumero = ListeHistorique.Count - numeroInt;
-                        if (!AfficherEntree(realNumero))
+                        int realNumero = tempHist.Count - numeroInt;
+                        if (!AfficherEntree(getMainIndexByIndex(realNumero)))
                         {
                             stackReview(realNumero);
                         }
@@ -366,7 +384,10 @@ namespace LORENZ
                         Console.ReadKey(true);
                     }
 
-                    lastEntry = stackLastEntry.Pop();
+                    if (stackLastEntry.Count > 0)
+                    {
+                        lastEntry = stackLastEntry.Pop();
+                    }
                 }
             }
 
@@ -388,6 +409,22 @@ namespace LORENZ
                     int rev = tempNew.Pop();
                     stackLastEntry.Push(rev);
                 }
+            }
+
+            int getMainIndexByIndex(int index)
+            {
+                if (index >= 0 && index < tempHist.Count)
+                {
+                    uint idRetrieved = tempHist[index].ID;
+                    for (int mainIndex = 0; mainIndex < Count; mainIndex++)
+                    {
+                        if (ListeHistorique[mainIndex].ID == idRetrieved)
+                        {
+                            return mainIndex;
+                        }
+                    }
+                }
+                return -1;
             }
         }
 

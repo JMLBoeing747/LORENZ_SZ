@@ -44,7 +44,7 @@ namespace LORENZ
             return false;
         }
 
-        private bool AjoutMsg(int histIndex)
+        private bool AjouterMsg(int histIndex)
         {
             if (histIndex >= 0 && histIndex < Historique.Count)
             {
@@ -92,14 +92,15 @@ namespace LORENZ
         {
             if (indexCat < ListeCategories.Count && indexCat >= 0)
             {
+                Categorie categorieChoisie = ListeCategories[indexCat];
                 Console.Clear();
-                Console.WriteLine("Catégorie " + ListeCategories[indexCat].Nom);
+                Console.WriteLine("Catégorie " + categorieChoisie.Nom);
                 Console.WriteLine();
 
-                // Afficher les messages de la catégorie...
+                // Afficher les messages de la catégorie
+                List<uint> sel = categorieChoisie.ListeMsg;
+                Historique.AfficherHistorique(sel);
                 // Afficher les options de modification...
-
-                Console.ReadKey(true);
             }
             else
             {
@@ -157,7 +158,7 @@ namespace LORENZ
                 int indexCat = indexTyped - 1;
                 if (indexCat >= 0 && indexCat < ListeCategories.Count)
                 {
-                    if (!ListeCategories[indexCat].AjoutMsg(histIndex))
+                    if (!ListeCategories[indexCat].AjouterMsg(histIndex))
                     {
                         Display.PrintMessage("Le message que vous essayez d'ajouter", MessageState.Warning);
                         Display.PrintMessage("a déjà été ajouté dans la catégorie sélectionnée.", MessageState.Warning);
