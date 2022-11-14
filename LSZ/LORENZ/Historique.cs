@@ -439,7 +439,7 @@ namespace LORENZ
                 string msgAuthor = ListeHistorique[index].author == "" ? "Inconnu" : ListeHistorique[index].author;
                 PrivacyState privSta = ListeHistorique[index].pState;
 
-                string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 ";
+                string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 "; // C'est la plus longue date possible
                 int invIndex = ListeHistorique.Count - index;
                 string headerMarker = new('=', modelMax.Length);
                 Console.WriteLine(headerMarker);
@@ -581,7 +581,7 @@ namespace LORENZ
             return true;
         }
 
-        public static void EcrireHistorique()
+        public static void EcrireFichierHistorique()
         {
             Common.CphrMode = CypherMode.x1;
             string allHistoryStr = "";
@@ -629,7 +629,7 @@ namespace LORENZ
             uint newID = AssignNewId();
             (uint, DateTime, string, string, PrivacyState) nouvEntreeTuple = (newID, dateEntree, nouvEntree, auteur, pState);
             ListeHistorique.Add(nouvEntreeTuple);
-            EcrireHistorique();
+            EcrireFichierHistorique();
         }
 
         public static bool RetirerHistorique(int indexEntree)
@@ -637,7 +637,7 @@ namespace LORENZ
             if (indexEntree < ListeHistorique.Count && indexEntree >= 0)
             {
                 ListeHistorique.RemoveAt(indexEntree);
-                EcrireHistorique();
+                EcrireFichierHistorique();
                 return true;
             }
             else
