@@ -181,12 +181,13 @@ namespace LORENZ
                     else
                     {
                         EcrireFichierCategories();
-                        Display.PrintMessage("Message ajouté avec succès !", MessageState.Success);
+                        Display.PrintMessage("Message ajouté avec succès dans " + ListeCategories[indexCat].Nom + " !",
+                                             MessageState.Success);
                         Display.PrintMessage("Appuyez sur n'importe quelle touche pour terminer...", MessageState.Warning);
                         Console.ReadKey(true);
                         break;
                     }
-                    
+
                 }
                 else if (indexTyped != -1)
                 {
@@ -235,7 +236,7 @@ namespace LORENZ
                             }
                         }
                     }
-                    
+
                     ListeCategories.Add(new(catName, msgList));
                 }
             }

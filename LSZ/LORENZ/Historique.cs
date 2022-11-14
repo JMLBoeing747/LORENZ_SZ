@@ -21,7 +21,7 @@ namespace LORENZ
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
         public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
-        
+
         public static void AfficherHistorique(string title = default, List<uint> selection = null)
         {
             List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> tempHist = new();
@@ -60,14 +60,14 @@ namespace LORENZ
                     Console.WriteLine(title);
                     Console.WriteLine();
                 }
-                
+
                 int headerSwitch = 0;
                 int entryMaxHeight = Console.WindowHeight - 12;
                 int headerMaxHeight = entryMaxHeight - 1;
                 bool testHeader = false;
                 bool failHeader = false;
                 for (int hEntry = lastEntry; hEntry >= 0; hEntry--)
-                {   
+                {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
 
@@ -446,7 +446,8 @@ namespace LORENZ
                 string msgAuthor = ListeHistorique[index].author == "" ? "Inconnu" : ListeHistorique[index].author;
                 PrivacyState privSta = ListeHistorique[index].pState;
 
-                string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 "; // C'est la plus longue date possible
+                // C'est la plus longue date possible pour le 3e millénaire
+                string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 ";
                 int invIndex = ListeHistorique.Count - index;
                 string headerMarker = new('=', modelMax.Length);
                 Console.WriteLine(headerMarker);
@@ -650,6 +651,16 @@ namespace LORENZ
                 {
                     return false;
                 }
+
+                uint idDel = ListeHistorique[indexEntree].ID;
+                foreach (Categorie cat in Categorie.ListeCategories)
+                {
+                    if (cat.RemoveMsg(idDel))
+                    {
+                        Display.PrintMessage("Retiré de la catégorie " + cat.Nom, MessageState.Success);
+                    }
+                }
+
                 ListeHistorique.RemoveAt(indexEntree);
                 EcrireFichierHistorique();
                 Display.PrintMessage("Message supprimé.", MessageState.Success);
@@ -684,7 +695,7 @@ namespace LORENZ
                     {
                         for (uint j = normal; j < id; j++)
                         {
-                            potentials.Add(normal);
+                            potentials.Add(j);
                         }
                         normal = id;
                     }
