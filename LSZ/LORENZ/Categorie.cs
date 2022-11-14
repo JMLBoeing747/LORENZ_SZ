@@ -102,9 +102,13 @@ namespace LORENZ
             if (indexCat < ListeCategories.Count && indexCat >= 0)
             {
                 Categorie categorieChoisie = ListeCategories[indexCat];
-                Console.Clear();
-                Console.WriteLine("Catégorie " + categorieChoisie.Nom);
-                Console.WriteLine();
+                if (categorieChoisie.ListeMsg.Count == 0)
+                {
+                    Console.Clear();
+                    Display.PrintMessage("La catégorie " + categorieChoisie.Nom + " ne contient aucun message.", MessageState.Warning);
+                    Console.ReadKey(true);
+                    return;
+                }
 
                 // Afficher les messages de la catégorie
                 List<uint> sel = categorieChoisie.ListeMsg;
