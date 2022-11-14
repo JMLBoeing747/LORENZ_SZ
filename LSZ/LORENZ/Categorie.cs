@@ -114,7 +114,6 @@ namespace LORENZ
                 List<uint> sel = categorieChoisie.ListeMsg;
                 string titre = "Catégorie " + categorieChoisie.Nom;
                 Historique.AfficherHistorique(titre, sel);
-                // Afficher les options de modification...
             }
             else
             {

@@ -365,10 +365,11 @@ namespace LORENZ
                         {
                             numeroDel = -1;
                         }
-                        int realNumero = tempHist.Count - numeroDel;
-                        if (RetirerHistorique(realNumero))
+                        Console.WriteLine();
+                        int realIndex = tempHist.Count - numeroDel;
+                        if (RetirerHistorique(getMainIndexByIndex(realIndex)))
                         {
-                            stackReview(realNumero);
+                            stackReview(realIndex);
                         }
 
                     }
@@ -378,10 +379,10 @@ namespace LORENZ
                         {
                             numeroInt = -1;
                         }
-                        int realNumero = tempHist.Count - numeroInt;
-                        if (!AfficherEntree(getMainIndexByIndex(realNumero)))
+                        int realIndex = tempHist.Count - numeroInt;
+                        if (!AfficherEntree(getMainIndexByIndex(realIndex)))
                         {
-                            stackReview(realNumero);
+                            stackReview(realIndex);
                         }
                     }
                     else
@@ -482,7 +483,7 @@ namespace LORENZ
 
                 Console.Write("\n" + historicMsg);
                 Extensions.AfficherMarqueurFin();
-                Console.WriteLine("\n[C]: Ajouter à une catégorie");
+                Console.WriteLine("\n[C]  : Ajouter à une catégorie");
                 Console.WriteLine("[Del]: Supprimer ce message");
                 Console.WriteLine("\nAppuyez sur n'importe quelle autre touche pour quitter...");
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
@@ -492,10 +493,11 @@ namespace LORENZ
                         Categorie.AjoutCategorieMsg(index);
                         break;
                     case ConsoleKey.Delete:
-                        RetirerHistorique(index);
-                        Display.PrintMessage("Message supprimé", MessageState.Warning);
-                        Console.ReadKey(true);
-                        return false;
+                        if (RetirerHistorique(index))
+                        {
+                            return false;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -642,8 +644,16 @@ namespace LORENZ
         {
             if (indexEntree < ListeHistorique.Count && indexEntree >= 0)
             {
+                Display.PrintMessage("Confirmez la suppression définitive du message en appuyant sur D.", MessageState.Warning);
+                Display.PrintMessage("Toute autre touche annulera l'opération.", MessageState.Warning);
+                if (Console.ReadKey(true).Key != ConsoleKey.D)
+                {
+                    return false;
+                }
                 ListeHistorique.RemoveAt(indexEntree);
                 EcrireFichierHistorique();
+                Display.PrintMessage("Message supprimé.", MessageState.Success);
+                Console.ReadKey(true);
                 return true;
             }
             else
