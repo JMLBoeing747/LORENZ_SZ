@@ -545,6 +545,12 @@ namespace LORENZ
         private static void MenuHistorique()
         {
             Console.Clear();
+            if (Categorie.CategoriesCount == 0)
+            {
+                Display.PrintMessage("Lecture de CATEGORY.LZI...", MessageState.Info);
+                Categorie.LireFichierCategories();
+            }
+
             if (Historique.Count == 0)
             {
                 Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
@@ -561,6 +567,7 @@ namespace LORENZ
                 }
                 else
                 {
+                    
                     Console.Clear();
                 }
             }

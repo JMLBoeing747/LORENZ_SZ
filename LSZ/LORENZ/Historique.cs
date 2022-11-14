@@ -15,8 +15,8 @@ namespace LORENZ
 
     public static class Historique
     {
-        private const char RECD_SEP = '\x1E';
-        private const char UNIT_SEP = '\x1F';
+        public const char RECD_SEP = '\x1E';
+        public const char UNIT_SEP = '\x1F';
 
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
         public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
