@@ -551,6 +551,7 @@ namespace LORENZ
                 Categorie.LireFichierCategories();
             }
 
+            Console.Clear();
             if (Historique.Count == 0)
             {
                 Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);

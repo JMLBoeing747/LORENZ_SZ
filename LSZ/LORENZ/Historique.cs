@@ -22,7 +22,7 @@ namespace LORENZ
         public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
         
-        public static void AfficherHistorique(List<uint> selection = null)
+        public static void AfficherHistorique(string title = default, List<uint> selection = null)
         {
             List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> tempHist = new();
             if (selection != null)
@@ -55,6 +55,12 @@ namespace LORENZ
             while (true)
             {
                 Console.Clear();
+                if (title != default)
+                {
+                    Console.WriteLine(title);
+                    Console.WriteLine();
+                }
+                
                 int headerSwitch = 0;
                 int entryMaxHeight = Console.WindowHeight - 12;
                 int headerMaxHeight = entryMaxHeight - 1;

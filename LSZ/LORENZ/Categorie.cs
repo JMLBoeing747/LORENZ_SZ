@@ -112,7 +112,8 @@ namespace LORENZ
 
                 // Afficher les messages de la catégorie
                 List<uint> sel = categorieChoisie.ListeMsg;
-                Historique.AfficherHistorique(sel);
+                string titre = "Catégorie " + categorieChoisie.Nom;
+                Historique.AfficherHistorique(titre, sel);
                 // Afficher les options de modification...
             }
             else
