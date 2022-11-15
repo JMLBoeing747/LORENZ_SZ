@@ -380,7 +380,7 @@ namespace LORENZ
                             numeroInt = -1;
                         }
                         int realIndex = tempHist.Count - numeroInt;
-                        if (!AfficherEntree(getMainIndexByIndex(realIndex)))
+                        if (!AfficherEntree(getMainIndexByIndex(realIndex), selection))
                         {
                             stackReview(realIndex);
                         }
@@ -435,7 +435,7 @@ namespace LORENZ
             }
         }
 
-        public static bool AfficherEntree(int index)
+        public static bool AfficherEntree(int index, List<uint> sel)
         {
             if (index < ListeHistorique.Count && index >= 0)
             {
@@ -494,7 +494,7 @@ namespace LORENZ
                         Categorie.AjoutCategorieMsg(index);
                         break;
                     case ConsoleKey.Delete:
-                        if (RetirerHistorique(index, null))
+                        if (RetirerHistorique(index, sel))
                         {
                             return false;
                         }
@@ -650,14 +650,15 @@ namespace LORENZ
                     Display.PrintMessage("[R]  : Retrait de la catégorie", MessageState.Info);
                     Display.PrintMessage("[X]  : Suppression définitive", MessageState.Info);
                     Display.PrintMessage("Appuyez sur n'importe quelle autre touche pour annuler...", MessageState.Info);
-                    if (Console.ReadKey(true).Key == ConsoleKey.R)
+                    switch (Console.ReadKey(true).Key)
                     {
-                        sel.Remove(ListeHistorique[indexEntree].ID);
-                        return true;
-                    }
-                    else if (Console.ReadKey(true).Key != ConsoleKey.X)
-                    {
-                        return false;
+                        case ConsoleKey.R:
+                            sel.Remove(ListeHistorique[indexEntree].ID);
+                            return true;
+                        case ConsoleKey.X:
+                            break;
+                        default:
+                            return false;
                     }
 
                 }

@@ -187,7 +187,6 @@ namespace LORENZ
                         Console.ReadKey(true);
                         break;
                     }
-
                 }
                 else if (indexTyped != -1)
                 {
