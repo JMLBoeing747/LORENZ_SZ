@@ -367,7 +367,7 @@ namespace LORENZ
                         }
                         Console.WriteLine();
                         int realIndex = tempHist.Count - numeroDel;
-                        if (RetirerHistorique(getMainIndexByIndex(realIndex)))
+                        if (RetirerHistorique(getMainIndexByIndex(realIndex), selection))
                         {
                             stackReview(realIndex);
                         }
@@ -494,7 +494,7 @@ namespace LORENZ
                         Categorie.AjoutCategorieMsg(index);
                         break;
                     case ConsoleKey.Delete:
-                        if (RetirerHistorique(index))
+                        if (RetirerHistorique(index, null))
                         {
                             return false;
                         }
@@ -641,10 +641,27 @@ namespace LORENZ
             EcrireFichierHistorique();
         }
 
-        public static bool RetirerHistorique(int indexEntree)
+        public static bool RetirerHistorique(int indexEntree, List<uint> sel)
         {
             if (indexEntree < ListeHistorique.Count && indexEntree >= 0)
             {
+                if (sel != null)
+                {
+                    Display.PrintMessage("[R]  : Retrait de la catégorie", MessageState.Info);
+                    Display.PrintMessage("[X]  : Suppression définitive", MessageState.Info);
+                    Display.PrintMessage("Appuyez sur n'importe quelle autre touche pour annuler...", MessageState.Info);
+                    if (Console.ReadKey(true).Key == ConsoleKey.R)
+                    {
+                        sel.Remove(ListeHistorique[indexEntree].ID);
+                        return true;
+                    }
+                    else if (Console.ReadKey(true).Key != ConsoleKey.X)
+                    {
+                        return false;
+                    }
+
+                }
+
                 Display.PrintMessage("Confirmez la suppression définitive du message en appuyant sur D.", MessageState.Warning);
                 Display.PrintMessage("Toute autre touche annulera l'opération.", MessageState.Warning);
                 if (Console.ReadKey(true).Key != ConsoleKey.D)
