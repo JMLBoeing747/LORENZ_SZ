@@ -700,22 +700,18 @@ namespace LORENZ
             for (int i = 0; i < ListeHistorique.Count; i++, normal++)
             {
                 uint id = ListeHistorique[i].ID;
-                if (id != normal)
+                if (potentials.Count > 0)
                 {
-                    if (potentials.Count > 0 && potentials[0] == id)
-                    {
-                        potentials.RemoveAt(0);
-                        potentials.Add(normal);
-                    }
+                    potentials.Remove(id);
+                }
 
-                    if (id > normal)
+                if (id > normal)
+                {
+                    for (uint j = normal; j < id; j++)
                     {
-                        for (uint j = normal; j < id; j++)
-                        {
-                            potentials.Add(j);
-                        }
-                        normal = id;
+                        potentials.Add(j);
                     }
+                    normal = id;
                 }
             }
 
