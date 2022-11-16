@@ -651,14 +651,14 @@ namespace LORENZ
                 if (cat != null)
                 {
                     Display.PrintMessage("[R]  : Retrait de la catégorie", MessageState.Info);
-                    Display.PrintMessage("[X]  : Suppression définitive", MessageState.Info);
+                    Display.PrintMessage("[S]  : Suppression définitive", MessageState.Info);
                     Display.PrintMessage("Appuyez sur n'importe quelle autre touche pour annuler...", MessageState.Info);
                     switch (Console.ReadKey(true).Key)
                     {
                         case ConsoleKey.R:
                             cat.RemoveMsg(ListeHistorique[indexEntree].ID);
                             return true;
-                        case ConsoleKey.X:
+                        case ConsoleKey.S:
                             break;
                         default:
                             return false;
@@ -666,9 +666,9 @@ namespace LORENZ
 
                 }
 
-                Display.PrintMessage("Confirmez la suppression définitive du message en appuyant sur D.", MessageState.Warning);
+                Display.PrintMessage("Confirmez la suppression définitive du message en appuyant sur X.", MessageState.Warning);
                 Display.PrintMessage("Toute autre touche annulera l'opération.", MessageState.Warning);
-                if (Console.ReadKey(true).Key != ConsoleKey.D)
+                if (Console.ReadKey(true).Key != ConsoleKey.X)
                 {
                     return false;
                 }
