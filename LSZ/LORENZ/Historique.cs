@@ -22,11 +22,12 @@ namespace LORENZ
         public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
 
-        public static void AfficherHistorique(string title = default, List<uint> selection = null)
+        public static void AfficherHistorique(string title = default, Categorie cat = null)
         {
             List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> tempHist = new();
-            if (selection != null)
+            if (cat != null)
             {
+                List<uint> selection = cat.ListeMsg;
                 for (int e = 0; e < Count; e++)
                 {
                     if (selection.Contains(ListeHistorique[e].ID))
@@ -367,7 +368,7 @@ namespace LORENZ
                         }
                         Console.WriteLine();
                         int realIndex = tempHist.Count - numeroDel;
-                        if (RetirerHistorique(getMainIndexByIndex(realIndex), selection))
+                        if (RetirerHistorique(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
                         }
@@ -380,7 +381,7 @@ namespace LORENZ
                             numeroInt = -1;
                         }
                         int realIndex = tempHist.Count - numeroInt;
-                        if (!AfficherEntree(getMainIndexByIndex(realIndex), selection))
+                        if (!AfficherEntree(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
                         }
@@ -435,7 +436,7 @@ namespace LORENZ
             }
         }
 
-        public static bool AfficherEntree(int index, List<uint> sel)
+        public static bool AfficherEntree(int index, Categorie cat = null)
         {
             if (index < ListeHistorique.Count && index >= 0)
             {
@@ -494,7 +495,7 @@ namespace LORENZ
                         Categorie.AjoutCategorieMsg(index);
                         break;
                     case ConsoleKey.Delete:
-                        if (RetirerHistorique(index, sel))
+                        if (RetirerHistorique(index, cat))
                         {
                             return false;
                         }
@@ -580,6 +581,8 @@ namespace LORENZ
                     tupleEntry.Item5 = privSta;
                     ListeHistorique.Add(tupleEntry);
                 }
+
+                Categorie.NettoyerID();
             }
             catch (CryptographyException)
             {
@@ -641,11 +644,11 @@ namespace LORENZ
             EcrireFichierHistorique();
         }
 
-        public static bool RetirerHistorique(int indexEntree, List<uint> sel)
+        public static bool RetirerHistorique(int indexEntree, Categorie cat = null)
         {
             if (indexEntree < ListeHistorique.Count && indexEntree >= 0)
             {
-                if (sel != null)
+                if (cat != null)
                 {
                     Display.PrintMessage("[R]  : Retrait de la catégorie", MessageState.Info);
                     Display.PrintMessage("[X]  : Suppression définitive", MessageState.Info);
@@ -653,7 +656,7 @@ namespace LORENZ
                     switch (Console.ReadKey(true).Key)
                     {
                         case ConsoleKey.R:
-                            sel.Remove(ListeHistorique[indexEntree].ID);
+                            cat.RemoveMsg(ListeHistorique[indexEntree].ID);
                             return true;
                         case ConsoleKey.X:
                             break;
@@ -671,11 +674,11 @@ namespace LORENZ
                 }
 
                 uint idDel = ListeHistorique[indexEntree].ID;
-                foreach (Categorie cat in Categorie.ListeCategories)
+                foreach (Categorie catItem in Categorie.ListeCategories)
                 {
-                    if (cat.RemoveMsg(idDel))
+                    if (catItem.RemoveMsg(idDel))
                     {
-                        Display.PrintMessage("Retiré de la catégorie " + cat.Nom, MessageState.Success);
+                        Display.PrintMessage("Retiré de la catégorie " + catItem.Nom, MessageState.Success);
                     }
                 }
 

@@ -12,7 +12,7 @@ namespace LORENZ
         public static List<Categorie> ListeCategories { get; set; } = new();
         public static int CategoriesCount => ListeCategories.Count;
         public string Nom { get; set; }
-        private List<uint> ListeMsg { get; set; }
+        public List<uint> ListeMsg { get; private set; }
 
         public Categorie(string nom)
         {
@@ -111,9 +111,8 @@ namespace LORENZ
                 }
 
                 // Afficher les messages de la catégorie
-                List<uint> sel = categorieChoisie.ListeMsg;
                 string titre = "Catégorie " + categorieChoisie.Nom;
-                Historique.AfficherHistorique(titre, sel);
+                Historique.AfficherHistorique(titre, categorieChoisie);
             }
             else
             {
