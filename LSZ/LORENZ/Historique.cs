@@ -449,20 +449,20 @@ namespace LORENZ
             }
         }
 
-        public static bool AfficherEntree(int index, Categorie cat = null)
+        public static bool AfficherEntree(int histIndex, Categorie cat = null)
         {
-            if (index < ListeHistorique.Count && index >= 0)
+            if (histIndex < ListeHistorique.Count && histIndex >= 0)
             {
                 Console.Clear();
-                string dateOfDeciphering = ListeHistorique[index].cipherDate.ToString("dddd d MMMM yyyy");
-                string hourOfDeciphering = ListeHistorique[index].cipherDate.ToString("H' h 'mm");
-                string historicMsg = ListeHistorique[index].msg;
-                string msgAuthor = ListeHistorique[index].author == "" ? "Inconnu" : ListeHistorique[index].author;
-                PrivacyState privSta = ListeHistorique[index].pState;
+                string dateOfDeciphering = ListeHistorique[histIndex].cipherDate.ToString("dddd d MMMM yyyy");
+                string hourOfDeciphering = ListeHistorique[histIndex].cipherDate.ToString("H' h 'mm");
+                string historicMsg = ListeHistorique[histIndex].msg;
+                string msgAuthor = ListeHistorique[histIndex].author == "" ? "Inconnu" : ListeHistorique[histIndex].author;
+                PrivacyState privSta = ListeHistorique[histIndex].pState;
 
                 // C'est la plus longue date possible pour le 3e millénaire
                 string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 ";
-                int invIndex = ListeHistorique.Count - index;
+                int invIndex = ListeHistorique.Count - histIndex;
                 string headerMarker = new('=', modelMax.Length);
                 Console.WriteLine(headerMarker);
                 Console.WriteLine("Message historique #" + invIndex);
@@ -505,10 +505,10 @@ namespace LORENZ
                 switch (saisie.Key)
                 {
                     case ConsoleKey.C:
-                        Categorie.AjoutCategorieMsg(index);
+                        Categorie.AjoutCategorieMsg(histIndex);
                         break;
                     case ConsoleKey.Delete:
-                        if (RetirerHistorique(index, cat))
+                        if (RetirerHistorique(histIndex, cat))
                         {
                             return false;
                         }
