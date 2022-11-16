@@ -68,9 +68,9 @@ namespace LORENZ
 
         public static void MenuGeneral()
         {
-            if (ListeCategories.Count > 0)
+            while (true)
             {
-                while (true)
+                if (ListeCategories.Count > 0)
                 {
                     Console.Clear();
                     Console.WriteLine("Sélectionnez une catégorie en inscrivant son index");
@@ -84,23 +84,28 @@ namespace LORENZ
                     int indexCat = Extensions.SpecialInputDigits(addNewLine: false);
                     if (indexCat == -1)
                     {
-                        return;
+                        break;
                     }
 
-                    ConsulterCategorie(indexCat - 1);
+                    if (!ConsulterCategorie(indexCat - 1))
+                    {
+                        Display.PrintMessage("Index invalide ! ", MessageState.Failure);
+                        Console.ReadKey(true);
+                    }
                 }
-            }
-            else
-            {
-                Console.Clear();
-                Display.PrintMessage("Il n'y a aucune catégorie existante.", MessageState.Warning);
-                Display.PrintMessage("C'est probablement le temps d'en créer une nouvelle !", MessageState.Warning);
-                Console.WriteLine("\nAppuyez sur n'importe quelle touche pour retourner...");
-                Console.ReadKey(true);
+                else
+                {
+                    Console.Clear();
+                    Display.PrintMessage("Il n'y a aucune catégorie existante.", MessageState.Warning);
+                    Display.PrintMessage("C'est probablement le temps d'en créer une nouvelle !", MessageState.Warning);
+                    Console.WriteLine("\nAppuyez sur n'importe quelle touche pour retourner...");
+                    Console.ReadKey(true);
+                    break;
+                }
             }
         }
 
-        public static void ConsulterCategorie(int indexCat)
+        public static bool ConsulterCategorie(int indexCat)
         {
             if (indexCat < ListeCategories.Count && indexCat >= 0)
             {
@@ -110,18 +115,17 @@ namespace LORENZ
                     Console.Clear();
                     Display.PrintMessage("La catégorie " + categorieChoisie.Nom + " ne contient aucun message.", MessageState.Warning);
                     Console.ReadKey(true);
-                    return;
+                    return true;
                 }
 
                 // Afficher les messages de la catégorie
                 string titre = "Catégorie " + categorieChoisie.Nom;
                 Historique.AfficherHistorique(titre, categorieChoisie);
+                return true;
             }
             else
             {
-                Console.CursorLeft = 0;
-                Display.PrintMessage("Index invalide ! ", MessageState.Failure);
-                Console.ReadKey(true);
+                return false;
             }
         }
 
