@@ -85,6 +85,7 @@ namespace LORENZ
                     {
                         return;
                     }
+
                     ConsulterCategorie(indexCat - 1);
                 }
             }
@@ -92,7 +93,7 @@ namespace LORENZ
             {
                 Console.Clear();
                 Display.PrintMessage("Il n'y a aucune catégorie existante.", MessageState.Warning);
-                Display.PrintMessage("Créez-en une nouvelle avant de continuer.", MessageState.Warning);
+                Display.PrintMessage("C'est probablement le temps d'en créer une nouvelle !", MessageState.Warning);
                 Console.WriteLine("\nAppuyez sur n'importe quelle touche pour retourner...");
                 Console.ReadKey(true);
             }
