@@ -370,7 +370,7 @@ namespace LORENZ
                         if (RetirerHistorique(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
-                            if (cat != null && cat.ListeMsg.Count == 0)
+                            if (cat != null && cat.MsgCount == 0)
                             {
                                 Console.Clear();
                                 Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
@@ -390,7 +390,7 @@ namespace LORENZ
                         if (!AfficherEntree(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
-                            if (cat != null && cat.ListeMsg.Count == 0)
+                            if (cat != null && cat.MsgCount == 0)
                             {
                                 Console.Clear();
                                 Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);

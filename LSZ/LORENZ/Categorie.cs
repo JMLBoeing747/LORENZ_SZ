@@ -13,6 +13,7 @@ namespace LORENZ
         public static int CategoriesCount => ListeCategories.Count;
         public string Nom { get; set; }
         public List<uint> ListeMsg { get; private set; }
+        public int MsgCount => ListeMsg.Count;
 
         public Categorie(string nom)
         {
@@ -41,7 +42,7 @@ namespace LORENZ
 
         public bool RemoveMsg(uint id)
         {
-            for (int msg = 0; msg < ListeMsg.Count; msg++)
+            for (int msg = 0; msg < MsgCount; msg++)
             {
                 if (id == ListeMsg[msg])
                 {
@@ -104,7 +105,7 @@ namespace LORENZ
             if (indexCat < ListeCategories.Count && indexCat >= 0)
             {
                 Categorie categorieChoisie = ListeCategories[indexCat];
-                if (categorieChoisie.ListeMsg.Count == 0)
+                if (categorieChoisie.MsgCount == 0)
                 {
                     Console.Clear();
                     Display.PrintMessage("La catégorie " + categorieChoisie.Nom + " ne contient aucun message.", MessageState.Warning);
@@ -202,7 +203,7 @@ namespace LORENZ
             bool haveChange = false;
             foreach (Categorie catItem in ListeCategories)
             {
-                for (int i = 0; i < catItem.ListeMsg.Count; i++)
+                for (int i = 0; i < catItem.MsgCount; i++)
                 {
                     for (int j = 0; j < Historique.Count; j++)
                     {
