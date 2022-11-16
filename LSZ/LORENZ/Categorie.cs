@@ -343,6 +343,12 @@ namespace LORENZ
 
         private static void EcrireFichierCategories()
         {
+            if (ListeCategories.Count == 0 && File.Exists(FichierCategories))
+            {
+                File.Delete(FichierCategories);
+                return;
+            }
+
             Common.CphrMode = CypherMode.x1;
             string allCategoriesStr = "";
             foreach (Categorie catItem in ListeCategories)
