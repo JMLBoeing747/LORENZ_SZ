@@ -15,31 +15,53 @@ namespace LORENZ
 
     public static class Historique
     {
-        private const char RECD_SEP = '\x1E';
-        private const char UNIT_SEP = '\x1F';
+        public const char RECD_SEP = '\x1E';
+        public const char UNIT_SEP = '\x1F';
 
         public static string FichierHistorique => $@"{Parametres.ParamsDirectory}/HISTORY.LZI";
-        private static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
+        public static List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> ListeHistorique { get; set; } = new();
         public static int Count => ListeHistorique.Count;
-        private static List<Categorie> ListeCategories { get; set; } = new();
-        public static int CategoriesCount => ListeCategories.Count;
-        public static void AfficherHistorique()
+
+        public static void AfficherHistorique(string title = default, Categorie cat = null)
         {
-            int msgHistoryMaxLen = 0;
-            for (int m = 0; m < ListeHistorique.Count; m++)
+            List<(uint ID, DateTime cipherDate, string msg, string author, PrivacyState pState)> tempHist = new();
+            if (cat != null)
             {
-                if (ListeHistorique[m].msg.Length > msgHistoryMaxLen)
+                List<uint> selection = cat.ListeMsg;
+                for (int e = 0; e < Count; e++)
                 {
-                    msgHistoryMaxLen = ListeHistorique[m].msg.Length;
+                    if (selection.Contains(ListeHistorique[e].ID))
+                    {
+                        tempHist.Add(ListeHistorique[e]);
+                    }
+                }
+            }
+            else
+            {
+                tempHist = ListeHistorique;
+            }
+
+            int msgHistoryMaxLen = 0;
+            for (int m = 0; m < tempHist.Count; m++)
+            {
+                if (tempHist[m].msg.Length > msgHistoryMaxLen)
+                {
+                    msgHistoryMaxLen = tempHist[m].msg.Length;
                 }
             }
 
             int page = 0;
-            int lastEntry = ListeHistorique.Count - 1;
+            int lastEntry = tempHist.Count - 1;
             Stack<int> stackLastEntry = new();
             while (true)
             {
                 Console.Clear();
+                if (title != default)
+                {
+                    Console.WriteLine(title);
+                    Console.WriteLine();
+                }
+
                 int headerSwitch = 0;
                 int entryMaxHeight = Console.WindowHeight - 12;
                 int headerMaxHeight = entryMaxHeight - 1;
@@ -50,7 +72,7 @@ namespace LORENZ
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
 
-                    DateTime dateEntry = ListeHistorique[hEntry].cipherDate;
+                    DateTime dateEntry = tempHist[hEntry].cipherDate;
                     if (headerSwitch < 1000)
                     {
                         if (dateEntry.Year == DateTime.Now.Year && headerSwitch < 1000)
@@ -153,12 +175,12 @@ namespace LORENZ
                     Console.ForegroundColor = ConsoleColor.Cyan;
 
                     // realEntry : Index réel de l'entrée à afficher sur l'écran
-                    int realEntry = ListeHistorique.Count - hEntry;
+                    int realEntry = tempHist.Count - hEntry;
                     if (!failHeader)
                     {
-                        string dtStr = ListeHistorique[hEntry].cipherDate.ToString("G");
-                        string excerpt = ListeHistorique[hEntry].msg.Replace('\n', ' ');
-                        int excerptLen = ListeHistorique[hEntry].msg.Length;
+                        string dtStr = tempHist[hEntry].cipherDate.ToString("G");
+                        string excerpt = tempHist[hEntry].msg.Replace('\n', ' ');
+                        int excerptLen = tempHist[hEntry].msg.Length;
 
                         /* indexPaddingMax :  Nombre d'espaces minimum pour aligner les entrées en synchronisation avec
                          *                   l'augmentation de l'index
@@ -169,7 +191,7 @@ namespace LORENZ
                          * lenPadStr :        String contenant les espaces ' ' qui alignent les entrées de l'historique
                          *                   selon la longueur du message
                          */
-                        int indexPaddingMax = ListeHistorique.Count.ToString().Length;
+                        int indexPaddingMax = tempHist.Count.ToString().Length;
                         int lenPaddingMax = msgHistoryMaxLen.ToString().Length;
                         string indexPadStr = new(' ', indexPaddingMax - realEntry.ToString().Length);
                         string lenPadStr = new(' ', lenPaddingMax - excerptLen.ToString().Length);
@@ -198,7 +220,7 @@ namespace LORENZ
                     }
 
                     testHeader = Console.CursorTop > headerMaxHeight;
-                    string leastEntries = $"{realEntry} / {ListeHistorique.Count} entrées";
+                    string leastEntries = $"{realEntry} / {tempHist.Count} entrées";
                     if ((Console.CursorTop > entryMaxHeight && hEntry > 0) || failHeader)
                     {
                         if (failHeader)
@@ -230,6 +252,7 @@ namespace LORENZ
                     }
                     else if (page == 0 && hEntry == 0)
                     {
+                        stackLastEntry.Push(lastEntry);
                         lastEntry = -1;
                     }
                 }
@@ -276,7 +299,7 @@ namespace LORENZ
                         }
                         else
                         {
-                            lastEntry = ListeHistorique.Count - 1;
+                            lastEntry = tempHist.Count - 1;
                             page = 0;
                         }
 
@@ -336,17 +359,24 @@ namespace LORENZ
 
                 if (!changedPage)
                 {
-                    // Afficher entrée
                     if (numeroStr[0] == 'D' && numeroStr.Length > 1)
                     {
                         if (!int.TryParse(numeroStr[1..], out int numeroDel))
                         {
                             numeroDel = -1;
                         }
-                        int realNumero = ListeHistorique.Count - numeroDel;
-                        if (RetirerHistorique(realNumero))
+                        Console.WriteLine();
+                        int realIndex = tempHist.Count - numeroDel;
+                        if (RetirerHistorique(getMainIndexByIndex(realIndex), cat))
                         {
-                            stackReview(realNumero);
+                            stackReview(realIndex);
+                            if (cat != null && cat.MsgCount == 0)
+                            {
+                                Console.Clear();
+                                Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
+                                Console.ReadKey(true);
+                                return;
+                            }
                         }
 
                     }
@@ -356,10 +386,17 @@ namespace LORENZ
                         {
                             numeroInt = -1;
                         }
-                        int realNumero = ListeHistorique.Count - numeroInt;
-                        if (!AfficherEntree(realNumero))
+                        int realIndex = tempHist.Count - numeroInt;
+                        if (!AfficherEntree(getMainIndexByIndex(realIndex), cat))
                         {
-                            stackReview(realNumero);
+                            stackReview(realIndex);
+                            if (cat != null && cat.MsgCount == 0)
+                            {
+                                Console.Clear();
+                                Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
+                                Console.ReadKey(true);
+                                return;
+                            }
                         }
                     }
                     else
@@ -368,7 +405,10 @@ namespace LORENZ
                         Console.ReadKey(true);
                     }
 
-                    lastEntry = stackLastEntry.Pop();
+                    if (stackLastEntry.Count > 0)
+                    {
+                        lastEntry = stackLastEntry.Pop();
+                    }
                 }
             }
 
@@ -391,21 +431,38 @@ namespace LORENZ
                     stackLastEntry.Push(rev);
                 }
             }
+
+            int getMainIndexByIndex(int index)
+            {
+                if (index >= 0 && index < tempHist.Count)
+                {
+                    uint idRetrieved = tempHist[index].ID;
+                    for (int mainIndex = 0; mainIndex < Count; mainIndex++)
+                    {
+                        if (ListeHistorique[mainIndex].ID == idRetrieved)
+                        {
+                            return mainIndex;
+                        }
+                    }
+                }
+                return -1;
+            }
         }
 
-        public static bool AfficherEntree(int index)
+        public static bool AfficherEntree(int histIndex, Categorie cat = null)
         {
-            if (index < ListeHistorique.Count && index >= 0)
+            if (histIndex < ListeHistorique.Count && histIndex >= 0)
             {
                 Console.Clear();
-                string dateOfDeciphering = ListeHistorique[index].cipherDate.ToString("dddd d MMMM yyyy");
-                string hourOfDeciphering = ListeHistorique[index].cipherDate.ToString("H' h 'mm");
-                string historicMsg = ListeHistorique[index].msg;
-                string msgAuthor = ListeHistorique[index].author == "" ? "Inconnu" : ListeHistorique[index].author;
-                PrivacyState privSta = ListeHistorique[index].pState;
+                string dateOfDeciphering = ListeHistorique[histIndex].cipherDate.ToString("dddd d MMMM yyyy");
+                string hourOfDeciphering = ListeHistorique[histIndex].cipherDate.ToString("H' h 'mm");
+                string historicMsg = ListeHistorique[histIndex].msg;
+                string msgAuthor = ListeHistorique[histIndex].author == "" ? "Inconnu" : ListeHistorique[histIndex].author;
+                PrivacyState privSta = ListeHistorique[histIndex].pState;
 
+                // C'est la plus longue date possible pour le 3e millénaire
                 string modelMax = "Déchiffré le dimanche 31 décembre 2000 à 11 h 59 ";
-                int invIndex = ListeHistorique.Count - index;
+                int invIndex = ListeHistorique.Count - histIndex;
                 string headerMarker = new('=', modelMax.Length);
                 Console.WriteLine(headerMarker);
                 Console.WriteLine("Message historique #" + invIndex);
@@ -441,20 +498,21 @@ namespace LORENZ
 
                 Console.Write("\n" + historicMsg);
                 Extensions.AfficherMarqueurFin();
-                Console.WriteLine("\n[C]: Ajouter à une catégorie");
+                Console.WriteLine("\n[C]  : Ajouter à une catégorie");
                 Console.WriteLine("[Del]: Supprimer ce message");
                 Console.WriteLine("\nAppuyez sur n'importe quelle autre touche pour quitter...");
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
                 switch (saisie.Key)
                 {
                     case ConsoleKey.C:
-                        AjouterMsgCategorie(index);
+                        Categorie.AjoutCategorieMsg(histIndex);
                         break;
                     case ConsoleKey.Delete:
-                        RetirerHistorique(index);
-                        Display.PrintMessage("Message supprimé", MessageState.Warning);
-                        Console.ReadKey(true);
-                        return false;
+                        if (RetirerHistorique(histIndex, cat))
+                        {
+                            return false;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -536,6 +594,8 @@ namespace LORENZ
                     tupleEntry.Item5 = privSta;
                     ListeHistorique.Add(tupleEntry);
                 }
+
+                Categorie.NettoyerID();
             }
             catch (CryptographyException)
             {
@@ -546,7 +606,7 @@ namespace LORENZ
             return true;
         }
 
-        public static void EcrireHistorique()
+        public static void EcrireFichierHistorique()
         {
             Common.CphrMode = CypherMode.x1;
             string allHistoryStr = "";
@@ -594,15 +654,53 @@ namespace LORENZ
             uint newID = AssignNewId();
             (uint, DateTime, string, string, PrivacyState) nouvEntreeTuple = (newID, dateEntree, nouvEntree, auteur, pState);
             ListeHistorique.Add(nouvEntreeTuple);
-            EcrireHistorique();
+            EcrireFichierHistorique();
         }
 
-        public static bool RetirerHistorique(int indexEntree)
+        public static bool RetirerHistorique(int indexEntree, Categorie cat = null)
         {
             if (indexEntree < ListeHistorique.Count && indexEntree >= 0)
             {
+                if (cat != null)
+                {
+                    Display.PrintMessage("[R]  : Retrait de la catégorie", MessageState.Info);
+                    Display.PrintMessage("[S]  : Suppression définitive", MessageState.Info);
+                    Display.PrintMessage("Appuyez sur n'importe quelle autre touche pour annuler...", MessageState.Info);
+                    switch (Console.ReadKey(true).Key)
+                    {
+                        case ConsoleKey.R:
+                            cat.RemoveMsg(ListeHistorique[indexEntree].ID);
+                            Display.PrintMessage("Retiré de la catégorie " + cat.Nom + " avec succès !", MessageState.Success);
+                            Console.ReadKey(true);
+                            return true;
+                        case ConsoleKey.S:
+                            break;
+                        default:
+                            return false;
+                    }
+
+                }
+
+                Display.PrintMessage("Confirmez la suppression définitive du message en appuyant sur X.", MessageState.Warning);
+                Display.PrintMessage("Toute autre touche annulera l'opération.", MessageState.Warning);
+                if (Console.ReadKey(true).Key != ConsoleKey.X)
+                {
+                    return false;
+                }
+
+                uint idDel = ListeHistorique[indexEntree].ID;
+                foreach (Categorie catItem in Categorie.ListeCategories)
+                {
+                    if (catItem.RemoveMsg(idDel))
+                    {
+                        Display.PrintMessage("Retiré de la catégorie " + catItem.Nom, MessageState.Success);
+                    }
+                }
+
                 ListeHistorique.RemoveAt(indexEntree);
-                EcrireHistorique();
+                EcrireFichierHistorique();
+                Display.PrintMessage("Message supprimé.", MessageState.Success);
+                Console.ReadKey(true);
                 return true;
             }
             else
@@ -621,182 +719,22 @@ namespace LORENZ
             for (int i = 0; i < ListeHistorique.Count; i++, normal++)
             {
                 uint id = ListeHistorique[i].ID;
-                if (id != normal)
+                if (potentials.Count > 0)
                 {
-                    if (potentials.Count > 0 && potentials[0] == id)
-                    {
-                        potentials.RemoveAt(0);
-                        potentials.Add(normal);
-                    }
+                    potentials.Remove(id);
+                }
 
-                    if (id > normal)
+                if (id > normal)
+                {
+                    for (uint j = normal; j < id; j++)
                     {
-                        for (uint j = normal; j < id; j++)
-                        {
-                            potentials.Add(normal);
-                        }
-                        normal = id;
+                        potentials.Add(j);
                     }
+                    normal = id;
                 }
             }
 
             return potentials.Count > 0 ? potentials[0] : (uint)ListeHistorique.Count;
-        }
-
-        public static void AfficherCategories()
-        {
-            Console.Clear();
-            if (ListeCategories.Count > 0)
-            {
-                Console.WriteLine("Sélectionnez une catégorie en inscrivant son index");
-                Console.WriteLine("Appuyez sur ESC pour retourner...\n");
-
-                for (int cat = 0; cat < ListeCategories.Count; cat++)
-                {
-                    Console.WriteLine("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom);
-                }
-
-                int curTopInitial = Console.CursorTop;
-                int curLeftInitial = Console.CursorLeft;
-                string indexCatStr = default;
-                while (true)
-                {
-                    ConsoleKeyInfo numero = Console.ReadKey();
-                    if (numero.Key == ConsoleKey.Escape)
-                    {
-                        return;
-                    }
-
-                    if (numero.Key is >= ConsoleKey.D0 and <= ConsoleKey.D9)
-                    {
-                        indexCatStr += ((int)numero.Key - 48).ToString();
-                        Console.Write((char)numero.Key);
-                    }
-                    else if (numero.Key is >= ConsoleKey.NumPad0 and <= ConsoleKey.NumPad9)
-                    {
-                        indexCatStr += ((int)numero.Key - 96).ToString();
-                        Console.Write((int)(numero.Key - 96));
-                    }
-                    else if (numero.Key == ConsoleKey.Backspace && curLeftInitial > 3)
-                    {
-                        Console.SetCursorPosition(curLeftInitial - 1, curTopInitial);
-                        Console.Write(' ');
-                        Console.SetCursorPosition(curLeftInitial - 1, curTopInitial);
-
-                        indexCatStr = indexCatStr[..(indexCatStr.Length - 1)];
-                    }
-                    else if (numero.Key == ConsoleKey.Enter)
-                    {
-                        if (indexCatStr.Length != 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.SetCursorPosition(curLeftInitial, curTopInitial);
-                        }
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(curLeftInitial, curTopInitial);
-                        Console.Write(' ');
-                        Console.SetCursorPosition(curLeftInitial, curTopInitial);
-                    }
-                }
-            }
-            else
-            {
-                Display.PrintMessage("Il n'y a aucune catégorie existante.", MessageState.Warning);
-                Display.PrintMessage("Créez-en une nouvelle avant de continuer.", MessageState.Warning);
-                Console.WriteLine("\nAppuyez sur n'importe quelle touche pour retourner...");
-                Console.ReadKey(true);
-            }
-        }
-
-        public static void ConsulterCategorie(int indexCat)
-        {
-            if (indexCat < ListeCategories.Count && indexCat >= 0)
-            {
-                Console.Clear();
-                Console.WriteLine("Catégorie " + ListeCategories[indexCat].Nom);
-                Console.WriteLine();
-
-                // afficher les messages de la catégorie...
-            }
-            else
-            {
-                Console.CursorLeft = 0;
-                Display.PrintMessage("Index invalide ! ", MessageState.Failure);
-                Console.ReadKey(true);
-            }
-        }
-
-        public static void NouvelleCategorie(int msgIndex = -1)
-        {
-            Console.Clear();
-            Console.WriteLine("Création d'une nouvelle catégorie\n");
-            Console.Write("Nom de la catégorie : ");
-            string newCatName = Console.ReadLine();
-            ListeCategories.Add(new(newCatName));
-            Display.PrintMessage("Catégorie " + newCatName + " créée avec succès !", MessageState.Success);
-
-            if (msgIndex == -1)
-            {
-                Console.WriteLine("\nPour ajouter des entrées, accédez à l'un d'eux dans l'historique principal,");
-                Console.WriteLine("appuyez sur C puis choisissez la catégorie correspondante.");
-                Console.WriteLine("\nAppuyez sur n'importe quelle touche pour terminer...");
-                Console.ReadKey(true);
-            }
-            else
-            {
-
-            }
-        }
-
-        private static void AjouterMsgCategorie(int msgIndex)
-        {
-
-        }
-
-        private static void LireFichierCategories()
-        {
-
-        }
-
-        private static void EcrireFichierCategories()
-        {
-
-        }
-    }
-
-    public class Categorie
-    {
-        public string Nom { get; set; }
-        private List<uint> ListeMsg { get; set; }
-
-        public Categorie(string nom)
-        {
-            Nom = nom;
-            ListeMsg = new();
-        }
-
-        public void AddMsg(uint id)
-        {
-            ListeMsg.Add(id);
-        }
-
-        public bool RemoveMsg(uint id)
-        {
-            for (int msg = 0; msg < ListeMsg.Count; msg++)
-            {
-                if (id == ListeMsg[msg])
-                {
-                    ListeMsg.RemoveAt(msg);
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

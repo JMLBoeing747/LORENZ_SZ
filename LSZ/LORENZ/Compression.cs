@@ -347,7 +347,7 @@ namespace LORENZ
                 }
 
                 Console.Write("Nouveau taux : ");
-                newRatioStr = Extensions.SpecialPrint();
+                newRatioStr = Extensions.SpecialInput();
                 if (newRatioStr is null or "")
                 {
                     return;

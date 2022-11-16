@@ -213,7 +213,7 @@ namespace LORENZ
 
             Console.WriteLine("\nActuel : " + Parametres.PseudoName);
             Console.Write("Nouveau >>> ");
-            string newPseudo = Extensions.SpecialPrint();
+            string newPseudo = Extensions.SpecialInput();
             if (newPseudo is null or "")
             {
                 return;
@@ -286,7 +286,7 @@ namespace LORENZ
                 Console.WriteLine("Pour annuler, appuyez sur ESC.");
                 Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D.");
                 Console.WriteLine("Entrez le texte à chiffrer :");
-                messageOriginal = Extensions.SpecialPrint('\x04');
+                messageOriginal = Extensions.SpecialInput('\x04');
 
                 if (messageOriginal != null)
                 {
@@ -355,7 +355,7 @@ namespace LORENZ
                     Console.WriteLine("Pour annuler, appuyez sur ESC.");
                     Console.WriteLine("Pour terminer, appuyez sur CTRL + D.");
                     Console.WriteLine("Entrez le texte à déchiffrer :");
-                    string messageADechiffrer = Extensions.SpecialPrint('\x04');
+                    string messageADechiffrer = Extensions.SpecialInput('\x04');
 
                     if (messageADechiffrer == null)
                     {
@@ -541,6 +541,13 @@ namespace LORENZ
         private static void MenuHistorique()
         {
             Console.Clear();
+            if (Categorie.CategoriesCount == 0)
+            {
+                Display.PrintMessage("Lecture de CATEGORY.LZI...", MessageState.Info);
+                Categorie.LireFichierCategories();
+            }
+
+            Console.Clear();
             if (Historique.Count == 0)
             {
                 Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
@@ -557,6 +564,7 @@ namespace LORENZ
                 }
                 else
                 {
+                    
                     Console.Clear();
                 }
             }
@@ -565,9 +573,10 @@ namespace LORENZ
             {
                 Extensions.AfficherTitre("Historique", ConsoleColor.Gray, ConsoleColor.Black);
                 Console.WriteLine("[H]: Consulter l'historique");
-                if (Historique.CategoriesCount > 0)
+                if (Categorie.CategoriesCount > 0)
                 {
                     Console.WriteLine("[C]: Consulter les catégories");
+                    Console.WriteLine("[S]: Supprimer une catégorie");
                 }
                 Console.WriteLine("[N]: Nouvelle catégorie");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
@@ -580,11 +589,31 @@ namespace LORENZ
                         Console.Clear();
                         break;
                     case ConsoleKey.C:
-                        Historique.AfficherCategories();
-                        Console.Clear();
+                        if (Categorie.CategoriesCount > 0)
+                        {
+                            Categorie.MenuGeneral();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                        }
+                        break;
+                    case ConsoleKey.S:
+                        if (Categorie.CategoriesCount > 0)
+                        {
+                            Categorie.MenuSuppression();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                        }
                         break;
                     case ConsoleKey.N:
-                        Historique.NouvelleCategorie();
+                        Categorie.NouvelleCategorie();
                         Console.Clear();
                         break;
                     case ConsoleKey.Escape:
