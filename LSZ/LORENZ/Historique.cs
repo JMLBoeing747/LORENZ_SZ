@@ -359,7 +359,6 @@ namespace LORENZ
 
                 if (!changedPage)
                 {
-                    // Afficher entrée
                     if (numeroStr[0] == 'D' && numeroStr.Length > 1)
                     {
                         if (!int.TryParse(numeroStr[1..], out int numeroDel))
@@ -371,6 +370,13 @@ namespace LORENZ
                         if (RetirerHistorique(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
+                            if (cat != null && cat.ListeMsg.Count == 0)
+                            {
+                                Console.Clear();
+                                Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
+                                Console.ReadKey(true);
+                                return;
+                            }
                         }
 
                     }
@@ -384,6 +390,13 @@ namespace LORENZ
                         if (!AfficherEntree(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
+                            if (cat != null && cat.ListeMsg.Count == 0)
+                            {
+                                Console.Clear();
+                                Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
+                                Console.ReadKey(true);
+                                return;
+                            }
                         }
                     }
                     else
@@ -657,6 +670,8 @@ namespace LORENZ
                     {
                         case ConsoleKey.R:
                             cat.RemoveMsg(ListeHistorique[indexEntree].ID);
+                            Display.PrintMessage("Retiré de la catégorie " + cat.Nom + " avec succès !", MessageState.Success);
+                            Console.ReadKey(true);
                             return true;
                         case ConsoleKey.S:
                             break;

@@ -46,6 +46,7 @@ namespace LORENZ
                 if (id == ListeMsg[msg])
                 {
                     ListeMsg.RemoveAt(msg);
+                    EcrireFichierCategories();
                     return true;
                 }
             }
