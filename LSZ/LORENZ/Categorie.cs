@@ -249,8 +249,11 @@ namespace LORENZ
                 Display.PrintMessage("Confirmez en appuyant sur X. Toute autre touche annulera l'opération.", MessageState.Warning);
                 if (Console.ReadKey(true).Key == ConsoleKey.X)
                 {
+                    string delCatName = ListeCategories[catIndex].Nom;
                     ListeCategories.RemoveAt(catIndex);
                     EcrireFichierCategories();
+                    Display.PrintMessage("Catégorie " + delCatName + " supprimée !", MessageState.Success);
+                    Console.ReadKey(true);
                 }
                 return true;
             }
