@@ -195,6 +195,35 @@ namespace LORENZ
             } while (indexTyped != -1);
         }
 
+        public static void NettoyerID()
+        {
+            bool haveChange = false;
+            foreach (Categorie catItem in ListeCategories)
+            {
+                for (int i = 0; i < catItem.ListeMsg.Count; i++)
+                {
+                    for (int j = 0; j < Historique.Count; j++)
+                    {
+                        if (Historique.ListeHistorique[j].ID == catItem.ListeMsg[i])
+                        {
+                            break;
+                        }
+                        else if (j == Historique.Count - 1)
+                        {
+                            catItem.ListeMsg.RemoveAt(i);
+                            i--;
+                            haveChange = true;
+                        }
+                    }
+                }
+            }
+
+            if (haveChange)
+            {
+                EcrireFichierCategories();
+            }
+        }
+
         public static bool LireFichierCategories()
         {
             try
