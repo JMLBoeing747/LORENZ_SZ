@@ -198,6 +198,64 @@ namespace LORENZ
             } while (indexTyped != -1);
         }
 
+        public static void MenuSuppression()
+        {
+            while (true)
+            {
+                if (ListeCategories.Count > 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Sélectionnez la catégorie à supprimer en inscrivant son index");
+                    Console.WriteLine("Appuyez sur ESC pour annuler...\n");
+
+                    for (int cat = 0; cat < ListeCategories.Count; cat++)
+                    {
+                        Console.WriteLine("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom);
+                    }
+
+                    int indexCat = Extensions.SpecialInputDigits(addNewLine: false);
+                    if (indexCat == -1)
+                    {
+                        break;
+                    }
+
+                    if (!SupprimerCategorie(indexCat - 1))
+                    {
+                        Display.PrintMessage("Index invalide !", MessageState.Failure);
+                        Console.ReadKey(true);
+                    }
+                }
+                else
+                {
+                    Console.Clear();
+                    Display.PrintMessage("Il n'y a aucune catégorie existante.", MessageState.Warning);
+                    Console.WriteLine("\nAppuyez sur n'importe quelle touche pour retourner...");
+                    Console.ReadKey(true);
+                    break;
+                }
+            }
+        }
+
+        public static bool SupprimerCategorie(int catIndex)
+        {
+            if (catIndex >= 0 && catIndex < ListeCategories.Count)
+            {
+                Display.PrintMessage("Êtes-vous sûr de supprimer la catégorie " + ListeCategories[catIndex].Nom + " ?",
+                                     MessageState.Warning);
+                Display.PrintMessage("Confirmez en appuyant sur X. Toute autre touche annulera l'opération.", MessageState.Warning);
+                if (Console.ReadKey(true).Key == ConsoleKey.X)
+                {
+                    ListeCategories.RemoveAt(catIndex);
+                    EcrireFichierCategories();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static void NettoyerID()
         {
             bool haveChange = false;

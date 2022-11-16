@@ -580,6 +580,7 @@ namespace LORENZ
                 if (Categorie.CategoriesCount > 0)
                 {
                     Console.WriteLine("[C]: Consulter les catégories");
+                    Console.WriteLine("[S]: Supprimer une catégorie");
                 }
                 Console.WriteLine("[N]: Nouvelle catégorie");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
@@ -595,6 +596,18 @@ namespace LORENZ
                         if (Categorie.CategoriesCount > 0)
                         {
                             Categorie.MenuGeneral();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Display.PrintMessage("Ceci n'est pas une touche valide.", MessageState.Failure);
+                        }
+                        break;
+                    case ConsoleKey.S:
+                        if (Categorie.CategoriesCount > 0)
+                        {
+                            Categorie.MenuSuppression();
                             Console.Clear();
                         }
                         else
