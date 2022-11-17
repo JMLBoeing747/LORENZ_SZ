@@ -203,7 +203,7 @@ namespace LORENZ
         {
             Console.Clear();
             Extensions.AfficherTitre("Modifier le pseudo", ConsoleColor.DarkYellow, ConsoleColor.Black);
-            
+
             Console.WriteLine("Le pseudo est le nom qui sera affiché à tous les récepteurs pouvant déchiffrer le message");
             Console.WriteLine("et qui ont activé l'affichage de l'expéditeur. Si vous désirez le modifier, tapez");
             Console.WriteLine("ci-dessous le nouveau pseudo à utiliser pour les chiffrements futurs. Si vous désirez le");
@@ -553,18 +553,21 @@ namespace LORENZ
                 Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
                 if (!Historique.LireFichierHistorique())
                 {
+                    Console.Clear();
                     Console.BackgroundColor = ConsoleColor.DarkBlue;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("L'historique est vide.");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Display.PrintMessage("\nSauvegardez quelques messages déchiffrés pour commencer et revenez y jeter un coup d'oeil.",
-                                         MessageState.Warning);
+                    Display.PrintMessage("\nSauvegardez quelques messages déchiffrés pour commencer " +
+                        "et revenez y jeter un coup d'oeil.", MessageState.Warning);
+                    Display.PrintMessage("Appuyez sur n'importe quelle touche pour retourner...", MessageState.Info);
+                    Console.ReadKey(true);
+                    Console.Clear();
                     return;
                 }
                 else
                 {
-                    
                     Console.Clear();
                 }
             }
