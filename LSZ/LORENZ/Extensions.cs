@@ -122,10 +122,10 @@ namespace LORENZ
             Console.WriteLine("Ces fichiers se créent lorsqu'un message chiffré devient trop long pour être retranscrit sur le");
             Console.WriteLine("terminal. Lorsque viendra le temps de déchiffrer de tels fichiers, il faudra alors les insérer dans");
             Console.WriteLine("ce répertoire afin d'amorcer leur déchiffrement.");
-            Console.WriteLine("\nSpécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :");
+            Display.PrintMessage("\nSpécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :", MessageState.Warning);
             if (!cancelDenied)
             {
-                Display.PrintMessage("Pour annuler, appuyez sur ESC, ou sur ENTRÉE sans rien écrire.", MessageState.Warning);
+                Console.WriteLine("Pour annuler, appuyez sur ESC, ou sur ENTRÉE sans rien écrire.");
             }
 
             if (Parametres.CipherFileDirectory != null)

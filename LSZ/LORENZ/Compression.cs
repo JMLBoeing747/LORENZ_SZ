@@ -330,10 +330,10 @@ namespace LORENZ
         public static void ModifierTaux()
         {
             Console.Clear();
-            Console.WriteLine("Modification du taux de compression");
-            Console.WriteLine("\nInscrivez le taux de compression minimum que vous désirez obtenir");
-            Console.WriteLine("lors de vos futurs chiffrements.\n");
-            Display.PrintMessage("Pour annuler, appuyez sur ESC ou sur ENTRÉE sans rien écrire", MessageState.Warning);
+            Extensions.AfficherTitre("Taux de compression", ConsoleColor.DarkMagenta);
+            Display.PrintMessage("Inscrivez le taux de compression minimum que vous désirez obtenir", MessageState.Warning);
+            Display.PrintMessage("lors de vos futurs chiffrements.", MessageState.Warning);
+            Console.WriteLine("Pour annuler, appuyez sur ESC ou sur ENTRÉE sans rien écrire");
             Display.PrintMessage("\nTaux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
                                  MessageState.Warning);
 

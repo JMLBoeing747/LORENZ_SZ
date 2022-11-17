@@ -570,8 +570,9 @@ namespace LORENZ
         public static void SetTransTable()
         {
             Console.Clear();
+            Extensions.AfficherTitre("Table de transcription", ConsoleColor.DarkMagenta);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("ATTENTION ! Modifier la racine de la table de transcriptions sans avoir aucune");
+            Console.WriteLine("ATTENTION ! Modifier la racine de la table de transcription sans avoir aucune");
             Console.WriteLine("connaissance approfondie du principe de chiffrement peut causer de sérieux problèmes auprès");
             Console.WriteLine("de vos correspondants, notamment au moment de la transmission.");
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -588,7 +589,7 @@ namespace LORENZ
                 return;
             }
 
-            Console.CursorTop = 5;      // Pour effacer les lignes indiquant d'appuyer sur F12.
+            Console.CursorTop -= 3;      // Pour effacer les lignes indiquant d'appuyer sur F12.
             Console.WriteLine("\nInscrivez la nouvelle racine composée de 4 chiffres décimaux (0-9).");
             Console.WriteLine("Pour annuler l'opération, appuyez sur ESC.             \n");
             Console.WriteLine("Racine actuelle de la TT : " + TransTableRoot);
@@ -603,6 +604,7 @@ namespace LORENZ
                 ConsoleKeyInfo digit = Console.ReadKey();
                 if (digit.Key == ConsoleKey.Escape)
                 {
+                    Console.Write("\xFF");
                     return;
                 }
                 else if (digit.Key == ConsoleKey.Enter)
@@ -660,6 +662,7 @@ namespace LORENZ
         public static void SetSecretTable()
         {
             Console.Clear();
+            Extensions.AfficherTitre("Table secrète", ConsoleColor.DarkMagenta);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("ATTENTION ! Modifier la disposition de la table secrète sans avoir aucune connaissance");
             Console.WriteLine("approfondie du principe de chiffrement peut causer de sérieux problèmes auprès de vos");
@@ -679,7 +682,7 @@ namespace LORENZ
                 return;
             }
 
-            Console.CursorTop = 5;      // Pour effacer les lignes indiquant d'appuyer sur F12.
+            Console.CursorTop -= 3;      // Pour effacer les lignes indiquant d'appuyer sur F12.
             Console.WriteLine("\nInscrivez la nouvelle disposition sous la forme d'une chaine de 10 caractères uniques.");
             Console.WriteLine("Pour annuler l'opération, appuyez sur ESC sans rien écrire.\n");
             Console.WriteLine("Disposition actuelle de la TS : " + BaseSecretCode);
