@@ -58,7 +58,7 @@ namespace LORENZ
                 Console.Clear();
                 if (title != default)
                 {
-                    Console.WriteLine(title);
+                    Extensions.AfficherTitre(title, ConsoleColor.DarkMagenta);
                     Console.WriteLine();
                 }
 

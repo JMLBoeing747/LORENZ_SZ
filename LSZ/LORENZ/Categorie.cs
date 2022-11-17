@@ -73,6 +73,7 @@ namespace LORENZ
                 if (ListeCategories.Count > 0)
                 {
                     Console.Clear();
+                    Extensions.AfficherTitre("Catégories", ConsoleColor.Green);
                     Console.WriteLine("Sélectionnez une catégorie en inscrivant son index");
                     Console.WriteLine("Appuyez sur ESC pour retourner...\n");
 
@@ -119,8 +120,7 @@ namespace LORENZ
                 }
 
                 // Afficher les messages de la catégorie
-                string titre = "Catégorie " + categorieChoisie.Nom;
-                Historique.AfficherHistorique(titre, categorieChoisie);
+                Historique.AfficherHistorique(categorieChoisie.Nom, categorieChoisie);
                 return true;
             }
             else
@@ -132,7 +132,7 @@ namespace LORENZ
         public static void NouvelleCategorie(int msgIndex = -1)
         {
             Console.Clear();
-            Console.WriteLine("Création d'une nouvelle catégorie");
+            Extensions.AfficherTitre("Nouvelle catégorie", ConsoleColor.Blue);
             Display.PrintMessage("Pour annuler, appuyez sur ESC, ou sur ENTRÉE sans rien écrire.\n", MessageState.Warning);
             Console.Write("Nom de la nouvelle catégorie : ");
             string newCatName = Extensions.SpecialInput();
@@ -209,6 +209,7 @@ namespace LORENZ
                 if (ListeCategories.Count > 0)
                 {
                     Console.Clear();
+                    Extensions.AfficherTitre("Suppression de catégorie", ConsoleColor.Red);
                     Console.WriteLine("Sélectionnez la catégorie à supprimer en inscrivant son index");
                     Console.WriteLine("Appuyez sur ESC pour annuler...\n");
 
