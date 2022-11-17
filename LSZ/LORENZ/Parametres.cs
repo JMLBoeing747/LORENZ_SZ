@@ -327,7 +327,7 @@ namespace LORENZ
 
             string profile = "Profile";
             int ini11 = GetPrivateProfileString(profile, "SHOWSENDER", "", sb, sb.Capacity, LorenzParamsFile);
-            ShowPseudoNameSender = sb.ToString() == "True";
+            ShowPseudoNameSender = sb.ToString().ToLower() == "true";
             sb.Clear();
             int ini12 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, LorenzParamsFile);
             PseudoName = sb.ToString();
@@ -346,7 +346,7 @@ namespace LORENZ
 
             string compression = "Compression";
             int ini31 = GetPrivateProfileString(compression, "ACTIVCMPRS", "", sb, sb.Capacity, LorenzParamsFile);
-            Compression.CompressionActive = sb.ToString() == "True";
+            Compression.CompressionActive = sb.ToString().ToLower() == "true";
             sb.Clear();
             int ini32 = GetPrivateProfileString(compression, "CMPRSRATIO", "", sb, sb.Capacity, LorenzParamsFile);
             Compression.TauxCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
