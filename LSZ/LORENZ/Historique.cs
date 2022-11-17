@@ -531,6 +531,11 @@ namespace LORENZ
             {
                 if (!File.Exists(FichierHistorique))
                 {
+                    if (Categorie.CategoriesCount == 0)
+                    {
+                        Categorie.LireFichierCategories();
+                    }
+                    Categorie.NettoyerID();
                     return false;
                 }
 

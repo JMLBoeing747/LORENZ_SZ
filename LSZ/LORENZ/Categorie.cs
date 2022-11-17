@@ -275,6 +275,13 @@ namespace LORENZ
             bool haveChange = false;
             foreach (Categorie catItem in ListeCategories)
             {
+                if (Historique.Count == 0)
+                {
+                    catItem.ListeMsg.Clear();
+                    haveChange = true;
+                    continue;
+                }
+
                 for (int i = 0; i < catItem.MsgCount; i++)
                 {
                     for (int j = 0; j < Historique.Count; j++)
