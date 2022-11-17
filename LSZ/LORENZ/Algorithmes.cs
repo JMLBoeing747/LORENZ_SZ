@@ -651,7 +651,7 @@ namespace LORENZ
             }
 
             TransTableRoot = rootTemp;
-            Parametres.EcrireGeneralParamsFile();
+            Parametres.EcrireFichierParams();
             Console.WriteLine("\nNouvelle racine : " + TransTableRoot);
             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
             Console.ReadKey(true);
@@ -719,7 +719,7 @@ namespace LORENZ
                         if (!sameChars)
                         {
                             BaseSecretCode = newSTSet.ToUpper();
-                            Parametres.EcrireGeneralParamsFile();
+                            Parametres.EcrireFichierParams();
                             Display.PrintMessage("Nouvelle disposition : " + BaseSecretCode, MessageState.Success);
                             Console.WriteLine("Appuyez sur n'importe quelle touche pour continuer...");
                             Console.ReadKey(true);

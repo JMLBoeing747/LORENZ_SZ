@@ -26,7 +26,7 @@ namespace LORENZ
         private static void Demarrage()
         {
             Display.PrintMessage("Initialisation des composants...", MessageState.Info);
-            Parametres.LireGeneralParamsFile();
+            Parametres.LireFichierParams();
             double argent = Jeux.ReadCoinsInfoFile();
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -114,7 +114,7 @@ namespace LORENZ
                         continue;
                     case ConsoleKey.S:
                         Parametres.ShowPseudoNameSender = !Parametres.ShowPseudoNameSender;
-                        Parametres.EcrireGeneralParamsFile();
+                        Parametres.EcrireFichierParams();
                         Console.Clear();
                         if (Parametres.ShowPseudoNameSender)
                         {
@@ -127,7 +127,7 @@ namespace LORENZ
                         continue;
                     case ConsoleKey.C:
                         Compression.CompressionActive = !Compression.CompressionActive;
-                        Parametres.EcrireGeneralParamsFile();
+                        Parametres.EcrireFichierParams();
                         Console.Clear();
                         if (Compression.CompressionActive)
                         {
@@ -226,13 +226,13 @@ namespace LORENZ
             else if (newPseudo == Environment.UserName || newPseudo.ToUpper() == "$DEFAULT")
             {
                 Parametres.PseudoName = Environment.UserName;
-                Parametres.EcrireGeneralParamsFile();
+                Parametres.EcrireFichierParams();
                 Display.PrintMessage("Valeur par défaut réinitialisée", MessageState.Warning);
             }
             else
             {
                 Parametres.PseudoName = newPseudo;
-                Parametres.EcrireGeneralParamsFile();
+                Parametres.EcrireFichierParams();
                 Display.PrintMessage("Nouveau pseudo enregistré !", MessageState.Success);
             }
             Display.PrintMessage("Appuyez sur une touche pour continuer...", MessageState.Warning);

@@ -15,7 +15,8 @@ namespace LORENZ
         public static string CoinsRecordFile { get => $@"{ParamsDirectory}/COINSREC.LZI"; }
         public static string HelpFilePath { get => @"LZHELP.CHM"; }
         public static string ProductKeyFile { get => @"PRDCTKEY.LKI"; }
-        public static string GeneralParamsFile { get => $@"{ParamsDirectory}/PARAMS.INI"; }
+        public static string OldParamsFile { get => $@"{ParamsDirectory}/PARAMS.INI"; }
+        public static string LorenzParamsFile { get => $@"{ParamsDirectory}/LORENZ.INI"; }
         public static string FichierEnAnalyse { get; set; }
 
         public static bool ShowPseudoNameSender { get; set; }
@@ -148,19 +149,19 @@ namespace LORENZ
             if (newPseudo == "")
             {
                 PseudoName = Environment.UserName;
-                EcrireGeneralParamsFile();
+                EcrireFichierParams();
                 Display.PrintMessage("Valeur initialisée à : " + PseudoName);
             }
             else if (newPseudo == Environment.UserName)
             {
                 PseudoName = newPseudo;
-                EcrireGeneralParamsFile();
+                EcrireFichierParams();
                 Display.PrintMessage("Valeur par défaut choisie", MessageState.Warning);
             }
             else
             {
                 PseudoName = newPseudo;
-                EcrireGeneralParamsFile();
+                EcrireFichierParams();
                 Display.PrintMessage("Nouveau pseudo enregistré!", MessageState.Success);
             }
             Display.PrintMessage("Appuyez sur une touche pour continuer...", MessageState.Warning);
@@ -315,9 +316,9 @@ namespace LORENZ
             return byteArray;
         }
 
-        public static void LireGeneralParamsFile()
+        public static void LireFichierParams()
         {
-            if (!File.Exists(GeneralParamsFile))
+            if (!File.Exists(LorenzParamsFile) && !File.Exists(OldParamsFile))
             {
                 CreerPseudo();
             }
@@ -325,45 +326,44 @@ namespace LORENZ
             StringBuilder sb = new(255);
 
             string profile = "Profile";
-            int ini11 = GetPrivateProfileString(profile, "SHOWSENDER", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini11 = GetPrivateProfileString(profile, "SHOWSENDER", "", sb, sb.Capacity, LorenzParamsFile);
             ShowPseudoNameSender = sb.ToString() == "True";
             sb.Clear();
-            int ini12 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini12 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, LorenzParamsFile);
             PseudoName = sb.ToString();
             sb.Clear();
 
             string settings = "Settings";
-            int ini21 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini21 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, LorenzParamsFile);
             CipherFileDirectory = sb.ToString() == "" ? null : sb.ToString();
             sb.Clear();
-            int ini22 = GetPrivateProfileString(settings, "TRANSTABLE", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini22 = GetPrivateProfileString(settings, "TRANSTABLE", "", sb, sb.Capacity, LorenzParamsFile);
             Algorithmes.TransTableRoot = sb.ToString();
             sb.Clear();
-            int ini23 = GetPrivateProfileString(settings, "SECRETABLE", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini23 = GetPrivateProfileString(settings, "SECRETABLE", "", sb, sb.Capacity, LorenzParamsFile);
             Algorithmes.BaseSecretCode = sb.ToString();
             sb.Clear();
 
             string compression = "Compression";
-            int ini31 = GetPrivateProfileString(compression, "ACTIVCMPRS", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini31 = GetPrivateProfileString(compression, "ACTIVCMPRS", "", sb, sb.Capacity, LorenzParamsFile);
             Compression.CompressionActive = sb.ToString() == "True";
             sb.Clear();
-            int ini32 = GetPrivateProfileString(compression, "CMPRSRATIO", "", sb, sb.Capacity, GeneralParamsFile);
+            int ini32 = GetPrivateProfileString(compression, "CMPRSRATIO", "", sb, sb.Capacity, LorenzParamsFile);
             Compression.TauxCompressionMin = double.TryParse(sb.ToString(), out double ratio) ? ratio : 0.15;
         }
 
-        public static void EcrireGeneralParamsFile()
+        public static void EcrireFichierParams()
         {
-            File.Delete(GeneralParamsFile);
             string profile = "Profile";
-            WritePrivateProfileString(profile, "SHOWSENDER", ShowPseudoNameSender.ToString(), GeneralParamsFile);
-            WritePrivateProfileString(profile, "PSEUDONAME", PseudoName, GeneralParamsFile);
+            WritePrivateProfileString(profile, "SHOWSENDER", ShowPseudoNameSender.ToString(), LorenzParamsFile);
+            WritePrivateProfileString(profile, "PSEUDONAME", PseudoName, LorenzParamsFile);
             string settings = "Settings";
-            WritePrivateProfileString(settings, "CIPHFILEDR", CipherFileDirectory, GeneralParamsFile);
-            WritePrivateProfileString(settings, "TRANSTABLE", Algorithmes.TransTableRoot, GeneralParamsFile);
-            WritePrivateProfileString(settings, "SECRETABLE", Algorithmes.BaseSecretCode, GeneralParamsFile);
+            WritePrivateProfileString(settings, "CIPHFILEDR", CipherFileDirectory, LorenzParamsFile);
+            WritePrivateProfileString(settings, "TRANSTABLE", Algorithmes.TransTableRoot, LorenzParamsFile);
+            WritePrivateProfileString(settings, "SECRETABLE", Algorithmes.BaseSecretCode, LorenzParamsFile);
             string compression = "Compression";
-            WritePrivateProfileString(compression, "ACTIVCMPRS", Compression.CompressionActive.ToString(), GeneralParamsFile);
-            WritePrivateProfileString(compression, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), GeneralParamsFile);
+            WritePrivateProfileString(compression, "ACTIVCMPRS", Compression.CompressionActive.ToString(), LorenzParamsFile);
+            WritePrivateProfileString(compression, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), LorenzParamsFile);
         }
     }
 }
