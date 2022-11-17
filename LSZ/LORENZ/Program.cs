@@ -558,7 +558,7 @@ namespace LORENZ
                     Console.WriteLine("L'historique est vide.");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Display.PrintMessage("\nSauvegardez des messages déchiffrés pour le remplir et revenez y jeter un coup d'oeil.",
+                    Display.PrintMessage("\nSauvegardez quelques messages déchiffrés pour commencer et revenez y jeter un coup d'oeil.",
                                          MessageState.Warning);
                     return;
                 }
@@ -573,12 +573,12 @@ namespace LORENZ
             {
                 Extensions.AfficherTitre("Historique", ConsoleColor.Gray, ConsoleColor.Black);
                 Console.WriteLine("[H]: Consulter l'historique");
+                Console.WriteLine("[N]: Nouvelle catégorie");
                 if (Categorie.CategoriesCount > 0)
                 {
-                    Console.WriteLine("[C]: Consulter les catégories");
+                    Console.WriteLine("\n[C]: Consulter les catégories");
                     Console.WriteLine("[S]: Supprimer une catégorie");
                 }
-                Console.WriteLine("[N]: Nouvelle catégorie");
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
 
                 ConsoleKeyInfo saisie = Console.ReadKey(true);
