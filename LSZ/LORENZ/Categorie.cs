@@ -258,7 +258,7 @@ namespace LORENZ
                 {
                     string delCatName = ListeCategories[catIndex].Nom;
                     ListeCategories.RemoveAt(catIndex);
-                    EcrireFichierCategories();
+                    EcrireFichierCategories(true);
                     Display.PrintMessage("Catégorie " + delCatName + " supprimée !", MessageState.Success);
                     Console.ReadKey(true);
                 }
@@ -351,9 +351,9 @@ namespace LORENZ
             return true;
         }
 
-        private static void EcrireFichierCategories()
+        private static void EcrireFichierCategories(bool verifyEmpty = false)
         {
-            if (ListeCategories.Count == 0 && File.Exists(FichierCategories))
+            if (ListeCategories.Count == 0 && File.Exists(FichierCategories) && verifyEmpty)
             {
                 File.Delete(FichierCategories);
                 return;

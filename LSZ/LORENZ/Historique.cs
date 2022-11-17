@@ -600,8 +600,14 @@ namespace LORENZ
             return true;
         }
 
-        public static void EcrireFichierHistorique()
+        public static void EcrireFichierHistorique(bool verifyEmpty = false)
         {
+            if (ListeHistorique.Count == 0 && File.Exists(FichierHistorique) && verifyEmpty)
+            {
+                File.Delete(FichierHistorique);
+                return;
+            }
+
             Common.CphrMode = CypherMode.x1;
             string allHistoryStr = "";
             foreach ((uint, DateTime, string, string, PrivacyState) item in ListeHistorique)
@@ -692,7 +698,7 @@ namespace LORENZ
                 }
 
                 ListeHistorique.RemoveAt(indexEntree);
-                EcrireFichierHistorique();
+                EcrireFichierHistorique(true);
                 Display.PrintMessage("Message supprimé.", MessageState.Success);
                 Console.ReadKey(true);
                 return true;
