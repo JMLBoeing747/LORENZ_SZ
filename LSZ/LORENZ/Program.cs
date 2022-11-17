@@ -545,15 +545,20 @@ namespace LORENZ
             {
                 Display.PrintMessage("Lecture de CATEGORY.LZI...", MessageState.Info);
                 Categorie.LireFichierCategories();
+                Console.Clear();
             }
 
-            Console.Clear();
             if (Historique.Count == 0)
             {
                 Display.PrintMessage("Lecture de HISTORY.LZI...", MessageState.Info);
-                if (!Historique.LireFichierHistorique())
+                Historique.LireFichierHistorique();
+                Console.Clear();
+            }
+
+            while (true)
+            {
+                if (Historique.Count == 0)
                 {
-                    Console.Clear();
                     Console.BackgroundColor = ConsoleColor.DarkBlue;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("L'historique est vide.");
@@ -566,14 +571,6 @@ namespace LORENZ
                     Console.Clear();
                     return;
                 }
-                else
-                {
-                    Console.Clear();
-                }
-            }
-
-            while (true)
-            {
                 Extensions.AfficherTitre("Historique", ConsoleColor.Gray, ConsoleColor.Black);
                 Console.WriteLine("[H]: Consulter l'historique");
                 Console.WriteLine("[N]: Nouvelle catégorie");

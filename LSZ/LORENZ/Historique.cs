@@ -56,7 +56,11 @@ namespace LORENZ
             while (true)
             {
                 Console.Clear();
-                if (cat != null && cat.MsgCount == 0)
+                if (ListeHistorique.Count == 0)
+                {
+                    return;
+                }
+                else if (cat != null && cat.MsgCount == 0)
                 {
                     Console.Clear();
                     Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
