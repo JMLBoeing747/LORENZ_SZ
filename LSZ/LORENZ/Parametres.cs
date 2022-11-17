@@ -322,6 +322,11 @@ namespace LORENZ
             {
                 CreerPseudo();
             }
+            else if (File.Exists(OldParamsFile))
+            {
+                LireOldParams();
+                return;
+            }
 
             StringBuilder sb = new(255);
 
@@ -364,6 +369,36 @@ namespace LORENZ
             string compression = "Compression";
             WritePrivateProfileString(compression, "ACTIVCMPRS", Compression.CompressionActive.ToString(), LorenzParamsFile);
             WritePrivateProfileString(compression, "CMPRSRATIO", Compression.TauxCompressionMin.ToString(), LorenzParamsFile);
+        }
+
+        private static void LireOldParams()
+        {
+            // Pour la rétrocompatibilité avec l'ancien fichier PARAMS.INI
+            // On importe les anciens paramètres aux nouveaux de LORENZ.INI
+            string[] lines = File.ReadAllLines(OldParamsFile);
+            foreach (string ln in lines)
+            {
+                if (ln.StartsWith("SHOWSENDER"))
+                {
+                    string[] param = ln.Split('=');
+                    if (param.Length == 2)
+                    {
+                        ShowPseudoNameSender = param[1].ToLower() == "true";
+                    }
+                }
+                else if (ln.StartsWith("PSEUDONAME"))
+                {
+                    string[] param = ln.Split('=');
+                    if (param.Length == 2)
+                    {
+                        PseudoName = param[1];
+                    }
+                }
+            }
+            EcrireFichierParams();
+
+            // Suppression pour oublier l'ancienne version
+            File.Delete(OldParamsFile);
         }
     }
 }
