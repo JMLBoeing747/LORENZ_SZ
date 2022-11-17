@@ -66,6 +66,12 @@ namespace LORENZ
             return false;
         }
 
+        public void ConsulterCategorie()
+        {
+            // Afficher les messages de la catégorie
+            Historique.AfficherHistorique(Nom, this);
+        }
+
         public static void MenuGeneral()
         {
             while (true)
@@ -88,7 +94,12 @@ namespace LORENZ
                         break;
                     }
 
-                    if (!ConsulterCategorie(indexCat - 1))
+                    indexCat--;
+                    if (indexCat >= 0 && indexCat < ListeCategories.Count)
+                    {
+                        ListeCategories[indexCat].ConsulterCategorie();
+                    }
+                    else
                     {
                         Display.PrintMessage("Index invalide ! ", MessageState.Failure);
                         Console.ReadKey(true);
@@ -103,29 +114,6 @@ namespace LORENZ
                     Console.ReadKey(true);
                     break;
                 }
-            }
-        }
-
-        public static bool ConsulterCategorie(int indexCat)
-        {
-            if (indexCat < ListeCategories.Count && indexCat >= 0)
-            {
-                Categorie categorieChoisie = ListeCategories[indexCat];
-                if (categorieChoisie.MsgCount == 0)
-                {
-                    Console.Clear();
-                    Display.PrintMessage("La catégorie " + categorieChoisie.Nom + " ne contient aucun message.", MessageState.Warning);
-                    Console.ReadKey(true);
-                    return true;
-                }
-
-                // Afficher les messages de la catégorie
-                Historique.AfficherHistorique(categorieChoisie.Nom, categorieChoisie);
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
 
@@ -180,8 +168,8 @@ namespace LORENZ
                 }
                 return;
             }
-            
-            
+
+
             Console.WriteLine("Sélectionnez la catégorie dans laquelle vous désirez placer le message :\n");
             for (int i = 0; i < ListeCategories.Count; i++)
             {

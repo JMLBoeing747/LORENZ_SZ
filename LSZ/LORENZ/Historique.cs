@@ -56,10 +56,18 @@ namespace LORENZ
             while (true)
             {
                 Console.Clear();
+                if (cat != null && cat.MsgCount == 0)
+                {
+                    Console.Clear();
+                    Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
+                    Console.WriteLine("Appuyez sur n'importe quelle touche pour retourner...");
+                    Console.ReadKey(true);
+                    return;
+                }
+
                 if (title != default)
                 {
                     Extensions.AfficherTitre(title, ConsoleColor.DarkMagenta);
-                    Console.WriteLine();
                 }
 
                 int headerSwitch = 0;
@@ -370,13 +378,6 @@ namespace LORENZ
                         if (RetirerHistorique(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
-                            if (cat != null && cat.MsgCount == 0)
-                            {
-                                Console.Clear();
-                                Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
-                                Console.ReadKey(true);
-                                return;
-                            }
                         }
 
                     }
@@ -390,13 +391,6 @@ namespace LORENZ
                         if (!AfficherEntree(getMainIndexByIndex(realIndex), cat))
                         {
                             stackReview(realIndex);
-                            if (cat != null && cat.MsgCount == 0)
-                            {
-                                Console.Clear();
-                                Display.PrintMessage("La catégorie " + cat.Nom + " ne contient aucun message.", MessageState.Warning);
-                                Console.ReadKey(true);
-                                return;
-                            }
                         }
                     }
                     else
