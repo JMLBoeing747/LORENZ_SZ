@@ -129,7 +129,7 @@ namespace LORENZ
             }
         }
 
-        public static void NouvelleCategorie(int msgIndex = -1)
+        public static void NouvelleCategorie(int histIndex = -1)
         {
             Console.Clear();
             Extensions.AfficherTitre("Nouvelle catégorie", ConsoleColor.Blue);
@@ -146,17 +146,23 @@ namespace LORENZ
             EcrireFichierCategories();
             Display.PrintMessage("Catégorie " + newCatName + " créée avec succès !", MessageState.Success);
 
-            if (msgIndex == -1)
+            if (histIndex == -1)
             {
                 Console.WriteLine("\nPour ajouter des entrées :");
                 Console.WriteLine("1. Accédez à l'un d'eux dans l'historique principal;");
                 Console.WriteLine("2. Appuyez sur C puis choisissez la catégorie correspondante.");
             }
-            /*else
+            else
             {
-                newCategory.AjoutMsg(msgIndex);
-                Display.PrintMessage("Message ajouté avec succès !", MessageState.Success);
-            }*/
+                if (newCategory.AjouterMsg(histIndex))
+                {
+                    Display.PrintMessage("Message ajouté avec succès !", MessageState.Success);
+                }
+                else
+                {
+                    Display.PrintMessage("Ce message est déjà présent.", MessageState.Warning);
+                }
+            }
 
             Console.WriteLine("\nAppuyez sur n'importe quelle touche pour terminer...");
             Console.ReadKey(true);
@@ -164,6 +170,18 @@ namespace LORENZ
 
         public static void AjoutCategorieMsg(int histIndex)
         {
+            if (ListeCategories.Count == 0)
+            {
+                Console.WriteLine("Il semble que vous n'ayez créé aucune catégorie. Désirez-vous en créer une nouvelle ?");
+                Console.WriteLine("Appuyez sur O pour poursuivre, ou sur n'importe quelle autre touche pour annuler...");
+                if (Console.ReadKey(true).Key == ConsoleKey.O)
+                {
+                    NouvelleCategorie(histIndex);
+                }
+                return;
+            }
+            
+            
             Console.WriteLine("Sélectionnez la catégorie dans laquelle vous désirez placer le message :\n");
             for (int i = 0; i < ListeCategories.Count; i++)
             {
@@ -181,7 +199,7 @@ namespace LORENZ
                     if (!ListeCategories[indexCat].AjouterMsg(histIndex))
                     {
                         Display.PrintMessage("Le message que vous essayez d'ajouter", MessageState.Warning);
-                        Display.PrintMessage("a déjà été ajouté dans la catégorie sélectionnée.", MessageState.Warning);
+                        Display.PrintMessage("est déjà présent dans la catégorie sélectionnée.", MessageState.Warning);
                         Display.PrintMessage("Choisissez une autre catégorie pour poursuivre l'opération.", MessageState.Warning);
                     }
                     else
