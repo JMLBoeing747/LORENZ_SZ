@@ -5,7 +5,7 @@ VEUILLEZ LIRE LE CAS QUI VOUS CONCERNE AVANT DE POURSUIVRE TOUTE OPÉRATION
 *******************************************************************
 Pour ceux qui possèdent une version du LORENZ 1.x.x autre que 1.0.0
 *******************************************************************
-À la fin de l’installation, l’installateur cherchera à désinstaller cette version maintenant désuète.
+À la fin de l’installation, le présent utilitaire d’installation cherchera à désinstaller cette version maintenant désuète.
 Si vous désirez la DÉSINSTALLER (recommandé afin d’éviter des conflits), VEUILLEZ ACCEPTER L’OPÉRATION LE MOMENT VENU. Sinon, refusez l’opération.
 
 
@@ -23,7 +23,7 @@ DER ERFINDER DER LORENZ SCHLÜSSELZUSATZ :
 JML
 
 
-CHANGE LOG (Modifications apportées depuis la version 1.0.0)
+CHANGELOG (Modifications apportées depuis la version 1.0.0)
 06-AVR-2020........................................Corrections d’erreurs d’identification
 13-AVR-2020........................................Ajout du jeu
 14-AVR-2020........................................Optimisation de l’interface du menu principal
@@ -40,5 +40,15 @@ CHANGE LOG (Modifications apportées depuis la version 1.0.0)
 21-DEC-2020........................................Renforcement de l’algorithme de chiffrement
 23-DEC-2020........................................Création d’une icone personnalisée pour CRYPTO ainsi que pour l’exécutable d’installation
 26-DEC-2020........................................Ajustement des codes d'erreur
+
+Tout ce qui suit en-dessous est un résumé des actions entreprises par nos chers développeurs.
+Pour un journal des modifications plus détaillé, référez-vous au dépôt GitHub du projet, à :
+https://github.com/JMLBoeing747/LORENZ_SZ/commits/main
+
 =====Version 3.0=====
 20-MAI-2022........................................Migration vers .NET 6.0
+16-OCT-2022........................................Implémentation d'un algorithme de compression pour réduire la taille des chiffrements
+...................................................Création d'un historique de messages
+07-NOV-2022........................................Nouveau logo redessiné
+16-NOV-2022........................................Implémentation des catégories pour catégoriser les messages de l'historique
+19-NOV-2022........................................Nouveau logo pour l'utilitaire d'installation
