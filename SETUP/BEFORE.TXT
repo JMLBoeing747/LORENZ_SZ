@@ -1,6 +1,7 @@
 INFORMATION AVANT INSTALLATION
 
 VEUILLEZ LIRE LE CAS QUI VOUS CONCERNE AVANT DE POURSUIVRE TOUTE OPÉRATION
+(Le texte suit en bas)
 
 *******************************************************************
 Pour ceux qui possèdent une version du LORENZ 1.x.x autre que 1.0.0
@@ -15,12 +16,19 @@ Pour ceux qui possèdent la version du LORENZ 1.0.0
 Veuillez la supprimer définitivement de votre ordinateur ainsi que tous ses fichiers et dossiers associés avant d’installer la présente version. Ceci permettra d’éviter des conflits entre les versions. Afin de le retirer de votre système, supprimez le dossier «Special package», le dossier «LORENZ» ainsi que votre raccourci «LORENZ» créé.
 
 
+*************************************************************
+Pour ceux qui ne possèdent aucune des versions susmentionnées
+*************************************************************
+Magnifique ! Vous n’avez rien à faire.
+
+
 Si vous nécessitez de l’aide, ou avez des commentaires, n’hésitez pas à me contacter le plus tôt possible.
 
 Merci de votre collaboration
 
 DER ERFINDER DER LORENZ SCHLÜSSELZUSATZ :
 JML
+
 
 
 CHANGELOG (Modifications apportées depuis la version 1.0.0)
