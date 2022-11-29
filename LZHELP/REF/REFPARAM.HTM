@@ -11,6 +11,7 @@
 <H2>Présentation</H2>
 <P>Les paramètres de configuration permettent de personnaliser l'interface de l'application selon les besoins de chaque utilisateur.<BR>Ces données sont sauvegardés sous le fichier <B>PARAMS.INI</B>, situé dans le répertoire <B>%LORENZPATH%\LZPARAMS</B>.</P>
 <H2>Liste des paramètres</H2>
+<H3>Section Profile</H3>
 <DL>
 <DT>SHOWSENDER</DT>
 <DD><B>Type :</B> Booléen<BR>
@@ -18,14 +19,35 @@
 <B>Interprétation :</B> Si True, permet d'afficher le pseudonyme de l'expéditeur d'un message déchiffré, dans le mode Déchiffrement. Si False, ne l'affiche pas.
 </DD>
 <DT>PSEUDONAME</DT>
-<DD><B>Type :</B> Chaine de caractère (String)<BR>
-<B>Valeur par défaut :</B> Nom d'utilisateur du compte système associé au programme, équivalent à la variable d'environnement système %USERNAME%. Dans ce cas, le paramètre n'est pas inscrit dans PARAMS.INI.<BR>
-<B>Interprétation :</B> Permet d'identifier les messages qui sont expédiés par cet utilisateur auprès des autres utilisateurs LORENZ.
-</DD>
+<DD><B>Type :</B> Chaîne de caractères (String)<BR>
+<B>Valeur par défaut :</B> Nom d'utilisateur du compte système associé au programme, équivalent à la variable d'environnement système %USERNAME%.<BR>
+<B>Interprétation :</B> Permet d'identifier les messages qui sont expédiés par cet utilisateur auprès des autres utilisateurs LORENZ.</DD>
+</DL>
+<H3>Section Settings</H3>
+<DL>
 <DT>CIPHERFILEDIR</DT>
-<DD><B>Type :</B> Chaine de caractère (String)<BR>
-<B>Valeur par défaut :</B> NULL. Dans ce cas, le paramètre n'est pas inscrit dans PARAMS.INI.<BR>
+<DD><B>Type :</B> Chaîne de caractères (String)<BR>
+<B>Valeur par défaut :</B> NULL.<BR>
 <B>Interprétation :</B> Localise le répertoire de stockage des fichiers de chiffrements longs. Ce répertoire est utilisé pour sauvegarder les chiffrements longs, ou pour les localiser lors de leur déchiffrement.</DD>
+<DT>TRANSTABLE</DT>
+<DD><B>Type :</B> Entier à 4 chiffres (Integer)<BR>
+<B>Valeur par défaut :</B> 1234.<BR>
+<B>Interprétation :</B> Contient la racine de la table des transcriptions, utilisée pour générer la première passe de chiffrement de LORENZ. Un changement de valeur affecte directement l'allure finale des chiffrements générés.</DD>
+<DT>SECRETABLE</DT>
+<DD><B>Type :</B> Chaîne de caractères (String)<BR>
+<B>Valeur par défaut :</B> S8H2ALDVFP<BR>
+<B>Interprétation :</B> Contient la disposition de la table secrète, utilisée pour générer la deuxième passe de chiffrement de LORENZ. Un changement de valeur affecte directement l'allure finale des chiffrements générés</DD>
+</DL>
+<H3>Section Compression</H3>
+<DL>
+<DT>ACTIVCMPRS</DT>
+<DD><B>Type :</B> Booléen<BR>
+<B>Valeur par défaut :</B> True<BR>
+<B>Interprétation :</B> Si True, active le mode de compression par associations. Si False, désactive le mode de compression par associations. Il est à noter que le mode de compression par répétitions est toujours actif, peu importe la valeur de ce paramètre.</DD>
+<DT>CMPRSRATIO</DT>
+<DD><B>Type :</B> Nombre flottant double-précision (Double)<BR>
+<B>Valeur par défaut :</B> 0,15<BR>
+<B>Interprétation :</B> Détermine le taux minimum de compression exigé par l'utilisateur pour l'appliquer sur le chiffrement.</DD>
 </DL>
 </BODY>
 </HTML>
