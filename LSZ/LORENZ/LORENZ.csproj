@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Authors>JML</Authors>
     <Company>LORENZ SZ</Company>
     <Description>Application permettant de chiffrer et de déchiffrer des messages de type LORENZ uniquement. Chiffrer des messages n'aura jamais été aussi facile et accessible, tout en étant sécuritaire et fiable.</Description>
