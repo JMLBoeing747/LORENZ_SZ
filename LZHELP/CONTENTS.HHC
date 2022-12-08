@@ -136,6 +136,10 @@
 				<param name="Local" value="REF\REFLZI.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Fichier LORENZ.INI">
+				<param name="Local" value="REF\REFLINI.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Fichier PARAMS.INI">
 				<param name="Local" value="REF\REFPINI.HTM">
 				</OBJECT>
