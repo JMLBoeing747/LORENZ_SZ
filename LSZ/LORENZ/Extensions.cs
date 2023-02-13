@@ -466,36 +466,70 @@ namespace LORENZ
             return int.TryParse(writeLine, out int writeInt) ? writeInt : -2;
         }
 
-        public static void Music()
+       public static void Music() //tema di ali
         {
             Display.PrintMessage("Playing...");
 
             int noteDur = 100;
             int sleepDur = 255;
+            int introDur = 70;
+            int introSleepDur = 60;
 
+            Console.Beep(450, 2000);
             for (int times = 0; times < 4; times++)
             {
-                Console.Beep(370, noteDur);
-                Thread.Sleep(sleepDur);
-                Console.Beep(294, noteDur);
-                Thread.Sleep(sleepDur);
-                Console.Beep(370, noteDur);
-                Thread.Sleep(sleepDur);
+                Console.Beep(370, introDur);
+                Thread.Sleep(introSleepDur);
+                Console.Beep(294, introDur);
+                Thread.Sleep(introSleepDur);
+                Console.Beep(370, introDur);
+                Thread.Sleep(introSleepDur);
             }
-            Thread.Sleep(sleepDur);
-            for (int times = 0; times < 4; times++)
+            for (int times = 0; times < 1; times++)
             {
-                Console.Beep(330, noteDur);
-                Thread.Sleep(sleepDur);
-                Console.Beep(277, noteDur);
-                Thread.Sleep(sleepDur);
+                Console.Beep(330, introDur);
+                Thread.Sleep(introSleepDur);
+                Console.Beep(277, introDur);
+                Thread.Sleep(introSleepDur);
                 if (times < 3)
+                {
+                    Console.Beep(330, introDur);
+                    Thread.Sleep(introSleepDur);
+                }
+            }
+            //Thread.Sleep(introSleepDur*3);
+            Console.Beep(277, 250);
+            Thread.Sleep(sleepDur*3);
+            for (int repeat = 0; repeat < 2; repeat++)
+            {
+                for (int times = 0; times < 4; times++)
+                {
+                    Console.Beep(370, noteDur);
+                    Thread.Sleep(sleepDur);
+                    Console.Beep(294, noteDur);
+                    Thread.Sleep(sleepDur);
+                    Console.Beep(370, noteDur);
+                    Thread.Sleep(sleepDur);
+                }
+                //Thread.Sleep(sleepDur);
+                for (int times = 0; times < 4; times++)
                 {
                     Console.Beep(330, noteDur);
                     Thread.Sleep(sleepDur);
+                    Console.Beep(277, noteDur);
+                    Thread.Sleep(sleepDur);
+                    if (times < 3 || repeat == 0)
+                    {
+                        Console.Beep(330, noteDur);
+                        Thread.Sleep(sleepDur);
+                    }
                 }
+
             }
+            Console.Beep(370, 2000);
+
         }
     }
 }
+
 
