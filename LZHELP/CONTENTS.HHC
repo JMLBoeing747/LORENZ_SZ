@@ -72,6 +72,10 @@
 				<param name="Local" value="PRIVCMD.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Compresser un message">
+				<param name="Local" value="CMPRSMSG.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Jeu LORENZ">
 				<param name="Local" value="GAME.HTM">
 				</OBJECT>
