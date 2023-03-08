@@ -45,25 +45,25 @@ namespace LORENZ
                 Console.WriteLine();
                 if (!Parametres.ShowPseudoNameSender)
                 {
-                    Console.WriteLine("[ ] Afficher l'expéditeur (S)");
+                    Console.WriteLine("S : Afficher l'expéditeur  [ ]");
                 }
                 else
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("[X] Afficher l'expéditeur (S)");
+                    Console.WriteLine("S : Afficher l'expéditeur  [X]");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
                 if (!Compression.CompressionActive)
                 {
-                    Console.WriteLine("[ ] Activer la compression (C)");
+                    Console.WriteLine("C : Activer la compression [ ]");
                 }
                 else
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("[X] Activer la compression (C)");
+                    Console.WriteLine("C : Activer la compression [X]");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                 }
