@@ -122,15 +122,23 @@
 				<param name="Local" value="REF\REFGAME.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="S : Afficher / Masquer l'exp&eacute;diteur">
+				<param name="Name" value="H : Historique">
+				<param name="Local" value="REF\REFHIST.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Afficher l'exp&eacute;diteur (S)">
 				<param name="Local" value="REF\REFSHOW.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Activer la compression (C)">
+				<param name="Local" value="REF\REFCMPRS.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="P : Modifier le pseudo">
 				<param name="Local" value="REF\REFPSEUD.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="H : AIDE">
+				<param name="Name" value="F1 : AIDE">
 				<param name="Local" value="REF\REFHELP.HTM">
 				</OBJECT>
 		</UL>
