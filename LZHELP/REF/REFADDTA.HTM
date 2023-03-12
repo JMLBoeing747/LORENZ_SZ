@@ -23,6 +23,17 @@
 <P>Il s'agit du dossier contenant les fichiers de données de l'application. Consultez la page de référence <A HREF="REFFILES.HTM">Fichiers de données</A> pour accéder à la référence technique de ces fichiers.</P>
 </DIV>
 
+<BUTTON CLASS="accordion" ONCLICK="doSection(compression)">Méthodes de compression de LORENZ</BUTTON>
+<DIV ID="compression" CLASS="panel" STYLE="display: none;">
+<P>La compression permet de réduire la taille d'un message sans perdre d'information. Le but unique est de réduire la charge de transport due à sa longueur. Lors d'une compression, LORENZ crée une balise qui remplace une longue chaîne en une plus petite. L'ensemble des balises ainsi que leur correspondance est listée dans une structure nommée la table de transcription (TC). Il existe présentement deux méthodes de compression implémentées dans l'application LORENZ :</P>
+<UL>
+<LI>Compression par répétitions (CR)</LI>
+<LI>Compression par associations (CA)</LI>
+</UL>
+<P>La <B>compression par répétitions (CR)</B> agit sur la répétition de caractères identiques. Une chaîne ou une partie de chaîne constituée successivement de plus de deux caractères identiques est candidate à la compression par répétitions. Évidemment, plus le groupe de caractères répétés compte un nombre élevé, plus les chances de le compresser augmentent. La CR est toujours active et ne peut donc pas être désactivée.</P>
+<P>La <B>compression par répétitions (CA)</B> agit sur la répétition syntaxique de mots ou de groupes de mots séparés d'espaces ou de ponctuations (les mots). En CA, LORENZ crée une TC contenant, à chaque entrée, les mots du message ainsi que le nombre d'occurences. À chaque itération, les entrées qui présentent le moins d'occurences sont éliminées de la TC et un nouveau calcul du taux de compression réalisé est effectué. Après l'élimination complète de toutes les entrées, l'ensemble des taux obtenus à chaque itération est analysé. LORENZ garde uniquement le message possédant le meilleur taux de compression pour la poursuite des opérations de chiffrement.</P>
+</DIV>
+
 <BUTTON CLASS="accordion" ONCLICK="doSection(dll)">Extensions de l'application (fichiers dll)</BUTTON>
 <DIV ID="dll" CLASS="panel" STYLE="display: none;">
 <P>Ces fichiers ont été générés lors de la compilation du code source et sont nécessaires pour assurer le bon fonctionnement de l'application.<BR>Ils s'agissent de <I>Dynamic Link Libraries</I> et ils sont au nombre de 4 :<P>
