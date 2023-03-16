@@ -138,6 +138,10 @@
 				<param name="Local" value="REF\REFPSEUD.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="R : Modifier/Sp&eacute;cifier le r&eacute;pertoire des chiffrrements">
+				<param name="Local" value="REF\REFCDIR.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="F1 : AIDE">
 				<param name="Local" value="REF\REFHELP.HTM">
 				</OBJECT>
