@@ -177,7 +177,7 @@ namespace LORENZ
 
                 if (!OverridePress)
                 {
-                    Console.WriteLine(Environment.NewLine + "Press any key to continue...");
+                    Console.WriteLine(Environment.NewLine + "Appuyez sur n'importe quelle touche pour continuer...");
                     Console.ReadKey(true);
                 }
 
