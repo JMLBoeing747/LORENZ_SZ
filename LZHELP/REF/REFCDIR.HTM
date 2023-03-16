@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<Title>RÉFÉRENCE SUR LE RÉPERTOIRE DES CHIFFREMENTS - CIPHER DIRECTORY REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>P : Modifier le pseudo</H1>
+<P>Référence technique sur la commande Modifier/Spécifier le répertoire des chiffrements</P>
+<H2>Présentation</H2>
+<P>Commande permettant d'accéder à l'interface de modification du répertoire des chiffrements. Le message d'entrée est le suivant :<P>
+<PRE>
+<SAMP>
+	Le répertoire des fichiers de chiffrement permet à LORENZ de localiser les fichiers de chiffrement.
+	Ces fichiers se créent lorsqu'un message chiffré devient trop long pour être retranscrit sur le
+	terminal. Lorsque viendra le temps de déchiffrer de tels fichiers, il faudra alors les insérer dans
+	ce répertoire afin d'amorcer leur déchiffrement.
+
+	Spécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :
+	Pour annuler, appuyez sur ESC, ou sur ENTRÉE sans rien écrire.
+
+	Répertoire actuel : &ltRépertoire actuel&gt
+	>>>
+</SAMP>
+</PRE>
+<P>N.B. : &ltRépertoire actuel&gt correspond au chemin d'accès actuellement spécifié. Si aucun chemin d'accès n'a été spécifié par le passé, cette ligne sera absente de l'affichage.</P>
+<H2>Entrée</H2>
+<P>Le nouveau chemin d'accès au répertoire des chiffrements. Ceci affectera la nouvelle valeur au paramètre CIPHERFILEDIR, ou le laissera inchangé si l'entrée vaut "\n" (caractère de retour à la ligne 0xA).</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ENTRÉE (Retour à la ligne)</LI>
+<LI>ESC (Touche Escape)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>Nouveau pseudo enregistré !</DT>
+<DD>Succès : Signifie que la valeur entrée a été nouvellement affectée au paramètre PSEUDONAME avec succès. Le paramètre PSEUDONAME est alors immédiatement inscrit dans le fichier PARAMS.INI.</DD>
+<DT>Pseudo identique au précédent. Aucun changement à faire.</DT>
+<DD>Avertissement : Signifie que la valeur entrée correspond exactement au pseudonyme attribué avant l'opération et ne procédera donc à aucun changement ni à aucune réécriture du paramètre PSEUDONAME.</DD>
+<DT>Valeur par défaut réinitialisée</DT>
+<DD>Avertissement : Signifie que la valeur entrée correspond exactement au pseudonyme par défaut (<A HREF="REFPARAM.HTM">Voir paramètres de configuration</A>). Le paramètre PSEUDONAME ne sera pas inscrit dans le fichier PARAMS,INI.</DD>
+</DL>
+
+</BODY>
+</HTML>
