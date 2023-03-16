@@ -142,6 +142,10 @@
 				<param name="Local" value="REF\REFCDIR.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="O : Options de chiffrement">
+				<param name="Local" value="REF\REFOPT.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="F1 : AIDE">
 				<param name="Local" value="REF\REFHELP.HTM">
 				</OBJECT>
