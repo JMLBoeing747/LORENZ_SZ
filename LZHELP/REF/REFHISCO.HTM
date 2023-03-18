@@ -9,6 +9,31 @@
 <H1>H : Consulter l'historique</H1>
 <P>Référence technique sur l'interface de consultation de l'historique.</P>
 <H2>Présentation</H2>
+<P>Cette commande permet d'accéder à l'interface de consultation de l'historique des messages enregistrés.<BR>
+Chaque entrée est divisée en 4 sections, de gauche à droite :</P>
+<UL>
+<LI>l'index du message</LI>
+<LI>la date d'enregistrement</LI>
+<LI>la longueur du message</LI>
+<LI>l'extrait du message</LI>
+</UL>
+<P><B>L'index du message</B> numérote tous les messages de l'historique de 1 à partir de l'enregistrement le plus récent.<BR>
+<B>La date d'enregistrement</B> indique la date et l'heure d'enregistrement du message sous le format YYYY-MM-DD hh:mm:ss.<BR>
+<B>La longueur du message</B> indique le nombre de caractères totaux composant le message, en incluant les caractères de retrait de ligne (0xD, 0x0A) et les caractères de contrôle, si applicable.<BR>
+<B>L'extrait du message</B> affiche en tout ou en partie le message enregistré. Sa longueur varie en fonction de la largeur de la console, de la largeur de colonne des index, et de la largeur de colonne de longueur du message. Ces largeurs de colonne sont déterminées selon l'espace occupé par la plus grande donnée contenue.</P>
+<P>L'historique est finalement divisé en périodes. Les périodes disponibles sont les suivantes :</P>
+<UL>
+<LI>Aujourd'hui</LI>
+<LI>Hier</LI>
+<LI>Avant-hier</LI>
+<LI>Cette semaine</LI>
+<LI>Ce mois-ci</LI>
+<LI>Le mois dernier</LI>
+<LI>Cette année</LI>
+<LI>L'année dernière</LI>
+<LI>Il y a longtemps</LI>
+</UL>
+<P>Les périodes permettent de diviser les entrées de l'historique en périodes temporelles différentes, ceci dans le but de mieux retrouver les messages lorsqu'on a plus facilement l'époque d'enregistrement que le contenu en tête. Ces périodes sont inscrites en surbrillance de blanc sur fond gris clair.</P>
 
 
 </BODY>
