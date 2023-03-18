@@ -125,6 +125,12 @@
 				<param name="Name" value="H : Historique">
 				<param name="Local" value="REF\REFHIST.HTM">
 				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="H : Consulter l'historique">
+					<param name="Local" value="REF\REFHISCO.HTM">
+					</OBJECT>
+			</UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Afficher l'exp&eacute;diteur (S)">
 				<param name="Local" value="REF\REFSHOW.HTM">
@@ -145,6 +151,12 @@
 				<param name="Name" value="O : Options de chiffrement">
 				<param name="Local" value="REF\REFOPT.HTM">
 				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="C : Modifier le taux de compression">
+					<param name="Local" value="REF\REFCMPIN.HTM">
+					</OBJECT>
+			</UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="F1 : AIDE">
 				<param name="Local" value="REF\REFHELP.HTM">
