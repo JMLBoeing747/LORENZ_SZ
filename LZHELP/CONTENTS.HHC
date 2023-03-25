@@ -138,6 +138,10 @@
 					<param name="Name" value="C : Consulter les cat&eacute;gories">
 					<param name="Local" value="REF\REFCATLK.HTM">
 					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="S : Supprimer une cat&eacute;gorie">
+					<param name="Local" value="REF\REFDELC.HTM">
+					</OBJECT>
 			</UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Afficher l'exp&eacute;diteur (S)">
