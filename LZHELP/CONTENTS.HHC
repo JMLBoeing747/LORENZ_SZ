@@ -134,6 +134,10 @@
 					<param name="Name" value="N : Nouvelle cat&eacute;gorie">
 					<param name="Local" value="REF\REFNEWC.HTM">
 					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="C : Consulter les cat&eacute;gories">
+					<param name="Local" value="REF\REFCATLK.HTM">
+					</OBJECT>
 			</UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Afficher l'exp&eacute;diteur (S)">
