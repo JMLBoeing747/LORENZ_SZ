@@ -187,7 +187,9 @@ namespace LORENZ
                     Console.ForegroundColor = ConsoleColor.Cyan;
 
                     // realEntry : Index réel de l'entrée à afficher sur l'écran
+                    // beginEntry : Premier index réel de la page affichée
                     int realEntry = tempHist.Count - hEntry;
+                    int beginEntry = tempHist.Count - lastEntry;
                     if (!failHeader)
                     {
                         string dtStr = tempHist[hEntry].cipherDate.ToString("G");
@@ -232,7 +234,7 @@ namespace LORENZ
                     }
 
                     testHeader = Console.CursorTop > headerMaxHeight;
-                    string leastEntries = $"{realEntry} / {tempHist.Count} entrées";
+                    string leastEntries = $"{beginEntry}-{realEntry} / {tempHist.Count} entrées";
                     if ((Console.CursorTop > entryMaxHeight && hEntry > 0) || failHeader)
                     {
                         if (failHeader)
@@ -244,11 +246,11 @@ namespace LORENZ
                         string fowBackStr;
                         if (page > 0)
                         {
-                            fowBackStr = "\n<< Précédent | Suivant >>" + leastEntries.PadLeft(40);
+                            fowBackStr = "\n<< Précédent | Suivant >>".PadRight(70) + leastEntries.PadLeft(40);
                         }
                         else
                         {
-                            fowBackStr = "\nSuivant >>" + leastEntries.PadLeft(40);
+                            fowBackStr = "\nSuivant >>".PadRight(70) + leastEntries.PadLeft(40);
                         }
 
                         Console.WriteLine(fowBackStr);
@@ -258,7 +260,7 @@ namespace LORENZ
                     }
                     else if (page > 0 && hEntry == 0)
                     {
-                        Console.WriteLine("\n<< Précédent" + leastEntries.PadLeft(40));
+                        Console.WriteLine("\n<< Précédent".PadRight(70) + leastEntries.PadLeft(40));
                         stackLastEntry.Push(lastEntry);
                         lastEntry = -1;
                     }

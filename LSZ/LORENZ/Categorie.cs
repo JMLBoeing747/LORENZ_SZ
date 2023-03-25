@@ -85,7 +85,8 @@ namespace LORENZ
 
                     for (int cat = 0; cat < ListeCategories.Count; cat++)
                     {
-                        Console.WriteLine("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom);
+                        Console.WriteLine("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom +
+                            " (" + ListeCategories[cat].MsgCount + " msg)");
                     }
 
                     int indexCat = Extensions.SpecialInputDigits(addNewLine: false);
