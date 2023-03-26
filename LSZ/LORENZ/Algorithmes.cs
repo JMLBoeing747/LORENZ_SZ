@@ -571,6 +571,8 @@ namespace LORENZ
         {
             Console.Clear();
             Extensions.AfficherTitre("Table de transcription", ConsoleColor.DarkMagenta);
+            Console.WriteLine("Racine actuelle de la TT : " + TransTableRoot);
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("ATTENTION ! Modifier la racine de la table de transcription sans avoir aucune");
             Console.WriteLine("connaissance approfondie du principe de chiffrement peut causer de sérieux problèmes auprès");
@@ -592,7 +594,6 @@ namespace LORENZ
             Console.CursorTop -= 3;      // Pour effacer les lignes indiquant d'appuyer sur F12.
             Console.WriteLine("\nInscrivez la nouvelle racine composée de 4 chiffres décimaux (0-9).");
             Console.WriteLine("Pour annuler l'opération, appuyez sur ESC.             \n");
-            Console.WriteLine("Racine actuelle de la TT : " + TransTableRoot);
             Console.Write("Nouvelle racine : ");
 
             string rootTemp = "";
@@ -663,6 +664,8 @@ namespace LORENZ
         {
             Console.Clear();
             Extensions.AfficherTitre("Table secrète", ConsoleColor.DarkMagenta);
+            Console.WriteLine("Disposition actuelle de la TS : " + BaseSecretCode);
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("ATTENTION ! Modifier la disposition de la table secrète sans avoir aucune connaissance");
             Console.WriteLine("approfondie du principe de chiffrement peut causer de sérieux problèmes auprès de vos");
@@ -685,7 +688,6 @@ namespace LORENZ
             Console.CursorTop -= 3;      // Pour effacer les lignes indiquant d'appuyer sur F12.
             Console.WriteLine("\nInscrivez la nouvelle disposition sous la forme d'une chaine de 10 caractères uniques.");
             Console.WriteLine("Pour annuler l'opération, appuyez sur ESC sans rien écrire.\n");
-            Console.WriteLine("Disposition actuelle de la TS : " + BaseSecretCode);
             while (true)
             {
                 Console.Write("Nouvelle disposition : ");

@@ -12,6 +12,8 @@
 <P>Commande permettant d'accéder à l'interface de modification de la racine de la TT. Le message d'entrée est le suivant :</P>
 <PRE>
 <SAMP>
+	Racine actuelle de la TT : &ltracine&gt
+
 	ATTENTION ! Modifier la racine de la table de transcription sans avoir aucune
 	connaissance approfondie du principe de chiffrement peut causer de sérieux problèmes auprès
 	de vos correspondants, notamment au moment de la transmission.
@@ -22,6 +24,7 @@
 	Appuyez sur n'importe quelle autre touche pour annuler.
 </SAMP>
 </PRE>
+<P>Où &ltracine&gt est la valeur de la racine précédemment affectée.</P>
 <P>Par mesure de sécurité, seule la touche F10 permet de poursuivre l'opération. Toutes les autres touches quittent l'interface.</P>
 <P>Lorsque F10 est appuyé, l'instruction suivante s'affiche :</P>
 <PRE>
@@ -29,11 +32,9 @@
 	Inscrivez la nouvelle racine composée de 4 chiffres décimaux (0-9).
 	Pour annuler l'opération, appuyez sur ESC.
 
-	Racine actuelle de la TT : &ltracine&gt
 	Nouvelle racine :
 </SAMP>
 </PRE>
-<P>Où &ltracine&gt est la valeur de la racine précédemment affectée.</P>
 <H2>Entrée</H2>
 <P>La nouvelle racine de la TT, un groupe de quatre chiffres en 0 et 9. Les chiffres sont automatiquement séparés par des tirets ('-' : 0x2D = 45) et, à l'atteinte du 4e chiffre, <B>ils sont automatiquement validés</B> sans appuyer sur ENTRÉE. La nouvelle racine est alors affectée dans le paramètre TRANSTABLE.</P>
 <H2>Touches d'échappement</H2>
