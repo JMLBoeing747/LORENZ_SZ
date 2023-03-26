@@ -245,10 +245,10 @@ namespace LORENZ
                     }
                     continue;
                 }
-                else if (maxLength == 0 || writeLine.Length < maxLength)
+                else if (maxLength == 0 || writeLine.Length < maxLength)                // In the bounds of specified str length
                 {
                     if ((keyPress.Key == ConsoleKey.Enter && endChar != '\r')
-                         || (Console.CursorLeft == Console.WindowWidth - 1))
+                         || (Console.CursorLeft == Console.WindowWidth - 1))            // To print a newline and move cursor or shift down
                     {
                         int totalCharsWritten = Console.CursorLeft < Console.WindowWidth - 1 ?
                                                 writeLine.Length - lastLeft.Count : writeLine.Length + 1 - lastLeft.Count;
@@ -266,9 +266,9 @@ namespace LORENZ
                     }
                     else if (!includeCtrl && pressChar != '\0')
                     {
-                        if (pressChar != endChar && pressChar is > '\0' and < ' ')
+                        if (pressChar != endChar && pressChar is > '\0' and < ' ')          // If is control char and not the end char
                         {
-                            if (Console.CursorLeft == beginLeft + 1)
+                            if (Console.CursorLeft == beginLeft + 1)                        // Erase other control chars if printed
                             {
                                 Console.CursorLeft--;
                                 Console.Write(' ');
@@ -310,7 +310,7 @@ namespace LORENZ
                 writeLine += pressChar;
             } while (pressChar != endChar);
 
-            if (stripEndChar)
+            if (stripEndChar && maxLength == 0)
             {
                 writeLine = writeLine[..^1];
             }
@@ -405,9 +405,9 @@ namespace LORENZ
                     }
                     else if (pressChar != '\0')
                     {
-                        if (pressChar != endChar && (pressChar > '9' || pressChar < '0'))
+                        if (pressChar != endChar && (pressChar > '9' || pressChar < '0'))   // If is other than digit and not the end char
                         {
-                            if (Console.CursorLeft == beginLeft + 1)
+                            if (Console.CursorLeft == beginLeft + 1)                        // Erase other control chars if printed
                             {
                                 Console.CursorLeft--;
                                 Console.Write(' ');
