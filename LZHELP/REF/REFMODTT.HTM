@@ -22,7 +22,28 @@
 	Appuyez sur n'importe quelle autre touche pour annuler.
 </SAMP>
 </PRE>
+<P>Par mesure de sécurité, seule la touche F10 permet de poursuivre l'opération. Toutes les autres touches quittent l'interface.</P>
+<P>Lorsque F10 est appuyé, l'instruction suivante s'affiche :</P>
+<PRE>
+<SAMP>
+	Inscrivez la nouvelle racine composée de 4 chiffres décimaux (0-9).
+	Pour annuler l'opération, appuyez sur ESC.
 
-
+	Racine actuelle de la TT : &ltracine&gt
+	Nouvelle racine :
+</SAMP>
+</PRE>
+<P>Où &ltracine&gt est la valeur de la racine précédemment affectée.</P>
+<H2>Entrée</H2>
+<P>La nouvelle racine de la TT, un groupe de quatre chiffres en 0 et 9. Les chiffres sont automatiquement séparés par des tirets ('-', 0x2D) et, à l'atteinte du 4e chiffre, <B>ils sont automatiquement validés</B> sans appuyer sur ENTRÉE. La nouvelle racine est alors affectée dans le paramètre TRANSTABLE.</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ESC (Touche Escape)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>Nouvelle racine : &ltNouvelle racine&gt</DT>
+<DD>Succès : Signifie que la nouvelle racine a été affecté au paramètre TRANSTABLE avec succès. Le paramètre TRANSTABLE est alors immédiatement inscrit dans le fichier LORENZ.INI.</DD>
+</DL>
 </BODY>
 </HTML>

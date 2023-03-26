@@ -22,6 +22,14 @@
 </PRE>
 <P>N.B. : Les noms de chacun des catégories ne sont que des exemples et peuvent varier selon chaque utilisateur. Ceux-ci ne servent uniquement qu'a compléter l'exemple.</P>
 <P>Le nombre d'entrées disponibles correspond au nombre de catégories créées par l'utilisateur. Celles-ci sont alors affichées en ordre chronologique de création.</P>
+<P>Après avoir inscrit un index valide, le message de confirmation suivant apparaît :</P>
+<PRE>
+<SAMP>
+	Êtes-vous sûr de supprimer la catégorie &ltnom de catégorie&gt ?
+	Confirmez en appuyant sur X. Toute autre touche annulera l'opération.
+</SAMP>
+</PRE>
+<P>Où &ltnom de catégorie&gt est ramplacé par le nom de la catégorie à supprimer. Seule la touche X du clavier est considérée et les autres quittent l'interface.</P>
 <H2>Entrées</H2>
 <P>L'index de la catégorie à supprimer. Celui-ci doit être un entier positif inclus parmi les index listés de l'interface. Il devra être validé par la touche ENTRÉE.</P>
 <H2>Touches d'échappement</H2>
@@ -30,6 +38,8 @@
 </UL>
 <H2>Messages de sortie possibles</H2>
 <DL>
+<DT>Catégorie &ltnom de catégorie&gt supprimée !</DT>
+<DD>Succès : La catégorie sélectionnée a bien été supprimée du fichier CATEGORY.LZI.</DD>
 <DT>Index invalide !</DT>
 <DD>Erreur : L'index spécifié en entrée ne correspond à aucune de ceux des catégories listées.</DD>
 </DL>
