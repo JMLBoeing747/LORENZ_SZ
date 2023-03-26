@@ -35,14 +35,19 @@
 </PRE>
 <P>Où &ltdisposition actuelle&gt est la valeur de la disposition précédemment affectée.</P>
 <H2>Entrée</H2>
-<P>La nouvelle disposition de la TS, un groupe de dix caractères alphanumériques. À l'atteinte du 10e caractère, <B>aucun autre caractère n'est lu</B> et il faudra valider en appuyant sur ENTRÉE. La nouvelle disposition est alors affectée au paramètre SECRETABLE.</P>
+<P>La nouvelle disposition de la TS, un groupe de dix caractères alphanumériques. À l'atteinte du 10e caractère, <B>aucun autre caractère n'est lu ni inscrit</B> et il faudra valider en appuyant sur ENTRÉE. La nouvelle disposition est alors affectée au paramètre SECRETABLE.</P>
 <H2>Touches d'échappement</H2>
 <UL>
 <LI>ESC (Touche Escape)</LI>
 </UL>
 <H2>Messages de sortie possibles</H2>
-
-
-
+<DL>
+<DT>Nouvelle disposition : &ltNouvelle disposition&gt</DT>
+<DD>Succès : Signifie que la nouvelle disposition a été affectée au paramètre SECRETABLE avec succès. Le paramètre SECRETABLE est alors immédiatement inscrit dans le fichier LORENZ.INI.</DD>
+<DT>La chaîne doit faire 10 caractères de long.</DT>
+<DD>Erreur spécifique : Signifie que la disposition inscrite ne présente pas la longueur règlementaire de 10 caractères.</DD>
+<DT>La chaîne doit être composée de 10 caractères uniques.</DT>
+<DD>Erreur spécifique : Signifie que la disposition inscrite ne respecte pas le critère d'unicité des caractères. Tout caractère de la disposition ne doit apparaitre qu'une seule fois.</DD>
+</DL>
 </BODY>
 </HTML>
