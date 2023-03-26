@@ -21,6 +21,28 @@
 		<param name="Local" value="REF\REFATTRB.HTM">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Cat&eacute;gories">
+		<param name="Name" value="Enregistrer un message">
+		<param name="Local" value="SAVEMSG.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultation">
+			<param name="Name" value="Interface de consultation des catégories">
+			<param name="Local" value="REF\REFCATLK.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Nouvelle">
+			<param name="Name" value="Référence nouvelle catégorie">
+			<param name="Local" value="REF\REFNEWC.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Suppression">
+			<param name="Name" value="Supprimer une catégorie">
+			<param name="Local" value="REF\REFDELC.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Chiffrement">
 		<param name="Name" value="Chiffrement de message">
 		<param name="Local" value="ENCRYPT.HTM">
@@ -30,6 +52,28 @@
 			<param name="Name" value="Priv&eacute;">
 			<param name="Name" value="Écrire en privé">
 			<param name="Local" value="PRIVCMD.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Compression">
+		<param name="Name" value="Aide sur la compression">
+		<param name="Local" value="CMPRSMSG.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Activer">
+			<param name="Name" value="Activer la compression">
+			<param name="Local" value="REF\REFCMPRS.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="R&eacute;f&eacute;rence">
+			<param name="Name" value="Référence sur la compression">
+			<param name="Local" value="REF\REFCMPRS.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Taux">
+			<param name="Name" value="Taux de compression">
+			<param name="Local" value="REF\REFCMPRR.HTM">
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
@@ -55,6 +99,11 @@
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Enregistrement">
+		<param name="Name" value="Enregistrer un message">
+		<param name="Local" value="SAVEMSG.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Fichiers">
 		<param name="Name" value="Fichiers de l'application">
 		<param name="Local" value="LZFILES.HTM">
@@ -62,7 +111,7 @@
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="R&eacute;f&eacute;rence">
-			<param name="Name" value="Référence des fichiers">
+			<param name="Name" value="Référence sur les fichiers">
 			<param name="Local" value="REF\REFFILES.HTM">
 			</OBJECT>
 	</UL>
@@ -81,6 +130,23 @@
 			<param name="Name" value="Origine">
 			<param name="Name" value="Origine de LORENZ">
 			<param name="Local" value="HISTORY\LZORIGIN.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Historique">
+		<param name="Name" value="Enregistrer un message">
+		<param name="Local" value="SAVEMSG.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Consultation">
+			<param name="Name" value="Interface de consultation de l'historique">
+			<param name="Local" value="REF\REFHISLK.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="R&eacute;f&eacute;rence">
+			<param name="Name" value="Référence sur le menu de l'historique">
+			<param name="Local" value="REF\REFHIST.HTM">
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
@@ -108,6 +174,11 @@
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="LORENZ.INI">
+		<param name="Name" value="Référence LORENZ.INI">
+		<param name="Local" value="REF\REFLINI.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Pr&eacute;sentation">
 		<param name="Name" value="Présentation">
 		<param name="Local" value="PRESENT.HTM">
@@ -130,6 +201,11 @@
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Racine">
+		<param name="Name" value="Disposition de la table de transcription">
+		<param name="Local" value="REF\REFMODTT.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="R&eacute;f&eacute;rence">
 		<param name="Name" value="Référence technique">
 		<param name="Local" value="REF\REFHOME.HTM">
@@ -138,6 +214,11 @@
 		<param name="Name" value="Remerciements">
 		<param name="Name" value="Remerciements spéciaux">
 		<param name="Local" value="ACKNLGMT.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Secr&egrave;te">
+		<param name="Name" value="Disposition de la table secrète">
+		<param name="Local" value="REF\REFMODST.HTM">
 		</OBJECT>
 </UL>
 </BODY></HTML>
