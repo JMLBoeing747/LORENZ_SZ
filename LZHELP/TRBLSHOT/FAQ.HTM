@@ -42,9 +42,17 @@
 <OL>
 <LI>La plus rapide et la plus efficace consiste à renvoyer le message.</LI>
 <LI>Si cela ne règle pas le problème, veillez à vérifier si vous recopiez correctement le message chiffré et si votre correspondant fait de même. Pour cela, copiez le chiffrement, accédez à l'interface de déchiffrement et collez-le. Après validation, vérifiez si votre message est correctement déchiffré en sortie. Si cela ne change rien, demandez à votre correspondant de faire de même afin de vérifier si le problème n'est pas de son côté.</LI>
+<LI>Si le problème persiste, accédez aux options de chiffrement et ...</LI>
 <LI>Si le problème n'est toujours pas réglé, il se peut qu'il s'agisse d'un problème d'encodage dans l'environnement de transfert. Essayez de changer d'environnement (Messenger, <A HREF="http://epad.recit.org/" TITLE="http://epad.recit.org">epad.recit.org</A>, etc.).</LI>
 <LI>Si le problème persiste, il pourrait s'agir d'une erreur informatique dans le programme. De cela, contactez votre fournisseur LORENZ afin qu'il puisse vous fournir un correctif dans les plus brefs délais.</LI>
 </OL></P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(cmp)">Compression</BUTTON>
+
+<DIV CLASS="panel" ID="cmp" STYLE="display: none;">
+<H3>Pourquoi mes messages ne semblent jamais compressibles ?</H3>
+<P><B>R :</B> Plusieurs raisons sont possibles. D'abord, il faut savoir que la compression de LORENZ agit par deux manières : par répétitions et par associations. La première agit sur la répétition successive de caractères. Si leur nombre est significatif, une compression par répétitions est alors réalisée. La deuxième agit sur la répétition de mots semblables, comme Autobus, AUTOBUS ou autoBus. Lorsque leur nombre devient significatif, une compression par associations est réalisée. Puis, pour retrouver leur graphie initiale, LORENZ crée une table de compression associant les différentes graphies avec des balises de compression. Cette table sera ajoutée en début de message. De cela, la taille du message est à la fois réduite et augmentée, et le meilleur taux de réduction (qui doit d'ailleurs dépasser celui fixé par l'utilisateur dans les options) est alors retenu. Ainsi, les conditions pour qu'il y ait compression sont difficiles à prévoir de façon théorique, d'où l'utilisation du mot "significatif". Il est évident que des améliorations devront être apportées sur les manières de compresser afin d'en améliorer leur efficacité.</P>
 </DIV>
 
 <BUTTON CLASS="accordion" ONCLICK="doSection(jeu)">Jeu</BUTTON>
