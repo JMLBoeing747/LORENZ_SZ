@@ -168,6 +168,14 @@
 					<param name="Name" value="C : Modifier le taux de compression">
 					<param name="Local" value="REF\REFCMPRR.HTM">
 					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="T : Disposition de la table de transcription">
+					<param name="Local" value="REF\REFMODTT.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="S : Disposition de la table secr&egrave;te">
+					<param name="Local" value="REF\REFMODST.HTM">
+					</OBJECT>
 			</UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="F1 : AIDE">
