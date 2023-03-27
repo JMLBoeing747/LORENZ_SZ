@@ -99,6 +99,23 @@
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Disposition">
+		<param name="Name" value="Options">
+		<param name="Local" value="REF\REFOPT.HTM">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Table de transcription">
+			<param name="Name" value="Disposition de la TT">
+			<param name="Local" value="REF\REFMODTT.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Table secr&egrave;te">
+			<param name="Name" value="Disposition de la TS">
+			<param name="Local" value="REF\REFMODST.HTM">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Enregistrement">
 		<param name="Name" value="Enregistrer un message">
 		<param name="Local" value="SAVEMSG.HTM">
