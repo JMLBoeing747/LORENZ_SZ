@@ -179,6 +179,11 @@
 		<param name="Local" value="REF\REFLINI.HTM">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="LZPARAMS">
+		<param name="Name" value="Fichiers de l'application">
+		<param name="Local" value="LZFILES.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Pr&eacute;sentation">
 		<param name="Name" value="Présentation">
 		<param name="Local" value="PRESENT.HTM">
