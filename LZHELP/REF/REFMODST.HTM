@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<Title>RÉFÉRENCE MODIFICATION TS - ST MODIFICATION REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>S : Disposition de la table secrète</H1>
+<P>Référence technique sur l'interface de modification de la table secrète (TS)</P>
+<H2>Présentation</H2>
+<P>Commande permettant d'accéder à l'interface de modification de la disposition de la TS. Le message d'entrée est le suivant :</P>
+<PRE>
+<SAMP>
+	Disposition actuelle de la TS : &ltdisposition actuelle&gt
+
+	ATTENTION ! Modifier la disposition de la table secrète sans avoir aucune connaissance
+	approfondie du principe de chiffrement peut causer de sérieux problèmes auprès de vos
+	correspondants, notamment au moment de la transmission.
+	Il est primordial d'informer ces derniers de toute modification sur la disposition des
+	tables de chiffrement avant de transmettre tout nouveau message.
+
+	Pour poursuivre, appuyez sur F12.
+	Appuyez sur n'importe quelle autre touche pour annuler.
+</SAMP>
+</PRE>
+<P>Où &ltdisposition actuelle&gt est la valeur de la disposition précédemment affectée.</P>
+<P>Par mesure de sécurité, seule la touche F12 permet de poursuivre l'opération. Toutes les autres touches quittent l'interface.</P>
+<P>Lorsque F12 est appuyé, l'instruction suivante s'affiche :</P>
+<PRE>
+<SAMP>
+	Inscrivez la nouvelle disposition sous la forme d'une chaine de 10 caractères uniques.
+	Pour annuler l'opération, appuyez sur ESC sans rien écrire.
+
+	Nouvelle disposition :
+</SAMP>
+</PRE>
+<H2>Entrée</H2>
+<P>La nouvelle disposition de la TS, un groupe de dix caractères alphanumériques. À l'atteinte du 10e caractère, <B>aucun autre caractère n'est lu ni inscrit</B> et il faudra valider en appuyant sur ENTRÉE. La nouvelle disposition est alors affectée au paramètre SECRETABLE.</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ESC (Touche Escape)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>Nouvelle disposition : &ltNouvelle disposition&gt</DT>
+<DD>Succès : Signifie que la nouvelle disposition a été affectée au paramètre SECRETABLE avec succès. Le paramètre SECRETABLE est alors immédiatement inscrit dans le fichier LORENZ.INI.</DD>
+<DT>La chaîne doit faire 10 caractères de long.</DT>
+<DD>Erreur spécifique : Signifie que la disposition inscrite ne présente pas la longueur règlementaire de 10 caractères.</DD>
+<DT>La chaîne doit être composée de 10 caractères uniques.</DT>
+<DD>Erreur spécifique : Signifie que la disposition inscrite ne respecte pas le critère d'unicité des caractères. Tout caractère de la disposition ne doit apparaitre qu'une seule fois.</DD>
+<DT>Aucune nouvelle disposition assignée !</DT>
+<DD>Avertissement : Signifie qu'aucune chaîne n'a été entrée. Aucune modification n'a alors lieu.</DD>
+</DL>
+</BODY>
+</HTML>

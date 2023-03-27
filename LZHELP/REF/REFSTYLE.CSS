@@ -12,6 +12,11 @@ h2 {
     color: rgb(0, 84, 99);
 }
 
+h3 {
+	font-family: Arial;
+	color: rgb(0, 128, 255);
+}
+
 p {
     font-family: Arial;
     text-align: justify;

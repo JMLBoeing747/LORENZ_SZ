@@ -47,6 +47,10 @@
 			<param name="Local" value="DECIPHER.HTM">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Enregistrer un message">
+			<param name="Local" value="SAVEMSG.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Fichiers de l'application">
 			<param name="Local" value="LZFILES.HTM">
 			</OBJECT>
@@ -66,6 +70,10 @@
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="&Eacute;crire en priv&eacute;">
 				<param name="Local" value="PRIVCMD.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Compresser un message">
+				<param name="Local" value="CMPRSMSG.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Jeu LORENZ">
@@ -114,15 +122,63 @@
 				<param name="Local" value="REF\REFGAME.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="S : Afficher / Masquer l'exp&eacute;diteur">
+				<param name="Name" value="H : Historique">
+				<param name="Local" value="REF\REFHIST.HTM">
+				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="H : Consulter l'historique">
+					<param name="Local" value="REF\REFHISLK.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="N : Nouvelle cat&eacute;gorie">
+					<param name="Local" value="REF\REFNEWC.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="C : Consulter les cat&eacute;gories">
+					<param name="Local" value="REF\REFCATLK.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="S : Supprimer une cat&eacute;gorie">
+					<param name="Local" value="REF\REFDELC.HTM">
+					</OBJECT>
+			</UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Afficher l'exp&eacute;diteur (S)">
 				<param name="Local" value="REF\REFSHOW.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Activer la compression (C)">
+				<param name="Local" value="REF\REFCMPRS.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="P : Modifier le pseudo">
 				<param name="Local" value="REF\REFPSEUD.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
-				<param name="Name" value="H : AIDE">
+				<param name="Name" value="R : Modifier/Sp&eacute;cifier le r&eacute;pertoire des chiffrrements">
+				<param name="Local" value="REF\REFCDIR.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="O : Options de chiffrement">
+				<param name="Local" value="REF\REFOPT.HTM">
+				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="C : Modifier le taux de compression">
+					<param name="Local" value="REF\REFCMPRR.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="T : Disposition de la table de transcription">
+					<param name="Local" value="REF\REFMODTT.HTM">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="S : Disposition de la table secr&egrave;te">
+					<param name="Local" value="REF\REFMODST.HTM">
+					</OBJECT>
+			</UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="F1 : AIDE">
 				<param name="Local" value="REF\REFHELP.HTM">
 				</OBJECT>
 		</UL>
@@ -134,6 +190,10 @@
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Fichiers LZI">
 				<param name="Local" value="REF\REFLZI.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Fichier LORENZ.INI">
+				<param name="Local" value="REF\REFLINI.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Fichier PARAMS.INI">

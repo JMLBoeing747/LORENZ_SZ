@@ -177,7 +177,7 @@ namespace LORENZ
 
                 if (!OverridePress)
                 {
-                    Console.WriteLine(Environment.NewLine + "Press any key to continue...");
+                    Console.WriteLine(Environment.NewLine + "Appuyez sur n'importe quelle touche pour continuer...");
                     Console.ReadKey(true);
                 }
 
@@ -572,12 +572,12 @@ namespace LORENZ
                     return;
                 }
                 Extensions.AfficherTitre("Historique", ConsoleColor.Gray, ConsoleColor.Black);
-                Console.WriteLine("[H]: Consulter l'historique");
-                Console.WriteLine("[N]: Nouvelle catégorie");
+                Console.WriteLine("H : Consulter l'historique");
+                Console.WriteLine("N : Nouvelle catégorie");
                 if (Categorie.CategoriesCount > 0)
                 {
-                    Console.WriteLine("\n[C]: Consulter les catégories");
-                    Console.WriteLine("[S]: Supprimer une catégorie");
+                    Console.WriteLine("\nC : Consulter les catégories");
+                    Console.WriteLine("S : Supprimer une catégorie");
                 }
                 Console.WriteLine("\nAppuyez sur ESC pour retourner");
 

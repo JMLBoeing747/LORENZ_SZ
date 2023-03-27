@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<Title>RÉFÉRENCE SUR L'INTERFACE DU TAUX MINIMUM DE COMPRESSION - MINIMUM COMPRESSION RATIO INTERFACE REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>C : Modifier le taux de compression</H1>
+<P>Référence technique sur l'interface de modification du taux minimum de compression par associations (CA)</P>
+<H2>Présentation</H2>
+<P>Commande permettant d'accéder à l'interface de modification du taux minimum de compression par associations désiré par l'utilisateur. Le message d'entrée est le suivant :<P>
+<PRE>
+<SAMP>
+	Inscrivez le taux de compression minimum que vous désirez obtenir
+	lors de vos futurs chiffrements.
+	Pour annuler, appuyez sur ESC ou sur ENTRÉE sans rien écrire
+
+	Taux de compression actuel : &ltTaux actuel&gt
+	Nouveau taux :
+</SAMP>
+</PRE>
+<P>N.B. : &ltTaux actuel&gt correspond à la valeur du taux de compression précédemment spécifié par l'utilisateur.</P>
+<H2>Entrée</H2>
+<P>Le nouveau taux à considérer pour la CA. Ceci affectera la nouvelle valeur au paramètre CMPRSRATIO, ou le laissera inchangé si l'entrée vaut "\n" (caractère de retour à la ligne 0xA).</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ENTRÉE (Retour à la ligne)</LI>
+<LI>ESC (Touche Escape)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>Nouveau taux enregistré : &ltNouveau taux&gt</DT>
+<DD>Succès : Signifie que le nouveau taux a été affecté au paramètre CMPRSRATIO avec succès. Le paramètre CMPRSRATIO est alors immédiatement inscrit dans le fichier LORENZ.INI.</DD>
+<DT>Ceci n'est pas un pourcentage valide.</DT>
+<DD>Erreur : Signifie que la valeur entrée ne correspond pas au format d'un pourcentage valide. Le format requis est un entier avec des caractères numériques, ou un nombre flottant avec des caractères numériques ainsi qu'un séparateur flottant (la virgule en format régional français, ou le point en anglais).</DD>
+</DL>
+</BODY>
+</HTML>

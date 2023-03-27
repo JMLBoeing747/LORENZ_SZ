@@ -9,15 +9,17 @@
 <H1>Fichiers LZI</H1>
 <P>Référence technique sur les fichiers LZI (LORENZ Initializer file) de LORENZ</P>
 <H2>Présentation</H2>
-<P>Les fichiers LZI permettent de vérifier la correspondance de l'identité de l'utilisateur ainsi que celle de l'ordinateur dans le but de permettre l'accès à l'application. Il s'agit de fichiers critiques, donc essentiels au bon fonctionnement du programme, et leur corruption (modification externe au programme) peut s'avérer fatale (à l'exception de certains fichiers). C'est pourquoi, par mesure de précaution, les données contenues sont chiffrés par SJML.</P>
+<P>Les fichiers LZI permettent de vérifier la correspondance de l'identité de l'utilisateur ainsi que celle de l'ordinateur dans le but de permettre l'accès à l'application. Il s'agit de fichiers critiques, donc essentiels au bon fonctionnement du programme, et leur corruption (modification externe au programme) peut s'avérer fatale (à l'exception de certains fichiers). C'est pourquoi, par mesure de précaution, les données contenues sont chiffrés par l'algorithme de chiffrement SJML.</P>
 <H2>Liste des fichiers LZI</H2>
 <DL>
 <DT>LASTACSS.LZI</DT>
 <DD><B>Contenu :</B> La date et l'heure UTC du dernier accès au fichier USERLOG.LZI. La précision de l'heure s'étend jusqu'aux dixièmes de nanosecondes.</DD>
 <DT>USERLOG.LZI</DT>
 <DD><B>Contenu :</B> Les données nécessaires à l'identification de l'utilisateur LORENZ autorisé à accéder à la présente copie de l'application. Ces données comprennent le nom utilisateur du présent compte d'ordinateur (équivalent à la variable d'environnement système %USERNAME%), le nom du présent ordinateur (équivalent à la variable d'environnement système %COMPUTERNAME%) ainsi que le LORENZ IDentifier (LID) de l'utilisateur.</DD>
+<DT>HISTORY.LZI</DT>
+<DD><B>Contenu :</B> L'ensemble des entrées de l'historique des chiffrements sauvegardés par l'utilisateur. Advenant le cas où l'utilisateur ne désire plus garder son historique, <B>ce fichier peut être supprimé sans problème</B>.</DD>
 <DT>COINSREC.LZI</DT>
-<DD><B>Contenu :</B> Le nombre total de Coins accumulés depuis la première partie gagnée du jeu LORENZ. <B>Ce fichier est optionnel et peut donc être supprimé au besoin</B>.</DD>
+<DD><B>Contenu :</B> Le nombre total de Coins accumulés depuis la première partie gagnée du jeu LORENZ. <B>Ce fichier est optionnel et peut donc être supprimé au besoin, sans problème</B>.</DD>
 </DL>
 </BODY>
 </HTML>

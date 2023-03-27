@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<Title>RÉFÉRENCE CONSULTATION DE L'HISTORIQUE - HISTORY LOOKUP REFERENCE</Title>
+<LINK REL="STYLESHEET" HREF="REFSTYLE.CSS">
+</HEAD>
+<BODY>
+<H1>H : Consulter l'historique</H1>
+<P>Référence technique sur l'interface de consultation de l'historique</P>
+<H2>Présentation</H2>
+<P>Cette commande permet d'accéder à l'interface de consultation de l'historique des messages enregistrés.<BR>
+Un historique typique se présente de la façon suivante :</P>
+<PRE>
+<SAMP>
+           Ce mois-ci
+[1]:  2023-03-02 09:38:20 | long. : 15   | Bonjour à toi!
+         L'année dernière
+[2]:  2022-11-14 18:43:33 | long. : 34   | J'ajoute un message à déchiffrer.
+[3]:  2022-11-14 10:01:46 | long. : 24   | Bonsoir bonsoir bonsoir
+[4]:  2022-11-13 18:42:09 | long. : 124  | Le projet des catégories semble bientôt arriver à sa finalité !...
+</SAMP>
+</PRE>
+<P>N.B. : Les extraits de messages présentés ne sont que des exemples et peuvent varier selon chaque utilisateur. Ceux-ci ne servent uniquement qu'a compléter l'exemple.</P>
+<P>Chaque entrée est divisée en 4 sections, de gauche à droite :</P>
+<UL>
+<LI>l'index du message</LI>
+<LI>la date d'enregistrement</LI>
+<LI>la longueur du message</LI>
+<LI>l'extrait du message</LI>
+</UL>
+<P><B>L'index du message</B> numérote tous les messages de l'historique de 1 à partir de l'enregistrement le plus récent.<BR>
+<B>La date d'enregistrement</B> indique la date et l'heure d'enregistrement du message sous le format YYYY-MM-DD hh:mm:ss.<BR>
+<B>La longueur du message</B> indique le nombre de caractères totaux composant le message, en incluant les caractères de retrait de ligne (0xD, 0x0A) et les caractères de contrôle, si applicable.<BR>
+<B>L'extrait du message</B> affiche en tout ou en partie le message enregistré. Pour des raisons d'alignement, sa longueur varie en fonction de la largeur de la console, de la largeur de colonne des index, et de la largeur de colonne de longueur du message. Les largeurs de colonne sont déterminées selon l'espace occupé par la plus grande donnée contenue.</P>
+<P>L'historique est finalement divisé en périodes. Les périodes disponibles sont les suivantes :</P>
+<UL>
+<LI>Aujourd'hui</LI>
+<LI>Hier</LI>
+<LI>Avant-hier</LI>
+<LI>Cette semaine</LI>
+<LI>Ce mois-ci</LI>
+<LI>Le mois dernier</LI>
+<LI>Cette année</LI>
+<LI>L'année dernière</LI>
+<LI>Il y a longtemps</LI>
+</UL>
+<P>Les périodes permettent de diviser les entrées de l'historique en périodes temporelles différentes, ceci dans le but de mieux retrouver les messages lorsqu'on a plus facilement l'époque d'enregistrement que le contenu en tête. Ces périodes sont inscrites en surbrillance de blanc sur fond gris clair.</P>
+<P>Le bas d'une page d'historique se présente comme suit :</P>
+<PRE>
+<SAMP>
+Suivant >>                                                                                    17 / 37 entrées
+--------------------------------------------------------------------------------------------------------------
+Pour accéder au contenu complet d'un de ces éléments, inscrivez le numéro d'index qui les identifie à gauche
+et appuyez sur ENTRÉE.
+Pour supprimer une entrée : appuyez sur DELETE et inscrivez son index.
+Utilisez BACKSPACE pour corriger et les FLÈCHES GAUCHE / DROITE pour changer de page.
+
+Pour retourner, appuyer sur ESC.
+>>
+</SAMP>
+</PRE>
+<P>N.B. : Le nombre d'entrées peut varier selon chaque utilisateur. Celui-ci ne sert uniquement qu'a compléter l'exemple.</P>
+<P>Lorsque le nombre d'entrées ainsi que la hauteur de console le permettent, l'historique est alors divisé en plusieurs pages. Le nombre de pages dépend de ces deux facteurs susmentionnés.</P>
+<H2>Entrées</H2>
+<P>Plusieurs entrées sont permises, et elles occupent différentes fonctions :</P>
+<UL>
+<LI>Nombre entier</LI>
+<LI>Flèche gauche</LI>
+<LI>Flèche droite</LI>
+<LI>DEL (Touche Delete)</LI>
+</UL>
+<P><B>Un nombre entier</B> spécifie l'index du message que l'utilisateur désire consulter. L'entrée doit être validée par la touche ENTRÉE du clavier.<BR>
+<B>Les flèches gauche et droite</B> permettent de naviguer à travers les multiples pages de l'historique. La flèche droite change de page de sorte que les index de messages augmentent. La flèche gauche agit de façon inverse. S'il n'y a qu'une seule page, ces touches deviennent alors invalides et sont ignorées.<BR>
+<B>La touche Delete</B> permet de supprimer un message, spécifié par son index. L'entrée se présentera sous la forme "Del : &ltIndex&gt" et devra être validée par la touche ENTRÉE du clavier.</P>
+<H2>Touches d'échappement</H2>
+<UL>
+<LI>ESC (Touche Escape)</LI>
+</UL>
+<H2>Messages de sortie possibles</H2>
+<DL>
+<DT>Index invalide !</DT>
+<DD>Erreur : L'index spécifié en entrée ne correspond à aucun des messages listés dans l'historique.</DD>
+</DL>
+</BODY>
+</HTML>
