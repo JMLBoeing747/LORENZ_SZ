@@ -15,3 +15,6 @@ PRDCTKEY        (Product key)               Contains the unique key when registe
 PARAMS.INI      (Parameters)                Contains attributes defined by user, such as PSEUDONAME and SHOWSENDER
 COINSREC.LZI    (Coins record)              Contains the number of coins reached by the user since the first won game
                                             session. If it is corrupted, it will be deleted automatically.
+HISTORY.LZI     (History file)              Contains saved messages by the user into history.
+CATEGORY.LZI    (Categories files)          Contains the names and messages ID of all categories created by the user for
+                                            the history.
