@@ -85,8 +85,15 @@ namespace LORENZ
 
                     for (int cat = 0; cat < ListeCategories.Count; cat++)
                     {
-                        Console.WriteLine("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom +
-                            " (" + ListeCategories[cat].MsgCount + " msg)");
+                        Console.Write("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom);
+                        if (ListeCategories[cat].MsgCount > 0)
+                        {
+                            Console.WriteLine(" (" + ListeCategories[cat].MsgCount + " msg)");
+                        }
+                        else
+                        {
+                            Console.WriteLine(" (vide)");
+                        }
                     }
 
                     int indexCat = Extensions.SpecialInputDigits(addNewLine: false);
@@ -222,7 +229,15 @@ namespace LORENZ
 
                     for (int cat = 0; cat < ListeCategories.Count; cat++)
                     {
-                        Console.WriteLine("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom);
+                        Console.Write("[" + (cat + 1) + "]: " + ListeCategories[cat].Nom);
+                        if (ListeCategories[cat].MsgCount > 0)
+                        {
+                            Console.WriteLine(" (" + ListeCategories[cat].MsgCount + " msg)");
+                        }
+                        else
+                        {
+                            Console.WriteLine(" (vide)");
+                        }
                     }
 
                     int indexCat = Extensions.SpecialInputDigits(addNewLine: false);
