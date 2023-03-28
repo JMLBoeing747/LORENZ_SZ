@@ -310,7 +310,7 @@ namespace LORENZ
                 writeLine += pressChar;
             } while (pressChar != endChar);
 
-            if (stripEndChar && maxLength == 0)
+            if (stripEndChar && (maxLength == 0 || (maxLength > 0 && writeLine.Length < maxLength)))
             {
                 writeLine = writeLine[..^1];
             }
