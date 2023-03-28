@@ -6,7 +6,7 @@ namespace LORENZ
 {
     class Program
     {
-        public static string VersionNumber => "3.0.0-alpha";
+        public static string VersionNumber => "3.0.0-beta";
         private static bool OverridePress { get; set; }
 
         public static void Main()
