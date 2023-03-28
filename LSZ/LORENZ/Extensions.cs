@@ -87,7 +87,7 @@ namespace LORENZ
 
             try
             {
-                File.WriteAllText(Parametres.CipherFileDirectory + NomFichierChiffrement, msgChiffre);
+                File.WriteAllText(Path.Combine(Parametres.CipherFileDirectory, NomFichierChiffrement), msgChiffre);
                 return true;
             }
             catch (ArgumentException)

@@ -374,7 +374,7 @@ namespace LORENZ
                     if (messageADechiffrer.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
                     {
                         string cipherFileName = messageADechiffrer["FILE:".Length..].Trim();
-                        string cipherFilePath = Parametres.CipherFileDirectory + cipherFileName;
+                        string cipherFilePath = Path.Combine(Parametres.CipherFileDirectory, cipherFileName);
                         if (File.Exists(cipherFilePath))
                         {
                             messageADechiffrer = File.ReadAllText(cipherFilePath);
