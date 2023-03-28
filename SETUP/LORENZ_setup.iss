@@ -3,13 +3,13 @@
 
 #define MyAppName "LORENZ"
 #define MyAppVersion "3.0.0"
-#define MyAppVersionFull MyAppVersion + "-alpha"
+#define MyAppVersionFull MyAppVersion + "-beta"
 #define MyAppPublisher "LORENZ SZ"
 #define MyAppExeName "LORENZ.EXE"
-#define AppPublishPath "..\LSZ\LORENZ\bin\Release\net6.0\publish"
+#define AppPublishPath "..\LSZ\LORENZ\bin\Release\publish"
 #define LZHELPPath "..\LZHELP\LZHELP.CHM"
 
-#define CRYPTOPath "..\LSZ\CRYPTO\bin\Release\net6.0\publish"
+#define CRYPTOPath "..\LSZ\CRYPTO\bin\Release\publish"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.

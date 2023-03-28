@@ -60,3 +60,4 @@ https://github.com/JMLBoeing747/LORENZ_SZ/commits/main
 07-NOV-2022........................................Nouveau logo redessiné
 16-NOV-2022........................................Implémentation des catégories pour catégoriser les messages de l'historique
 19-NOV-2022........................................Nouveau logo pour l'utilitaire d'installation
+28-MAR-2023........................................Migration vers .NET 7.0
