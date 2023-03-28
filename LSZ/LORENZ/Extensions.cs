@@ -152,31 +152,27 @@ namespace LORENZ
 
                 try
                 {
+                    DirectoryInfo oldDinfo = new DirectoryInfo(Parametres.CipherFileDirectory);
                     DirectoryInfo dinfo = new(dirPath);
-                    if (!dinfo.ToString().EndsWith('\\'))
-                    {
-                        Parametres.CipherFileDirectory = dinfo.FullName + "\\";
-                    }
-                    else
-                    {
-                        Parametres.CipherFileDirectory = dinfo.FullName;
-                    }
+                    
+                    dinfo.Create();
+                    Parametres.CipherFileDirectory = dinfo.FullName;
                     Display.PrintMessage("Répertoire spécifié : " + Parametres.CipherFileDirectory, MessageState.Success);
                     Parametres.EcrireFichierParams();
+                    if (oldDinfo.Exists)
+                    {
+                        oldDinfo.Delete(false);
+                    }
+
                     break;
                 }
-                catch (ArgumentNullException)
-                {
-                    Display.PrintMessage("Aucun chemin d'accès spécifié.", MessageState.Failure);
-                }
-                catch (ArgumentException)
+                catch (IOException)
                 {
                     Display.PrintMessage("Chemin d'accès invalide.\n"
-                                         + "Utilisez '\\' au lieu de '/' pour les séparateurs,\n"
-                                         + "ou retirez tout caractère interdit "
+                                         + "Retirez tout caractère interdit "
                                          + DeniedChars, MessageState.Failure);
                 }
-                catch (SecurityException)
+                catch (UnauthorizedAccessException)
                 {
                     Display.PrintMessage("L'accès au répertoire est refusé.", MessageState.Failure);
                 }
