@@ -7,6 +7,7 @@ namespace LORENZ
     class Program
     {
         public static string VersionNumber => "3.0.0-beta";
+        public static string LzCipherFileExt => ".lc2";
         private static bool OverridePress { get; set; }
 
         public static void Main()
@@ -327,7 +328,7 @@ namespace LORENZ
                         Console.ForegroundColor = ConsoleColor.Cyan;
                         return;
                     }
-                } while (!Extensions.EcrireChiffrementLong(vraiMessageChiffre, cipherFileName));
+                } while (!Extensions.EcrireChiffrementLong(vraiMessageChiffre, cipherFileName + LzCipherFileExt));
 
                 Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -346,6 +347,8 @@ namespace LORENZ
             Console.Clear();
             Extensions.AfficherTitre("Déchiffrement", ConsoleColor.DarkMagenta);
             Display.PrintMessage("AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !", MessageState.Warning);
+            Display.PrintMessage("Pour déchiffrer un fichier, tapez \"FILE:\" (casse insensible) " +
+                "suivi du nom de fichier (sans l'extension).");
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             try
@@ -373,7 +376,7 @@ namespace LORENZ
 
                     if (messageADechiffrer.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
                     {
-                        string cipherFileName = messageADechiffrer["FILE:".Length..].Trim();
+                        string cipherFileName = messageADechiffrer["FILE:".Length..].Trim() + LzCipherFileExt;
                         string cipherFilePath = Path.Combine(Parametres.CipherFileDirectory, cipherFileName);
                         if (File.Exists(cipherFilePath))
                         {
