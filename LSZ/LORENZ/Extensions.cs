@@ -135,7 +135,7 @@ namespace LORENZ
 
             while (true)
             {
-                Console.Write(">>> ");
+                Console.Write("Nouveau >>> ");
                 string dirPath = SpecialInput();
                 if (dirPath is null or "")
                 {
