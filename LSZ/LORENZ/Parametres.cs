@@ -17,6 +17,7 @@ namespace LORENZ
         public static string ProductKeyFile { get => @"PRDCTKEY.LKI"; }
         public static string OldParamsFile { get => $@"{ParamsDirectory}/PARAMS.INI"; }
         public static string LorenzParamsFile { get => $@"{ParamsDirectory}/LORENZ.INI"; }
+        public static string LzCipherFileExt => ".lc2";
         public static string FichierEnAnalyse { get; set; }
 
         public static bool ShowPseudoNameSender { get; set; }

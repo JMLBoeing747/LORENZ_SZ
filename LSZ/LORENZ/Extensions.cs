@@ -119,7 +119,7 @@ namespace LORENZ
 
             AfficherTitre("Répertoire des chiffrements", ConsoleColor.DarkYellow, ConsoleColor.Black);
             Console.WriteLine("Le répertoire des fichiers de chiffrement permet à LORENZ de localiser les fichiers de chiffrement.");
-            Console.WriteLine("Ces fichiers se créent lorsqu'un message chiffré devient trop long pour être retranscrit sur le");
+            Console.WriteLine("Ces fichiers ("+ Parametres.LzCipherFileExt +") se créent lorsqu'un message chiffré devient trop long pour être retranscrit sur le");
             Console.WriteLine("terminal. Lorsque viendra le temps de déchiffrer de tels fichiers, il faudra alors les insérer dans");
             Console.WriteLine("ce répertoire afin d'amorcer leur déchiffrement.");
             Display.PrintMessage("\nSpécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :", MessageState.Warning);

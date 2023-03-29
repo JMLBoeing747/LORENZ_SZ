@@ -7,7 +7,6 @@ namespace LORENZ
     class Program
     {
         public static string VersionNumber => "3.0.0-beta";
-        public static string LzCipherFileExt => ".lc2";
         private static bool OverridePress { get; set; }
 
         public static void Main()
@@ -328,7 +327,7 @@ namespace LORENZ
                         Console.ForegroundColor = ConsoleColor.Cyan;
                         return;
                     }
-                } while (!Extensions.EcrireChiffrementLong(vraiMessageChiffre, cipherFileName + LzCipherFileExt));
+                } while (!Extensions.EcrireChiffrementLong(vraiMessageChiffre, cipherFileName + Parametres.LzCipherFileExt));
 
                 Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -376,7 +375,7 @@ namespace LORENZ
 
                     if (messageADechiffrer.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
                     {
-                        string cipherFileName = messageADechiffrer["FILE:".Length..].Trim() + LzCipherFileExt;
+                        string cipherFileName = messageADechiffrer["FILE:".Length..].Trim() + Parametres.LzCipherFileExt;
                         string cipherFilePath = Path.Combine(Parametres.CipherFileDirectory, cipherFileName);
                         if (File.Exists(cipherFilePath))
                         {
