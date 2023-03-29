@@ -127,16 +127,26 @@
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Fichiers de chiffrement">
+			<param name="Name" value="Répertoire des chiffrements">
+			<param name="Local" value="CIPHDIR.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="LORENZ.INI">
+			<param name="Name" value="Référence LORENZ.INI">
+			<param name="Local" value="REF\REFLINI.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="PARAMS.INI">
+			<param name="Name" value="Fichier PARAMS.INI">
+			<param name="Local" value="REF\REFPINI.HTM">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="R&eacute;f&eacute;rence">
 			<param name="Name" value="Référence sur les fichiers">
 			<param name="Local" value="REF\REFFILES.HTM">
 			</OBJECT>
 	</UL>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Fichiers de chiffrement">
-		<param name="Name" value="Répertoire des chiffrements">
-		<param name="Local" value="CIPHDIR.HTM">
-		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Histoire">
 		<param name="Name" value="Histoire de LORENZ">
@@ -195,11 +205,6 @@
 			<param name="Local" value="PRIVCMD.HTM">
 			</OBJECT>
 	</UL>
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="LORENZ.INI">
-		<param name="Name" value="Référence LORENZ.INI">
-		<param name="Local" value="REF\REFLINI.HTM">
-		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="LZPARAMS">
 		<param name="Name" value="Fichiers de l'application">
