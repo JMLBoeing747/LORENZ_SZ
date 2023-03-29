@@ -76,6 +76,10 @@
 				<param name="Local" value="CMPRSMSG.HTM">
 				</OBJECT>
 			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="R&eacute;pertoire des chiffrements">
+				<param name="Local" value="CIPHDIR.HTM">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="Jeu LORENZ">
 				<param name="Local" value="GAME.HTM">
 				</OBJECT>

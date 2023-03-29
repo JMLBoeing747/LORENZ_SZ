@@ -133,6 +133,11 @@
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Fichiers de chiffrement">
+		<param name="Name" value="Répertoire des chiffrements">
+		<param name="Local" value="CIPHDIR.HTM">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Histoire">
 		<param name="Name" value="Histoire de LORENZ">
 		<param name="Local" value="HISTORY\HISTHOME.HTM">
