@@ -8,15 +8,15 @@ namespace LORENZ
 {
     public static class Parametres
     {
-        public static string LORENZPATH { get => Environment.CurrentDirectory; }
-        public static string ParamsDirectory { get => @"LZPARAMS"; }
-        public static string UserlogFile { get => $@"{ParamsDirectory}/USERLOG.LZI"; }
-        public static string LastAccessFile { get => $@"{ParamsDirectory}/LASTACSS.LZI"; }
-        public static string CoinsRecordFile { get => $@"{ParamsDirectory}/COINSREC.LZI"; }
-        public static string HelpFilePath { get => @"LZHELP.CHM"; }
-        public static string ProductKeyFile { get => @"PRDCTKEY.LKI"; }
-        public static string OldParamsFile { get => $@"{ParamsDirectory}/PARAMS.INI"; }
-        public static string LorenzParamsFile { get => $@"{ParamsDirectory}/LORENZ.INI"; }
+        public static string LORENZPATH => Environment.CurrentDirectory;
+        public static string ParamsDirectory => @"LZPARAMS";
+        public static string UserlogFile => $@"{ParamsDirectory}/USERLOG.LZI";
+        public static string LastAccessFile => $@"{ParamsDirectory}/LASTACSS.LZI";
+        public static string CoinsRecordFile => $@"{ParamsDirectory}/COINSREC.LZI";
+        public static string HelpFilePath => @"LZHELP.CHM";
+        public static string ProductKeyFile => @"PRDCTKEY.LKI";
+        public static string OldParamsFile => $@"{ParamsDirectory}/PARAMS.INI";
+        public static string LorenzParamsFile => $@"{ParamsDirectory}/LORENZ.INI";
         public static string LzCipherFileExt => ".lc2";
         public static string FichierEnAnalyse { get; set; }
 
