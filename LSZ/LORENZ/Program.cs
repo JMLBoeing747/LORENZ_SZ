@@ -258,7 +258,7 @@ namespace LORENZ
             catch (System.ComponentModel.Win32Exception)
             {
                 Console.Clear();
-                Display.PrintMessage("OUVERTURE ÉCHOUÉE !", MessageState.Failure);
+                Display.PrintMessage("ÉCHEC DE L'OUVERTURE DE L'AIDE", MessageState.Failure);
             }
         }
 
