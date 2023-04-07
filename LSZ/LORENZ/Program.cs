@@ -27,6 +27,10 @@ namespace LORENZ
         {
             Display.PrintMessage("Initialisation des composants...", MessageState.Info);
             Parametres.LireFichierParams();
+            if (Parametres.PseudoName == "")
+            {
+                Parametres.CreerPseudo();
+            }
             double argent = Jeux.ReadCoinsInfoFile();
             Console.Clear();
             while (true)

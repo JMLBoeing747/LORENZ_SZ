@@ -157,7 +157,7 @@ namespace LORENZ
             }
         }
 
-        private static void CreerPseudo()
+        public static void CreerPseudo()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -426,10 +426,6 @@ namespace LORENZ
             int ini12 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, LorenzParamsFile);
             PseudoName = sb.ToString();
             sb.Clear();
-            if (PseudoName == "")
-            {
-                CreerPseudo();
-            }
 
             string settings = "Settings";
             int ini21 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, LorenzParamsFile);
