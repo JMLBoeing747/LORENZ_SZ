@@ -91,11 +91,11 @@ namespace LORENZ
                 {
                     Display.PrintMessage("Identification...", MessageState.Warning);
                     // Verify integrity of USERLOG.LZI when reading LASTACCS.LZI...
-                    Display.PrintMessage("CHECKING 1.", MessageState.Info, false);
+                    Display.PrintMessage("VÉRIFICATION 1.", MessageState.Info, false);
                     LireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     Display.PrintMessage("OK", MessageState.Info);
                     // Read USERLOG.LZI...
-                    Display.PrintMessage("CHECKING 2.", MessageState.Info, false);
+                    Display.PrintMessage("VÉRIFICATION 2.", MessageState.Info, false);
                     Cryptographie.DechiffrerUserinfo();
                     Display.PrintMessage("OK", MessageState.Info);
                     // Update LASTACSS.LZI...
@@ -110,7 +110,7 @@ namespace LORENZ
                         File.Delete(ProductKeyFile);
                     }
 
-                    Display.PrintMessage("Identification successful!", MessageState.Success);
+                    Display.PrintMessage("Identification réussie !", MessageState.Success);
                     return;
                 }
                 catch (LORENZException le)
@@ -118,10 +118,10 @@ namespace LORENZ
                     if (File.Exists(ProductKeyFile) || !Directory.Exists(ParamsDirectory))
                     {
                         string LIDRetrieved = LireCleProduit().Item3;
-                        Display.PrintMessage("SUCCESS: KEY IS VALID.", MessageState.Success);
+                        Display.PrintMessage("SUCCÈS: CLÉ DE PRODUIT VALIDE.", MessageState.Success);
                         File.Delete(ProductKeyFile);
                         // Write userinfos into USERLOGI.LZI...
-                        Display.PrintMessage("Writing parameters...", MessageState.Info);
+                        Display.PrintMessage("Écriture des paramètres...", MessageState.Info);
                         Directory.CreateDirectory(ParamsDirectory);
                         EcrireParametres(LIDRetrieved);
                         // Writing for first time LASTACSS.LZI...
