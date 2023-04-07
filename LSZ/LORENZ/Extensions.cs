@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security;
 using System.Threading;
 
 namespace LORENZ
@@ -119,7 +118,7 @@ namespace LORENZ
 
             AfficherTitre("Répertoire des chiffrements", ConsoleColor.DarkYellow, ConsoleColor.Black);
             Console.WriteLine("Le répertoire des fichiers de chiffrement permet à LORENZ de localiser les fichiers de chiffrement.");
-            Console.WriteLine("Ces fichiers ("+ Parametres.LzCipherFileExt +") se créent lorsqu'un message chiffré devient trop long pour être retranscrit sur le");
+            Console.WriteLine("Ces fichiers (" + Parametres.LzCipherFileExt + ") se créent lorsqu'un message chiffré devient trop long pour être retranscrit sur le");
             Console.WriteLine("terminal. Lorsque viendra le temps de déchiffrer de tels fichiers, il faudra alors les insérer dans");
             Console.WriteLine("ce répertoire afin d'amorcer leur déchiffrement.");
             Display.PrintMessage("\nSpécifiez le chemin d'accès absolu au répertoire des fichiers de chiffrement :", MessageState.Warning);
@@ -152,16 +151,25 @@ namespace LORENZ
 
                 try
                 {
-                    DirectoryInfo oldDinfo = new DirectoryInfo(Parametres.CipherFileDirectory);
+                    string oldDirPath = Parametres.CipherFileDirectory;
                     DirectoryInfo dinfo = new(dirPath);
-                    
                     dinfo.Create();
                     Parametres.CipherFileDirectory = dinfo.FullName;
                     Display.PrintMessage("Répertoire spécifié : " + Parametres.CipherFileDirectory, MessageState.Success);
                     Parametres.EcrireFichierParams();
-                    if (oldDinfo.Exists)
+                    if (oldDirPath != null)
                     {
-                        oldDinfo.Delete(false);
+                        DirectoryInfo oldDinfo = new(oldDirPath);
+                        if (oldDinfo.Exists)
+                        {
+                            try
+                            {
+                                oldDinfo.Delete();
+                            }
+                            catch (IOException)
+                            {
+                            }
+                        }
                     }
 
                     break;
@@ -299,7 +307,7 @@ namespace LORENZ
                         Console.Write(new string(' ', forwardChars));
                         Console.CursorLeft = beginLeft;
                     }
-                    
+
                     continue;
                 }
 
@@ -310,7 +318,7 @@ namespace LORENZ
             {
                 writeLine = writeLine[..^1];
             }
-            
+
             if (hideEndChar && !string.IsNullOrWhiteSpace(endChar.ToString()))
             {
                 Console.CursorLeft--;
@@ -458,11 +466,11 @@ namespace LORENZ
             {
                 Console.WriteLine();
             }
-            
+
             return int.TryParse(writeLine, out int writeInt) ? writeInt : -2;
         }
 
-       public static void Music() //tema di ali
+        public static void Music() //tema di ali
         {
             Display.PrintMessage("Playing...");
 
@@ -495,7 +503,7 @@ namespace LORENZ
             }
             //Thread.Sleep(introSleepDur*3);
             Console.Beep(277, 250);
-            Thread.Sleep(sleepDur*3);
+            Thread.Sleep(sleepDur * 3);
             for (int repeat = 0; repeat < 2; repeat++)
             {
                 for (int times = 0; times < 4; times++)
