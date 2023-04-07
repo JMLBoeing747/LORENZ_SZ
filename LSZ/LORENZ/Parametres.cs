@@ -115,12 +115,12 @@ namespace LORENZ
                 }
                 catch (LORENZException le)
                 {
-                    if (File.Exists(ProductKeyFile) || !Directory.Exists(ParamsDirectory))
+                    if (!File.Exists(LastAccessFile))
                     {
                         string LIDRetrieved = LireCleProduit().Item3;
                         Display.PrintMessage("SUCCÈS: CLÉ DE PRODUIT VALIDE.", MessageState.Success);
                         File.Delete(ProductKeyFile);
-                        // Write userinfos into USERLOGI.LZI...
+                        // Write userinfos into USERLOG.LZI...
                         Display.PrintMessage("Écriture des paramètres...", MessageState.Info);
                         Directory.CreateDirectory(ParamsDirectory);
                         EcrireParametres(LIDRetrieved);
