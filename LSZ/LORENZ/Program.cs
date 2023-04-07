@@ -31,7 +31,7 @@ namespace LORENZ
             Console.Clear();
             while (true)
             {
-                Extensions.AfficherTitre("DER LORENZ SCHLÜSSELZUSATZ " + VersionNumber, ConsoleColor.DarkBlue);
+                Extensions.AfficherTitre("DER LORENZ SCHLÜSSELZUSATZ " + VersionNumber, ConsoleColor.DarkBlue, length: 50);
                 Extensions.Configuration();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Choisir une option :");
