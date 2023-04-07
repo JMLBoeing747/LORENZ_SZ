@@ -9,15 +9,17 @@ namespace LORENZ
     public static class Parametres
     {
         private const string UserlogFileConst = "USERLOG.LZI";
+        private const string LastAccessFileConst = "LASTACSS.LZI";
+
         public static string LORENZPATH => Environment.CurrentDirectory;
         public static string ParamsDirectory => @"LZPARAMS";
         public static string UserlogFile => Path.Combine(ParamsDirectory, UserlogFileConst);
-        public static string LastAccessFile => Path.Combine(ParamsDirectory, "LASTACSS.LZI");
-        public static string CoinsRecordFile => $@"{ParamsDirectory}/COINSREC.LZI";
+        public static string LastAccessFile => Path.Combine(ParamsDirectory, LastAccessFileConst);
+        public static string CoinsRecordFile => Path.Combine(ParamsDirectory, "COINSREC.LZI");
         public static string HelpFilePath => @"LZHELP.CHM";
         public static string ProductKeyFile => @"PRDCTKEY.LKI";
-        public static string OldParamsFile => $@"{ParamsDirectory}/PARAMS.INI";
-        public static string LorenzParamsFile => $@"{ParamsDirectory}/LORENZ.INI";
+        public static string OldParamsFile => Path.Combine(ParamsDirectory, "PARAMS.INI");
+        public static string LorenzParamsFile => Path.Combine(ParamsDirectory, "LORENZ.INI");
         public static string LzCipherFileExt => ".lc2";
         public static string FichierEnAnalyse { get; set; }
 
