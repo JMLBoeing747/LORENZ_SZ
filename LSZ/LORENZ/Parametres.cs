@@ -121,9 +121,11 @@ namespace LORENZ
                     if (!File.Exists(LastAccessFile))
                     {
                         Console.Clear();
-                        Console.WriteLine("\nSi vous désirez migrer les paramètres d'une ancienne version de LORENZ, appuyez sur M.");
-                        Console.WriteLine("Si vous êtes au contraire un tout nouvel utilisateur, appuyez sur ENTRÉE pour poursuivre.");
-                        Console.WriteLine("Appuyez sur toute autre touche pour quitter.");
+                        Extensions.AfficherTitre("LORENZ 3.0.0", ConsoleColor.Gray, ConsoleColor.Black);
+                        Console.WriteLine("Veuillez sélectionner une option :");
+                        Console.WriteLine("M      : Migrer les paramètres d'une ancienne version de LORENZ");
+                        Console.WriteLine("ENTRÉE : Vous êtes un tout nouvel utilisateur");
+                        Console.WriteLine("\nAppuyez sur toute autre touche pour quitter.");
                         ConsoleKey saisie = Console.ReadKey(true).Key;
                         if (saisie == ConsoleKey.M)
                         {
@@ -159,7 +161,7 @@ namespace LORENZ
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("CRÉATION DU PSEUDONYME :");
+            Extensions.AfficherTitre("CRÉATION DU PSEUDONYME", ConsoleColor.DarkYellow);
             Console.WriteLine("Le pseudo est le nom qui sera affiché à tous les récepteurs pouvant déchiffrer le message");
             Console.WriteLine("et qui ont activé l'affichage de l'expéditeur. Par défaut, il est initialisé à votre nom");
             Console.WriteLine("d'utilisateur système mais vous pouvez le personnaliser. Pour cela, tapez ci-dessous le");
@@ -298,12 +300,17 @@ namespace LORENZ
         private static void MigrerParametres()
         {
             Console.Clear();
+            Extensions.AfficherTitre("Migration des paramètres", ConsoleColor.Gray, ConsoleColor.Black);
+            Display.PrintMessage("Entrez le chemin d'accès complet vers le dossier LZPARAMS qui contient les anciens");
+            Display.PrintMessage("paramètres.");
+            Display.PrintMessage("NOTE : Si votre ancienne version correspond à LORENZ 2.0, le chemin d'accès", MessageState.Info);
+            Display.PrintMessage("complet est : ", MessageState.Info, false);
+            Display.PrintMessage("%localappdata%\\programs\\LORENZSZ\\LZPARAMS\n", MessageState.Warning);
+            Display.PrintMessage("Si votre ancienne version correspond à 1.x.x, vous devrez vous procurer une nouvelle clé", MessageState.Info);
+            Display.PrintMessage("de produit auprès de votre fournisseur LORENZ.\n", MessageState.Info);
+            Display.PrintMessage("Appuyez sur ESC pour quitter.");
             while (true)
             {
-                Display.PrintMessage("Entrez le chemin d'accès complet vers le dossier LZPARAMS qui contient les anciens paramètres.");
-                Display.PrintMessage("Appuyez sur ESC pour quitter.");
-                Display.PrintMessage("NOTE : Si votre ancienne version correspond à LORENZ 2.0 ou antérieur, le chemin d'accès complet est :");
-                Display.PrintMessage("%localappdata%\\programs\\LORENZSZ\\LZPARAMS");
                 Console.Write("Chemin d'accès : ");
                 string pathOldParams = Extensions.SpecialInput();
                 if (pathOldParams == null)
@@ -314,6 +321,7 @@ namespace LORENZ
                 try
                 {
                     // Test the specified directory path
+                    pathOldParams = Environment.ExpandEnvironmentVariables(pathOldParams);
                     DirectoryInfo oldDirParams = new(pathOldParams);
                     if (!oldDirParams.Exists)
                     {
@@ -330,7 +338,6 @@ namespace LORENZ
                     // Check if USERLOG.LZI exists
                     if (!new FileInfo(Path.Combine(pathOldParams, UserlogFileConst)).Exists)
                     {
-                        Console.Clear();
                         Display.PrintMessage($"Erreur ! Ce dossier ne contient pas de fichier {UserlogFileConst}.", MessageState.Failure);
                         continue;
                     }
@@ -348,7 +355,6 @@ namespace LORENZ
                 }
                 catch (Exception)
                 {
-                    Console.Clear();
                     Display.PrintMessage("Erreur ! Le chemin d'accès spécifié est invalide.", MessageState.Failure);
                 }
             }
@@ -420,6 +426,10 @@ namespace LORENZ
             int ini12 = GetPrivateProfileString(profile, "PSEUDONAME", "", sb, sb.Capacity, LorenzParamsFile);
             PseudoName = sb.ToString();
             sb.Clear();
+            if (PseudoName == "")
+            {
+                CreerPseudo();
+            }
 
             string settings = "Settings";
             int ini21 = GetPrivateProfileString(settings, "CIPHFILEDR", "", sb, sb.Capacity, LorenzParamsFile);

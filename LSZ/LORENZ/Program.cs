@@ -29,10 +29,9 @@ namespace LORENZ
             Parametres.LireFichierParams();
             double argent = Jeux.ReadCoinsInfoFile();
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("DER LORENZ SCHLÜSSELZUSATZ " + VersionNumber);
             while (true)
             {
+                Extensions.AfficherTitre("DER LORENZ SCHLÜSSELZUSATZ " + VersionNumber, ConsoleColor.DarkBlue);
                 Extensions.Configuration();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Choisir une option :");
