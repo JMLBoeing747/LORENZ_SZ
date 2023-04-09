@@ -58,7 +58,7 @@ namespace LORENZ
                 msgACompress = tempMsgCompress;
                 return ratio;
             }
-            
+
             msgACompress = tempMsgCompress;
 
             /* Découpage du message en mots et en ponctuations
@@ -341,22 +341,28 @@ namespace LORENZ
             Display.PrintMessage("\nTaux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
                                  MessageState.Warning);
 
-            string newRatioStr = default;
-            double newRatio;
-            do
+            string newRatioStr;
+            double newRatio = -1.0;
+            while (newRatio is < 0 or >= 100)
             {
-                if (newRatioStr != default)
-                {
-                    Display.PrintMessage("Ceci n'est pas un pourcentage valide.", MessageState.Failure);
-                }
-
                 Console.Write("Nouveau taux : ");
                 newRatioStr = Extensions.SpecialInput();
                 if (newRatioStr is null or "")
                 {
                     return;
                 }
-            } while (!double.TryParse(newRatioStr, out newRatio));
+
+                if (!double.TryParse(newRatioStr, out newRatio))
+                {
+                    Display.PrintMessage("Ceci n'est pas un pourcentage valide.", MessageState.Failure);
+                    newRatio = -1.0;
+                }
+                else if (newRatio is < 0 or >= 100)
+                {
+                    Display.PrintMessage("Ce pourcentage est invalide.", MessageState.Failure);
+                    Display.PrintMessage("Entrez un pourcentage compris entre 0 inclus et 100 exclus.", MessageState.Failure);
+                }
+            }
 
             TauxCompressionMin = newRatio / 100;
             Parametres.EcrireFichierParams();
