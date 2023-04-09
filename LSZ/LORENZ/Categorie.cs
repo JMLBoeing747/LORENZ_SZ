@@ -92,7 +92,7 @@ namespace LORENZ
                         }
                         else
                         {
-                            Console.WriteLine(" (vide)");
+                            Console.WriteLine(" ( - )");
                         }
                     }
 
