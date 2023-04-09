@@ -11,11 +11,6 @@ namespace LORENZ
 
         public static double EssaiCompression(ref string msgACompress, ref string attrStr)
         {
-            if (!CompressionActive)
-            {
-                return 0.0;
-            }
-            
             // Création du message complet sans compression
             string fullInitialMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
 
@@ -55,6 +50,15 @@ namespace LORENZ
                 }
             }
 
+            if (!CompressionActive)
+            {
+                // Calcul du taux de compression
+                int diffCount = msgACompress.Length - tempMsgCompress.Length;
+                double ratio = diffCount / (double)fullInitialMsg.Length;
+                msgACompress = tempMsgCompress;
+                return ratio;
+            }
+            
             msgACompress = tempMsgCompress;
 
             /* Découpage du message en mots et en ponctuations
