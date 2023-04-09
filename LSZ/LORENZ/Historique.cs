@@ -696,6 +696,8 @@ namespace LORENZ
                 Display.PrintMessage("Toute autre touche annulera l'opération.", MessageState.Warning);
                 if (Console.ReadKey(true).Key != ConsoleKey.X)
                 {
+                    Display.PrintMessage("Opération annulée ! Appuyez sur une touche pour continuer.", MessageState.Info);
+                    Console.ReadKey(true);
                     return false;
                 }
 
