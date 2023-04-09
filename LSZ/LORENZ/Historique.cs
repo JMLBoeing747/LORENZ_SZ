@@ -519,9 +519,7 @@ namespace LORENZ
             }
             else
             {
-                Console.CursorLeft = 0;
-                Display.PrintMessage("Index invalide ! ", MessageState.Failure);
-                Console.ReadKey(true);
+                AfficherMsgIndexInvalide();
             }
 
             return true;
@@ -718,9 +716,7 @@ namespace LORENZ
             }
             else
             {
-                Console.CursorLeft = 0;
-                Display.PrintMessage("Index invalide ! ", MessageState.Failure);
-                Console.ReadKey(true);
+                AfficherMsgIndexInvalide();
                 return false;
             }
         }
@@ -748,6 +744,13 @@ namespace LORENZ
             }
 
             return potentials.Count > 0 ? potentials[0] : (uint)ListeHistorique.Count;
+        }
+
+        public static void AfficherMsgIndexInvalide()
+        {
+            Console.CursorLeft = 0;
+            Display.PrintMessage("Index invalide ! Appuyez sur une touche pour recommencer.", MessageState.Failure);
+            Console.ReadKey(true);
         }
     }
 }
