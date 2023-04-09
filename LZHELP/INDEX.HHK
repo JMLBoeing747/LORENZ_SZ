@@ -224,14 +224,9 @@
 		<param name="Name" value="Pseudonyme">
 		<param name="Name" value="Modifier le pseudo">
 		<param name="Local" value="PSEUDCMD.HTM">
+		<param name="Name" value="Référence commande pseudo">
+		<param name="Local" value="REF\REFPSEUD.HTM">
 		</OBJECT>
-	<UL>
-		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="R&eacute;f&eacute;rence">
-			<param name="Name" value="Référence commande pseudo">
-			<param name="Local" value="REF\REFPSEUD.HTM">
-			</OBJECT>
-	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Racine">
 		<param name="Name" value="Disposition de la table de transcription">
