@@ -8,15 +8,18 @@ namespace LORENZ
 {
     public static class Parametres
     {
+        private const string UserlogFileConst = "USERLOG.LZI";
+        private const string LastAccessFileConst = "LASTACSS.LZI";
+
         public static string LORENZPATH => Environment.CurrentDirectory;
         public static string ParamsDirectory => @"LZPARAMS";
-        public static string UserlogFile => $@"{ParamsDirectory}/USERLOG.LZI";
-        public static string LastAccessFile => $@"{ParamsDirectory}/LASTACSS.LZI";
-        public static string CoinsRecordFile => $@"{ParamsDirectory}/COINSREC.LZI";
+        public static string UserlogFile => Path.Combine(ParamsDirectory, UserlogFileConst);
+        public static string LastAccessFile => Path.Combine(ParamsDirectory, LastAccessFileConst);
+        public static string CoinsRecordFile => Path.Combine(ParamsDirectory, "COINSREC.LZI");
         public static string HelpFilePath => @"LZHELP.CHM";
         public static string ProductKeyFile => @"PRDCTKEY.LKI";
-        public static string OldParamsFile => $@"{ParamsDirectory}/PARAMS.INI";
-        public static string LorenzParamsFile => $@"{ParamsDirectory}/LORENZ.INI";
+        public static string OldParamsFile => Path.Combine(ParamsDirectory, "PARAMS.INI");
+        public static string LorenzParamsFile => Path.Combine(ParamsDirectory, "LORENZ.INI");
         public static string LzCipherFileExt => ".lc2";
         public static string FichierEnAnalyse { get; set; }
 
@@ -91,11 +94,11 @@ namespace LORENZ
                 {
                     Display.PrintMessage("Identification...", MessageState.Warning);
                     // Verify integrity of USERLOG.LZI when reading LASTACCS.LZI...
-                    Display.PrintMessage("CHECKING 1.", MessageState.Info, false);
+                    Display.PrintMessage("VÉRIFICATION 1.", MessageState.Info, false);
                     LireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     Display.PrintMessage("OK", MessageState.Info);
                     // Read USERLOG.LZI...
-                    Display.PrintMessage("CHECKING 2.", MessageState.Info, false);
+                    Display.PrintMessage("VÉRIFICATION 2.", MessageState.Info, false);
                     Cryptographie.DechiffrerUserinfo();
                     Display.PrintMessage("OK", MessageState.Info);
                     // Update LASTACSS.LZI...
@@ -110,22 +113,41 @@ namespace LORENZ
                         File.Delete(ProductKeyFile);
                     }
 
-                    Display.PrintMessage("Identification successful!", MessageState.Success);
+                    Display.PrintMessage("Identification réussie !", MessageState.Success);
                     return;
                 }
                 catch (LORENZException le)
                 {
-                    if (File.Exists(ProductKeyFile) || !Directory.Exists(ParamsDirectory))
+                    if (!File.Exists(LastAccessFile))
                     {
-                        string LIDRetrieved = LireCleProduit().Item3;
-                        Display.PrintMessage("SUCCESS: KEY IS VALID.", MessageState.Success);
-                        File.Delete(ProductKeyFile);
-                        // Write userinfos into USERLOGI.LZI...
-                        Display.PrintMessage("Writing parameters...", MessageState.Info);
-                        Directory.CreateDirectory(ParamsDirectory);
-                        EcrireParametres(LIDRetrieved);
-                        // Writing for first time LASTACSS.LZI...
-                        EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
+                        Console.Clear();
+                        Extensions.AfficherTitre("LORENZ 3.0.0", ConsoleColor.Gray, ConsoleColor.Black);
+                        Console.WriteLine("Veuillez sélectionner une option :");
+                        Console.WriteLine("M      : Migrer les paramètres d'une ancienne version de LORENZ");
+                        Console.WriteLine("ENTRÉE : Vous êtes un tout nouvel utilisateur");
+                        Console.WriteLine("\nAppuyez sur toute autre touche pour quitter.");
+                        ConsoleKey saisie = Console.ReadKey(true).Key;
+                        if (saisie == ConsoleKey.M)
+                        {
+                            MigrerParametres();
+                            continue;
+                        }
+                        else if (saisie == ConsoleKey.Enter)
+                        {
+                            string LIDRetrieved = LireCleProduit().Item3;
+                            Display.PrintMessage("SUCCÈS: CLÉ DE PRODUIT VALIDE.", MessageState.Success);
+                            File.Delete(ProductKeyFile);
+                            // Write userinfos into USERLOG.LZI...
+                            Display.PrintMessage("Écriture des paramètres...", MessageState.Info);
+                            Directory.CreateDirectory(ParamsDirectory);
+                            EcrireParametres(LIDRetrieved);
+                            // Writing for first time LASTACSS.LZI...
+                            EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
+                        }
+                        else
+                        {
+                            throw new LORENZException(ErrorCode.E0xFFF, false);
+                        }
                     }
                     else
                     {
@@ -135,11 +157,11 @@ namespace LORENZ
             }
         }
 
-        private static void CreerPseudo()
+        public static void CreerPseudo()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("CRÉATION DU PSEUDONYME :");
+            Extensions.AfficherTitre("CRÉATION DU PSEUDONYME", ConsoleColor.DarkYellow);
             Console.WriteLine("Le pseudo est le nom qui sera affiché à tous les récepteurs pouvant déchiffrer le message");
             Console.WriteLine("et qui ont activé l'affichage de l'expéditeur. Par défaut, il est initialisé à votre nom");
             Console.WriteLine("d'utilisateur système mais vous pouvez le personnaliser. Pour cela, tapez ci-dessous le");
@@ -188,27 +210,30 @@ namespace LORENZ
                     }
 
                     Console.Clear();
-                    if (essais == 1 && !File.Exists(ProductKeyFile))
+                    if (!File.Exists(ProductKeyFile))
                     {
-                        Display.PrintMessage("Bienvenue chez LORENZ ! En tant que nouvel utilisateur, voici quatre étapes", MessageState.Info);
-                        Display.PrintMessage("à suivre avant de pouvoir profiter de l'application :\n", MessageState.Info);
-                        Display.PrintMessage("1. Repérez le dossier de l'application \"LORENZSZ\". Pour ce faire, enfoncez", MessageState.Info);
-                        Display.PrintMessage("   les touches Windows + R de votre clavier et entrez %lorenzpath%.", MessageState.Info);
-                        Display.PrintMessage("2. Si vous avez installé \"CRYPTO\", vous trouverez un dossier du même nom", MessageState.Info);
-                        Display.PrintMessage("   dans ce répertoire. Entrez-y et exécutez le programme \"CRYPTO.exe\",", MessageState.Info);
-                        Display.PrintMessage("   puis, suivez les instructions qui s'afficheront.", MessageState.Info);
-                        Display.PrintMessage($"3. Insérez le fichier \"{ProductKeyFile}\" fourni par votre distributeur LORENZ", MessageState.Info);
-                        Display.PrintMessage("   dans le dossier du programme (c.-à-d. \"LORENZSZ\").", MessageState.Info);
-                        Display.PrintMessage("4. Appuyez sur n'importe quelle touche et nous vérifierons le reste.\n", MessageState.Info);
-                        Display.PrintMessage("NOTA : Si %lorenzpath% ne fonctionne pas, redémarrez votre ordinateur, puis réessayez.\n", MessageState.Warning);
-                        Display.PrintMessage("Appuyez sur ESC pour quitter.", MessageState.Info);
-                    }
-                    else if (!File.Exists(ProductKeyFile))
-                    {
-                        Display.PrintMessage($"Désolé! Nous n'avons pas détecté une clé \"{ProductKeyFile}\". Veuillez réessayer", MessageState.Warning);
-                        Display.PrintMessage("en vous assurant de l'avoir bien mis dans le dossier \"LORENZSZ\".", MessageState.Warning);
-                        Display.PrintMessage("Enfoncez les touches Windows + R et entrez %lorenzpath% pour le trouver.\n", MessageState.Warning);
-                        Display.PrintMessage("Appuyez sur ESC pour quitter.", MessageState.Warning);
+                        if (essais == 1)
+                        {
+                            Display.PrintMessage("Bienvenue chez LORENZ ! En tant que nouvel utilisateur, voici quatre étapes", MessageState.Info);
+                            Display.PrintMessage("à suivre avant de pouvoir profiter de l'application :\n", MessageState.Info);
+                            Display.PrintMessage("1. Repérez le dossier de l'application \"LORENZSZ\". Pour ce faire, enfoncez", MessageState.Info);
+                            Display.PrintMessage("   les touches Windows + R de votre clavier et entrez %lorenzpath%.", MessageState.Info);
+                            Display.PrintMessage("2. Si vous avez installé \"CRYPTO\", vous trouverez un dossier du même nom", MessageState.Info);
+                            Display.PrintMessage("   dans ce répertoire. Entrez-y et exécutez le programme \"CRYPTO.exe\",", MessageState.Info);
+                            Display.PrintMessage("   puis, suivez les instructions qui s'afficheront.", MessageState.Info);
+                            Display.PrintMessage($"3. Insérez le fichier \"{ProductKeyFile}\" fourni par votre distributeur LORENZ", MessageState.Info);
+                            Display.PrintMessage("   dans le dossier du programme (c.-à-d. \"LORENZSZ\").", MessageState.Info);
+                            Display.PrintMessage("4. Appuyez sur n'importe quelle touche et nous vérifierons le reste.\n", MessageState.Info);
+                            Display.PrintMessage("NOTA : Si %lorenzpath% ne fonctionne pas, redémarrez votre ordinateur, puis réessayez.\n", MessageState.Warning);
+                            Display.PrintMessage("Appuyez sur ESC pour quitter.", MessageState.Info);
+                        }
+                        else
+                        {
+                            Display.PrintMessage($"Désolé! Nous n'avons pas détecté une clé \"{ProductKeyFile}\". Veuillez réessayer", MessageState.Warning);
+                            Display.PrintMessage("en vous assurant de l'avoir bien mis dans le dossier \"LORENZSZ\".", MessageState.Warning);
+                            Display.PrintMessage("Enfoncez les touches Windows + R et entrez %lorenzpath% pour le trouver.\n", MessageState.Warning);
+                            Display.PrintMessage("Appuyez sur ESC pour quitter.", MessageState.Warning);
+                        }
                     }
                     else
                     {
@@ -220,7 +245,7 @@ namespace LORENZ
                     ConsoleKeyInfo saisie = Console.ReadKey(true);
                     while (saisie.Key == ConsoleKey.LeftWindows || saisie.Key == ConsoleKey.RightWindows)
                     {
-                        saisie = Console.ReadKey(true);
+                        saisie = Console.ReadKey(true);     // To override a key press on Windows Key
                     }
 
                     if (saisie.Key == ConsoleKey.Escape)
@@ -270,6 +295,69 @@ namespace LORENZ
                 throw new LORENZException(ErrorCode.E0x20, false);
             }
 
+        }
+
+        private static void MigrerParametres()
+        {
+            Console.Clear();
+            Extensions.AfficherTitre("Migration des paramètres", ConsoleColor.Gray, ConsoleColor.Black);
+            Display.PrintMessage("Entrez le chemin d'accès complet vers le dossier LZPARAMS qui contient les anciens");
+            Display.PrintMessage("paramètres.");
+            Display.PrintMessage("NOTE : Si votre ancienne version correspond à LORENZ 2.0, le chemin d'accès", MessageState.Info);
+            Display.PrintMessage("complet est : ", MessageState.Info, false);
+            Display.PrintMessage("%localappdata%\\programs\\LORENZSZ\\LZPARAMS\n", MessageState.Warning);
+            Display.PrintMessage("Si votre ancienne version correspond à 1.x.x, vous devrez vous procurer une nouvelle clé", MessageState.Info);
+            Display.PrintMessage("de produit auprès de votre fournisseur LORENZ.\n", MessageState.Info);
+            Display.PrintMessage("Appuyez sur ESC pour quitter.");
+            while (true)
+            {
+                Console.Write("Chemin d'accès : ");
+                string pathOldParams = Extensions.SpecialInput();
+                if (pathOldParams == null)
+                {
+                    throw new LORENZException(ErrorCode.E0xFFF, false);
+                }
+
+                try
+                {
+                    // Test the specified directory path
+                    pathOldParams = Environment.ExpandEnvironmentVariables(pathOldParams);
+                    DirectoryInfo oldDirParams = new(pathOldParams);
+                    if (!oldDirParams.Exists)
+                    {
+                        oldDirParams.Create();
+                        oldDirParams.Delete();
+                    }
+                    else
+                    {
+                        string testdir = "testdir";
+                        oldDirParams.CreateSubdirectory(testdir);
+                        Directory.Delete(Path.Combine(pathOldParams, testdir));
+                    }
+
+                    // Check if USERLOG.LZI exists
+                    if (!new FileInfo(Path.Combine(pathOldParams, UserlogFileConst)).Exists)
+                    {
+                        Display.PrintMessage($"Erreur ! Ce dossier ne contient pas de fichier {UserlogFileConst}.", MessageState.Failure);
+                        continue;
+                    }
+
+                    // Moving old directory params to new
+                    if (Directory.Exists(ParamsDirectory))
+                    {
+                        Directory.Delete(ParamsDirectory, true);
+                    }
+                    Directory.Move(pathOldParams, ParamsDirectory);
+
+                    // Rewriting LASTACSS.LZI
+                    EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
+                    return;
+                }
+                catch (Exception)
+                {
+                    Display.PrintMessage("Erreur ! Le chemin d'accès spécifié est invalide.", MessageState.Failure);
+                }
+            }
         }
 
         private static void EcrireParametres(string LID)

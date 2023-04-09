@@ -3,7 +3,7 @@
 
 #define MyAppName "LORENZ"
 #define MyAppVersion "3.0.0"
-#define MyAppVersionFull MyAppVersion + "-beta"
+#define MyAppVersionFull MyAppVersion + "-rc"
 #define MyAppPublisher "LORENZ SZ"
 #define MyAppExeName "LORENZ.EXE"
 #define AppPublishPath "..\LSZ\LORENZ\bin\Release\publish"
@@ -20,7 +20,7 @@ AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersionFull}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={localappdata}\Programs\LORENZSZ
-DisableDirPage=yes
+DisableDirPage=no
 DefaultGroupName="LORENZ SZ"
 DisableProgramGroupPage=yes
 LicenseFile=EULA.TXT

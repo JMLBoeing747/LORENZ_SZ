@@ -6,7 +6,7 @@ namespace LORENZ
 {
     class Program
     {
-        public static string VersionNumber => "3.0.0-beta";
+        public static string VersionNumber => "3.0.0-rc";
         private static bool OverridePress { get; set; }
 
         public static void Main()
@@ -27,12 +27,15 @@ namespace LORENZ
         {
             Display.PrintMessage("Initialisation des composants...", MessageState.Info);
             Parametres.LireFichierParams();
+            if (Parametres.PseudoName == "")
+            {
+                Parametres.CreerPseudo();
+            }
             double argent = Jeux.ReadCoinsInfoFile();
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("DER LORENZ SCHLÜSSELZUSATZ " + VersionNumber);
             while (true)
             {
+                Extensions.AfficherTitre("DER LORENZ SCHLÜSSELZUSATZ " + VersionNumber, ConsoleColor.DarkBlue, length: 50);
                 Extensions.Configuration();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Choisir une option :");

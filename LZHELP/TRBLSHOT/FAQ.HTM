@@ -42,7 +42,7 @@
 <OL>
 <LI>La plus rapide et la plus efficace consiste à renvoyer le message.</LI>
 <LI>Si cela ne règle pas le problème, veillez à vérifier si vous recopiez correctement le message chiffré et si votre correspondant fait de même. Pour cela, copiez le chiffrement, accédez à l'interface de déchiffrement et collez-le. Après validation, vérifiez si votre message est correctement déchiffré en sortie. Si cela ne change rien, demandez à votre correspondant de faire de même afin de vérifier si le problème n'est pas de son côté.</LI>
-<LI>Si le problème persiste, réinitialisez les valeurs des dispositions des tables secrète et de transcription. Voyez comment procéder <A HREF="RSETDISP.GIF">ici</A>.</LI>
+<LI>Si le problème persiste, réinitialisez les valeurs des dispositions des tables secrète et de transcription. Voyez comment procéder en visionnant une petite animation créée pour la circonstance <A HREF="RSETDISP.GIF">ici</A>.</LI>
 <LI>Si le problème persiste, il pourrait s'agir d'une erreur informatique dans le programme. De cela, contactez votre fournisseur LORENZ afin qu'il puisse vous fournir un correctif dans les plus brefs délais.</LI>
 </OL></P>
 </DIV>
@@ -52,6 +52,13 @@
 <DIV CLASS="panel" ID="cmp" STYLE="display: none;">
 <H3>Pourquoi mes messages ne semblent jamais compressibles ?</H3>
 <P><B>R :</B> Plusieurs raisons sont possibles. D'abord, il faut savoir que la compression de LORENZ agit par deux manières : par répétitions et par associations. La première agit sur la répétition successive de caractères. Si leur nombre est significatif, une compression par répétitions est alors réalisée. La deuxième agit sur la répétition de mots semblables, comme Autobus, AUTOBUS ou autoBus. Lorsque leur nombre devient significatif, une compression par associations est réalisée. Puis, pour retrouver leur graphie initiale, LORENZ crée une table de compression associant les différentes graphies avec des balises de compression. Cette table sera ajoutée en début de message. De cela, la taille du message est à la fois réduite et augmentée, et le meilleur taux de réduction (qui doit d'ailleurs dépasser celui fixé par l'utilisateur dans les options) est alors retenu. Ainsi, les conditions pour qu'il y ait compression sont difficiles à prévoir de façon théorique, d'où l'utilisation du mot "significatif". Il est évident que des améliorations devront être apportées sur les manières de compresser afin d'en améliorer leur efficacité.</P>
+</DIV>
+
+<BUTTON CLASS="accordion" ONCLICK="doSection(cpd)">Répertoire des chiffrements</BUTTON>
+
+<DIV CLASS="panel" ID="cpd" STYLE="display: none;">
+<H3>Comment bien retranscrire le chemin d'accès au répertoire des chiffrements ?</H3>
+<P><B>R :</B> Il existe plusieurs manières de bien retranscrire le chemin d'accès complet au répertoire que vous voulez spécifier. Une de ces méthodes, réputée pour sa simplicité, est présentée par <A HREF="GETPATH.GIF">cette animation</A> créée pour la circonstance.</P>
 </DIV>
 
 <BUTTON CLASS="accordion" ONCLICK="doSection(jeu)">Jeu</BUTTON>
@@ -75,9 +82,9 @@
 </OL></P>
 </DIV>
 
-<BUTTON CLASS="accordion" ONCLICK="doSection(aut)">Autres</BUTTON>
+<BUTTON CLASS="accordion" ONCLICK="doSection(oth)">Autres</BUTTON>
 
-<DIV CLASS="panel" ID="aut" STYLE="display: none;">
+<DIV CLASS="panel" ID="oth" STYLE="display: none;">
 <H3>Comment accéder au répertoire principal de l'application ?</H3>
 <P><B>R :</B> Accédez à la commande Exécuter de Windows, et ce en appuyant simultanément Win + R, et entrez %LORENZPATH% dans la zone prévue à cet effet (la casse n'importe pas). L'explorateur de fichiers ouvrira le dossier correspondant au répertoire principal de l'application, qui se nomme "LORENZSZ".<BR>
 <A HREF="RUNLZPAT.PNG">Cliquez ici pour voir l'allure de la commande Exécuter.</A><BR>

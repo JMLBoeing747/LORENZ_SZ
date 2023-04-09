@@ -92,7 +92,7 @@ namespace LORENZ
                         }
                         else
                         {
-                            Console.WriteLine(" (vide)");
+                            Console.WriteLine(" ( - )");
                         }
                     }
 
@@ -109,8 +109,7 @@ namespace LORENZ
                     }
                     else
                     {
-                        Display.PrintMessage("Index invalide ! ", MessageState.Failure);
-                        Console.ReadKey(true);
+                        Historique.AfficherMsgIndexInvalide();
                     }
                 }
                 else
@@ -210,7 +209,7 @@ namespace LORENZ
                 }
                 else if (indexTyped != -1)
                 {
-                    Display.PrintMessage("Index invalide ! ", MessageState.Failure);
+                    Historique.AfficherMsgIndexInvalide();
                 }
 
             } while (indexTyped != -1);
@@ -248,8 +247,7 @@ namespace LORENZ
 
                     if (!SupprimerCategorie(indexCat - 1))
                     {
-                        Display.PrintMessage("Index invalide !", MessageState.Failure);
-                        Console.ReadKey(true);
+                        Historique.AfficherMsgIndexInvalide();
                     }
                 }
                 else
