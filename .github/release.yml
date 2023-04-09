@@ -1,0 +1,5 @@
+changelog:
+  categories:
+    - title: Quoi de neuf ?
+      labels:
+        - "*"
