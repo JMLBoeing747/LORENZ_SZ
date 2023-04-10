@@ -103,10 +103,6 @@ namespace LORENZ
                     Display.PrintMessage("OK", MessageState.Info);
                     // Update LASTACSS.LZI...
                     EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
-                    if (Directory.Exists("CRYPTO"))
-                    {
-                        Directory.Delete("CRYPTO", true);
-                    }
 
                     Display.PrintMessage("Identification réussie !", MessageState.Success);
                     return;
@@ -115,7 +111,6 @@ namespace LORENZ
                 {
                     if (!File.Exists(LastAccessFile))
                     {
-                        ConsoleKey saisie = 0;
                         if (!File.Exists(ProductKeyFile))
                         {
                             Console.Clear();
@@ -124,30 +119,32 @@ namespace LORENZ
                             Console.WriteLine("M      : Migrer les paramètres d'une ancienne version de LORENZ");
                             Console.WriteLine("ENTRÉE : Vous êtes un tout nouvel utilisateur");
                             Console.WriteLine("\nAppuyez sur toute autre touche pour quitter.");
-                            saisie = Console.ReadKey(true).Key;
+                            ConsoleKey saisie = Console.ReadKey(true).Key;
+
+                            if (saisie == ConsoleKey.M)
+                            {
+                                MigrerParametres();
+                                continue;
+                            }
+                            else if (saisie != ConsoleKey.Enter)
+                            {
+                                throw new LORENZException(ErrorCode.E0xFFF, false);
+                            }
                         }
 
-                        if (saisie == ConsoleKey.M)
+                        string LIDRetrieved = LireCleProduit().Item3;
+                        Display.PrintMessage("SUCCÈS: CLÉ DE PRODUIT VALIDE.", MessageState.Success);
+                        File.Delete(ProductKeyFile);
+                        if (Directory.Exists("CRYPTO"))
                         {
-                            MigrerParametres();
-                            continue;
+                            Directory.Delete("CRYPTO", true);
                         }
-                        else if (saisie == ConsoleKey.Enter || File.Exists(ProductKeyFile))
-                        {
-                            string LIDRetrieved = LireCleProduit().Item3;
-                            Display.PrintMessage("SUCCÈS: CLÉ DE PRODUIT VALIDE.", MessageState.Success);
-                            File.Delete(ProductKeyFile);
-                            // Write userinfos into USERLOG.LZI...
-                            Display.PrintMessage("Écriture des paramètres...", MessageState.Info);
-                            Directory.CreateDirectory(ParamsDirectory);
+                        // Write userinfos into USERLOG.LZI...
+                        Display.PrintMessage("Écriture des paramètres...", MessageState.Info);
+                        Directory.CreateDirectory(ParamsDirectory);
                         EcrireUserLog(LIDRetrieved);
-                            // Writing for first time LASTACSS.LZI...
-                            EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
-                        }
-                        else
-                        {
-                            throw new LORENZException(ErrorCode.E0xFFF, false);
-                        }
+                        // Writing for first time LASTACSS.LZI...
+                        EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                     }
                     else
                     {
@@ -262,9 +259,9 @@ namespace LORENZ
             FichierEnAnalyse = ProductKeyFile;
             try
             {
-                // Decyphering...
+                // Decyphering product key...
                 Decyphering.OpeningDecyphering(ProductKeyFile, out uint[] keyQBytes, out uint[] cypheredMessageOnly);
-                Display.PrintMessage("Déchiffrement de la clé de produit...", MessageState.Info);
+                Display.PrintMessage("\nDéchiffrement de la clé de produit...", MessageState.Info);
                 Common.XORPassIntoMessage(keyQBytes, ref cypheredMessageOnly);
                 Common.ReverseKey(ref keyQBytes);
                 Common.NotOperationToKey(ref keyQBytes);
