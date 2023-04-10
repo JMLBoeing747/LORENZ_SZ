@@ -120,19 +120,24 @@ namespace LORENZ
                 {
                     if (!File.Exists(LastAccessFile))
                     {
-                        Console.Clear();
-                        Extensions.AfficherTitre("LORENZ " + Program.VersionNumber, ConsoleColor.Gray, ConsoleColor.Black);
-                        Console.WriteLine("Veuillez sélectionner une option :");
-                        Console.WriteLine("M      : Migrer les paramètres d'une ancienne version de LORENZ");
-                        Console.WriteLine("ENTRÉE : Vous êtes un tout nouvel utilisateur");
-                        Console.WriteLine("\nAppuyez sur toute autre touche pour quitter.");
-                        ConsoleKey saisie = Console.ReadKey(true).Key;
+                        ConsoleKey saisie = 0;
+                        if (!File.Exists(ProductKeyFile))
+                        {
+                            Console.Clear();
+                            Extensions.AfficherTitre("LORENZ " + Program.VersionNumber, ConsoleColor.Gray, ConsoleColor.Black);
+                            Console.WriteLine("Veuillez sélectionner une option :");
+                            Console.WriteLine("M      : Migrer les paramètres d'une ancienne version de LORENZ");
+                            Console.WriteLine("ENTRÉE : Vous êtes un tout nouvel utilisateur");
+                            Console.WriteLine("\nAppuyez sur toute autre touche pour quitter.");
+                            saisie = Console.ReadKey(true).Key;
+                        }
+
                         if (saisie == ConsoleKey.M)
                         {
                             MigrerParametres();
                             continue;
                         }
-                        else if (saisie == ConsoleKey.Enter)
+                        else if (saisie == ConsoleKey.Enter || File.Exists(ProductKeyFile))
                         {
                             string LIDRetrieved = LireCleProduit().Item3;
                             Display.PrintMessage("SUCCÈS: CLÉ DE PRODUIT VALIDE.", MessageState.Success);
