@@ -315,16 +315,22 @@ namespace LORENZ
             if (vraiMessageChiffre.Length > 4094)
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Ce chiffrement contient plus de 4094 caractères.");
-                Console.WriteLine("Vous devrez utiliser le fichier de chiffrement nouvellement généré pour transmettre\n" +
-                    "votre message, faute de quoi votre correspondant ne pourra pas le déchiffrer.\n");
+                Console.WriteLine("Ce chiffrement contient plus de 4094 caractères (" + vraiMessageChiffre.Length + " caractères).");
+                Console.WriteLine("Vous devrez utiliser le fichier de chiffrement pour transmettre votre message,\n" +
+                    "faute de quoi votre correspondant ne pourra pas le déchiffrer.");
+                Display.PrintMessage("Appuyez sur ESC ou sur ENTRÉE sans rien écrire pour annuler.\n", MessageState.Warning);
                 Console.Write("Donnez un nom au fichier de chiffrement : ");
 
                 string cipherFileName;
                 do
                 {
-                    cipherFileName = Console.ReadLine();
-                    if (cipherFileName == "")
+                    cipherFileName = Extensions.SpecialInput();
+                    if (cipherFileName is null)
+                    {
+                        OverridePress = true;
+                        return;
+                    }
+                    else if (cipherFileName == "")
                     {
                         Display.PrintMessage("Aucun nom spécifié. Opération annulée.", MessageState.Failure);
                         Console.ForegroundColor = ConsoleColor.Cyan;
@@ -334,13 +340,14 @@ namespace LORENZ
 
                 Console.WriteLine("Nom du fichier : " + Extensions.GetNomFichierChiffrement());
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                return;
             }
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Le message chiffré :");
-            Console.WriteLine(vraiMessageChiffre);
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Le message chiffré :");
+                Console.WriteLine(vraiMessageChiffre);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
         }
 
         private static void DechiffrerLeMessage()
