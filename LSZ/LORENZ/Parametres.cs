@@ -140,7 +140,7 @@ namespace LORENZ
                             // Write userinfos into USERLOG.LZI...
                             Display.PrintMessage("Écriture des paramètres...", MessageState.Info);
                             Directory.CreateDirectory(ParamsDirectory);
-                            EcrireParametres(LIDRetrieved);
+                        EcrireUserLog(LIDRetrieved);
                             // Writing for first time LASTACSS.LZI...
                             EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
                         }
@@ -360,7 +360,7 @@ namespace LORENZ
             }
         }
 
-        private static void EcrireParametres(string LID)
+        private static void EcrireUserLog(string LID)
         {
             Cryptographie.ChiffrerFichier(Encryption.CreateScrambledMessage(Environment.UserName, Environment.MachineName, LID), UserlogFile);
         }
