@@ -8,7 +8,6 @@
 #define MyAppExeName "LORENZ.EXE"
 #define AppPublishPath "..\LSZ\LORENZ\bin\Release\publish"
 #define LZHELPPath "..\LZHELP\LZHELP.CHM"
-
 #define CRYPTOPath "..\LSZ\CRYPTO\bin\Release\publish"
 
 [Setup]
@@ -74,6 +73,7 @@ Root: HKCU; Subkey:"Environment"; ValueType: expandsz; ValueName: "LORENZPATH"; 
 
 [Run]
 Filename: "{commonpf32}\LORENZ Schlüsselzusatz\unins000.exe"; StatusMsg: "Check for LORENZ uninstaller version 1.1.1"; Flags: skipifdoesntexist
+Filename: "{localappdata}\Programs\LORENZSZ\unins000.exe"; StatusMsg: "Check of LORENZ uninstaller version 2.0.0"; Flags: skipifdoesntexist
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent 
 
 [InstallDelete]
