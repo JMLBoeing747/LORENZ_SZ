@@ -69,7 +69,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 Root: HKA; Subkey:"Software\Classes\.LZI"; ValueType: string; ValueData: "LORENZ Initializer file"; Flags: createvalueifdoesntexist uninsdeletekey
 Root: HKA; Subkey:"Software\Classes\.LKI"; ValueType: string; ValueData: "LORENZ Product key file"; Flags: createvalueifdoesntexist uninsdeletekey
 Root: HKA; Subkey:"Software\Classes\.LC2"; ValueType: string; ValueData: "LORENZ Cipher File V2"; Flags: createvalueifdoesntexist uninsdeletekey
-Root: HKCU; Subkey:"Environment"; ValueType: expandsz; ValueName: "LORENZPATH"; ValueData: "{app}"; Flags: createvalueifdoesntexist uninsdeletevalue
+Root: HKCU; Subkey:"Environment"; ValueType: expandsz; ValueName: "LORENZPATH"; ValueData: "{app}"; Flags: uninsdeletevalue
 
 [Run]
 Filename: "{commonpf32}\LORENZ Schlüsselzusatz\unins000.exe"; StatusMsg: "Check for LORENZ uninstaller version 1.1.1"; Flags: skipifdoesntexist
