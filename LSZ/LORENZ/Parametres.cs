@@ -121,7 +121,7 @@ namespace LORENZ
                     if (!File.Exists(LastAccessFile))
                     {
                         Console.Clear();
-                        Extensions.AfficherTitre("LORENZ 3.0.0", ConsoleColor.Gray, ConsoleColor.Black);
+                        Extensions.AfficherTitre("LORENZ " + Program.VersionNumber, ConsoleColor.Gray, ConsoleColor.Black);
                         Console.WriteLine("Veuillez sélectionner une option :");
                         Console.WriteLine("M      : Migrer les paramètres d'une ancienne version de LORENZ");
                         Console.WriteLine("ENTRÉE : Vous êtes un tout nouvel utilisateur");
