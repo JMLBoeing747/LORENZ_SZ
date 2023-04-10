@@ -3,9 +3,9 @@ INFORMATION AVANT INSTALLATION
 VEUILLEZ LIRE LE CAS QUI VOUS CONCERNE AVANT DE POURSUIVRE TOUTE OPÉRATION
 (Le texte suit en bas)
 
-*******************************************************************
-Pour ceux qui possèdent une version du LORENZ 1.x.x autre que 1.0.0
-*******************************************************************
+****************************************************************************
+Pour ceux qui possèdent une version du LORENZ 2.0.0 ou 1.x.x autre que 1.0.0
+****************************************************************************
 À la fin de l’installation, le présent utilitaire d’installation cherchera à désinstaller cette version maintenant désuète.
 Si vous désirez la DÉSINSTALLER (recommandé afin d’éviter des conflits), VEUILLEZ ACCEPTER L’OPÉRATION LE MOMENT VENU. Sinon, refusez l’opération.
 
