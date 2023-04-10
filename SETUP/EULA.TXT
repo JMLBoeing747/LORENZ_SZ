@@ -1,6 +1,6 @@
 CONTRAT DE LICENCE UTILISATEUR FINAL
 ------------------------------------------------------
-VERSION DU CONTRAT 2.0
+VERSION DU CONTRAT 3.0
 
 VOUS DEVEZ ACCEPTER LES TERMES DE LA PRÉSENTE LICENCE AVANT DE POURSUIVRE LE PROCESSUS D’INSTALLATION.
 
@@ -8,12 +8,9 @@ VOUS DEVEZ ACCEPTER LES TERMES DE LA PRÉSENTE LICENCE AVANT DE POURSUIVRE LE PRO
 «FOURNISSEUR OFFICIEL» signifie «LORENZ Schlüsselzusatz Industries», alias «LORENZ SZ», l’industrie qui possède les droits complets sur l’APPLICATION.
 «CRÉATEUR» se réfère à l’individu qui a créé et dirigé le développement du LOGICIEL, soit JML.
 
-IL EST INTERDIT DE DISTRIBUER ET DE MODIFIER, EN TOUT OU EN PARTIE, LA PRÉSENTE APPLICATION SANS L’AUTORISATION DU FOURNISSEUR OFFICIEL ET DU CRÉATEUR, SOUS PEINE DE POURSUITES ET D’EMPRISONNEMENT.
-LORENZ SZ RÉGIT TOUTES LES RÈGLES DE L’APPLICATION ET EN DEMEURE LE PROPRIÉTAIRE. LE PRODUIT DOIT ÊTRE DÉSINSTALLÉ SUR SA DEMANDE SANS NÉGOCIATION.
+VOUS POUVEZ DISTRIBUER, EN TOUT OU EN PARTIE, LA PRÉSENTE APPLICATION TOUT EN GARDANT UNE RÉFÉRENCE AU PROJET ORIGINAL. DE PLUS, TOUT NOUVEAU PROJET SE DOIT DE RESPECTER LES MÊMES CONDITIONS QUE STIPULÉES ICI.
 
 Enfin, le LOGICIEL est GRATUIT d’utilisation, ET IL LE DEMEURERA TOUJOURS. Vous n’avez pas à payer pour son installation, mais des dons sont acceptés. De plus, il ne requiert aucune création d’un compte utilisateur ni de mot de passe. SEULE UNE CLÉ DE PRODUIT VALIDE DEVRA ÊTRE FOURNIE.
 
-Nota : Des discussions sont en cours au sein du conseil administratif afin de rendre LORENZ sous code source ouvert. Nous désirons vous avertir que cela peut avoir des répercussions importantes sur divers aspects du programme, tels que la propriété de droit, la configuration et l’interface actuelle, ainsi que celles de l’installateur LORENZ. En plus de cela, la LICENCE sera modifiée. Ainsi, les versions ultérieures pourraient grandement différer de celles des précédentes. N’ayez crainte, si tel est le cas, vous serez adéquatement informés des changements.
-
 LORENZ Schlüsselzusatz Industries.
-© 2020-2022
+2020-2023
