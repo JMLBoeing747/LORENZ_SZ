@@ -118,6 +118,11 @@ namespace Cryptography
         /// <exception cref="CryptographyException"></exception>
         private static void GetCypherKey(uint[] tableInput, out uint[] cypherKey, out uint[] tableOutput)
         {
+            if (tableInput.Length == 0)
+            {
+                throw new CryptographyException("Cipher passed was empty!");
+            }
+            
             cypherKey = new uint[Common.KeyNbrUInt];
             tableOutput = new uint[tableInput.Length - cypherKey.Length];
             try
