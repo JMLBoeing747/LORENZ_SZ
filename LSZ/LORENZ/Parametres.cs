@@ -339,12 +339,18 @@ namespace LORENZ
                         continue;
                     }
 
-                    // Moving old directory params to new
+                    // Delete existing LZPARAMS in new directory
                     if (Directory.Exists(ParamsDirectory))
                     {
                         Directory.Delete(ParamsDirectory, true);
                     }
-                    Directory.Move(pathOldParams, ParamsDirectory);
+
+                    // Moving old directory params to new
+                    foreach (FileInfo fi in oldDirParams.GetFiles())
+                    {
+                        fi.MoveTo(Path.Combine(ParamsDirectory, fi.Name), true);
+                    }
+                    oldDirParams.Delete(true);
 
                     // Rewriting LASTACSS.LZI
                     EcrireLastAccessFile(new FileInfo(UserlogFile).LastAccessTimeUtc);
