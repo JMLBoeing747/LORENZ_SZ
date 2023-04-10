@@ -31,7 +31,7 @@ namespace LORENZ
             Console.Clear();
             Console.WriteLine($"LORENZ a choisi un chiffre entre 0 et {maxRandNum}.");
             Console.WriteLine("Essayez de le trouver !");
-            Console.WriteLine("Appuyez sur ESC sans rien écrire pour quitter.");
+            ShowEscMsg();
             double winCoins;
             int tries = 0;
             int choosenNum = -1;
@@ -45,7 +45,7 @@ namespace LORENZ
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ceci n'est pas un nombre, veuillez entrer un nombre entre 0 et {maxRandNum}.");
-                    Console.WriteLine("Appuyez sur ESC sans rien écrire pour quitter.");
+                    ShowEscMsg();
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else if (choosenNum > maxRandNum || choosenNum < 0)
@@ -53,7 +53,7 @@ namespace LORENZ
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Ce nombre n'est pas compris entre 0 et {maxRandNum}, veuillez entrer un nombre entre 0 et {maxRandNum}.");
-                    Console.WriteLine("Appuyez sur ESC sans rien écrire pour quitter.");
+                    ShowEscMsg();
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else
@@ -156,6 +156,11 @@ namespace LORENZ
             {
                 return 0.00;
             }
+        }
+
+        private static void ShowEscMsg()
+        {
+            Console.WriteLine("Appuyez sur ESC pour quitter.");
         }
     }
 }
