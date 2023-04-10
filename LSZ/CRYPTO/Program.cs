@@ -5,7 +5,7 @@ namespace CRYPTO
 {
     class Program
     {
-        private static string CryptoVersion { get => "1.0.0"; }
+        private static string CryptoVersion { get => "2.1.1"; }
         private static string UserinfoTextFile { get => "USERINFO.TXT"; }
 
         private static int WarningMessageBegin()
@@ -110,10 +110,6 @@ namespace CRYPTO
 
         private static void ChiffrerLeMessage(uint[] message)
         {
-            //Show warning message...
-            if (WarningMessageBegin() == -1)
-                return;
-
             Common.CphrMode = CypherMode.x1;
             uint[] keyQBytesArray = new uint[Common.KeyNbrUInt];
             uint[] cypherMessage = new uint[message.Length];
@@ -136,6 +132,9 @@ namespace CRYPTO
         public static void Main()
         {
             Console.Title = "CRYPTO ENCRYPTOR " + CryptoVersion;
+            //Show warning message...
+            if (WarningMessageBegin() == -1)
+                return;
             ChiffrerLeMessage(Encryption.CreateScrambledMessage(Environment.UserName, Environment.MachineName));
         }
     }
