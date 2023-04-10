@@ -108,11 +108,6 @@ namespace LORENZ
                         Directory.Delete("CRYPTO", true);
                     }
 
-                    if (File.Exists(ProductKeyFile))
-                    {
-                        File.Delete(ProductKeyFile);
-                    }
-
                     Display.PrintMessage("Identification réussie !", MessageState.Success);
                     return;
                 }
