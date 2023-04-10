@@ -300,9 +300,8 @@ namespace LORENZ
             Extensions.AfficherTitre("Migration des paramètres", ConsoleColor.Gray, ConsoleColor.Black);
             Display.PrintMessage("Entrez le chemin d'accès complet vers le dossier LZPARAMS qui contient les anciens");
             Display.PrintMessage("paramètres.");
-            Display.PrintMessage("NOTE : Si votre ancienne version correspond à LORENZ 2.0, le chemin d'accès", MessageState.Info);
-            Display.PrintMessage("complet est : ", MessageState.Info, false);
-            Display.PrintMessage("%localappdata%\\programs\\LORENZSZ\\LZPARAMS\n", MessageState.Warning);
+            Display.PrintMessage("NOTE : Si votre ancienne version correspond à LORENZ 2.0, le chemin d'accès complet est :", MessageState.Info);
+            Display.PrintMessage(">>>\t%localappdata%\\programs\\LORENZSZ\\LZPARAMS\n", MessageState.Warning);
             Display.PrintMessage("Si votre ancienne version correspond à 1.x.x, vous devrez vous procurer une nouvelle clé", MessageState.Info);
             Display.PrintMessage("de produit auprès de votre fournisseur LORENZ.\n", MessageState.Info);
             Display.PrintMessage("Appuyez sur ESC pour quitter.");
@@ -339,13 +338,14 @@ namespace LORENZ
                         continue;
                     }
 
-                    // Delete existing LZPARAMS in new directory
+                    // Delete existing LZPARAMS in place of new directory
                     if (Directory.Exists(ParamsDirectory))
                     {
                         Directory.Delete(ParamsDirectory, true);
                     }
 
                     // Moving old directory params to new
+                    Directory.CreateDirectory(ParamsDirectory);
                     foreach (FileInfo fi in oldDirParams.GetFiles())
                     {
                         fi.MoveTo(Path.Combine(ParamsDirectory, fi.Name), true);
