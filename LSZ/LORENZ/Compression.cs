@@ -52,11 +52,11 @@ namespace LORENZ
 
             if (!CompressionActive)
             {
-                // Calcul du taux de compression
-                int diffCount = msgACompress.Length - tempMsgCompress.Length;
-                double ratio = diffCount / (double)fullInitialMsg.Length;
+                // Calcul du taux de compression par répétitions
+                int repDiffCount = msgACompress.Length - tempMsgCompress.Length;
+                double repRatio = repDiffCount / (double)fullInitialMsg.Length;
                 msgACompress = tempMsgCompress;
-                return ratio;
+                return -repRatio;
             }
 
             msgACompress = tempMsgCompress;
@@ -117,7 +117,7 @@ namespace LORENZ
                 {
                     if (passesList.Count == 0)
                     {
-                        // Calcul du ratio de compression par répétitions
+                        // Calcul du taux de compression par répétitions
                         string repCompressMsg = attrStr + Algorithmes.ATTRIB_SEP + msgACompress;
                         int repDiffCount = fullInitialMsg.Length - repCompressMsg.Length;
                         double repRatio = repDiffCount / (double)fullInitialMsg.Length;
