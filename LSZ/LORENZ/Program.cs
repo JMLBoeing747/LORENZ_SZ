@@ -365,7 +365,7 @@ namespace LORENZ
                 while (true)
                 {
                     Console.WriteLine("Pour annuler, appuyez sur ESC.");
-                    Console.WriteLine("Pour terminer, appuyez sur CTRL + D.");
+                    Console.WriteLine("Pour terminer le message, appuyez sur CTRL + D.");
                     Console.WriteLine("Entrez le texte à déchiffrer :");
                     string messageADechiffrer = Extensions.SpecialInput('\x04');
 
@@ -386,26 +386,35 @@ namespace LORENZ
                     if (messageADechiffrer.StartsWith("FILE:", StringComparison.OrdinalIgnoreCase))
                     {
                         string cipherFileName = messageADechiffrer["FILE:".Length..].Trim() + Parametres.LzCipherFileExt;
-                        string cipherFilePath = Path.Combine(Parametres.CipherFileDirectory, cipherFileName);
-                        if (File.Exists(cipherFilePath))
+                        if (Parametres.CipherFileDirectory != null)
                         {
-                            messageADechiffrer = File.ReadAllText(cipherFilePath);
-                        }
-                        else
-                        {
-                            string localCipherFilePath = cipherFileName;
-                            if (File.Exists(localCipherFilePath))
+                            string cipherFilePath = Path.Combine(Parametres.CipherFileDirectory, cipherFileName);
+                            if (File.Exists(cipherFilePath))
                             {
-                                messageADechiffrer = File.ReadAllText(localCipherFilePath);
+                                messageADechiffrer = File.ReadAllText(cipherFilePath);
                             }
                             else
                             {
-                                Display.PrintMessage("Le fichier \""
-                                                     + cipherFileName
-                                                     + "\" n'existe pas dans le répertoire de chiffrement " + Parametres.CipherFileDirectory, MessageState.Failure);
-                                Console.WriteLine("Entrez un nouveau chemin d'accès ou un chiffrement valide.");
-                                continue;
+                                string localCipherFilePath = cipherFileName;
+                                if (File.Exists(localCipherFilePath))
+                                {
+                                    messageADechiffrer = File.ReadAllText(localCipherFilePath);
+                                }
+                                else
+                                {
+                                    Display.PrintMessage("Le fichier \""
+                                                         + cipherFileName
+                                                         + "\" n'existe pas dans le répertoire de chiffrements " + Parametres.CipherFileDirectory, MessageState.Failure);
+                                    Console.WriteLine("Entrez un nouveau chemin d'accès ou un chiffrement valide.");
+                                    continue;
+                                }
                             }
+                        }
+                        else
+                        {
+                            Display.PrintMessage("Aucun répertoire de chiffrements n'a été spécifié.", MessageState.Failure);
+                            Display.PrintMessage("Pour en spécifier un, retournez au menu principal et appuyez sur R.", MessageState.Warning);
+                            continue;
                         }
                     }
 
