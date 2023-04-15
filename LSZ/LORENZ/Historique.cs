@@ -218,7 +218,18 @@ namespace LORENZ
                                          - "...".Length
                                          - 10;
 
-                        if (excerpt.Length > lineLenMax)
+                        if (lineLenMax <= 0)
+                        {
+                            Console.SetCursorPosition(0,0);
+                            Display.PrintMessage("La largeur de votre console est trop petite.", MessageState.Warning);
+                            Display.PrintMessage("Agrandissez la taille de la console et réessayez.", MessageState.Warning);
+                            Display.PrintMessage("Appuyez sur une touche pour retourner au menu précédent.", MessageState.Warning);
+                            Console.WriteLine("\nLargeur requise : " + (Console.WindowWidth - lineLenMax + 1));
+                            Console.WriteLine("Largeur actuelle : " + Console.WindowWidth);
+                            Console.ReadKey(true);
+                            return;
+                        }
+                        else if (excerpt.Length > lineLenMax)
                         {
                             excerpt = excerpt[..lineLenMax] + "...";
                         }
