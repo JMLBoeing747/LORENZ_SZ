@@ -15,7 +15,7 @@
 	AVIS : Le texte chiffré peut s'étendre sur plusieurs lignes !
 	Pour déchiffrer un fichier, tapez "FILE:" (casse insensible) suivi du nom de fichier (sans l'extension).
 	Pour annuler, appuyez sur ESC.
-	Pour terminer, appuyez sur CTRL + D.
+	Pour terminer le message, appuyez sur CTRL + D.
 	Entrez le texte à déchiffrer :
 </SAMP>
 </PRE>
@@ -40,6 +40,10 @@ Si SHOWSENDER est True, le message déchiffré est précédé du nom du pseudonyme de
 <DD>Alerte : Signifie que l'opération de déchiffrement a décelé des déformations au sein du message chiffré. Cela est soulevé lorsque LORENZ n'arrive pas à trouver une certaine transcription de la table de chiffrement générée, ou lorsque la somme de contrôle calculée est différente de celle reçue.</DD>
 <DT>ERREUR FATALE CODE 55 : Le chiffrement n'est pas authentique.</DT>
 <DD>Erreur spécifique : Signifie que la clé de chiffrement s'est avérée invalide puisque la génération de la table de chiffrement a échoué.</DD>
+<DT>Le fichier &ltNomDuFichier&gt n'existe pas dans le répertoire des chiffrements &ltNomDuRépertoire&gt</DT>
+<DD>Erreur spécifique : Signifie que le fichier recherché n'a pas été trouvé dans le répertoire des chiffrements. &ltNomDuFichier&gt et &ltNomDuRépertoire&gt représentent respectivement le nom du fichier recherché et du répertoire des chiffrements spécifié.</DD>
+<DT>Aucun répertoire des chiffrements n'a été spécifié.</DT>
+<DD>Erreur spécifique : Signifie qu'un nom de fichier de chiffrement a été spécifié, mais qu'aucun répertoire des chiffrements n'a alors été spécifié.</DD>
 </DL>
 </BODY>
 </HTML>
