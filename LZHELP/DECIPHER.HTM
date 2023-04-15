@@ -24,14 +24,18 @@
 </OL>
 <H2>Possibles messages d'erreur</H2>
 <DL ID="warn_dl">
-<DT>LORENZ WARNING MSG: THIS MESSAGE IS PRIVATELY DESTINATED TO ANOTHER USER</DT>
+<DT>LORENZ WARNING MSG: CE MESSAGE NE VOUS EST PAS DESTINÉ.</DT>
 <DD>-> Signifie que ce message est privé, donc qu'il ne vous est pas destiné et ne peut alors être affiché.<BR><B>Pour remédier à cela,</B> demandez à votre correspondant de vous inclure dans la communication privée, si cela est possible, bien entendu.</DD>
-<DT>ATTENTION LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS DUE À UNE MODIFICATION ACCIDENTELLE OU MALINTENTIONNÉE DE VALEURS DANS LE CHIFFREMENT</DT>
+<DT>ATTENTION LE MESSAGE PEUT CONTENIR DES DÉFORMATIONS DUE À UNE MODIFICATION ACCIDENTELLE OU MALINTENTIONNÉE DE VALEURS DANS LE CHIFFREMENT.</DT>
 <DD>-> Signifie que ce message a été déformé (soit par une mauvaise transcription du chiffrement de la part de l'émetteur ou du récepteur, ou bien par une interception qui aurait modifié accidentellement ou intentionnellement le chiffrement) et peut donc contenir des erreurs de déchiffrement.<BR><B>Pour remédier à cela,</B> recopiez et recollez le message chiffré de la source et validez.<BR><B>Si l'erreur persiste,</B> demandez à votre correspondant de vous renvoyer un nouveau message chiffré avec le même contenu.</DD>
 <DT>TYPING BREAK ERROR : SPACES DETECTED.</DT>
 <DD>-> Signifie que ce message possède des espaces, et donc qu'il a été mal transcrit.<BR><B>Pour remédier à cela,</B> essayez de recopier et recoller le message chiffré en vous assurant qu'il n'y ait pas d'espace présents, surtout dans les bords de l'affichage console.<BR><B>Si l'erreur persiste,</B> demandez à votre correspondant de vous renvoyer un nouveau message chiffré avec le même contenu.</DD>
 <DT>ERREUR FATALE CODE 55 : Le chiffrement n'est pas authentique.</DT>
 <DD>-> Signifie que le déchiffrement n'a pu être réalisé car la clé de chiffrement s'est avérée invalide.<BR><B>Pour remédier à cela,</B> demandez à votre correspondant de vous renvoyer un nouveau message chiffré avec le même contenu.<BR><B>Si l'erreur persiste,</B> il s'agit probablement d'une erreur logique au sein de l'application. Consultez la page <A HREF="TRBLSHOT\FAQ.HTM">FAQ</A> du Dépannage au sein de la rubrique concernée.<DD>
+<DT>Le fichier &ltNomDuFichier&gt n'existe pas dans le répertoire des chiffrements &ltNomDuRépertoire&gt.</DT>
+<DD>-> Signifie que le fichier recherché n'a pas été trouvé dans le répertoire des chiffrements. &ltNomDuFichier&gt et &ltNomDuRépertoire&gt représentent respectivement le nom du fichier recherché et du répertoire des chiffrements spécifié.<BR><B>Pour remédier à cela,</B> localisez le répertoire des chiffrements, à l'aide de l'explorateur Windows, et insérez-y le fichier de chiffrement concerné.<BR><B>Si l'erreur persiste,</B> spécifiez de nouveau le répertoire des chiffrements et réinsérez-y le fichier de chiffrement.</DD>
+<DT>Aucun répertoire des chiffrements n'a été spécifié.</DT>
+<DD>-> Signifie qu'un nom de fichier de chiffrement a été spécifié mais qu'aucun répertoire des chiffrements n'a alors été spécifié.<BR><B>Pour remédier à cela,</B> spécifiez le répertoire des chiffrements et, si ce n'est pas déjà fait, insérez-y le fichier de chiffrement concerné.</DD>
 </DL>
 </BODY>
 </HTML>
