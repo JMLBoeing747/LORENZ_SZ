@@ -402,11 +402,8 @@ namespace LORENZ
                             {
                                 Display.PrintMessage("Le fichier \""
                                                      + cipherFileName
-                                                     + "\" n'existe pas dans le répertoire de chiffrement.", MessageState.Failure);
-                                Display.PrintMessage("Le répertoire de chiffrement spécifié est : " + Parametres.CipherFileDirectory,
-                                                     MessageState.Warning);
-                                Console.WriteLine("Entrez un nouveau chemin d'accès ou un chiffrement valide,");
-                                Console.WriteLine("ou appuyez sur ESC pour quitter.");
+                                                     + "\" n'existe pas dans le répertoire de chiffrement " + Parametres.CipherFileDirectory, MessageState.Failure);
+                                Console.WriteLine("Entrez un nouveau chemin d'accès ou un chiffrement valide.");
                                 continue;
                             }
                         }
