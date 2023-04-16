@@ -55,6 +55,7 @@ namespace LORENZ
             Stack<int> stackLastEntry = new();
             while (true)
             {
+                int initialHeight = Console.WindowHeight;
                 Console.Clear();
                 if (ListeHistorique.Count == 0)
                 {
@@ -220,7 +221,7 @@ namespace LORENZ
 
                         if (lineLenMax <= 0)
                         {
-                            Console.SetCursorPosition(0,0);
+                            Console.SetCursorPosition(0, 0);
                             Display.PrintMessage("La largeur de votre console est trop petite.", MessageState.Warning);
                             Display.PrintMessage("Agrandissez la taille de la console et réessayez.", MessageState.Warning);
                             Display.PrintMessage("Appuyez sur une touche pour retourner au menu précédent.", MessageState.Warning);
@@ -309,23 +310,42 @@ namespace LORENZ
                     else if (numero.Key == ConsoleKey.RightArrow && lastEntry >= 0)
                     {
                         changedPage = true;
-                        page++;
+                        if (initialHeight != Console.WindowHeight)
+                        {
+                            stackLastEntry.Clear();
+                            lastEntry = tempHist.Count - 1;
+                            page = 0;
+                        }
+                        else
+                        {
+                            page++;
+                        }
+
                         break;
                     }
                     else if (numero.Key == ConsoleKey.LeftArrow && page > 0)
                     {
                         changedPage = true;
-                        _ = stackLastEntry.Pop();
-
-                        if (stackLastEntry.Count > 0)
+                        if (initialHeight != Console.WindowHeight)
                         {
-                            lastEntry = stackLastEntry.Pop();
-                            page--;
+                            stackLastEntry.Clear();
+                            lastEntry = tempHist.Count - 1;
+                            page = 0;
                         }
                         else
                         {
-                            lastEntry = tempHist.Count - 1;
-                            page = 0;
+                            _ = stackLastEntry.Pop();
+
+                            if (stackLastEntry.Count > 0)
+                            {
+                                lastEntry = stackLastEntry.Pop();
+                                page--;
+                            }
+                            else
+                            {
+                                lastEntry = tempHist.Count - 1;
+                                page = 0;
+                            }
                         }
 
                         break;
