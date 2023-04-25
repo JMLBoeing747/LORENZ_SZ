@@ -30,8 +30,10 @@
 </UL>
 <H2>Messages de sortie possibles</H2>
 <DL>
-<DT>Nouveau taux enregistré : &ltNouveau taux&gt</DT>
+<DT>Nouveau taux enregistré : &ltTaux spécifié&gt</DT>
 <DD>Succès : Signifie que le nouveau taux a été affecté au paramètre CMPRSRATIO avec succès. Le paramètre CMPRSRATIO est alors immédiatement inscrit dans le fichier LORENZ.INI.</DD>
+<DT>Taux identique au précédent : &ltTaux spécifié&gt</DT>
+<DD>Avertissement : Signifie que le taux spécifié est identique à celui attribué avant l'opération et que LORENZ ne procédera donc à aucun changement ni à aucune réécriture du paramètre CMPRSRATIO.</DD>
 <DT>Ceci n'est pas un pourcentage valide.</DT>
 <DD>Erreur : Signifie que la valeur entrée ne correspond pas au format d'un pourcentage valide. Le format requis est un entier avec des caractères numériques, ou un nombre flottant avec des caractères numériques ainsi qu'un séparateur flottant (la virgule en format régional français, ou le point en anglais).</DD>
 <DT>Ce pourcentage est invalide. Entrez un pourcentage compris entre 0 inclus et 100 exclus.</DT>

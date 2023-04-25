@@ -335,7 +335,7 @@ namespace LORENZ
         {
             Console.Clear();
             Extensions.AfficherTitre("Taux de compression", ConsoleColor.DarkMagenta);
-            Display.PrintMessage("Inscrivez le taux de compression minimum que vous désirez obtenir", MessageState.Warning);
+            Display.PrintMessage("Inscrivez le taux de compression minimum (en %) que vous désirez obtenir", MessageState.Warning);
             Display.PrintMessage("lors de vos futurs chiffrements.", MessageState.Warning);
             Console.WriteLine("Pour annuler, appuyez sur ESC ou sur ENTRÉE sans rien écrire");
             Display.PrintMessage("\nTaux de compression actuel : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
@@ -364,10 +364,20 @@ namespace LORENZ
                 }
             }
 
-            TauxCompressionMin = newRatio / 100;
-            Parametres.EcrireFichierParams();
-            Display.PrintMessage("Nouveau taux enregistré : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
-                                 MessageState.Success);
+            if (TauxCompressionMin != newRatio / 100)
+            {
+                TauxCompressionMin = newRatio / 100;
+                Parametres.EcrireFichierParams();
+                Display.PrintMessage("Nouveau taux enregistré : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
+                                     MessageState.Success);
+            }
+            else
+            {
+                Display.PrintMessage("Taux identique au précédent : " + (TauxCompressionMin * 100).ToString("0.0") + "%",
+                                     MessageState.Success);
+            }
+
+
             Console.WriteLine("Appuyez sur une touche pour terminer...");
             Console.ReadKey(true);
         }
