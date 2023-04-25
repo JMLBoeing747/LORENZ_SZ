@@ -9,24 +9,33 @@ namespace LORENZ
         public static void TheGame(ref double coins)
         {
             Console.Clear();
-            Extensions.AfficherTitre("Le jeu LORENZ", ConsoleColor.DarkBlue);
             Console.ForegroundColor = ConsoleColor.Yellow;
             int levelChoosed;
             while (true)
             {
+                Extensions.AfficherTitre("Le jeu LORENZ", ConsoleColor.DarkBlue);
+                
                 levelChoosed = LevelMenu();
                 if (levelChoosed == -1)
+                {
                     return;
+                }
                 else if (levelChoosed == default)
                 {
                     Console.Clear();
                     Display.PrintMessage("Ceci n'est pas une option valide.", MessageState.Failure);
                 }
-                else break;
+                else
+                {
+                    break;
+                }
             }
             int maxRandNum = default;
             for (int i = 0; i < levelChoosed; i++)
+            {
                 maxRandNum += (int)(5 * Math.Pow(10, i));
+            }
+
             int randomNum = new System.Random().Next(0, maxRandNum + 1);
             Console.Clear();
             Console.WriteLine($"LORENZ a choisi un chiffre entre 0 et {maxRandNum}.");
@@ -39,7 +48,10 @@ namespace LORENZ
             {
                 choosenNum = Extensions.SpecialInputDigits();
                 if (choosenNum == -1)
+                {
                     break;
+                }
+
                 if (choosenNum == -2)
                 {
                     Console.Clear();
@@ -62,15 +74,24 @@ namespace LORENZ
                     winCoins = Math.Ceiling((double)(maxRandNum / 2 / tries));
                     Console.Clear();
                     if (randomNum > choosenNum)
+                    {
                         Console.WriteLine("C'est plus haut !");
+                    }
                     else if (randomNum < choosenNum)
+                    {
                         Console.WriteLine("C'est plus bas !");
+                    }
                     else
                     {
                         if (tries != 1)
+                        {
                             Console.WriteLine("BRAVO ! Vous avez réussi en " + tries + " coups !");
+                        }
                         else
+                        {
                             Console.WriteLine("BRAVO ! Vous avez réussi du premier coup !");
+                        }
+
                         Console.WriteLine("BILAN");
                         Console.WriteLine("Sous-total :         " + coins + " Coins");
                         coins += winCoins;
@@ -124,20 +145,31 @@ namespace LORENZ
              * ConsoleKey.NumPad1 = 97
              * ConsoleKey.NumPad9 = 105 */
             if (level >= 49 && level <= 57)
+            {
                 return level - 48;
+            }
             else if (level >= 97 && level <= 105)
+            {
                 return level - 96;
+            }
             else if (level == 27)
+            {
                 return -1;
+            }
             else
+            {
                 return default;
+            }
         }
 
         private static void WriteCoinsIntoFile(double coins)
         {
             string directoryPath = new FileInfo(Parametres.CoinsRecordFile).DirectoryName;
             if (!Directory.Exists(directoryPath))
+            {
                 Directory.CreateDirectory(directoryPath);
+            }
+
             Cryptographie.ChiffrerFichier(Encryption.CreateScrambledMessage(coins.ToString()), Parametres.CoinsRecordFile);
         }
 
