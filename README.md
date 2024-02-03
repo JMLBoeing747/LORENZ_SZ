@@ -47,4 +47,8 @@ Bon développement !
  <br />Jürgen Moreno Li (alias JML)
  <br />Directeur, LORENZ Team
  <br />jml514@hotmail.com
+ <br />
+ <br />Adam Adoui
+ <br />Developpeur chef und Sonderberater
+ <br />adamadoui@gmail.com
 </p>
